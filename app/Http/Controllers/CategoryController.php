@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Http\Requests\CategoryRequest;
 use App\Http\Controllers\Controller;
 
-class CategoryController extends Controller
-{
+use App\Category;
+
+class CategoryController extends Controller {
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +19,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        return view('dashboard.categories.index', compact('categories'));
     }
 
     /**
@@ -26,7 +30,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.categories.create');
     }
 
     /**
@@ -37,29 +41,24 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request['direct_link'] = str_replace(" ", "-", $request['title']);
+        $request['published'] = 1;
+        
+        Category::create($request->all());
+        $categories = Category::all();
+        return redirect('dashboard/categories');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
+    
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit($id)  {
+        $category = Category::findOrFail($id);
+        return view('dashboard.categories.edit', compact('category'));
     }
 
     /**
@@ -71,7 +70,11 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $request['direct_link'] = str_replace(" ", "-", $request['title']);
+        $category->update($request->all());
+        
+        return redirect('dashboard/categories');
     }
 
     /**
@@ -82,6 +85,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Category::destroy($id);
+        return redirect('dashboard/categories');
     }
 }

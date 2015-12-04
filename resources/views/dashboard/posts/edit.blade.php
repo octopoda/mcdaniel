@@ -1,15 +1,9 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 
 
 @section('content')
 
-	@if ($errors->any())
-		<ul>
-			@foreach($errors->all() as $error)
-				<li>{{ $error }}</li>
-			@endforeach
-		</ul>
-	@endif
+	@include('errors.errors')
 
 		
 	<header class="dashboard__section-title">
@@ -20,7 +14,7 @@
 
 
 	<section class="dashboard-form">
-		 {!! Form::model($post, ['method'=>'POST', 'route'=>'dashboard.posts.update', "enctype"=>"multipart/form-data"]) !!}
+		 {!! Form::model($post, ['route'=>['dashboard.posts.update', $post->id], 'method'=>'PATCH',  "enctype"=>"multipart/form-data"]) !!}
 		 	@include('dashboard.posts._form', ['submitButtonText' => 'Edit Post'])
 		  {!! Form::close() !!}
 	</section>

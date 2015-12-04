@@ -11,3 +11,39 @@ Homestead.json
 .sass-cache
 
 tests/_output/*
+
+
+
+# Vendor Files
+/vendor
+/node_modules
+/resources/components
+
+.env
+.env.*
+*.sublime-project
+*.sublime-workspace
+*.
+*.pem
+/.phpintel
+*.DS_Store
+
+# Has user information in it. 
+/database/seeds
+
+# AssetFiles
+/public/assets/css
+/public/assets/images
+/public/tmp
+/public/assets/scripts
+/public/assets/videos
+
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+
+id_rsa_mcdaniel
+id_rsa_mcdaniel.pub

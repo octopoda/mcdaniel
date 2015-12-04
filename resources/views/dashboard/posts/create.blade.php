@@ -3,13 +3,7 @@
 
 @section('content')
 
-	@if ($errors->any())
-		<ul>
-			@foreach($errors->all() as $error)
-				<li>{{ $error }}</li>
-			@endforeach
-		</ul>
-	@endif
+	@include('errors.errors')
 
 		
 	<header class="dashboard__section-title">

@@ -75,10 +75,21 @@ Route::group(['prefix'=>'dashboard'], function () {
 	Route::resource("blogs", "BlogController");
 	Route::resource("posts", "PostController");
 	Route::resource("appearances", "AppearanceController");
+	Route::resource("categories", "CategoryController");
+	Route::resource("users", "UserController");
+	Route::resource("roles", "RoleController");
+	Route::resource("permissions", "PermissionController");
 
-	//Blogs
-
+	//Individual Routes
+	Route::get('/roles-permissions', [
+		"as" => "dashboard.rolepermission.index",
+		"uses" => "RolesPermissionsController@index"
+	]);
+	Route::post('/roles-pemrissions', "RolesPermissionsController@store");
 });
+
+
+
 
 
 
@@ -93,6 +104,61 @@ Route::group(['prefix'=>'dashboard'], function () {
 */
 
 
+/**
+ * Post Routes
+ */
+Route::group(['prefix'=>'posts'], function () {
+	
+	//Get all Post Paginated
+	Route::get('/', [
+		"as" => "allPosts",
+		"uses" => "PostController@paginatePost"
+	]);
+	
+	//Get Post By Title
+	Route::get('/{title}', [
+		"as" => "postByTitle",
+		"uses" => "PostController@postByTitleView"
+	]);
+
+	//Get Post for Cateogory
+	Route::get('/category/{category}', [
+		'as' => 'postsbyCategory',
+		'uses' => 'PostController@postsFromCategory'
+	]);
+
+	//Get Post for Author
+	Route::get('/author/{author}', [
+		"as" => "postForAuthors",
+		"uses" => "PostController@postsForAuthor"
+	]);
+
+	
+});
+
+
+/**
+ * Blog Legacy Routes
+ */
+Route::get('/blog', function () {
+	return Redirect::route('allPosts', null,  301);
+});
+
+Route::get('/blog/{title}.html', function ($title) {
+	return Redirect::route('postByTitle', ['title' => $title], 301);
+});
+
+
+Route::get('/categories/{category}', function ($category) {
+	return Redirect::route('postsbyCategory', ['category'=>$category], 301);
+});
+
+Route::get('/', [
+	"as" => "homeRoute",
+	"uses" => "PageController@home"
+]);
+
+
 
 
 /*
@@ -104,3 +170,20 @@ Route::group(['prefix'=>'dashboard'], function () {
 | 
 |
 */
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Auth Routes
+|--------------------------------------------------------------------------
+|
+| Routes for Authorization of the User
+| 
+|
+*/
+
+Route::controllers([
+	'auth' => 'Auth\AuthController',
+	'password' => 'Auth\PasswordController',
+]);

@@ -19,7 +19,7 @@ class Blog extends Model
      * @return  App\Post
      */
     public function posts() {
-    	return $this->hasMany('App\Post');
+    	return $this->hasMany('App\Post')->orderBy('publish_date', 'DESC');
     }
 
     /**

@@ -18,7 +18,8 @@ class Post extends Model
      * Define One to One relationship with Blog
      * @return
      */
-    public function blog() {
+    public function blog() 
+    {
     	return $this->belongsTo('App\Blog');
     }
 
@@ -26,8 +27,18 @@ class Post extends Model
      * Define Pivot Table Relationship with Categories
      * @return 
      */
-    public function categories() {
+    public function categories() 
+    {
     	return $this->belongsToMany('App\Category');
+    }
+
+
+    protected static function boot()
+    {
+        static::saving(function ($model) {
+            $model->direct_link = str_replace(" ", "-", $model->title);
+            $model->searchable = strip_tags($model->content);
+        });
     }
 
 

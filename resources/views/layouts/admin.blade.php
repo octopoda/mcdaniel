@@ -47,8 +47,10 @@
 	
   <!-- CSS: implied media="all" -->
   <link rel="stylesheet" href="/assets/css/app.min.css">
+  <link rel="stylesheet" href="/css/redactor.css">
 
-
+  <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script type="text/javascript" src="/js/redactor.min.js"></script>
 
 
   
@@ -81,9 +83,20 @@
   </section>
 
 
+<script>
+$(function() {
+    $('#content').redactor({
+      focus: true
+    });
 
+    $('#summary').redactor({
+
+    });
+});
+</script>
   
 </body>
+
 </html>
 
 

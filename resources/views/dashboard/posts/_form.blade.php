@@ -5,19 +5,19 @@
 
 <div class="form-group">
 	{!! Form::label('content', 'Post Content:') !!}
-	{!! Form::textarea('content', null, ['class'=>'class', 'placeholder'=>'']) !!}
+	{!! Form::textarea('content', null, ['class'=>'class', 'placeholder'=>'', 'id'=>'content']) !!}
 </div>
 
 
 <div class="form-group">
 	{!! Form::label('summary', 'Post Summary:') !!}
-	{!! Form::textarea('summary', null, ['class'=>'class', 'placeholder'=>'']) !!}
+	{!! Form::textarea('summary', null, ['class'=>'class', 'placeholder'=>'', 'id'=>'summary']) !!}
 </div>
 
 
 <div class="form-group">
 	{!! Form::label('publish_date', 'Publish Date:') !!}
-	{!! Form::text('publish_date', "2015-11-12 18:00:00", []) !!}
+	{!! Form::text('publish_date', null, ['class'=> 'class']) !!}
 </div>
 
 <div class="form-group">
@@ -27,7 +27,9 @@
 
 
 <div class="form-group">
-	<div class="form-group">
-		{!! Form::submit($submitButtonText , ['class'=>'button']) !!}
-  </div>
+	@if ($post->blog->id) 
+		{!! Form::hidden('blog_id', null, ['class'=>'class']) !!}
+	@endif
+	
+	{!! Form::submit($submitButtonText , ['class'=>'button']) !!}
 </div>

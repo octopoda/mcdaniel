@@ -88,13 +88,29 @@ class BlogController extends Controller
      /**
      * Display a list of the Post for the Blog
      * @param  int $id 
-     * @return \Illuminate\Http\Response
+     * @return \JSON
      */
     public function allPosts($id) {
         return $this->repository->getAllPostsForBlog($id);
     }
 
+    
+   
+    /**
+     * List the Authors
+     * @return JSON
+     */
+    public function listAuthors() {
+        return $this->repository->listAuthors();
+    }
 
+
+    /**
+     * Search The Post in a Blog
+     * @param  int $id    
+     * @param  string $query 
+     * @return JSON        
+     */
     public function searchPosts($id, $query) {
         return $this->repository->searchPosts($id, $query);
     }   

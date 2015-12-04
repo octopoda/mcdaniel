@@ -13,10 +13,19 @@ class blogTableSeeder extends Seeder
     {
         DB::table('blogs')->delete();
 
-        DB::table('blogs')->insert([
-        	"id" => 1,
-            "user_id" => 2,
-            "created_at" => new DateTime()
-        ]);
+        $blogs = [
+            [
+                "id" => 1,
+                "user_id" => 2,
+                "created_at" => new DateTime()
+            ],
+            [
+                "id" => 2,
+                "user_id" => 3,
+                "created_at" => new DateTime()
+            ] 
+        ];
+        
+        DB::table('blogs')->insert($blogs);
     }
 }

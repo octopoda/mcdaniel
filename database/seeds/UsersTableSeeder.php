@@ -26,10 +26,17 @@ class UsersTableSeeder extends Seeder
         	[
         		"id" => 2,
                 "name"=>"Jennifer McDaniel",
-        		"email"=> "mcdanielnutrition@gmail.com",
+        		"email"=> "jennifer@mcdanielnutrition.com",
         		"password" => bcrypt('secret'),
                 "created_at" => new DateTime()
-        	]
+        	],
+            [
+                "id" => 3,
+                "name"=>"Kayli Dice",
+                "email"=> "kylie@mcdanielnutrition.com",
+                "password" => bcrypt('secret'),
+                "created_at" => new DateTime()
+            ]
         ];
         
        

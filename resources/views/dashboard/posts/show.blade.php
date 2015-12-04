@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 
 
 @section('content')
@@ -20,7 +20,7 @@
 	<header class="dashboard__section-title">
 		<div class="dashboard__section-title__title">
 			<h1>{{ $post->title }}</h1>
-			<h4>{{ $author->name }}</h4>
+			<h4>{{ $post->blog->user->name }}</h4>
 		</div>
 	</header>
 
@@ -28,6 +28,8 @@
 		{!! $post->content !!}
 	</article>
 	
+	<hr>
+	<h3>Categories</h3>
 	<ul>
 		@foreach($post->categories as $category) 
 			<li>{{ $category->title}}</li>

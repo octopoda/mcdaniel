@@ -1,83 +1,33 @@
 <?php 
-	namespace App\Repositories;
 
-	use App\Repositories\ImageRepository;
+namespace App\Repositories;
 
-	use App\Blog;
-	use App\Post;
-	use App\Category;
+use Bosnadev\Repositories\Contracts\RepositoryInterface;
+use Bosnadev\Repositories\Eloquent\Repository;
 
-	use Storage;
+use App\Repositories\ImageRepository;
 
-	class PostRepository {
+class PostRepository extends Repository {
 
-
-		/*
-		|--------------------------------------------------------------------------
-		| Working with Relationships and 
-		|--------------------------------------------------------------------------
-		|
-		|
-		*/
-		
-		/**
-		 * Get the Post by A  Direct Link
-		 * @param  string $title 
-		 * @return App\Post
-		 */
-		public function postByTitle($title)  {
-			return Post::where('direct_link', $title)->get();
-		}
+	/**
+	 * Set Modal
+	 * @return \App\Post
+	 */
+	public function model()
+	{
+		return 'App\Post';
+	}
 
 	
-		/**
-		 * Search the Post
-		 * @param  string $query 
-		 * @return App\Post        
-		 */
-		public function searchPosts($query) {
-			return Post::where('searchable', 'LIKE', "%{$query}%")->orWhere('title', 'LIKE', "%{$query}%")->with('categories')->get();
-		}
-
-		/**
-		 * Return the Categories for a Post
-		 * @param  int $id 
-		 * @return App\Post
-		 */
-		public function categoriesforPost($id) {
-			return Post::findOrFail($id)->categories()->get();
-		}
-
-
-
-		/*
-		|--------------------------------------------------------------------------
-		| CRUD Methods
-		|--------------------------------------------------------------------------
-		|
-		|
-		*/
-		
-
-		public function preparePostForDatabase($request) {
-			$imageRepository = new ImageRepository();
-			$filename = $imageRepository->storeImage($request, 'posts', 'post_image');
-
-			$post = [
-				"title" => $request->input('title'),
-				"content" => $request->input('content'),
-				"searchable" => strip_tags($request->input('content')),
-				"publish_date" => $request->input('publish_date'),
-				"draft" => "1",
-				"direct_link" => str_replace(" ", "-", $request->input('title')),
-				"blog_id" => "1",
-				"post_image" => $filename
-			];
-			
-			return $post;
-		}
-
-
-
-
+	/**
+	 * Store an image on s3 for Post
+	 * @param  ImageRepository $image   
+	 * @param  \App\Http\Request  $request 
+	 * @return string - image path
+	 */
+	public function saveImageForPost($request) {
+		$image = new ImageRepository();
+		return $image->storeImage($request, 'posts', 'post_image');
 	}
+
+}
