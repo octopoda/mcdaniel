@@ -14,9 +14,10 @@ class Appearance extends Model
 
 
     /**
-     * Setting up foregin Constraint to user_id
+     * Define one to many relationship with user
+     * @return \app\User 
      */
-    function Users() {
-    	$this->belongsTo('/App/Users');
+    public function user() {
+        return $this->belongsTo('\App\User');
     }
 }

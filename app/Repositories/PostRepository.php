@@ -30,4 +30,6 @@ class PostRepository extends Repository {
 		return $image->storeImage($request, 'posts', 'post_image');
 	}
 
+
+
 }

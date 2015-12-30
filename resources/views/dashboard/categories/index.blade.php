@@ -1,31 +1,35 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 
 
 @section('content')
-	<section>
-		<ul>
-			<li><a href="{{ route('dashboard.categories.create') }}">New Category</a></li>
-		</ul>
-	</section>
-
-
-	
 	<div class="">
+		<table>
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>Status</th>
+					<th colspan="2"><a href="{{ URL::route('dashboard.categories.create') }}" class="btn btn-primary btn-block">Create</a></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach ($categories as $category) 
+					<tr>
+						<td><a href="{{ route('dashboard.categories.edit', $category->id) }}">{!! $category->title !!}</a></td>
+						<td>{{ $category->published }}</td>
+						<td width="80"><a class="btn btn-primary" href="{{ URL::route('dashboard.categories.edit', $category->id) }}">Edit</a></td>
+						<td width="80">
+							{!! Form::open(['route' => ['dashboard.categories.update', $category->id], 'method' => 'DELETE']) !!}
+                        	{!! Form::submit('Delete', ['class' => 'btn btn-danger', 'onclick' => 'return confirm("Are you sure?");']) !!}
+                        	{!!  Form::close() !!}
+                        </td>
+					</tr>
+				@endforeach
+			</tbody>
+		</table>
+	</div>
 
-		<ul>
-			@foreach($categories as $category)
-				<li>
-					<a href="{{ route('dashboard.categories.edit', $category->id) }}">{{ $category->title }}</a>
-					<ul>
-						<li class="button--delete transparent">
-							 {!! Form::open(['method'=>'DELETE', 'route' => ['dashboard.categories.destroy', $category->id]]) !!}
-							 		{!! Form::submit('Delete', ['class' => 'transparent']) !!}
-							  {!! Form::close() !!}
-						</li>
-					</ul>
-				</li>
-			@endforeach
-		</ul>	
+	<div>
+		{!! $categories->render() !!}
 	</div>
 
 

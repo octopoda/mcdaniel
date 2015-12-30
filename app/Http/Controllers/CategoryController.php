@@ -8,9 +8,23 @@ use App\Http\Requests;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Controllers\Controller;
 
-use App\Category;
+use App\Repositories\CategoryRepository as Category;
 
 class CategoryController extends Controller {
+
+
+    /**
+     * Category Model
+     * @var /App/Category
+     */
+    protected $category; 
+
+
+    public function __construct(Category $category) 
+    {
+        $this->category = $category;
+    }       
+
 
     /**
      * Display a listing of the resource.
@@ -19,7 +33,7 @@ class CategoryController extends Controller {
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = $this->category->paginate(25);
         return view('dashboard.categories.index', compact('categories'));
     }
 
@@ -41,11 +55,10 @@ class CategoryController extends Controller {
      */
     public function store(Request $request)
     {
-        $request['direct_link'] = str_replace(" ", "-", $request['title']);
+        $request['direct_link'] = str_replace(" ", "-", $request->get('title'));
         $request['published'] = 1;
         
-        Category::create($request->all());
-        $categories = Category::all();
+        $category = $this->category->create($request->all());
         return redirect('dashboard/categories');
     }
 
@@ -57,7 +70,7 @@ class CategoryController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id)  {
-        $category = Category::findOrFail($id);
+        $category = $this->category->find($id);
         return view('dashboard.categories.edit', compact('category'));
     }
 
@@ -70,8 +83,8 @@ class CategoryController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $category = Category::findOrFail($id);
-        $request['direct_link'] = str_replace(" ", "-", $request['title']);
+        $category = $this->category->find($id);
+        $request['direct_link'] = str_replace(" ", "-", $request->get('title'));
         $category->update($request->all());
         
         return redirect('dashboard/categories');
@@ -85,7 +98,7 @@ class CategoryController extends Controller {
      */
     public function destroy($id)
     {
-        Category::destroy($id);
+        $this->category->delete($id);
         return redirect('dashboard/categories');
     }
 }

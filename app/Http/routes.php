@@ -74,18 +74,21 @@ Route::group(['prefix'=>'dashboard'], function () {
 	//Resources
 	Route::resource("blogs", "BlogController");
 	Route::resource("posts", "PostController");
-	Route::resource("appearances", "AppearanceController");
+	Route::resource("appearances", "AppearancesController");
 	Route::resource("categories", "CategoryController");
 	Route::resource("users", "UserController");
 	Route::resource("roles", "RoleController");
 	Route::resource("permissions", "PermissionController");
+	Route::resource("faqs", "FaqController");
+	Route::resource("products", "ProductController");
 
 	//Individual Routes
 	Route::get('/roles-permissions', [
 		"as" => "dashboard.rolepermission.index",
 		"uses" => "RolesPermissionsController@index"
 	]);
-	Route::post('/roles-pemrissions', "RolesPermissionsController@store");
+	
+	Route::post('/roles-permissions', "RolesPermissionsController@store");
 });
 
 
@@ -133,6 +136,15 @@ Route::group(['prefix'=>'posts'], function () {
 		"uses" => "PostController@postsForAuthor"
 	]);
 
+	Route::get('/archive/{year}', [
+		"as" => "postByDate",
+		"uses" => "PostController@postByDate"
+	]);
+
+	Route::get('/explore/{query}', [
+		"as" => "searchPost",
+		"uses" => "PostController@searchPosts"
+	]);
 	
 });
 
@@ -153,6 +165,74 @@ Route::get('/categories/{category}', function ($category) {
 	return Redirect::route('postsbyCategory', ['category'=>$category], 301);
 });
 
+
+//Appearance Routes
+Route::group(['prefix' => 'appearances'], function () {
+	Route::get('/', [
+		'as' => 'allAppearances',
+		'uses' => 'AppearancesController@allAppearances'
+	]);	
+
+	Route::get('/{title}',  [
+		'as' => 'appearanceByTitle',
+		'uses' => 'AppearancesController@appearanceByTitle'
+	]);
+});
+
+
+
+//FAQ Routes
+Route::group(['prefix' => 'faqs'], function () {
+	
+	Route::get('/', [
+		'as' => 'allFAQs',
+		'uses' => 'FaqController@staredFAQs'
+	]);
+
+	Route::get('/{title}', [
+		'as' => 'faqByTitle',
+		'uses' => 'FaqController@faqByTitle'
+	]);
+
+});
+
+//Store Routes 
+Route::group(['prefix' => 'store'], function () {
+	Route::get('/', [
+		'as' => 'allProducts',
+		'uses' => 'StoreController@getAllProducts'
+	]);
+
+	
+	Route::get('/transaction-complete', [
+		'as' => 'transitionComplete',
+		'uses' => 'StoreController@transactionComplete'
+	]);
+
+
+	Route::get('/transaction-error', [
+		'as' => 'transactionError',
+		'uses' => 'StoreController@transactionError'
+	]);
+
+	
+	Route::Get('/downloads/{transaction_id}', [
+		'as' => 'getDownloads',
+		'uses' => 'StoreController@getDownloads'
+	]);
+
+
+	//Needs to be last
+	Route::get('/{title}',[
+		'as' => 'productByTitle',
+		'uses' => 'StoreController@productByTitle'
+	]);
+
+});
+
+
+
+//Home Route
 Route::get('/', [
 	"as" => "homeRoute",
 	"uses" => "PageController@home"

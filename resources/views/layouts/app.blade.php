@@ -47,6 +47,10 @@
                     </li>
                     <li><a href="{{ URL::route('dashboard.users.index') }}">Users</a></li>
                     <li><a href="{{ URL::route('dashboard.posts.index') }}">Posts</a></li>
+                    <li><a href="{{ URL::route('dashboard.categories.index') }}">Categories</a></li>
+                    <li><a href="{{ URL::route('dashboard.appearances.index') }}">Appearances</a></li>
+                    <li><a href="{{ URL::route('dashboard.faqs.index') }}">Faqs</a></li>
+                    <li><a href="{{ URL::route('dashboard.products.index') }}">Products</a></li>
 
                     @endif
 				</ul>

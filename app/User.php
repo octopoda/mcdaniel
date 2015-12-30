@@ -76,6 +76,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->hasManyThrough('App\Blog');
     }
 
+    /**
+     * Has Many Relationship with Apperance
+     * @return App\Apperance
+     */
+    public function appearances() {
+        return $this->hasMany('App\Appearance');
+    }
+
 
     /*
     |--------------------------------------------------------------------------

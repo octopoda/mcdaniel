@@ -12,32 +12,44 @@ use Illuminate\Contracts\Auth\Guard;
 
 use App\Repositories\PostRepository as Post;
 use App\Repositories\BlogRepository as Blog;
+use App\Repositories\UserRepository as User;
 
 use App\Repositories\Criteria\Post\PostsWithAuthor;
-
+use App\Repositories\Criteria\Post\AscendingOrder;
+use App\Repositories\Criteria\Post\SearchPosts;
+use App\Repositories\Criteria\Post\PostsFromDate;
 
 class PostController extends Controller
 {
     
     /**
      * Post Model
-     * @var /App/Post
+     * @var \App\Post
      */
     protected $post;
 
     /**
      * Blog Model
-     * @var /App/Blog
+     * @var \App\Blog
      */
     protected $blog;
+
+
+    /**
+     * Category Model
+     * @var \App\User
+     */
+    protected $user;
+
 
     /**
      * @param Post $post [description]
      * @param Blog $blog [description]
      */
-    public function __construct(Post $post, Blog $blog) {
+    public function __construct(Post $post, Blog $blog, User $user) {
         $this->post = $post;
         $this->blog = $blog;
+        $this->user = $user;
     }
 
 
@@ -47,15 +59,12 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = $this->post->paginate(20);
+        $posts = $this->post->pushCriteria(new AscendingOrder())->paginate(20);
         return View('dashboard.posts.index', compact('posts'));
     }  
 
     
-    function deliverPresents($workerCount, $directioins, $start = [0,0]) {
-
-    }
-
+    
 
     /**
      * Display a crate form
@@ -96,7 +105,7 @@ class PostController extends Controller
        }
 
        
-       return view('dashboard.posts.show', compact('newpost'));
+       return view('dashboard.posts.show', compact('post'));
     }
 
     /**
@@ -173,7 +182,8 @@ class PostController extends Controller
      * @return JSON
      */
     public function postByTitle($title) {
-        // return $this->repository->postByTitle($title);
+        $post = $this->post->findBy('direct_link', $title);
+        return $post;
     }
 
 
@@ -183,20 +193,10 @@ class PostController extends Controller
      * @return JSON
      */
     public function searchPosts($query) {
-        // return $this->repository->searchPosts($query);
+        $posts = $this->post->pushCriteria(new SearchPosts($query))->paginate(25);
+        return $posts;
     }
 
-
-    /**
-     * Get the Categories for Post
-     * @param  int $id 
-     * @return JSON     
-     */
-    public function getCategoriesForPost($id) {
-        // return $this->repository->categoriesForPost($id);
-    }
-
-   
 
 
      /*
@@ -215,10 +215,8 @@ class PostController extends Controller
      * @return /Illuminate/Html/Response
      */
     public function paginatePost() {
-        // $paginationNumber = 10;
-
-        // $posts = DB::table('posts')->paginate($paginationNumber);
-        // return view('posts.index', compact('posts'));
+        $posts = $this->post->pushCriteria(new AscendingOrder())->paginate(25);
+        return view('posts.index', compact('posts'));
     }
 
     
@@ -228,8 +226,8 @@ class PostController extends Controller
      * @return /Illuminate/Html/Response
      */
     public function postByTitleView($title) {
-        // $post = $this->repository->postByTitle($title);
-        // return view('posts.post', compact('post'));
+        $post = $this->post->findBy('direct_link', $title);
+        return view('posts.post', compact('post'));
     }
 
     
@@ -239,8 +237,8 @@ class PostController extends Controller
      * @return /Illuminate/Html/Response 
      */
     public function postsFromCategory($category) {
-        // $posts = $this->repository->postsFromCategory($category);
-        // return view('posts.list', compact('posts'));
+        $posts = $this->post->pushCriteria(new SearchPosts($category))->paginate(25);
+        return view('posts.list', compact('posts'));
     }
 
 
@@ -250,13 +248,21 @@ class PostController extends Controller
      * @return /Illuminate/Html/Response
      */
     public function postsForAuthor($author) {
-        // $posts = $this->repository->postsFromAuthor($author);
-        // return view('posts.list', compact('posts'));
+        $user = $this->user->findBy('name', str_replace("-", " ", $author));
+        $blog = $this->blog->find($user->blog->id);
+        $posts = $blog->posts()->paginate(25);
+        return view('posts.list', compact('posts'));
     }
 
 
-    public function postByYear($year) {
-        
+    /**
+     * Get Post By Year
+     * @param  int $year 
+     * @return /Illuminate/Html/Response 
+     */
+    public function postByDate($year) {
+        $posts = $this->post->pushCriteria(new PostsFromDate($year))->paginate(25);
+        return view('posts.list', compact('posts'));
     }
 
     
