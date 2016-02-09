@@ -26,6 +26,7 @@ class CreatePostsTable extends Migration
             $table->string('video_url');
             $table->integer('blog_id')->unsigned();
             $table->foreign('blog_id')->references('id')->on('blogs')->onDelete('cascade');
+            $table->interger('post_type')->unsigned()->index();
             $table->timestamps();
 
         });

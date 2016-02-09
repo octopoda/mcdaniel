@@ -21,7 +21,7 @@ use App\Repositories\Criteria\Post\PostsFromDate;
 
 class PostController extends Controller
 {
-    
+
     /**
      * Post Model
      * @var \App\Post
