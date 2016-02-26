@@ -1,0 +1,72 @@
+/**
+ * Dashboard Header
+ */
+.dashboard__navigation--header {
+	padding:rem-calc(50);
+	width:100%;
+	background:$green;
+	color:$white;
+
+	div {
+		@include span(1 of 2 no-gutters);
+		&:last-child {@include last}
+	}
+
+	&-letters {
+		background-color:$white;
+		color:$green;
+		width:rem-calc(50);
+		height:rem-calc(50);
+		border-radius: rem-calc(50);
+		position: relative;
+
+		span {
+			position: absolute;
+			@include center(xy);
+		}
+	}
+}
+
+
+.dashboard__navigation {
+	background:$gray-light;
+	width:100%;
+
+	ul, {
+		@include clearMP;
+	}
+
+	ul li {
+		display:block;
+		text-align: left;
+	}
+
+	
+
+	ul li a {
+		color:$white !important;
+		display:block;
+		width:100%;
+		padding:rem-calc(10) rem-calc(20);
+
+		&:hover, &.active {
+			background:$gray;
+			border-left:7px solid $green;
+			padding-left:rem-calc(12);
+		}
+	}
+
+
+	@include breakpoint('laptop') {
+		.dropdown-menu {
+			// display:none;
+			li a {
+				padding-left:rem-calc(40);
+				&:hover, &.active {
+					padding-left:rem-calc(32);
+				}
+			}
+		}
+	}
+		
+}

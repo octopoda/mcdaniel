@@ -11,6 +11,9 @@
 |
 */
 
+/**
+ * User
+ */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
@@ -32,6 +35,9 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 
 
+/**
+ * Post
+ */
 $factory->define(App\Post::class, function (Faker\Generator $faker) {
     $title = $faker->sentence;
     $content = $faker->paragraphs(6, true);
@@ -41,8 +47,8 @@ $factory->define(App\Post::class, function (Faker\Generator $faker) {
         'content' => $content,
         'searchable' => strip_tags($content),
         'summary' => $content,
-        'publish_date' => $faker->dateTimeThisMonth,
-        'draft' => 1,
+        'publish_date' => $faker->date($format = 'Y-m-d', $max = 'now'),
+        'published' => 1,
         'direct_link' => str_replace(" ", "-", $title),
         'post_image' => $faker->imageUrl,
         'video' => 1,
@@ -66,9 +72,13 @@ $factory->define(App\Faq::class, function (Faker\Generator $faker) {
 });
 
 
+/** 
+ * Prodcuts
+ */
 $factory->define(App\Product::class, function (Faker\Generator $faker) {
     $title = $faker->sentence;
     $desc = $faker->paragraphs(3, true);
+    
     return [
         'title' => $title,
         'description'=> $desc,
@@ -77,5 +87,63 @@ $factory->define(App\Product::class, function (Faker\Generator $faker) {
         'product_image' => $faker->imageUrl(640, 480),
         'direct_link' => str_replace(' ', '-', $title),
         'published' => $faker->numberBetween(0, 1)
+    ];
+});
+
+
+/**
+ * Appearance
+ */
+$factory->define(App\Appearance::class, function (Faker\Generator $faker) {
+    $title = $faker->sentence;
+    $link = str_replace(" ", "-", $title);
+    return [
+        'link' => $faker->url,
+        'video_url' => $faker->imageUrl($width = 640, $height = 480),
+        'title' => $link,
+        'published' => 1,
+        'appearance_date' => $faker->date($format = 'Y-m-d', $max = 'now'),
+        'user_id' => 2
+    ];
+});
+
+
+/**
+ * Role
+ */
+$factory->define(App\Role::class, function (Faker\Generator $faker) {
+    return  [
+        "name" => $faker->word,
+        "display_name" => $faker->word,
+        "description" => $faker->sentence,
+        "level" => $faker->numberBetween(1,10)
+    ];
+});
+
+
+/**
+ * Permissions
+ */
+$factory->define(App\Permission::class, function (Faker\Generator $faker) {
+    $word = $faker->word;
+    
+    return [
+        "name" => $word,
+        "display_name" => $word,
+        "description" => $faker->sentence,
+        "route" => '/route/permission',
+    ];
+});
+
+/**
+ * Category
+ */
+$factory->define(App\Category::class, function (Faker\Generator $faker) {
+    $word = $faker->word;
+    
+    return [
+        'title' => $word,
+        'direct_link' => $word,
+        'published' => 1 
     ];
 });

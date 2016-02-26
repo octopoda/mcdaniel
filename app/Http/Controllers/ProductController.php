@@ -58,7 +58,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         $product = $this->product->create($request->all());
 
@@ -70,11 +70,13 @@ class ProductController extends Controller
         }
 
         //Upload Product
-        if ($request->hasFile('product_download')) {
-            $productPath = $this->product->saveProductToAmazon($request, 'product_download');
+        if ($request->hasFile('url')) {
+            $productPath = $this->product->saveProductToAmazon($request, 'url');
             $product->url = $productPath;
             $product->update();
         }
+
+        flash()->success('', 'The product was created');
 
         return view('dashboard.products.show', compact('product'));
     }
@@ -110,7 +112,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
         $product = $this->product->find($id);
         $product->update($request->all());
@@ -129,6 +131,7 @@ class ProductController extends Controller
             $product->update();
         }
 
+        flash()->success('', 'The product has been updated');
         return view('dashboard.products.show', compact('product'));
     }
 
@@ -138,9 +141,16 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        //Delete the Product files
         $this->product->delete($id);
+        
+        if ($request->ajax()) {
+            return $id;
+        }
+
+        flash()->success('', 'The product has been deleted');
         return redirect('/dashboard/products');
     }
 }

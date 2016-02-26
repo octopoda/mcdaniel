@@ -11,6 +11,13 @@ class Permission extends EntrustPermission {
 	 */
 	protected $fillable = ['name', 'display_name', 'description'];
 
+
+
+	public function Role() {
+		return $this->belongsToMany('App\Permissions');
+	}
+
+
 	/**
 	 * Check to see if Permission has a Role
 	 * @param $roleName
@@ -25,4 +32,8 @@ class Permission extends EntrustPermission {
 		
 		return false;
 	}
+
+
+
+
 }

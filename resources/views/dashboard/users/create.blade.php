@@ -1,19 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+
+@section('subnav')
+	
+@endsection
 
 
 @section('content')
 
 	@include('errors.errors')
 
-		
-	<header class="dashboard__section-title">
-		<div class="dashboard__section-title__title">
-			<h1>Create User</h1>
-		</div>
-	</header>
-
-
-	<section class="dashboard-form">
+	<section class="dashboard__form">
 		 {!! Form::open(['method'=>'POST', 'route'=>'dashboard.users.store',]) !!}
 		 	@include('dashboard.users._form', ['submitButtonText' => 'Create User'])
 		  {!! Form::close() !!}

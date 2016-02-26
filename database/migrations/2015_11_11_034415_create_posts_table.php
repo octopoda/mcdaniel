@@ -19,14 +19,14 @@ class CreatePostsTable extends Migration
             $table->text('searchable');
             $table->text('summary');
             $table->datetime('publish_date')->index();
-            $table->tinyInteger('draft')->index()->unsigned();
+            $table->boolean('published')->index()->unsigned();
             $table->string('direct_link')->unique();
             $table->string('post_image');
             $table->tinyInteger('video')->unsigned();
             $table->string('video_url');
             $table->integer('blog_id')->unsigned();
             $table->foreign('blog_id')->references('id')->on('blogs')->onDelete('cascade');
-            $table->interger('post_type')->unsigned()->index();
+            $table->integer('post_type')->unsigned()->index();
             $table->timestamps();
 
         });

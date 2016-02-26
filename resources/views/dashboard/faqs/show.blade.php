@@ -1,4 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+@section('alert')
+	@include('dashboard.partials._isDraft', ['model' => $faq, 'permission' => 'manage_faqs'])
+@endsection
+
+@section('subnav')	
+	@include('dashboard.partials._show-buttons', ['title' => 'Faqs', 'model' => $faq, 'name' => 'faq', 'publish_perm' => 'manage_faqs' ])
+@endsection
 
 
 @section('content')

@@ -1,36 +1,54 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+
+@section('subnav') 
+@include('dashboard.partials._create-new', [
+        'title' => 'Categories', 
+        'permission' => 'create_posts',
+        'route' =>  'dashboard.categories.create' 
+    ])
+@endsection
 
 
 @section('content')
-	<div class="">
-		<table>
-			<thead>
-				<tr>
-					<th>Title</th>
-					<th>Status</th>
-					<th colspan="2"><a href="{{ URL::route('dashboard.categories.create') }}" class="btn btn-primary btn-block">Create</a></th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach ($categories as $category) 
-					<tr>
-						<td><a href="{{ route('dashboard.categories.edit', $category->id) }}">{!! $category->title !!}</a></td>
-						<td>{{ $category->published }}</td>
-						<td width="80"><a class="btn btn-primary" href="{{ URL::route('dashboard.categories.edit', $category->id) }}">Edit</a></td>
-						<td width="80">
-							{!! Form::open(['route' => ['dashboard.categories.update', $category->id], 'method' => 'DELETE']) !!}
-                        	{!! Form::submit('Delete', ['class' => 'btn btn-danger', 'onclick' => 'return confirm("Are you sure?");']) !!}
-                        	{!!  Form::close() !!}
-                        </td>
-					</tr>
-				@endforeach
-			</tbody>
-		</table>
-	</div>
+	
+<table class="striped responsive-table">
+	<thead>
+		<tr>
+			<th data-field="Title">Title</th>
+			<th data-field="Search Terms">Search Terms</th>
+			<th data-field="Status">Status</th>
+			<th data-field="Edit">Edit</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach ($categories as $category) 
+			<?php
+				$search_terms = explode(',',  $category->search_terms);
+			?>
+			<tr>
+				<td>{!! $category->title !!}</td>
+				<td>
+					@foreach($search_terms as $term)
+						<span class="chip">{{ $term }}</span>
+					@endforeach
+				</td>
+				<td>{{ $category->published }}</td>
 
-	<div>
-		{!! $categories->render() !!}
-	</div>
+				<td class="button-group">
+					@include('dashboard.partials._delete-table', [
+	            		'model' => $category,
+	            		'title' => 'categories',
+	            		'name' => 'category'
+	       			])
+				</td>
+			</tr>
+		@endforeach
+	</tbody>
+</table>
+
+
+	@include('dashboard.partials.pagination', ['paginator' => $categories])
 
 
 @endsection

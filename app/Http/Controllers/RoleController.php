@@ -68,7 +68,7 @@ class RoleController extends Controller
     {
         $role = $this->role->create($request->all());
         $role->savePermissions($request->get('permissions'));
-
+        flash()->success('', 'The role was created');
         return redirect('/dashboard/roles');
     }
 
@@ -104,6 +104,7 @@ class RoleController extends Controller
         $role->update($request->all());
 
         $role->savePermissions($request->get('permissions'));
+        flash()->success('', 'The role was updated');
         return redirect('/dashboard/roles');
     }
 
@@ -113,13 +114,16 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        if ($role->id == 1) {
-            abort(403);
-        }
+        if ($id == 1) { abort(403); }
 
         $this->role->delete($id);
+
+        if ($request->ajax()) {
+            return $id;
+        }
+        
         return redirect('/dashboard/roles');
     }
 }

@@ -1,0 +1,65 @@
+.dashboard__content {
+	
+	@include breakpoint('laptop') {
+		width:80%;
+		margin:auto;	
+	}
+
+	table tbody td:first-child{
+		padding-left:rem-calc(20);
+	}
+	
+}
+
+
+.dashboard__content--draft {
+	height:rem-calc(10);
+	margin-top:rem-calc(-20);
+	width:0;
+	
+
+	&.unpublished {
+		background:$warning;
+		width:100%;
+	}
+}
+
+
+.dashboard__content--show-wrapper {
+	position: relative;
+}
+
+.dashboard__content--post-background {
+	position: absolute;
+	width:100%;
+	top:0;
+	left:0;
+}
+
+
+.dashboard__content--list {
+	p {
+		padding-bottom:rem-calc(20);
+	}
+
+	ul { @include clearMP; }
+
+	li {
+		list-style:none;
+		margin-bottom:rem-calc(15);
+	}
+}
+
+
+.dashboard__content--card {
+	.col {
+		float:none;
+		margin:auto !important;
+	}
+}
+
+.dashboard__content--no-video-container {
+	height:200px;
+	width:100%;
+	background:$orange;
+}

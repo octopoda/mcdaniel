@@ -1,38 +1,49 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+@section('subnav')
+		@include('dashboard.partials._create-new', [
+        'title' => 'Products', 
+        'permission' => 'create_products',
+        'route' =>  'dashboard.products.create' 
+    ])
+
+@endsection
 
 
 @section('content')
 
-	<div class="">
-		<table>
+	
+		<table class="striped responsive-table">
 			<thead>
 				<tr>
-					<th>Product Id</th>
-					<th>Product</th>
-					<th>Price</th>
-					<th colspan="2"><a href="{{ URL::route('dashboard.products.create') }}" class="btn btn-primary btn-block">Create</a></th>
+					<th data-field="Product">Product</th>
+					<th data-field="Product Id">Product Id</th>
+					<th data-field="Price">Price</th>
+					<th data-field="Edit">Edit</th>
 				</tr>
 			</thead>
 			<tbody>
 				@foreach ($products as $product) 
 					<tr>
-						<td>{{ $product->id }}</a></td>
-						<td><a href="{{ route('dashboard.products.show', $product->id) }}">{!! $product->title !!}</a></td>
-						<td>{{ $product->price }}</td>
-						<td width="80"><a class="btn btn-primary" href="{{ URL::route('dashboard.products.edit', $product->id) }}">Edit</a></td>
-						<td width="80">
-							{!! Form::open(['route' => ['dashboard.products.update', $product->id], 'method' => 'DELETE']) !!}
-                        	{!! Form::submit('Delete', ['class' => 'btn btn-danger', 'onclick' => 'return confirm("Are you sure?");']) !!}
-                        	{!!  Form::close() !!}
-                        </td>
+						<td>
+							@if (Entrust::can('manage_faqs'))
+								<a href="{{ route('dashboard.products.show', $product->id) }}">{!! $product->title !!}</a>
+							@endif
+						</td>
+						<td>{{ $product->id }}</td>
+						<td>${{ $product->price }}</td>
+						<td class="button-group">
+							@include('dashboard.partials._delete-table', [
+                        		'model' => $product,
+                        		'title' => 'Products',
+                        		'name' => 'product'
+                   			])
 					</tr>
 				@endforeach
 			</tbody>
 		</table>
 	</div>
 
-	<div>
-		{!! $products->render() !!}
-	</div>
+	@include('dashboard.partials.pagination', ['paginator' => $products])
 
 @endsection

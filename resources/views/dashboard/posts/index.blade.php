@@ -1,42 +1,52 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
 
+@section('subnav') 
+	@include('dashboard.partials._create-new', [
+        'title' => 'Posts', 
+        'permission' => 'create_posts',
+        'route' =>  'dashboard.posts.create' 
+    ])
+@endsection
 
 @section('content')
-	<div class="">
-		<table>
-			<thead>
+	<table class="striped responsive-table">
+		<thead>
+			<tr>
+				<th data-field="title">Title</th>
+				<th data-field="author">Author</th>
+				<th data-field="publish date">Publish Date</th>
+				<th data-feild="status">status</th>
+				<th data-field="edit"></th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			@foreach ($posts as $post) 
 				<tr>
-					<th>#</th>
-					<th>Title</th>
-					<th>Author</th>
-					<th>Publish Date</th>
-					<th>Status</th>
-					<th colspan="2"><a href="{{ URL::route('dashboard.posts.create') }}" class="btn btn-primary btn-block">Create</a></th>
+					<td width="40%">
+						@if (Entrust::can('manage_posts'))
+							<a href="{{ route('dashboard.posts.show', $post->id) }}" title="See the Post">{!! $post->title !!}</a>
+						@else
+						{{ $post->title }}
+						@endif
+					</td>
+					<td>{{ $post->blog->user->name }}</td>
+					<td>{{ $post->publish_date }}</td>
+					<td>{{ $post->published }}</td>
+					<td class="button-group">
+						@include('dashboard.partials._delete-table', [
+                    		'model' => $post,
+                    		'title' => 'Posts',
+                    		'name' => 'post'
+               			])
+					</td>
 				</tr>
-			</thead>
-			<tbody>
-				@foreach ($posts as $post) 
-					<tr>
-						<td><a href="{{ route('dashboard.posts.show', $post->id) }}">{{ $post->id }}</a></td>
-						<td>{!! $post->title !!}</td>
-						<td>{{ $post->blog->user->name }}</td>
-						<td>{{ $post->publish_date }}</td>
-						<td>{{ $post->draft }}</td>
-						<td width="80"><a class="btn btn-primary" href="{{ URL::route('dashboard.posts.edit', $post->id) }}">Edit</a></td>
-						<td width="80">
-							{!! Form::open(['route' => ['dashboard.posts.update', $post->id], 'method' => 'DELETE']) !!}
-                        	{!! Form::submit('Delete', ['class' => 'btn btn-danger', 'onclick' => 'return confirm("Are you sure?");']) !!}
-                        	{!!  Form::close() !!}
-                        </td>
-					</tr>
-				@endforeach
-			</tbody>
-		</table>
-	</div>
+			@endforeach
+		</tbody>
+	</table>
+	
 
-	<div>
-		{!! $posts->render() !!}
-	</div>
+	@include('dashboard.partials.pagination', ['paginator' => $posts])
 
 
 @endsection

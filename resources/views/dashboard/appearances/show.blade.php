@@ -1,38 +1,39 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
 
+@section('alert')
+	@include('dashboard.partials._isDraft', ['model' => $appearance, 'permission' => 'manage_appearances'])
+@endsection
+
+@section('subnav')
+	@include('dashboard.partials._show-buttons', ['title' => 'Appearances', 'model' => $appearance, 'name' => 'appearance', 'publish_perm' => 'manage_appearances' ])	
+@endsection
 
 @section('content')
-
-
-	<section>
-		<a href="{{ route('dashboard.appearances.edit', $appearance->id) }}" class="button small">Edit Appearance</a>
-		<a href="{{ route('dashboard.appearances.destroy', $appearance->id) }}" class="button small">Delete Appearance</a>
-	</section>
 	
-	<header class="dashboard__section-title">
-		<div class="dashboard__section-title__title">
-			<h1>{{ $appearance->title }}</h1>
-			{{-- <h4>{{ $appearance->user->name }}</h4> --}}
-		</div>
-	</header>
+		<div class="row dashboard__content--card">
+        <div class="col s12 m8">
+          <div class="card">
+            <div class="card-image">
+              @if ($appearance->video_url) 
+			 	<div class="video-container">
+        			{!! $appearance->video_url !!}
+      			</div>
+      		  @else 
+      		  	<div class="dashboard__content--no-video-container"></div>
+			 @endif
+              <span class="card-title">{{ $appearance->title }}</span>
+            </div>
+            <div class="card-content">
+              <p>{{ $appearance->date }}</p>
+            </div>
+            <div class="card-action">
+              <a href="{{ $appearance->link }}" target="_blank">View Appearanace</a>
+            </div>
+          </div>
+        </div>
+      </div>
 
 	
-	<section>
-		<dl>
-			<dd>Appearance Date:</dd>
-			<dt>{{ $appearance->created_at }}</dt>
-		</dl>
-		<dl>
-			<dd>Appearance Link:</dd>
-			<dt>{{ $appearance->link }}</dt>
-		</dl>
-	</section>
-
-	<section>
-		@if ($appearance->video_url) 
-			
-		@endif
-	</section>
 
 
 

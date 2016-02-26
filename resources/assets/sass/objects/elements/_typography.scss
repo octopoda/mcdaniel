@@ -1,0 +1,44 @@
+
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: $heading-font-family;
+	line-height:1.2;
+	font-style:italic;
+}
+
+p, blockquote, a, td {
+	font-family:$body-font-family;
+
+}
+
+
+p {
+	font-size:rem-calc(16);
+	line-height:rem-calc(33);
+}
+
+
+h1 {
+	font-size:rem-calc(30);
+}
+
+h2 {
+	font-size:rem-calc(25);
+}
+
+h3 {
+	font-size:rem-calc(20);
+}
+
+h4 {
+	font-size:rem-calc(19);
+}
+
+h5 {
+	font-size:rem-calc(18);
+}
+
+h6 {
+	font-size:rem-calc(17);
+}
+

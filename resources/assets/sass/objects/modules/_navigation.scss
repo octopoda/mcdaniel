@@ -1,0 +1,341 @@
+/**
+ * Navigation (/views/shared/navigation.cshtml);
+ */
+
+body.nav-open {
+    // position:fixed;
+    overflow:hidden;
+}
+
+.navigation {
+    box-shadow: 0 0 10px rgba(0,0,0, 0.4);
+    width:100%;
+    background:$white;
+    z-index:$z-layer-range-10;
+
+    .nav-fixed & {
+        position: fixed;
+        top:0;
+    }
+
+
+
+    &.show-quick-navigation {
+        // @include translateY(63px);
+    }
+
+    @include breakpoint('tablet') {
+       .nav-fixed & {
+            margin-top:-40px;
+            // @include transformTransition(0.2s);
+            @include translateY(-30px);
+        }
+    }
+}
+
+.quick-navigation-wrapper,
+.main-navigation-wrapper {
+    @include container;
+    
+    @include breakpoint('tablet') {
+        padding-top:rem-calc(10);
+    }
+}
+
+
+.quick-navigation-wrapper {
+    
+    @include breakpoint('tablet') {
+      padding-bottom:rem-calc(10);
+    }
+}
+
+.main-navigation-wrapper {
+    padding-bottom:rem-calc(10);
+}
+
+
+
+.quick-navigation {
+    display:none;
+    margin-top:rem-calc(10);
+    
+
+    ul {text-align: right;}
+
+    i {
+        font-size:$font-size-xxlarge;
+        position: relative;
+        margin-right:rem-calc(5);;
+        top:rem-calc(5);
+        color:$green;
+    }
+
+    .quicknav__link {
+        color:$black;
+        text-transform: uppercase;
+    }
+
+    @include breakpoint('tablet') {
+        @include span(5 of 12 last);
+        @include push(9 of 12);
+
+        display:block;
+
+        ul li {
+            &:last-child {
+                margin-left:rem-calc(20);
+            }
+        }
+    }
+
+
+    @include breakpoint('laptop') {
+        @include span(3 of 12 last);
+        @include push(9 of 12);
+    }
+
+    
+}
+
+
+.site-branding {
+    @include span(5 of 12);
+    height:60px;
+    padding-left:10px;
+
+
+    &__logo {
+        background:url('#{$icon}color_logo.png') center center no-repeat;
+        background-size:contain;
+        display: block;
+        text-indent: -10000px;
+
+        @include breakpoint('retina') {
+            background-image:url('#{$icon}color_logo@2x.png');
+        }
+
+    }
+
+    &__logo--white {
+        background:url('#{$icon}color_logo.png') center center no-repeat;
+        background-size:contain;
+        display: block;
+        text-indent: -10000px;
+
+        @include breakpoint('retina') {
+            background-image:url('#{$icon}color_logo@2x.png')
+        }
+    }
+
+    @include breakpoint('tablet') {
+        @include span(2 of 12);
+        padding-left:0;
+        margin-top:rem-calc(11);
+    }
+}
+
+.main-navigation {
+    text-align: center;
+    position: fixed;
+    top:68px;
+    width:100%;
+    height:100%;
+    background:rgba($white, 0.95);
+    @include transformTransition(0.5s);
+    @include translateX(-100%);
+    z-index:$z-layer-range-9;
+    
+
+ 
+    li {
+        display: block;
+        line-height:2.4em;
+        text-align: left;
+        @extend font-light;
+        padding-left:rem-calc(20);
+
+
+        a {
+            color:$black;
+            &:hover {
+                color:$green;
+            }
+        }
+
+        &.active {
+            a {
+                color:$white;
+                font-weight:500;
+                cursor:default;
+            }
+        }
+    }
+
+
+    &.open {
+        @include translateX(0%);
+    }
+
+    
+    &__links {
+        margin-top:rem-calc(40);
+    }
+
+    &__phone-actions {
+        margin-top:rem-calc(20);
+        border-top:1px solid $green;
+        padding-top:rem-calc(20);
+        
+        .main-nav__link {
+            border:1px solid $white;
+            padding:rem-calc(8) rem-calc(10);
+            margin-bottom:rem-calc(30);
+        }
+
+        .main-nav__phone {
+            margin-top:rem-calc(30);
+        }
+
+        i {
+            color:$green;
+            font-size:$font-size-xlarge;
+        }
+
+        .button {
+            display: block;
+            width:50%;
+            margin-left:rem-calc(20);
+            a {color:$white;}
+            padding:rem-calc(0) rem-calc(8);
+        }
+    }
+
+    
+    @include breakpoint('portrait') {
+        &__links {
+            @include span(7 of 12);
+        } 
+
+        &__phone-actions {
+            border-top:0;
+            padding-top:0;
+            @include span(5 of 12 last);
+        }
+    }
+
+    
+    //Tablet and Above
+    @include breakpoint('tablet') {
+        @include span(8 of 12);
+        position: relative;
+        top:auto;
+        padding:0;
+        background:transparent;
+        @include translateX(0%);
+        // margin-top:rem-calc(-12);
+
+        ul, li {@include clearMP}
+
+        ul {
+            position: relative;
+            background:none;
+            margin-top:rem-calc(20);
+            @include translateX(0);
+        }
+
+       
+        li {
+            display: inline-block;
+            line-height:2.4em;
+            text-align: left;
+            @extend font-light;
+            padding-left:rem-calc(10);
+
+
+            a {
+                color:$black;
+                &:hover {
+                    color:$green;
+                }
+            }
+
+            &.active {
+                a {
+                    color:$green;
+                    font-weight:100;
+                    cursor:default;
+                }
+            }
+        }
+
+         &__links {
+            margin-top:auto;
+        }
+    }
+
+
+    @include breakpoint('laptop') {
+        ul {
+            margin-top:rem-calc(25);
+        }
+
+        li {
+            padding-left:rem-calc(20);
+        }
+    }
+
+
+}
+
+
+/** Start Button or Login Button on Mobile */
+.navigation-cta {
+    @include span(7 of 12 last);
+    @include clearMP;
+    text-align: right;
+    margin-top:rem-calc(18);
+
+    li { 
+        @include clearMP;
+        display: inline-block;
+        margin-right:rem-calc(10);
+        padding:rem-calc(10) rem-calc(12); 
+    }
+
+    .navigation__start-now {
+        display: none; 
+        a{ padding:rem-calc(5) rem-calc(8);}
+    }
+        
+    .navigation__menu  {
+        cursor:pointer;
+        @include burger;
+    }
+
+    .active .navigation__menu {
+        @include burger-to-cross;
+    }
+    
+ 
+    @include breakpoint('tablet') {
+        @include span(2 of 12 last);
+        
+        text-align: right;
+        margin-top:rem-calc(20);
+        
+        li {
+            padding:rem-calc(5) rem-calc(10);
+        }
+        
+        .navigation {
+            &__start-now {display: inline-block;
+                a { padding:rem-calc(5); }
+            }
+            
+            &__menu {display: none;}
+        }
+    }
+}
+
+

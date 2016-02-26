@@ -17,9 +17,12 @@ class CreateCategoriesTable extends Migration
             $table->string('title')->unique();
             $table->string('direct_link')->unique();
             $table->tinyInteger('published')->index()->unsigned();
+            $table->text('search_terms');
             $table->timestamps();
         });
     }
+
+
 
     /**
      * Reverse the migrations.

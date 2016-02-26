@@ -58,7 +58,7 @@ class RolesPermissionsController extends Controller
     {
        $roles = $this->role->pushCriteria(new RoleLowerOrEqualToCurrentUser($this->auth->user()))->all();
        $permissions = $this->permission->all();
-       return view('dashboard.roles_permissions.index', compact('roles', 'permissions'));
+       return view('dashboard.rolepermission.index', compact('roles', 'permissions'));
     }
 
     /**

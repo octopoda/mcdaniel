@@ -77,6 +77,7 @@ class AppearancesController extends Controller
     public function store(AppearanceRequest $request)
     {
         $appearance = $this->appearance->create($request->all());
+        flash()->success('', 'The Appearance was created');
         return view('dashboard.appearances.show', compact('appearance'));
     }
 
@@ -102,6 +103,7 @@ class AppearancesController extends Controller
     {
         $appearance = $this->appearance->find($id);
         $users = $this->role->findBy('name', 'appearance')->users;
+
         return view('dashboard.appearances.edit', compact('appearance', 'users'));   
     }
 
@@ -116,7 +118,7 @@ class AppearancesController extends Controller
     {
         $appearance = $this->appearance->find($id);
         $appearance->update($request->all());
-
+        flash()->success('', 'The appearance was updated');
         return view('dashboard.appearances.show', compact('appearance'));
     }
 
@@ -126,9 +128,15 @@ class AppearancesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $this->appearance->delete($id);
+
+        if ($request->ajax()) {
+            return $id;
+        }
+        
+        return redirect()->route('dashboard.appearances.index');
     }
 
 

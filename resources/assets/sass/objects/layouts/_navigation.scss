@@ -1,0 +1,146 @@
+
+
+
+.navigation {
+	position: fixed;
+	height:rem-calc(65);
+	width:100%;
+	background:$white !important;
+	overflow:scroll;
+	box-shadow:0 0 3px rgba($black, 0.4);
+
+	@include breakpoint('tablet') {
+		height:auto;
+		position: relative !important;
+		width:90%;
+		margin:auto;
+		box-shadow:none;
+	}
+
+	@include breakpoint('laptop') {
+		width:70%;
+		margin:auto;
+	}
+}
+
+
+
+.navigation__quick-nav {
+	.menu-button {
+		display: inline-block;
+		margin-top:rem-calc(15);
+		margin-left:rem-calc(20);
+	}
+
+
+	.btn-flatten {
+		float:right;
+		padding:rem-calc(5) rem-calc(10);
+		border:1px solid $green;
+		font-style: italic;
+		font-family:$body-font-family;
+		margin-right:rem-calc(10);
+		margin-top:rem-calc(12);
+	}
+
+	@include breakpoint('tablet') {
+		.button-collapse {
+			display:none;
+		}	
+
+		.btn-flatten {
+			float:right;
+			padding:rem-calc(8) rem-calc(12);
+			border:1px solid $green;
+			margin-right:rem-calc(10);
+			margin-top:rem-calc(10);
+		}
+	}
+}
+
+.navigation__logo {
+	position: fixed;
+	top:2%;
+	left:0;
+	right:0;
+
+	.logo {
+		display: block;
+		height:rem-calc(40);
+	}
+
+	@include breakpoint('tablet') {
+		position: relative;
+		margin-top:rem-calc(-40);
+		
+		.logo {
+			height:rem-calc(80);
+		}
+	}
+}
+
+.navigation__menu {
+	box-shadow:none;
+	position: fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100vh;
+	background:rgba($orange, 0.8);
+	@include translateX(-100%);
+	@include transition(transform $cubic 0.4s);
+
+	
+
+	&--close-button {
+		position: fixed;
+		right:3%;
+		color:$white;
+	}
+
+
+	&.active {
+		@include translateX(0);
+	}
+
+
+	@include breakpoint('tablet') {
+		@include clearfix;
+		background:none;
+		@include translateX(0);
+		position: relative;
+		top:auto;
+		left:auto;
+		height:auto;
+		border-bottom:2px solid $green;
+		text-align: center;
+	}
+}
+
+
+.naviagation__menu ul {
+		
+}
+
+
+.navigation__menu  li {
+	float:none !important;
+	display: block;
+	font-size:rem-calc(18);
+
+	a {
+		color:$white;
+	}
+
+
+	@include breakpoint('tablet') {
+		display: inline-block;
+		font-size:rem-calc(16);
+
+		a {
+			color:$black;
+		}
+	}
+
+
+}

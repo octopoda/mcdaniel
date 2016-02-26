@@ -1,0 +1,34 @@
+.dashboard__form {
+	.row {
+		margin-bottom:rem-calc(80);
+	}
+}
+
+.dashboard__form-regular-switch {	
+	margin-top:rem-calc(70) !important;
+	margin-bottom:rem-calc(50);
+}
+
+.dashboard__form--publish-switch {
+	text-align: right;
+	margin-top:rem-calc(30);
+
+
+}
+
+.dashboard__form--submit {
+	margin:auto;
+	margin-top:rem-calc(60);
+}
+
+
+.dashboard__form--error-wrapper {
+	background:rgba($error, 0.5);
+	color:$white;
+	padding:rem-calc(10) rem-calc(20);
+}
+
+
+.dashboard__form--ta-label {
+	margin-left:rem-calc(10);
+}

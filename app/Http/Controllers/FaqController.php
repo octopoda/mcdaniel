@@ -58,6 +58,8 @@ class FaqController extends Controller
      */
     public function store(Request $request)
     {
+        //Show Flash
+        flash()->success("", "The faq was created");
         $this->faq->create($request->all());
     }
 
@@ -96,7 +98,9 @@ class FaqController extends Controller
     {
         $faq = $this->faq->find($id);
         $faq->update($request->all());
-
+        
+        //Show Flash
+        flash()->success("", "The faq was updated");
         return view('dashboard.faqs.show', compact('faq'));
     }
 
@@ -106,9 +110,17 @@ class FaqController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        
         $this->faq->delete($id);
+        
+        if ($request->ajax()) {
+            return $id;
+        }   
+
+        //Show Flash
+       flash()->success("", "The faq was destroyed");
         return redirect('/dashboard/faqs');
     }
 

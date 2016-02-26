@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\PublishedTrait;
 
 class Faq extends Model
 {
     
+	use PublishedTrait;
+
 	 /**
      * Set Mass Assignable
      * @var array
@@ -14,6 +17,6 @@ class Faq extends Model
 	protected $fillable = ['question', 'answer', 'published', 'stared'];
 
 
-	
+		
 
  }

@@ -1,46 +1,55 @@
-'use strict';
-
-
 var path = require('path');
 var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 
 module.exports = {
-	context: path.join(path.resolve(__dirname), '/resources/assets'),
-	
+	// context: __dirname + '/resources/assets/',
+
 	entry: [
 		'webpack-dev-server/client?http://localhost:3000',
-		'webpack/hot/only-dev-server',
-		'./app/register/index.jsx'
+        'webpack/hot/only-dev-server',
+		'./resources/assets/sass/dashboard.scss'
 	],
-	
-	output: {
-		path: __dirname + '/public/js',
-    	filename: "bundle.js",
-    	publicPath: 'http://localhost:3000/static/'
-	},
 	module: {
 		loaders : [
-			{
-				test: /\.jsx?$/,
-				loaders: ['react-hot', 'jsx?harmony'],
-				include: __dirname + 'resources/assets'
-			},
-			{
-				test: /\.jsx?$/,
-				loader: 'babel-loader',
-				exclude: '/node_modules',
-				query : {
-					presets: ['es2015', 'react']
-				}
-			},
+			{ 
+				test: /\.jsx?$/, 
+				loaders: ['react-hot', 'jsx?harmony'], 
+				include: __dirname + '/resources/assets'
+			}, { 
+        		test: /\.jsx$/, 
+        		exclude: /node_modules/, 
+        		loaders: ['jsx-loader?insertPragma=React.DOM&harmony']
+        	}, { 
+        		test: /\.jsx$/, 
+        		exclude: /node_modules/, 
+        		loader: 'babel-loader'
+        	}, {
+				test: /\.scss?$/,
+				loader: ExtractTextPlugin.extract('css!sass')
+			}
 		]
 	},
+	output: {
+		path: path.join(__dirname, './public'),
+    	filename: 'js/[name].js',
+    	publicPath: 'http://localhost:3000/static/'
+	},
 	resolve: {
-		extensions: ['', '.js', '.jsx']
+		extensions: ['', '.js', '.jsx', '.scss'],
+		modulesDirectories: ['src', 'node_modules']
+	},
+	devServer: {
+		contentBase: '../public',
+		hot: true,
+		proxy:   { 
+			'*' : 'http://mcdaniel.app' 
+		} 
 	},
 	plugins: [
-		new webpack.HotModuleReplacementPlugin(),
-		new webpack.NoErrorsPlugin()
+		new ExtractTextPlugin('css/app.css', { allChunks: true }),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin()
 	]
 }

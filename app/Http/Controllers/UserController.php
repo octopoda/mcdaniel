@@ -73,6 +73,7 @@ class UserController extends Controller
             $user->roles()->sync([]);
         }
 
+        flash()->success('', 'The user was created');
         return redirect('/dashboard/users');
     }
 
@@ -88,7 +89,7 @@ class UserController extends Controller
     {
         $user = $this->user->find($id);
         $roles = $this->role->all();
-        $userRoles = $user->roles();
+        $userRoles = $user->roles;
 
         return view('dashboard.users.edit', compact('user', 'roles', 'userRoles'));
     }
@@ -116,7 +117,7 @@ class UserController extends Controller
         } else {
             $user->roles()->sync([]);
         } 
-
+        flash()->success('', 'The user was updated');
         return redirect('dashboard/users');
 
     }
@@ -127,9 +128,16 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $this->user->delete($id);
+
+        if ($request->ajax()) {
+            return $id;
+        }
+        
+        flash()->success('', 'User was deleted');
+        return redirect('dashboard/users');
     }
 }
 

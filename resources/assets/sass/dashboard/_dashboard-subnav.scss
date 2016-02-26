@@ -1,0 +1,31 @@
+.dashboard__subnav {
+	padding-bottom:rem-calc(20);
+
+	@include breakpoint('laptop') {
+		width:80%; 
+		margin:auto;
+	}
+	
+}
+
+.dashboard__subnav-title {	
+	// h2 { @include clearMP; }
+}
+
+.dashboard__subnav--create {
+	text-align: right;
+
+	a {
+		display: inline-block;
+		margin-right:rem-calc(10);
+		margin-top:rem-calc(20);
+	}
+}
+
+
+.dashboard__subnav--edit-buttons {
+	ul {
+		float:right;
+		margin-right:rem-calc(10);
+	}
+}

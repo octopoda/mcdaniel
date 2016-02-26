@@ -1,31 +1,43 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+@section('subnav')
+    @include('dashboard.partials._create-new', [
+        'title' => 'Permissions', 
+        'permission' => 'create_permissions',
+        'route' =>  'dashboard.permissions.create' 
+    ])
+@endsection
+
 
 @section('content')
-
-    <table class="table">
+    
+    <table class="striped responsive-table">
         <thead>
         <tr>
-            <th>#</th>
-            <th>Display Name</th>
-            <th>Name</th>
-            <th colspan="2"><a href="{{ URL::route('dashboard.permissions.create') }}" class="btn btn-primary btn-block">Create</a></th>
+            <th data-field="Display Name">Display Name</th>
+            <th data-field="Name">Name</th>
+            <th data-field="Edit">Edit</th>
         </tr>
         </thead>
         <tbody>
         @foreach($permissions as $permission)
             <tr>
-                <td>{{ $permission->id }}</td>
                 <td>{{ $permission->display_name }}</td>
                 <td>{{ $permission->name }}</td>
-                <td width="80"><a class="btn btn-primary" href="{{ URL::route('dashboard.permissions.edit', $permission->id) }}">Edit</a></td>
-                <td width="80">{!! Form::open(['route' => ['dashboard.permissions.update', $permission->id], 'method' => 'DELETE']) !!}
-                    {!! Form::submit('Delete', ['class' => 'btn btn-danger', 'onclick' => 'return confirm("Are you sure?");']) !!}
-                    {!!  Form::close() !!}</td>
+                <td class="button-group">
+                   @include('dashboard.partials._delete-table', [
+                                'model' => $permission,
+                                'title' => 'Permissions',
+                                'name' => 'permission'
+                            ])
+                </td>
             </tr>
         @endforeach
         </tbody>
     </table>
+    
 
-    {!! $permissions->render() !!}
+
+    @include('dashboard.partials.pagination', ['paginator' => $permissions])
 
 @stop

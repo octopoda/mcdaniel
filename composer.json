@@ -15,7 +15,7 @@
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~4.0",
+        "phpunit/phpunit": "~5.0",
         "phpspec/phpspec": "~2.1"
     },
     "autoload": {
@@ -24,12 +24,14 @@
         ],
         "psr-4": {
             "App\\": "app/"
-        }
+        },
+        "files" : [
+            "app/helpers.php"
+        ]
     },
     "autoload-dev": {
         "classmap": [
-            "tests/TestCase.php",
-            "tests/apitester.php"
+            "tests/TestCase.php"
         ]
     },
     "scripts": {

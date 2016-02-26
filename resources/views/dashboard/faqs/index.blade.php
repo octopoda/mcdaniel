@@ -1,51 +1,54 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+@section('subnav')
+	@include('dashboard.partials._create-new', [
+        'title' => 'Faqs', 
+        'permission' => 'create_faqs',
+        'route' =>  'dashboard.faqs.create' 
+    ])
+@endsection
 
 
 @section('content')
 
-	<header class="dashboard__section-title">
-		<div class="dashboard__section-title__title">
-			<h1>Frequent Questions</h1>
-		</div>
-	</header>
 
+	@if (count($faqs) == 0)
+		<h4>There are no questions created. </h4>
+	@else
+		<table class="striped responsive-table">
+			<thead>
+				<tr>
+					<th data-field="Question">Question</th>
+					<th data-field="Status">Status</th>
+					<th data-field="Edit">Edit</th>
+				</tr>
+			</thead>
+			<tbody>
 
-	<div class="">
-		@if (count($faqs) == 0)
-			<h2>There are no questions created. </h2>
-			<div class="button">
-				<a href="{{ URL::route('dashboard.faqs.create') }}" class="btn btn-primary btn-block">Create a New Question</a>
-			</div>
-		@else
-			<table>
-				<thead>
+				@foreach ($faqs as $faq) 
 					<tr>
-						<th>Title</th>
-						<th>Question</th>
-						<th colspan="2"><a href="{{ URL::route('dashboard.faqs.create') }}" class="btn btn-primary btn-block">Create</a></th>
+						<td>
+							@if (Entrust::can('manage_faqs'))
+								<a href="{{ route('dashboard.faqs.show', $faq->id) }}" title="See the Faq">{!! $faq->question !!}</a>
+							@else
+								{{ $faq->question }}
+							@endif
+						</td>
+						<td>{{ $faq->published }}</td>
+						<td class="button-group">
+							@include('dashboard.partials._delete-table', [
+                        		'model' => $faq,
+                        		'title' => 'Faqs',
+                        		'name' => 'faq'
+               				])
+						</td>
 					</tr>
-				</thead>
-				<tbody>
+				@endforeach
+			</tbody>
+		</table>
+	@endif
+	
 
-					@foreach ($faqs as $faq) 
-						<tr>
-							<td><a href="{{ route('dashboard.faqs.edit', $faq->id) }}">{!! $faq->title !!}</a></td>
-							<td>{{ $faq->question }}</td>
-							<td width="80"><a class="btn btn-primary" href="{{ URL::route('dashboard.faqs.edit', $faq->id) }}">Edit</a></td>
-							<td width="80">
-								{!! Form::open(['route' => ['dashboard.faqs.update', $faq->id], 'method' => 'DELETE']) !!}
-	                        	{!! Form::submit('Delete', ['class' => 'btn btn-danger', 'onclick' => 'return confirm("Are you sure?");']) !!}
-	                        	{!!  Form::close() !!}
-	                        </td>
-						</tr>
-					@endforeach
-				</tbody>
-			</table>
-		@endif
-	</div>
-
-	<div>
-		{!! $faqs->render() !!}
-	</div>
+	@include('dashboard.partials.pagination', ['paginator' => $faqs])
 
 @endsection

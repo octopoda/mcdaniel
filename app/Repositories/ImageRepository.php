@@ -31,7 +31,7 @@
 			$file = $request->file($name);
 			$filename = $file->getClientOriginalName();
 
-			Storage::disk('s3')->put($folder. '/' . $filename, file_get_contents($file));
+			Storage::disk('s3')->put($folder. '/' . $filename, file_get_contents($file), 'public');
 
 			
 

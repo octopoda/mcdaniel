@@ -1,38 +1,53 @@
-    <div class="form-group">
-        {!! Form::label('name', 'Full Name:') !!}
-        {!! Form::text('name', null, ['class'=>'class', 'placeholder'=>'Jon Doe']) !!}
+<header class="dashboard__section-title row s12">
+    <div class="dashboard__section-title__title">
+        <h3>{{ $submitButtonText }}</h3>
+    </div>
+</header>    
+
+<div class="row col s12">
+    <div class="row">
+        <div class="input-field col s12">
+            {!! Form::text('name', null, ['class'=>'validate']) !!}
+            {!! Form::label('name', 'Full Name:') !!}
+        </div>
     </div>
 
-    <div class="form-group">
-        {!! Form::label('email', 'Email') !!}
-        {!! Form::text('email', null, ['class' => 'form-control']) !!}
+    <div class="row">
+        <div class="input-field col s12">
+            {!! Form::text('email', null, ['class' => 'validate']) !!}
+            {!! Form::label('email', 'Email') !!}
+        </div>
     </div>
 
-    <div class="form-group">
-        {!! Form::label('password', 'Password') !!}
-        {!! Form::password('password', ['class' => 'form-control']) !!}
+    <div class="row">
+        <div class="input-field col s12">
+            {!! Form::password('password', ['class' => 'validate']) !!}
+            {!! Form::label('password', 'Password') !!}
+        </div>
     </div>
 
-    <div class="form-group">
-        {!! Form::label('password_confirmation', 'Password confirmation') !!}
-        {!! Form::password('password_confirmation', ['class' => 'form-control']) !!}
+    <div class="row">
+        <div class="input-field col s12">
+            {!! Form::password('password_confirmation', ['class' => 'validate']) !!}
+            {!! Form::label('password_confirmation', 'Password confirmation') !!}
+        </div>
     </div>
 
-     <div class="form-group">
-        <label for="">Roles</label>
+     <div class="row dashboard__content--list">
+        <p>Roles</p>
+        <ul>
         @foreach($roles as $role)
 
             <?php $checked = (isset($userRoles)) ? in_array($role->id, $userRoles->lists('id')->toArray()) : false ?>
-            <div class="checkbox">
-                <label>
-                    {!! Form::checkbox('role[]', $role->id, $checked) !!} {{ $role->display_name }}
-                </label>
-            </div>
+            <li class="checkbox col s4">
+                {!! Form::checkbox('role[]', $role->id, $checked, ['id' => "roleId_{$role->id}"]) !!} 
+                <label for="roleId_{{ $role->id }}">{{ $role ->display_name }}</label>
+            </li>
         @endforeach
+        </ul>
     </div>
 
-    <div class="form-group">
-        <div class="form-group">
-            {!! Form::submit($submitButtonText , ['class'=>'button']) !!}
-        </div>
+    <div class="row center-align">
+        {!! Form::submit($submitButtonText , ['class'=>'btn waves-effect dashboard__form--submit']) !!}
     </div>
+</div>

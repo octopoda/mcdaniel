@@ -1,0 +1,133 @@
+/*
+|--------------------------------------------------------------------------
+| Style for Expected Return Chart
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+
+
+.line-chart {
+	overflow: visible;
+}
+
+
+/** Chart Wrapper */
+.line-chart__wrapper {
+	width:100%;
+	overflow:visible;
+	margin:auto;
+	text-align: center;
+
+	@include breakpoint('tablet') {
+		min-height:500px;
+	}
+}
+
+/** Chart Container */
+.lineChart__svg {
+	width:90%;
+	
+	overflow:visible !important;
+	text-align: left;
+}
+
+
+
+/** X and Y Axis */
+.line-chart__yAxis, .line-chart__xAxis {
+	.domain {
+		stroke-width:1;
+		fill:none;
+		stroke: $gray;
+	}
+
+	text{
+		fill:$gray-light;
+		font-size:$font-size-small;
+	}
+	
+}
+
+
+.line-chart__upper-bound {
+	stroke: $green; 
+	stroke-width: 2;
+	fill:none;
+	// shape-rendering: crispEdges;
+
+	&--area {
+		fill:rgba(darken($green, 5%), 0.4);
+		filter:url(#dropshadow);
+	}
+}
+
+
+.line-chart__expected-return {
+	stroke: $ab-emerging; 
+	stroke-width: 1;
+	fill:none;
+	shape-rendering: crispEdges;
+
+	&--area {
+		z-index:1;
+		fill:url(#areaOneGradient);
+	}
+
+	&--secondary{
+		z-index:0;
+		fill:url(#areaTwoGradient);
+	}
+}
+
+
+
+.line-chart__circle {
+	stroke-width:2;
+	stroke:$white;
+	fill:url(#handleGradient);
+	filter:url(#dropshadow);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Labels
+|--------------------------------------------------------------------------
+*/
+
+
+
+.line-chart__money {
+	font-size:$font-size-large;
+	text-align: right;
+	@extend %font-light;
+	fill:$green;
+	top:0;
+
+	@include breakpoint('tablet') {
+		font-size:$font-size-absurd;
+	}
+}
+
+.line-chart__portfolio-last {
+	font-size:$font-size;
+	text-align: right;
+	@extend %font-light;
+	fill:$gray;
+}
+
+.line-chart__performance-label {
+	text-align: right;
+	font-size:$font-size;
+	// stroke:$black;
+	// stroke-width: 1;
+	@extend %font-light;
+	fill:$gray;
+}
+
+.line-chart__yaxis-legend {
+	font-size:$font-size-small;
+	@extend %font-light;
+	fill:$gray;
+}

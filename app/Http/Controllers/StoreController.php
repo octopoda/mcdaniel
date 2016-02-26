@@ -75,6 +75,7 @@ class StoreController extends Controller
     public function update(Request $request) {
         $store = $this->store->find(1);
         $store->update($request->all());
+        flash()->success('The store has been updated');
         return view('dashboard.setup.store', compact('store'));
     }
 

@@ -1,22 +1,23 @@
-@extends('layouts.page')
+@extends('layouts.frontend.page')
 
 @section('content')
 
-	<section>
+	<section class="row">
 	@foreach($products as $product)
-		<div>
-			<h3><a href="{{ route('productByTitle', $product->direct_link) }}">{{ $product->title }}</a></h3>
-			<div>
-				<div>
+		<div class="col s12 m4">
+			<div class="card">
+				<div class="card-image">
 					<img src="{{ $product->product_image }}" alt="{{ $product->title }}">
+					<span class="card-title">{{ $product->title }} - ${{ $product->price }}</span>
 				</div>
-				<div>
-					{!! $product->description !!}
-
-					${{ number_format($product->price, 2) }}
+				<div class="card-content">
+					<p>{!! $product->description !!}</p>
+				</div>
+				<div class="card-action">
+					<a href="{{ route('productByTitle', $product->direct_link) }}">View Product</a>
+					<a href="{{ $product->paypal_url }}" target="_blank">Buy Now</a>
 				</div>
 			</div>
-
 		</div>
 	@endforeach
 	</section>

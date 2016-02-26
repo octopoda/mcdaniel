@@ -1,4 +1,4 @@
-@extends('layouts.page')
+@extends('layouts.frontend.page')
 
 @section('content')
 	<a href="{{ $store->biew_cart_url }}">View Cart</a>

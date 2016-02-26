@@ -55,10 +55,9 @@ class CategoryController extends Controller {
      */
     public function store(Request $request)
     {
-        $request['direct_link'] = str_replace(" ", "-", $request->get('title'));
-        $request['published'] = 1;
         
         $category = $this->category->create($request->all());
+        flash()->success('', 'The category was created');
         return redirect('dashboard/categories');
     }
 
@@ -84,9 +83,9 @@ class CategoryController extends Controller {
     public function update(Request $request, $id)
     {
         $category = $this->category->find($id);
-        $request['direct_link'] = str_replace(" ", "-", $request->get('title'));
         $category->update($request->all());
         
+        flash()->success('', 'The category was updated');
         return redirect('dashboard/categories');
     }
 
@@ -96,9 +95,15 @@ class CategoryController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $this->category->delete($id);
+
+        if ($request->ajax()) {
+            return $id;
+        } 
+
+        flash()->success('', 'The category has been deleted');
         return redirect('dashboard/categories');
     }
 }

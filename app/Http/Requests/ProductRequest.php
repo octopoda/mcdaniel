@@ -25,7 +25,7 @@ class ProductRequest extends Request {
 	public function rules()
 	{
 		return [
-			'title' => 'required',
+			'title' => 'required|unique:products|min:3',
 			'description' => 'required',
 			'price' => 'required',
 		];

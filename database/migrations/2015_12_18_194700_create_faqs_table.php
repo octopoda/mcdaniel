@@ -16,7 +16,7 @@ class CreateFaqsTable extends Migration
             $table->increments('id');
             $table->string('question')->index()->unique();
             $table->text('answer');
-            $table->tinyInteger('published')->index();
+            $table->boolean('published')->index();
             $table->tinyInteger('stared')->index();
             $table->timestamps();
         });

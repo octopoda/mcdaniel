@@ -1,0 +1,94 @@
+.m-portfolio-allocation {
+	
+
+	ul {@include clearMP;}
+
+	li {
+		@include clearMP();
+		list-style:none;
+		color:$green;
+		line-height:$font-size-xlarge;
+
+		margin-top:rem-calc(15);
+
+		span {
+			display: inline-block;
+			font-size:$font-size-medium;
+			color:$black;	
+		}
+
+		
+	}
+
+
+	@include breakpoint('tablet') {
+		li {
+			list-style-type:none;
+			line-height:$font-size;
+			
+		}
+
+		li.span:first-child {
+			min-width:rem-calc(20);
+		}
+		
+		span {
+			display: inline;
+		}
+
+	}
+
+	@include breakpoint('laptop') {
+		ul {margin-left:rem-calc(20);}
+
+		h3 {margin:rem-calc(30) auto;}
+
+		li {
+			list-style:disc;
+			font-size:$font-size-large;
+		}
+	}
+}
+
+
+.m-portfolio-allocation__columns {
+
+	.repeat-animation { 
+    &.ng-move,&.ng-enter, &.ng-leave  {
+        @include transition(opacity $cubic 0.5s, margin-left $cubic 0.3s);
+    }
+
+    &.ng-enter-stagger {
+        @include transition-delay(0.2s)
+    }
+
+    &.ng-enter {
+      position: absolute;
+      opacity:0;
+      margin-left:rem-calc(-50);
+    }
+
+    &.ng-enter-active {
+  		position: relative;
+      opacity:1;
+      margin-left:0;
+    }
+
+    &.ng-leave {
+    	position: absolute;
+    	opacity:1;
+    	margin-left:0;
+    }
+
+    &.ng-leave-active  {
+    	opacity:0;
+    	margin-left:rem-calc(100);
+    }
+
+	}
+
+
+	@include breakpoint('tablet') {
+		@include span(6 of 12);
+	}
+}

@@ -1,0 +1,24 @@
+{
+  "name": "mcdanielnutrition",
+  "version": "3.0.0",
+  "authors": [
+    "Octopoda Interactive"
+  ],
+  "description": "McDaniel Nutrition Website",
+  "main": "/public/index.php",
+  "license": "MIT",
+  "homepage": "mcdanielnutrition.com",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-material-datetimepicker": "~2.5.3",
+    "moment": "~2.11.2",
+    "jquery-ujs": "~1.2.0"
+  }
+}

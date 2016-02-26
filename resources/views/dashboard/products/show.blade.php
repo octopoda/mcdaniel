@@ -1,35 +1,52 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
 
+@section('alert')
+	@include('dashboard.partials._isDraft', ['permission' => 'manage_products', 'model' => $product, 'model_name' => 'post'])
+@endsection
+
+@section('subnav')
+	@include('dashboard.partials._show-buttons', ['title' => 'Products', 'model' => $product, 'name' => 'product', 'publish_perm' => 'manage_products' ])
+@endsection
 
 @section('content')
-	<div>
-		<ul>
-			<li><a class="btn btn-primary" href="{{ URL::route('dashboard.products.edit', $product->id) }}">Edit</a></li>
-			<li>
-				{!! Form::open(['route' => ['dashboard.products.update', $product->id], 'method' => 'DELETE']) !!}
-            	{!! Form::submit('Delete', ['class' => 'btn btn-danger', 'onclick' => 'return confirm("Are you sure?");']) !!}
-            	{!!  Form::close() !!}
-            </li>
-		</ul>
+<div class="row">
+	<div class="col s12 m6">
+		<div class="card">
+			<div class="card-image">
+				<img src="{{ $product->product_image }}" alt="{{ $product->title }}">
+				<span class="card-title">{{ $product->title }} - ${{ $product->price }}</span>
+			</div>
+			<div class="card-content">
+				<p>{!! $product->description !!}</p>
+			</div>
+			<div class="card-action">
+				@if ($product->paypal_url == false) 
+					<p>Please go to <a target="_blank" href="https://www.paypal.com/us/webapps/mpp/standard-integration#option1"> PayPal Creator </a> to create buy button and publish this product.</p>
+				@else
+					<p><a href="{{ $product->paypal_url }}" target="_blank">Buy Button Url</a></p>
+				@endif
+			</div>
+		</div>
 	</div>
 
-	
-	<img src="{{ $product->product_image }}" alt="{{ $product->title }}">
 
-	<p>Product id: {{ $product->id }}</p>
+	<div class="col s12 m6">
+		<h5>Transaction for products</h5>
+		<table class="striped responsive-table">
+			<thead>
+				<th>Email</th>
+				<th>Price</th>
+				<th>last 4</th>
+			</thead>
+			<tbody>
 
-	<h1>{{ $product->title }}</h1>
-	<section>
-		{!! $product->description !!}
-	</section>
+			</tbody>
+		</table>
+	</div>
+</div>
 
-	<h5>${{ $product->price }}</h5>
-	
-
-	@if ($product->paypal_url == false) 
-		<p>Please go to <a target="_blank" href="https://www.paypal.com/us/cgi-bin/webscr?cmd=_flow&SESSION=jUufOaxDIqJ3jylgYb24u3DqA8pwQQg9g6H0ypxP40piu2mKaCIiMaQbRN4&dispatch=5885d80a13c0db1f8e263663d3faee8d64ad11bbf4d2a5a1a0d303a50933f9b2"> PayPal Creator </a> to create buy button and publish this product.</p>
-	@else
-		<p>Buy Button Url: {{ $product->paypal_url }}</p>
-	@endif
 
 @endsection
+
+
+

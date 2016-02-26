@@ -1,0 +1,267 @@
+.site-footer {
+	background-color: $gray-lightest;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Footer Contact Bar [footer_contact partial]
+|--------------------------------------------------------------------------
+*/
+
+
+
+
+
+.footer-contact-us {
+	h4 {
+		color:$gray;
+		padding-top:rem-calc(20);
+		@extend %font-medium;
+	}
+
+	ul, li {@include clearMP}
+
+	li {
+		list-style:none;
+		display:block;
+		@extend %font-light;
+		position: relative;
+		@include span(6 of 12);
+
+		a {
+			text-decoration: none;
+			color:$black;
+		}
+	}
+
+	.footer-contact__icon-circle {
+		display:none;
+		background:$gray-light;
+		height:$social-icon-size;
+		width:$social-icon-size;
+		border-radius: $social-icon-size;
+		position: relative;
+		margin-left:rem-calc(10);
+	}
+
+	
+
+	li i {
+		color:$white;
+		text-align: center;
+		position: relative;
+
+
+		&.fa-mobile {
+			font-size:rem-calc(36);
+			top:rem-calc(4);
+			left:30%;
+		}
+
+		&.fa-envelope-o {
+			font-size:rem-calc(24);
+			top:rem-calc(6);
+			left:22%;
+		}
+	}
+
+
+	//Tablet
+	@include breakpoint('tablet') {
+		h4 {
+			@include span(3 of 12);
+			@include clearMP;
+		}
+
+		.footer-contact__icon-circle {
+			display:inline-block;
+			margin-left:rem-calc(5);
+		}
+
+		ul {
+			@include span(5 of 12);
+		}
+
+		ul li {
+			display: inline-block;
+			margin-right:rem-calc(5);
+			width:auto;
+			margin-left:rem-calc(20);
+		}
+
+		li i {
+			&.fa-mobile {
+				// top:rem-calc(0);
+			}
+		}
+	
+		//Email icon bigger footprint than mobile  
+		.footer-contact-us--email {
+			margin-top:rem-calc(0);
+			.footer-contact__icon-circle {
+				top:rem-calc(-2);
+			}
+		}
+
+	}
+
+	
+	//Laptop
+	@include breakpoint('laptop') {
+		h4 {
+			@include span(3 of 12);
+		}
+
+		li {
+		 @include span(6 of 12 no-gutters);
+		 margin-top:rem-calc(-2);
+		}
+	}
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Footer Social [footer_contact partial]
+|--------------------------------------------------------------------------
+*/
+
+.footer-social{
+	margin-top:rem-calc(40);
+	@include span(12 of 12);
+	@include displayList(inline);
+
+	li {
+		text-align: center;
+		min-height:rem-calc(44);
+		@include span(4 of 12);
+		&:last-child {@include last;}
+	}
+	
+	a {
+		color:$white;
+		font-size:$font-size-large;
+		display: block;
+		margin-top:rem-calc(8);
+	}
+
+	
+	@include breakpoint('tablet') {
+		margin-top:0;
+		@include span(4 of 12 last);
+
+		ul {
+			text-align:right;
+			width:100%;
+		}
+
+		li {
+			float:right;
+			height:$social-icon-size;
+			width:$social-icon-size;
+		}
+	}
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Footer Sitemap [footer_sitemap partial]
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+.footer-sitemap {
+	h4 {
+		color:$gray;
+		@extend %font-medium;
+	}
+	
+	ul {
+		margin-left:0;
+		padding-left:0;
+	}
+
+	nav ul li {
+		text-align: left;
+		display:block;
+		line-height:2em;
+		
+
+
+		a {
+			color:$black;
+		}
+	}
+
+	//Tablet
+	@include breakpoint('tablet') {
+		nav {
+			@include span(4 of 12);
+			
+		}	
+	}
+
+	@include breakpoint('laptop') {
+		nav {
+			@include span(3 of 12);
+			// &:last-child {@include last;} //Add back when we add the news
+		}
+	}
+	
+	//Desktop
+	@include breakpoint('desktop') {
+		
+	}
+}
+
+
+/** Footer Subscribe Buttons and Inputs */
+.footer-subscribe {
+	margin-top:rem-calc(40);
+	h4 {color:$gray;}
+
+	@include displayList(block);
+
+	li {
+		margin-top:rem-calc(20);
+	}
+
+	.button, button, input {
+		font-size:$font-size;
+	}
+
+	&__email {
+		padding-top:rem-calc(20);
+	}
+
+	
+	//Tablet
+	@include breakpoint('tablet') {
+		@include span(6 of 12);
+
+		&__newsfeed {
+			width:60%;
+		}
+	}
+
+}
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Footer Copyright
+|--------------------------------------------------------------------------
+*/
+
+
+.copyright  {
+	color:$gray;
+	font-size: $font-size-medium;
+	margin-bottom:rem-calc(20);
+}
+

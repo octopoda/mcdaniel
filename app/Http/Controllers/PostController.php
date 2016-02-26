@@ -59,7 +59,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = $this->post->pushCriteria(new AscendingOrder())->paginate(20);
+        $posts = $this->post->pushCriteria(new AscendingOrder())->paginate(10);
         return View('dashboard.posts.index', compact('posts'));
     }  
 
@@ -84,6 +84,11 @@ class PostController extends Controller
      */
     public function store(PostRequest $request, Guard $auth)
     {
+        $date = $request->get('publish_date');
+
+        $date = date('Y-m-d H:i:s', strtotime($date));
+        
+
        //Look for Blog from User
        $blog = $this->blog->findBy('user_id', $auth->user()->id);
        
@@ -104,7 +109,8 @@ class PostController extends Controller
             $post->update();
        }
 
-       
+       //Show Flash
+       flash()->success("", "The Post was Created");
        return view('dashboard.posts.show', compact('post'));
     }
 
@@ -129,6 +135,7 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = $this->post->find($id);
+        $post->publish_date = date('F d, Y h:m A', strtotime($post->publish_date));
         return view('dashboard.posts.edit', compact('post'));
     }
 
@@ -143,13 +150,13 @@ class PostController extends Controller
     {
         $post = $this->post->find($id);
         $post->update($request->all());
-
+        
         if ($request->hasfile('post_image')) {
             $filePath = $this->post->saveImageForPost($request);
             $post->post_image = $filePath;
             $post->update();
         }
-
+        flash()->success("", "Your Post is Updated");
         return view('dashboard.posts.show', compact('post'));
     }
 
@@ -159,9 +166,15 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $this->post->delete($id);
+        
+        if ($request->ajax()) {
+            return $id;
+        }
+        
+        flash()->success("", "Your Post was Deleted"); 
         return redirect('/dashboard/posts');
     }
 
@@ -183,7 +196,7 @@ class PostController extends Controller
      */
     public function postByTitle($title) {
         $post = $this->post->findBy('direct_link', $title);
-        return $post;
+        return compact('post');
     }
 
 
@@ -194,8 +207,19 @@ class PostController extends Controller
      */
     public function searchPosts($query) {
         $posts = $this->post->pushCriteria(new SearchPosts($query))->paginate(25);
-        return $posts;
+        return compact('posts');
     }
+
+
+    /**
+     * Return a number of posts
+     * @return JSON
+     */
+    public function postByNumber($number) {
+        $posts = $this->post->pushCriteria(new AscendingOrder())->paginate($number);
+        return compact('posts');
+    }
+
 
 
 
@@ -264,6 +288,8 @@ class PostController extends Controller
         $posts = $this->post->pushCriteria(new PostsFromDate($year))->paginate(25);
         return view('posts.list', compact('posts'));
     }
+
+
 
     
 }

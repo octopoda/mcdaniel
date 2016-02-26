@@ -1,0 +1,158 @@
+.pieChart-wrapper {
+  padding:rem-calc(20);
+  padding-left:rem-calc(30);
+  width:100%;
+
+  @include breakpoint('tablet') {
+    padding-left:0;
+  }
+
+}
+.pieChart--center--text {
+  font-size: $font-size-large;
+}
+
+
+.pieChart--detail--divider {
+  stroke: $gray;
+  stroke-width: 1;
+}
+
+.pieChart__label__percentage {
+  font-size: $font-size-large;
+
+  fill: $green;
+  stroke-width: 1px;
+
+  tpsan {
+    display: block;
+  }
+
+  @include breakpoint('tablet') {
+    //code)
+  }
+
+  @include breakpoint('laptop') {
+    font-size:$font-size-xlarge;
+  }
+}
+
+.pieChart__label__assetClass {
+  font-size:10px;
+  margin-bottom:10px;
+  fill: $green;
+
+  color: $white;
+  font-style: italic;
+  text-align: center;
+
+  @include breakpoint('tablet') {
+    font-size:rem-calc(12);
+  }
+}
+
+
+.pieChart--background__outercircle {
+  fill: $white;
+}
+
+/**
+ * The Foreign Object portfolio label
+ */
+.pieChart__portfolio-name-label--fo {
+  text-align: center;
+  font-size: rem-calc(25);
+  line-height:1.3;
+  width:100%;
+  color:$green;
+  display: block;
+  margin-top:-10px;
+  
+
+  span {
+    display:block;
+    &:first-child {
+      padding-top:rem-calc(30);
+    }
+  }
+
+  .portfolio_number {
+    font-size:rem-calc(80);
+    margin-top:rem-calc(-45);
+    display:block;
+  }
+
+  @include breakpoint('large-phone') {
+    .portfolio_number {
+      font-size:rem-calc(130);
+      margin-top:rem-calc(-45);
+    }
+  }
+
+  @include breakpoint('tablet') {
+    font-size:rem-calc(20);
+    
+    .portfolio_number {
+      font-size:rem-calc(120);
+      margin-top:rem-calc(-45);
+    }
+  }
+
+  @include breakpoint('laptop') {
+    font-size:rem-calc(25);
+    
+    .portfolio_number {
+      font-size:rem-calc(130);
+      margin-top:rem-calc(-35);
+    }
+  }
+}
+
+/** 
+ * IE Portfolio Labels
+ */
+.pieChart__portfolio-name-label--ie {
+  
+  //AssetBuilder Portfolios
+  .ab &, .expat &{
+    .portfolio-name-label {
+      font-size:rem-calc(20);
+
+      @include breakpoint('large-phone') {
+        font-size:rem-calc(25);
+      }
+      
+    }
+
+    .portfolio-number-label {
+      font-size:rem-calc(90);
+
+      @include breakpoint('large-phone') {
+        font-size:rem-calc(130);
+      }
+
+      @include breakpoint('tablet') {
+        font-size:rem-calc(120);
+      }
+
+      @include breakpoint('laptop') {
+        font-size:rem-calc(130);
+      }
+    }
+  } 
+
+  .lazy & {
+
+    tspan {
+      margin-top:10px;
+    }
+    
+    .portfolio-name-label-ie {
+      font-size:rem-calc(18);
+
+      @include breakpoint('large-phone') {
+        font-size:rem-calc(25);
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+.m-sub-navigation {
+	display:none;
+	z-index:$z-layer-range-10;
+
+
+	li {
+		text-align: left;
+		font-size:$navigation-font-size;	
+
+		a {
+			color:$black;
+			&:hover, &.active {color:$white;}
+			cursor:pointer;
+		}
+	}
+
+	@include breakpoint('tablet') {
+		display: block;
+
+		li {
+			text-align: center;
+			margin-right:rem-calc(20);
+		
+		}
+
+		&.fixed {
+			position: fixed;
+			top:rem-calc(83);
+		}
+	}
+}

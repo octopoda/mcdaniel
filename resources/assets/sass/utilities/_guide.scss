@@ -1,0 +1,40 @@
+$placholder-url : 'https://placeimg.com/1000/400/any/grayscale';
+
+/*
+|--------------------------------------------------------------------------
+| Non Semantic Classese for the Kitchen Sink Guide
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+.guide-section {
+	border-top:1px solid $gray;
+
+	.guide-section__title {
+		border-bottom:1px solid $black;
+		padding-bottom:rem-calc(10);
+		@include span(3 of 12);
+		text-transform: uppercase;
+	}
+}
+
+/**
+ * Hero
+ */
+.guide-hero {
+	background:url($placholder-url) center center no-repeat;
+	background-size:cover;
+}
+
+
+/**
+ * Buttons
+ */
+.guide-buttons {
+	
+.guide-buttons__reverse {
+		background:$green;
+		min-height:150px;
+	}
+}

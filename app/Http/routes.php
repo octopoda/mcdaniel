@@ -54,6 +54,11 @@ Route::group(["prefix" => "api/v1"], function () {
 		"uses" => "PostController@getCategoriesForPost"
 	]);
 
+	Route::put('/publish/{class}/{id}', [
+		"as" => 'ajaxPublish',
+		"uses" => 'AjaxController@publish'
+	]);
+	
 });
 
 
@@ -70,7 +75,7 @@ Route::group(["prefix" => "api/v1"], function () {
 |
 */
 
-Route::group(['prefix'=>'dashboard'], function () {
+Route::group(['prefix'=>'dashboard',  'middleware'=>['auth']], function () {
 	//Resources
 	Route::resource("blogs", "BlogController");
 	Route::resource("posts", "PostController");
@@ -236,6 +241,21 @@ Route::group(['prefix' => 'store'], function () {
 Route::get('/', [
 	"as" => "homeRoute",
 	"uses" => "PageController@home"
+]);
+
+Route::get('/patients', [
+	'as' => 'patients',
+	'uses' => 'PageController@patients'
+]);
+
+Route::get('/corporate-wellness', [
+	'as' => 'corporate',
+	'uses' => 'PageController@corporate'
+]);
+
+Route::get('/about-mcdaniel-nutrition', [
+	'as' => 'about',
+	'uses' => 'PageController@about'
 ]);
 
 

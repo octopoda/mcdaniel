@@ -68,6 +68,7 @@ class PermissionController extends Controller
         $role = $this->role->findBy('name', 'admin');
         $role->perms()->sync([$permission->id], false);
 
+        flash()->success('', 'The permission was created');
         return redirect('/dashboard/permissions');
     }
 
@@ -97,6 +98,7 @@ class PermissionController extends Controller
         $permission = $this->permission->find($id);
         $permission->update($request->all());
 
+        flash()->success('', 'The permission was updated');
         return redirect('/dashboard/permissions');
     }
 
@@ -106,9 +108,15 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $this->permission->delete($id);
+
+        if ($request->ajax()) {
+            return $id;
+        }
+
+        flash()->success('', 'The permission has been deleted');
         return redirect('/dashboard/permissions');
     }
 }

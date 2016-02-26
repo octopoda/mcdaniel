@@ -1,35 +1,45 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+@section('subnav')
+    @include('dashboard.partials._create-new', [
+        'title' => 'Users', 
+        'permission' => 'create_users',
+        'route' =>  'dashboard.users.create' 
+    ])
+@endsection
 
 @section('content')
-
-    <table class="table">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th colspan="2"><a href="{{ URL::route('dashboard.users.create') }}" class="btn btn-primary btn-block">Create</a></th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($users as $user)
+    
+        <table class="striped responsive-table">
+            <thead>
             <tr>
-                <td>{{ $user->id }}</td>
+                <th data-field="Email">Email</th>
+                <th data-field="Role">Role</th>
+                <th data-field="Edit">Edit</th>
+            </tr>
+            </thead>
+        <tbody>
+            @foreach($users as $user)
+            <tr>
                 <td>{{ $user->email }}</td>
                 <td>
                     @foreach($user->roles as $role)
-                        <span class="label label-info">{{ $role->name }}</span>
+                        <span class="chip">{{ $role->name }}</span>
                     @endforeach
                 </td>
-                <td width="80"><a class="btn btn-primary" href="{{ URL::route('dashboard.users.edit', $user->id) }}">Edit</a></td>
-                <td width="80">{!! Form::open(['route' => ['dashboard.users.update', $user->id], 'method' => 'DELETE']) !!}
-                        {!! Form::submit('Delete', ['class' => 'btn btn-danger', 'onclick' => 'return confirm("Are you sure?");']) !!}
-                    {!!  Form::close() !!}</td>
+                <td class="button-group">
+                   @include('dashboard.partials._delete-table', [
+                        'model' => $user,
+                        'title' => 'Users',
+                        'name' => 'user'
+                   ])
+                </td>    
             </tr>
-        @endforeach
+            @endforeach
         </tbody>
     </table>
-
-    {!! $users->render() !!}
+    
+    
+    @include('dashboard.partials.pagination', ['paginator' => $users])
 
 @stop

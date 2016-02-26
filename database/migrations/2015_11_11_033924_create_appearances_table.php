@@ -20,6 +20,7 @@ class CreateAppearancesTable extends Migration
             $table->tinyInteger('published')->index()->unsigned();
             $table->string('direct_link')->index();
             $table->string('publication');
+            $table->string('appearance_date');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

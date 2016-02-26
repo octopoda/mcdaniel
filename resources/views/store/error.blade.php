@@ -1,4 +1,4 @@
-@extends('layouts.page')
+@extends('layouts.frontend.page')
 
 @section('content')
 	<h1>An Error Occured With PayPal</h1>

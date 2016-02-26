@@ -1,0 +1,39 @@
+.small-phone-only {
+	display:block;
+
+	@include breakpoint('large-phone') {
+		display:none;
+	}
+}
+
+.phone-only{
+	display:block;
+
+	@include breakpoint('tablet') { 
+		display:none;
+	}
+}
+
+.tablet-only {
+	display:none;
+	
+	@include breakpoint('tablet') {
+		display:block	
+	}
+	@include breakpoint('laptop') {
+		display:none;
+	}
+}
+
+.tablet-up {
+	display:none;
+
+	@include breakpoint('tablet') {
+		display:block;
+	}
+}
+
+
+.hide {
+	display:none;
+}
