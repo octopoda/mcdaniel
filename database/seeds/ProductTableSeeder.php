@@ -29,6 +29,6 @@ class ProductTableSeeder extends Seeder
             
         DB::table('products')->insert($input);
 
-        $products = factory(App\Product::class, 5)->create()->toArray();
+        // $products = factory(App\Product::class, 5)->create()->toArray();
     }
 }

@@ -14,7 +14,7 @@ class FAQTableSeeder extends Seeder
 
 		DB::table('faqs')->truncate();
 
-        $faqs = factory(App\Faq::class, 10)->create()->toArray();
+        // $faqs = factory(App\Faq::class, 10)->create()->toArray();
         // dd($faqs);
 
         // DB::table('faqs')->insert($faqs);
