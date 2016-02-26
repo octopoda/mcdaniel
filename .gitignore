@@ -20,7 +20,7 @@ tests/_output/*
 /resources/components
 
 .env
-.env.*
+.env.testing
 *.sublime-project
 *.sublime-workspace
 *.
