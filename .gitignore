@@ -1,8 +1,8 @@
 /vendor
 /node_modules
+
 Homestead.yaml
 Homestead.json
-.env
 
 *.sublime-project
 *.sublime-workspace
@@ -21,6 +21,8 @@ tests/_output/*
 
 .env
 .env.testing
+.env.production
+
 *.sublime-project
 *.sublime-workspace
 *.
@@ -29,7 +31,7 @@ tests/_output/*
 *.DS_Store
 
 # Has user information in it. 
-/database/seeds
+
 
 # AssetFiles
 /public/assets/css
