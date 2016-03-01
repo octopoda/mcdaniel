@@ -24,34 +24,38 @@
 		line-height:rem-calc(48) !important;
 	}
 
-
 	@include breakpoint('laptop') {
-		width:60%;
+		width:85%;
 		margin:auto;
+		margin-bottom:rem-calc(160);
+	}
+
+	@include breakpoint('desktop') {
+		width:60%;
 	}
 }
 
 
 
 .index__weight-loss {
-	background:url('#{$page}index-weight-loss.png') center right no-repeat;
-	background-size:cover;
+	// background:url('#{$page}index-weight-loss.png') center right no-repeat;
+	// background-size:cover;
 
-	@include breakpoint('retina') {
-		background-image:url('#{$page}index-weight-loss@2x.png')
-	}
+	// @include breakpoint('retina') {
+	// 	background-image:url('#{$page}index-weight-loss@2x.png')
+	// }
 
-	@include breakpoint('portrait') {
-		background-position:center center;//code)
-	}
+	// @include breakpoint('portrait') {
+	// 	background-position:center center;//code)
+	// }
 	
-	@include breakpoint('tablet') {
-		background-position:center right;
-	}
+	// @include breakpoint('tablet') {
+	// 	background-position:center right;
+	// }
 	
-	@include breakpoint('laptop') {
-		background-position:center center;
-	}
+	// @include breakpoint('laptop') {
+	// 	background-position:center center;
+	// }
 }
 
 

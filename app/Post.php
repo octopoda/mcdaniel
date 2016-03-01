@@ -52,7 +52,7 @@ class Post extends Model
     protected static function boot()
     {
         static::saving(function ($model) {
-            $model->direct_link = str_replace(" ", "-", strtolower($model->title));
+            $model->direct_link = $this->santize($string);
             $model->searchable = strip_tags($model->content);
         });
     }
@@ -76,7 +76,19 @@ class Post extends Model
    }
 
 
-  
+  /**
+   * Santize the Direct Link
+   * @param  string $string 
+   * @return string         
+   */
+  protected function santize($string) {
+    $strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]",
+                           "}", "\\", "|", ";", ":", "\"", "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;",
+                           "â€”", "â€“", ",", "<", ".", ">", "/", "?", ".", '©', '®', '℗');
+    $clean = trim(str_replace($strip, "", strip_tags($string)));
+    $clean = strtolower(preg_replace('/\s+/', "-", $clean));
+    return $clean;
+ }
 
 
 }

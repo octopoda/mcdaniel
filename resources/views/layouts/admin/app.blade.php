@@ -40,7 +40,7 @@
 	
 	<!-- Scripts -->
 	<script src="{{ elixir('js/vendor.js') }}"></script>
-	<script src="{{ elixir('js/all.js') }}"></script>
+	<script src="{{ elixir('js/dashboard.js') }}"></script>
 	<script src="/assets/js/vendor/redactor.min.js"></script>
 	
 	@include('layouts.admin.partials.flash')

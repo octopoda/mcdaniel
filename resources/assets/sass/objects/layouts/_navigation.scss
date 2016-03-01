@@ -1,25 +1,40 @@
 
+$menu-height: rem-calc(65);
+
+body {
+	margin-top:$menu-height;
+	
+	@include breakpoint('tablet') {
+		margin-top:auto;
+	}
+}
 
 
 .navigation {
 	position: fixed;
 	height:rem-calc(65);
 	width:100%;
-	background:$white !important;
-	overflow:scroll;
+	background:$white;
+	top:0;
 	box-shadow:0 0 3px rgba($black, 0.4);
+	margin-bottom:rem-calc(80);
 
 	@include breakpoint('tablet') {
+		background:none;
 		height:auto;
-		position: relative !important;
-		width:90%;
+		position: relative;
+		width:95%;
 		margin:auto;
 		box-shadow:none;
 	}
 
 	@include breakpoint('laptop') {
-		width:70%;
-		margin:auto;
+		width:95%;
+	}
+
+	@include breakpoint('desktop') {
+		width:80%;
+		
 	}
 }
 
@@ -44,7 +59,7 @@
 	}
 
 	@include breakpoint('tablet') {
-		.button-collapse {
+		.menu-button {
 			display:none;
 		}	
 
@@ -63,9 +78,10 @@
 	top:2%;
 	left:0;
 	right:0;
-
+	width:90px;
+	
 	.logo {
-		display: block;
+		width:90px;
 		height:rem-calc(40);
 	}
 
@@ -80,53 +96,33 @@
 }
 
 .navigation__menu {
+	display:none;
 	box-shadow:none;
-	position: fixed;
-	top:0;
-	left:0;
-	width:100%;
-	height:100vh;
-	background:rgba($orange, 0.8);
-	@include translateX(-100%);
-	@include transition(transform $cubic 0.4s);
-
-	
-
-	&--close-button {
-		position: fixed;
-		right:3%;
-		color:$white;
-	}
-
-
-	&.active {
-		@include translateX(0);
-	}
-
 
 	@include breakpoint('tablet') {
-		@include clearfix;
+		display:block;
 		background:none;
-		@include translateX(0);
 		position: relative;
 		top:auto;
 		left:auto;
 		height:auto;
 		border-bottom:2px solid $green;
 		text-align: center;
+		@include clearfix;
+		@include translateX(0);
 	}
 }
 
 
-.naviagation__menu ul {
-		
-}
+	
+
 
 
 .navigation__menu  li {
 	float:none !important;
 	display: block;
 	font-size:rem-calc(18);
+	@include transition(transform $cubic 0.8s);
 
 	a {
 		color:$white;
@@ -141,6 +137,143 @@
 			color:$black;
 		}
 	}
+}
 
 
+
+.navigation__side-menu {
+	box-shadow:none;
+	position: fixed;
+	left:0;
+	top:0;
+	height:100vh;
+	background:rgba($secondary-color, 0.8);
+	width:100%;
+	z-index:$z-layer-range-10;
+	@include transition(transform $sidebar-cubic 0.4s);
+	@include translateX(-100%);
+	
+	overflow:scroll;
+	overflow-scrolling:touch;
+
+
+
+	&--close-button {
+		position: absolute;
+		top:2%; 
+		right:5%;
+	}
+
+	.logo {
+		margin-left:rem-calc(17);
+	}
+
+	&.active {
+		@include translateX(0);
+	}
+
+
+	li {
+		float:none !important;
+		display:block;
+		font-size:rem-calc(22);
+	}
+
+
+	a {
+		color:$white;
+	}
+	
+	@include breakpoint('tablet') {
+		padding-top:rem-calc(10);
+		width:30%;
+	}
+
+	@include breakpoint('laptop') {
+		padding-top:rem-calc(20);
+		width:20%;
+	}
+}
+
+/*
+|--------------------------------------------------------------------------
+| Fixed Position Navigation
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+body.nav-fixed {
+	margin-top:$menu-height
+}
+
+.navigation.fixed {
+	@include breakpoint('tablet') {
+		position: fixed;
+		top:0;
+		left:0;
+		width:100%;	
+		height:$menu-height;
+		box-shadow:0 0 3px rgba($black, 0.6);
+		background:$white;
+		@include transition(transform ease-in 0.2s);
+		@include translateY(-100%);
+
+		&.active {
+			@include translateY(0);
+		}
+
+
+		.navigation__quick-nav {
+			padding-right:rem-calc(20);
+			padding-left:rem-calc(20);
+			
+			
+			.menu-button { 
+				display:block; 
+				float:left;
+				margin-top:rem-calc(18);
+			}
+		}
+
+	
+
+		.navigation__menu  {
+			border-bottom: none;
+
+			ul {
+				display: none;
+			}
+		}
+
+		.navigation__logo {
+			position: fixed;
+			width:rem-calc(90);
+			margin-top:rem-calc(0);
+
+			.logo {
+				width:90px;
+				height:rem-calc(40);
+			}
+		}
+	}
+	
+}
+
+
+// 		-webkit-animation-name: navTopDown;
+//  	-webkit-animation-duration:1s;
+//  	-webkit-animation-delay:0.2s;
+//  	-webkit-animation-iteration-count: 1;
+//  	-webkit-animation-timing-function:$cubic;
+//  	-webkit-animation-fill-mode: forwards;
+
+
+@keyframes navTopDown {
+	0% {
+		@include translateY(-100%);
+	}
+	100% {
+		@include translateY(0);
+	}
 }

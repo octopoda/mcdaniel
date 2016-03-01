@@ -26,7 +26,7 @@ class Blog extends Model
      * Define the One to One Relationship with User
      * @return App\User
      */
-    public function User() {
+    public function user() {
     	return $this->belongsTo('App\User');
     }
 }

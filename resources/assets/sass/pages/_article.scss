@@ -1,0 +1,148 @@
+
+$article-image-height: rem-calc(800);
+
+.article {
+	padding:rem-calc(20);
+}
+
+
+.article__header {
+	margin-top:rem-calc(100);
+	
+
+	h4 {
+		color:$primary-color;
+		border-top: 1px solid $green;
+		padding-top:rem-calc(15);
+	}
+
+	@include breakpoint('tablet') {
+		text-align: center;
+		margin-top:rem-calc(50);
+
+		h4 {
+			width:20%; 
+			margin:auto;
+		}
+	}
+	
+}
+
+
+
+.article__content {
+	padding-top:rem-calc(50);
+	
+	.callout {
+		line-height:2.1;
+		font-size:rem-calc(18);
+		color:$green;
+		padding-bottom:rem-calc(40);
+		padding-top:rem-calc(40);
+		border-left:none;
+		margin:auto;
+		padding-left:0;
+
+		.callout__twitter {
+			margin-top:rem-calc(40);
+			cursor:pointer;
+		}
+	}
+
+	strong {
+		font-weight:bolder;
+	}
+
+	
+	@include breakpoint('tablet') {
+		width:80%;
+		margin:auto;
+
+
+		.callout {
+			padding-top:rem-calc(40);
+			text-align: center;
+			width:80%;
+		}
+	}
+
+	@include breakpoint('laptop') {
+		width:60%;
+		margin:auto;
+	}
+}
+
+
+
+.article__image {
+	display:none;
+	
+	@include breakpoint('tablet') {
+		position: absolute;
+		z-index:-1;
+		margin:auto;
+		margin-top:rem-calc(-55);
+		height: $article-image-height;
+		overflow:hidden;
+		width:100%;
+		left:0;
+		top:0;
+		display: block;
+
+		&--gradient {
+			position: absolute;	
+			top:0;
+			width:100%;
+			height:$article-image-height;
+
+			/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&0+0,1+63,1+63 */
+			background: -moz-linear-gradient(top,  rgba(255,255,255,0.4) 0%, rgba(255,255,255,1) 63%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+			background: -webkit-linear-gradient(top,  rgba(255,255,255,0.4) 0%,rgba(255,255,255,1) 63%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+			background: linear-gradient(to bottom,  rgba(255,255,255,0.4) 0%,rgba(255,255,255,1) 63%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+		}
+
+		&--image {
+			img {
+				width:100%;
+				margin:auto;
+			}
+		}
+	}
+}
+
+
+
+.article__footer {
+	background:rgba($gray-lightest, 0.9);
+
+	h3 {
+		color:$green;
+	}
+
+	@include breakpoint('tablet') {
+		position: fixed;
+		left:0;
+		bottom:0;
+		width:100%;
+		box-shadow:0 3px 3px rgba($black, 0.4);
+		z-index:$z-layer-range-9;
+		@include transition(transform $cubic 0.4s);
+		@include translateY(100%);
+
+		&.active {
+			@include translateY(0);
+		}
+
+		&--mailchimp {
+			margin-top:rem-calc(10);
+
+			.btn  {
+				margin-top:rem-calc(10);
+				box-shadow: none;
+				border-radius: 0;
+			}
+		}
+	}
+
+}

@@ -66,7 +66,7 @@
          @include('layouts.frontend.partials.navigation')
       </header>
       
-      <main class="wrapper">
+      <main class="sitewide_content_wrapper">
             @yield('content')
       </main>
 
@@ -78,6 +78,7 @@
   
 
   <script src="{{ elixir('js/vendor.js') }}"></script>
+  <script src="{{ elixir('js/app.js') }}"></script>
   @yield('extra-scripts');
 
   

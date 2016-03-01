@@ -1,3 +1,5 @@
+
+
 .logo {
 	margin:auto;
 	background:url('#{$icon}logo.png') center center no-repeat;
@@ -12,6 +14,16 @@
 
 	@include breakpoint('retina') {
 		background-image: url('#{$icon}logo@2x.png');
+	}
+
+	&.white-logo {
+		background:url('#{$icon}logo-white.png') top left no-repeat;
+		background-size:contain;
+		
+		@include breakpoint('retina') {
+			background-image: url('#{$icon}logo-white@2x.png');
+		}
+
 	}
 }
 
@@ -29,6 +41,13 @@
 }
 
 
+.sitewide_content_wrapper {
+	margin-top:rem-calc(100);
+
+	@include breakpoint('tablet') {
+		margin-top:rem-calc(20);
+	}
+}
 
 
 

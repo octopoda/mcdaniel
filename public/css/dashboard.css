@@ -9748,6 +9748,12 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   @media (-webkit-min-device-pixel-ratio: 2), (-webkit-min-device-pixel-ratio: 192), (min-resolution: 192dppx) {
     .logo {
       background-image: url("/assets/images/icons/logo@2x.png"); } }
+  .logo.white-logo {
+    background: url("/assets/images/icons/logo-white.png") top left no-repeat;
+    background-size: contain; }
+    @media (-webkit-min-device-pixel-ratio: 2), (-webkit-min-device-pixel-ratio: 192), (min-resolution: 192dppx) {
+      .logo.white-logo {
+        background-image: url("/assets/images/icons/logo-white@2x.png"); } }
 
 .button-group div {
   float: left; }
@@ -9755,6 +9761,12 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
     padding: 0.6875rem;
     margin-right: 0.625rem;
     margin-top: -0.3125rem; }
+
+.sitewide_content_wrapper {
+  margin-top: 6.25rem; }
+  @media (min-width: 48em) {
+    .sitewide_content_wrapper {
+      margin-top: 1.25rem; } }
 
 body {
   margin: 0; }
