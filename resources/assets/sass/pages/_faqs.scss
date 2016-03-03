@@ -1,0 +1,75 @@
+
+.faq__header {
+
+	padding-bottom:rem-calc(60);
+
+	&--text {
+		text-align: center;
+
+
+		form {
+			width:90%;
+			margin:auto;
+			position: relative;
+		}
+
+		button {
+			float:right;
+			position: absolute;
+			top:0;
+			right:0;
+			border:none;
+			outline:none;
+			background:none;
+			color:$gray;
+		}
+
+	}
+
+
+	@include breakpoint('tablet') {
+		form {
+			width:60%;
+			margin:auto;
+		}
+	}
+}
+
+
+
+.faq__wrapper {
+	box-shadow: none;
+	border:none;
+	@include clearMP;
+	
+	li {
+		list-style:none;
+		padding-left:rem-calc(0);
+		margin-left:0;
+	}
+
+}
+
+
+.faq__question {
+	i {
+		font-size:rem-calc(16);
+		color:$gray-light;
+		margin-right:10px;
+	}
+
+	.collapsible-header {
+		@include clearMP;
+		color:$green;
+		font-size:rem-calc(20);
+		padding:rem-calc(20) 0;
+		line-height:1.6;
+	}
+
+	.collapsible-body {
+		margin-left:rem-calc(42);
+		border:none;
+		padding:rem-calc(40) rem-calc(60) rem-calc(40) 0;
+	}
+	
+}

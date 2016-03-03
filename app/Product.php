@@ -4,12 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\PublishedTrait;
+use App\Traits\DirectLinkTrait;
 
 
 class Product extends Model
 {
     
-    use PublishedTrait;
+    use PublishedTrait, DirectLinkTrait;
 
     /**
      * Set Mass Assignable
@@ -25,7 +26,7 @@ class Product extends Model
     protected static function boot()
     {
         static::saving(function ($model) {
-            $model->direct_link = str_replace(" ", "-", strtolower($model->title));
+            $model->direct_link = $model->santize($model->title);
             $model->searchable = strip_tags($model->description);
         });
     }

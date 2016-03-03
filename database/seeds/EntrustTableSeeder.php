@@ -77,7 +77,7 @@ class EntrustTableSeeder extends Seeder {
 		$user1->attachRole($admin);
 		$user1->attachRole($appearanceRole);
 
-		$user2 = User::where('email', '=', 'kylie@mcdanielnutrition.com')->first();
+		$user2 = User::where('email', '=', 'kayli@mcdanielnutrition.com')->first();
 		$user2->attachRole($post_editor);
 		$user2->attachRole($appearanceRole);
 		

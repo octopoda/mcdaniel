@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\PublishedTrait;
-
+use App\Traits\DirectLinkTrait;
 
 class Post extends Model
 {
     
-    use PublishedTrait;
+    use PublishedTrait, DirectLinkTrait;
 
     /**
      * Set Mass Assignable
@@ -52,7 +52,7 @@ class Post extends Model
     protected static function boot()
     {
         static::saving(function ($model) {
-            $model->direct_link = $this->santize($string);
+            $model->direct_link = $model->santize($model->title);
             $model->searchable = strip_tags($model->content);
         });
     }
@@ -76,19 +76,22 @@ class Post extends Model
    }
 
 
-  /**
-   * Santize the Direct Link
-   * @param  string $string 
-   * @return string         
-   */
-  protected function santize($string) {
-    $strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]",
-                           "}", "\\", "|", ";", ":", "\"", "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;",
-                           "â€”", "â€“", ",", "<", ".", ">", "/", "?", ".", '©', '®', '℗');
-    $clean = trim(str_replace($strip, "", strip_tags($string)));
-    $clean = strtolower(preg_replace('/\s+/', "-", $clean));
-    return $clean;
- }
-
+  
+   protected function getPostTypeAttributes($value) {
+        switch($value) { 
+            case 1: 
+                return 'Nutrition 101';
+                break;
+            case 2: 
+                return 'Recipes';
+                break;
+            case 3: 
+                return "Lastest Nutrition Info";
+                break;
+            case 4: 
+                return "Personal";
+                break;
+        }
+   }
 
 }

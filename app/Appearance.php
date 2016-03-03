@@ -4,11 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\PublishedTrait;
+use App\Traits\DirectLinkTrait;
 
 class Appearance extends Model
 {
     
-    use PublishedTrait;
+    use PublishedTrait, DirectLinkTrait;
 
     /**
      * Fillable Attributes
@@ -24,6 +25,27 @@ class Appearance extends Model
     public function user() {
         return $this->belongsTo('\App\User');
     }
+
+
+/*
+|--------------------------------------------------------------------------
+| Attribute Settings
+|--------------------------------------------------------------------------
+|
+|
+*/
+    
+    /**
+     * On Save set the direct link and the searacble feilds. 
+     * @return String 
+     */
+    protected static function boot()
+    {
+        static::saving(function ($model) {
+            $model->direct_link = $model->santize($model->title);
+        });
+    }
+
 
 
     /**

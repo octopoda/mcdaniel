@@ -15,7 +15,7 @@
 			</address>
 		</div>
 		<div class="row">
-			<p>Ph: 314-314-19967</p>
+			<p>Ph: 314-314-1996</p>
 		</div>
 		<div class="copyright">
 			&copy; 2010 -  {{ date('Y') }} McDaniel Nutrition, All Rights Reserved

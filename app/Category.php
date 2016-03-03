@@ -4,11 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\PublishedTrait;
+use App\Traits\DirectLinkTrait;
 
 class Category extends Model
 {
 
-	use PublishedTrait;
+	use PublishedTrait, DirectLinkTrait;
     
 	 /**
      * Set Mass Assignable
@@ -40,8 +41,7 @@ class Category extends Model
     protected static function boot()
     {
         static::saving(function ($model) {
-            $model->direct_link = str_replace(" ", "-", strtolower($model->title));
-            // $model->string = explode(',', $model->string);
+            $model->direct_link = $model->sanitize($model->title);
         });
     }
 

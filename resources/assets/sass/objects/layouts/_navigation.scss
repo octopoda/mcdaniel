@@ -1,5 +1,4 @@
 
-$menu-height: rem-calc(65);
 
 body {
 	margin-top:$menu-height;
@@ -110,6 +109,33 @@ body {
 		text-align: center;
 		@include clearfix;
 		@include translateX(0);
+
+		.dropdown-button:after {
+			font-family: 'Material Icons';
+			content: "keyboard_arrow_down";
+			position: relative;
+			top:rem-calc(2);
+			margin-left:rem-calc(5);
+			-webkit-font-feature-settings: 'liga';
+		}
+
+	
+		.dropdown-content {
+			display:block;
+			@include clearMP;
+			width:auto !important;
+			
+			li {
+				@include clearMP;
+
+				&:hover {
+			
+					a {
+						color:$white;
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -218,6 +244,7 @@ body.nav-fixed {
 		background:$white;
 		@include transition(transform ease-in 0.2s);
 		@include translateY(-100%);
+		z-index:$z-layer-range-10;
 
 		&.active {
 			@include translateY(0);

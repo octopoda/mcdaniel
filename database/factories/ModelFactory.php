@@ -11,6 +11,16 @@
 |
 */
 
+function santize($string) {
+    $strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]",
+                           "}", "\\", "|", ";", ":", "\"", "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;",
+                           "â€”", "â€“", ",", "<", ".", ">", "/", "?", ".", '©', '®', '℗');
+    $clean = trim(str_replace($strip, "", strip_tags($string)));
+    $clean = strtolower(preg_replace('/\s+/', "-", $clean));
+    return $clean;
+ }
+
+
 /**
  * User
  */
@@ -43,13 +53,13 @@ $factory->define(App\Post::class, function (Faker\Generator $faker) {
     $content = $faker->paragraphs(6, true);
 
     return [
-        'title' => $faker->sentence,
+        'title' => $title,
         'content' => $content,
         'searchable' => strip_tags($content),
         'summary' => $content,
         'publish_date' => $faker->date($format = 'Y-m-d', $max = 'now'),
         'published' => 1,
-        'direct_link' => str_replace(" ", "-", $title),
+        'direct_link' => santize($title),
         'post_image' => $faker->imageUrl,
         'video' => 1,
         'video_url' => $faker->imageUrl,
@@ -63,10 +73,13 @@ $factory->define(App\Post::class, function (Faker\Generator $faker) {
  * FAQ Factory
  */
 $factory->define(App\Faq::class, function (Faker\Generator $faker) {
+    $sentence = $faker->sentence;
+
     return [
-        'question' => $faker->sentence,
+        'question' => $sentence,
         'answer' => $faker->paragraphs(3, true),
         "published" => $faker->numberBetween(0,1),
+        "direct_link" => santize($sentence),
         "stared" => $faker->numberBetween(0,1)
     ];
 });
@@ -85,7 +98,7 @@ $factory->define(App\Product::class, function (Faker\Generator $faker) {
         'searchable' => $desc,
         'price' => $faker->randomFloat(2, 0, 100),
         'product_image' => $faker->imageUrl(640, 480),
-        'direct_link' => str_replace(' ', '-', $title),
+        'direct_link' => santize($title),
         'published' => $faker->numberBetween(0, 1)
     ];
 });

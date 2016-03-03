@@ -39,9 +39,9 @@
 
 	
 	<!-- Scripts -->
-	<script src="{{ elixir('js/vendor.js') }}"></script>
-	<script src="{{ elixir('js/dashboard.js') }}"></script>
-	<script src="/assets/js/vendor/redactor.min.js"></script>
+	<script src="/js/vendor.min.js"></script>
+  	<script src="/js/dashboard.min.js"></script>
+	<script src="/js/redactor.min.js"></script>
 	
 	@include('layouts.admin.partials.flash')
 	

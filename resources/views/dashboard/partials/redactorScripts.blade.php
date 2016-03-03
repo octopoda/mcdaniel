@@ -1,6 +1,7 @@
-<script src="/assets/js/vendor/redactor.source.js"></script>
-<script src="/assets/js/vendor/redactor.video.js"></script>
-<script src="/assets/js/vendor/redactor.clips.js"></script>
+<script src="/js/plugins/redactor.source.js"></script>
+<script src="/js/plugins/redactor.video.js"></script>
+<script src="/js/plugins/redactor.clips.js"></script>
+
 <script>
 $(function() {
     $('.redactor').redactor({

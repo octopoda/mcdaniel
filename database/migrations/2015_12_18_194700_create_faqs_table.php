@@ -18,6 +18,7 @@ class CreateFaqsTable extends Migration
             $table->text('answer');
             $table->boolean('published')->index();
             $table->tinyInteger('stared')->index();
+            $table->string('direct_link')->index();
             $table->timestamps();
         });
     }

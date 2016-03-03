@@ -46,7 +46,7 @@
   <meta name="msapplication-square310x310logo" content="images/icons/large.jpg"/>
 	
   <!-- CSS: implied media="all" -->
-  <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
+  <link rel="stylesheet" href="/css/app.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link href='https://fonts.googleapis.com/css?family=Merriweather:400,700|Lora|Material+Icons' rel='stylesheet' type='text/css'>
 
@@ -76,8 +76,8 @@
   </section>
   
 
-  <script src="{{ elixir('js/vendor.js') }}"></script>
-  <script src="{{ elixir('js/app.js') }}"></script>
+  <script src="/js/vendor.min.js"></script>
+  <script src="/js/app.min.js"></script>
   @yield('extra-scripts');
 
 

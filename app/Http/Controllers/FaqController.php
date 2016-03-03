@@ -154,8 +154,8 @@ class FaqController extends Controller
      * @param  [string] $query 
      * @return [JSON]
      */
-    public function searchFaqs($query) {
-        $faqs = $this->faq->pushCriteria(new SearchFAQs($query))->all();
+    public function searchFaqs(Request $request) {
+        $faqs = $this->faq->pushCriteria(new SearchFAQs($request->get('query')))->all();
         return $faqs;
     }
 

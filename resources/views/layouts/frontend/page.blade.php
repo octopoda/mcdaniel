@@ -46,22 +46,21 @@
   <meta name="msapplication-square310x310logo" content="images/icons/large.jpg"/>
 	
   <!-- CSS: implied media="all" -->
-  <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
+  <link rel="stylesheet" href="/css/app.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link href='https://fonts.googleapis.com/css?family=Merriweather:400,700|Lora|Material+Icons' rel='stylesheet' type='text/css'>
 
-
-
-
-  
-  <!--[if lt IE 9]>
+<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
-  <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+
 </head>
 
 <body>
-  <section class="body">
+  @include('layouts.frontend.partials.contact-modal')
+  
+  <section>
       <header class="navigation">
          @include('layouts.frontend.partials.navigation')
       </header>
@@ -77,9 +76,10 @@
 
   
 
-  <script src="{{ elixir('js/vendor.js') }}"></script>
-  <script src="{{ elixir('js/app.js') }}"></script>
-  @yield('extra-scripts');
+  <script src="/js/vendor.min.js"></script>
+  <script src="/js/app.min.js"></script>
+  
+  @yield('extra-scripts')
 
   
 </body>

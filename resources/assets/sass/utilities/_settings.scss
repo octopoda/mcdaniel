@@ -78,6 +78,8 @@ $sidebar-cubic: cubic-bezier(.91,.01,.6,.99);
 
 $base-font-size: 16;
 
+
+
 /**
  * Media Queries
  * @params  {int}  all numbers set in pixels
@@ -146,6 +148,9 @@ $body-font-family: 'Lora', serif;
 |
 */
 
+$menu-height: rem-calc(65);
+
+
 /*** Colors ***/
 $primary-color: $green !default;
 $primary-color-light: lighten($primary-color, 15%) !default;
@@ -176,7 +181,7 @@ $button-line-height: 36px !default;
 /*** Cards ***/
 $card-padding: 20px !default;
 $card-bg-color: #fff !default;
-$card-link-color: $orange !default;
+$card-link-color: $secondary-color !default;
 $card-link-color-light: lighten($card-link-color, 20%) !default;
 
 /*** Collapsible ***/
@@ -199,7 +204,7 @@ $datepicker-selected-outfocus: desaturate(lighten($secondary-color, 35%), 15%) !
 $dropdown-bg-color: $white !default;
 $dropdown-hover-bg-color: $gray-lightest !default;
 $dropdown-color: $black !default;
-$dropdown-item-height: 50px !default;
+$dropdown-item-height: rem-calc(50) !default;
 
 /*** Fonts ***/
 $roboto-font-path: "../font/roboto/" !default;

@@ -217,7 +217,12 @@ class PostController extends Controller
      */
     public function postByNumber($number) {
         $posts = $this->post->pushCriteria(new AscendingOrder())->paginate($number);
-        return compact('posts');
+        foreach ($posts as $post) {
+            $ex= explode(' ', $post->blog->user->name);
+            $letters = strtoupper(substr($ex[0], 0, 1) . substr($ex[1], 0, 1));
+            $post->author = $letters;
+        }
+        return $posts;
     }
 
 

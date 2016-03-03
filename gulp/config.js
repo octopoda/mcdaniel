@@ -5,15 +5,13 @@ var gutil = require('gulp-util');
  * @type {object}
  */
 exports.paths = {
-	css: './resources/assets/sass/',
-	js: './resources/assets/js/site',
-  dashboard: './resources/assets/js/dashboard',
-	fonts: './resources/assets/fonts/',
-	images: './resources/assets/images/',
-	min: 'public',
-  templates: './resources/assets/templates',
-	videos: './resources/assets/videos',
-	views: './resources/views'
+  css: './resources/assets/sass/',
+  js: './resources/assets/js/',
+  fonts: './resources/assets/fonts/',
+  images: './resources/assets/images/',
+  min: 'public',
+  videos: './resources/assets/videos/',
+  views: './resources/views/'
 
 };
 
@@ -22,17 +20,17 @@ exports.paths = {
  * Bower Folder
  */
 exports.bower = {
-	directory: './resources/components'
+  directory: './resources/components/'
 };
 
 exports.amazon =  {
-	 "key": "AKIAI7J5UIPZYQF64CGA",
-	 "secret": "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",
-     "bucket": "mcdaniel-test",
+   "key": "AKIAI7J5UIPZYQF64CGA",
+   "secret": "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",
+   "bucket": "mcdaniel-staging",
 }
 
 exports.sitemap = {
-	url: 'https://mcdanielnutrition.com/sitemap.xml'
+  url: 'https://assetbuilder.com/sitemap.xml'
 }
 
 

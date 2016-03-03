@@ -1,14 +1,10 @@
 @extends('layouts.frontend.page')
 
 @section('content')
-	<div class="row>"
-		<h3>{{ $faq->question }}</h3>
-	</div>
-	
-	<div class="row">
-		{!! $faq->answer !!}
-	</div>
-
-	
+	<section class="container">
+		<div class="row">
+			<h4></h4>		
+		</div>
+	</section>
 
 @endsection

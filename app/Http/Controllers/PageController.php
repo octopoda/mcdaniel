@@ -34,18 +34,44 @@ class PageController extends Controller
     }
 
 
-
-    public function patients() {
-    	return view('pages.patients');
-    }
-
-
     public function corporate() {
     	return view('pages.corporate');
     }
 
     public function about() {
     	return view('pages.about');
+    }
+
+
+    public function weightLoss() {
+        return view('pages.individual.weightloss');
+    }
+
+
+    public function sports() {
+        return view('pages.individual.sports');
+    }
+
+
+    public function maternal() {
+        return view('pages.individual.maternal');
+    }
+
+
+    public function sustain() {
+        return view('pages.corporate.sustain');
+    }
+
+    public function lunch() {
+        return view('pages.corporate.lunch');
+    }
+
+    public function teach() {
+        return view('pages.corporate.teach');
+    }
+
+    public function webinars() {
+        return view('pages.coporate.webinars');
     }
 }
 

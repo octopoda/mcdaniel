@@ -27,7 +27,7 @@ function browserSyncInit(baseDir, browser) {
     startPath: '/',
     browser: browser,
     proxy: 'http://mcdaniel.app/',
-    reloadDelay: 500
+    reloadDelay: 1000
   });
 }
 

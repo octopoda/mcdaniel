@@ -15,14 +15,6 @@ var gulp = require('gulp');
 var conf = require('./config');
 var merge = require('merge-stream');
 
-//Browserify shit.
-var browserify = require('browserify');
-var watchify = require('watchify');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
-var babel = require('babelify');
-var pathmod = require('pathmodify');
-
 var browserSync = require('browser-sync');
 var plugins = require('gulp-load-plugins')({
    pattern: ['gulp-*', 'main-bower-files', 'del']
@@ -38,108 +30,71 @@ var plugins = require('gulp-load-plugins')({
 |
 */
 
-
-
-
 gulp.task('vendor', function () {
-      return gulp.src(plugins.mainBowerFiles(), { base: conf.bower.directory })
-        .pipe(plugins.filter('**/*.js'))
+      return gulp.src([
+            path.join(conf.bower.directory, 'jquery/dist/jquery.js'),
+            path.join(conf.bower.directory, 'jquery-touch-events/src/1.0.1/jquery.mobile-events.js'),
+            path.join(conf.bower.directory, 'jquery-ujs/src/rails.js'),
+            path.join(conf.bower.directory, 'jquery/moment/src/moment.js'),
+            path.join(conf.bower.directory, 'materialize/dist/js/materialize.js'),
+            path.join(conf.bower.directory, 'mustache.js/mustache.js')
+        ])
         .pipe(plugins.chmod(666))
         .pipe(plugins.flatten())
-        .pipe(plugins.uglify({
-          mangleNames: false
-        })).on('error',  conf.errorHandler('Uglify Vendor'))
-        .pipe(plugins.concat('vendor-file.js'))
-        .pipe(gulp.dest(path.join(conf.paths.min, '/assets/js/vendor')));
+        // .pipe(plugins.uglify({
+        //   mangleNames: false
+        // })).on('error',  conf.errorHandler('Uglify Vendor'))
+        .pipe(plugins.concat('vendor.min.js'))
+        .pipe(gulp.dest(path.join(conf.paths.min, '/js')));
 });
 
 
-gulp.task('scripts', function () {
+gulp.task('js', function () {
+  return gulp.src([
+      path.join(conf.paths.js, '/site/**/*.js')
+    ])
+    .pipe(plugins.chmod(755))
+    .pipe(plugins.flatten())
+    .pipe(plugins.sourcemaps.init())
+    // .pipe(plugins.uglify()).on('error', conf.errorHandler('compiling site Script Files'))
+    .pipe(plugins.concat('app.min.js'))
+    .pipe(plugins.sourcemaps.write())
+    .pipe(gulp.dest(path.join(conf.paths.min, '/js')))
+});
+
+
+gulp.task('js-dashboard', function () {
+  return gulp.src([
+      path.join(conf.paths.js, '/dashboard/**/*.js')
+    ])
+    .pipe(plugins.chmod(755))
+    .pipe(plugins.flatten())
+    .pipe(plugins.sourcemaps.init())
+    .pipe(plugins.uglify()).on('error', conf.errorHandler('compiling dashboard script Files'))
+    .pipe(plugins.concat('dashboard.min.js'))
+    .pipe(plugins.sourcemaps.write())
+    .pipe(gulp.dest(path.join(conf.paths.min, '/js')))
+});
+
+
+
+gulp.task('templates', function () {
     return gulp.src([
-        path.join(conf.paths.js, '**/*.js'),
-        path.join('!' + conf.paths.js, '**/*.spec.js'),
-        path.join('!' + conf.paths.js, '**/*.mock.js')
-      ])
-      .pipe(plugins.chmod(755))
-      .pipe(plugins.babel({
-            presets: ['es2015']
-        }))
-      .pipe(plugins.jshint()).on('error',  conf.errorHandler('Scripts'))
-      .pipe(plugins.concat('app.js'))
-      .pipe(gulp.dest(path.join(conf.paths.min, '/tmp')));
-});
-
-
-
-// gulp.task('dashboard-scripts', function () {
-
-
-//     return gulp.src([
-//         path.join(conf.paths.dashboard, '**/*.js'),
-//         path.join('!' + conf.paths.dashboard, '**/*.spec.js'),
-//         path.join('!' + conf.paths.dashboard, '**/*.mock.js')
-//       ])
-      
-      
-//       // .pipe(plugins.babel({
-//       //       presets: ['es2015']
-//       // })).on('error',  conf.errorHandler('Dashboard Babel'))
-//       .pipe(browserify().bundle().on('error', conf.errorHandler('Dashboard')))
-//       .pipe(source('dashboard.js'))
-      
-//     //   // .pipe(plugins.jshint()).on('error',  conf.errorHandler('Dashboard JsHINE'))
-      
-//     //   .pipe(browserified)
-//     //   .pipe(plugins.concat('dashboard.js'))
-//       .pipe(gulp.dest(path.join(conf.paths.min, '/assets/js')));
-// });
-
-
-
-
-function compile(filename, newName, watch) {
-    var bundler = watchify(
-      browserify(filename, { 
-        debug: true 
-      })
-      .transform(babel)
-      .plugin(pathmod(),  {
-        mods: [
-          pathmod.mod.dir('<name>', '<abs-path-to-directory>'),
-        ]
-      })
-    );
-
-    function rebundle () {
-      bundler.bundle()
-        .on('error', conf.errorHandler('Broswerify Compile'))
-        .pipe(source(newName))
-        .pipe(buffer())
-        .pipe(gulp.dest(path.join(conf.paths.min, '/assets/js')));
-    }
-
-    if (watch) {
-      bundler.on('update', function() {
-        console.log('-> bundling...');
-        rebundle();
-      });
-    }
-
-    rebundle();
-}
-
-
-function watch(filename, newName) {
-  return compile(filename, newName, true);
-}
-
-function bundle(filename, newName) {
-  return compile(filename, newName, false);
-}
-
-gulp.task('dashboard-scripts', function () {
-  return watch(path.join(conf.paths.dashboard, 'dashboard.js'), 'dashboard.js');
+        path.join(conf.paths.js, '/site/templates/**/*.mst')
+    ])
+    .pipe(plugins.minifyHtml())
+    .pipe(gulp.dest(path.join(conf.paths.min, '/js/templates/')))
 })
 
 
+/**
+ * Build the scripts and send them to S3
+*/
+// gulp.task('build-scripts', ['vendor', 'js', 'js-dashboard'], function () {
+//       .pipe(plugins.concat('app.min.js'))
+//       .pipe(plugins.uglify()).on('error', conf.errorHandler('Building Script Files'))
+//       .pipe(plugins.gzip())
+//       .pipe(plugins.s3(conf.amazon, conf.awsOptions('scripts'))).on('error', conf.errorHandler('Uploading Scripts'))
+//       .pipe(gulp.dest(path.join(conf.paths.min, '/assets/scripts')));
+// });
 

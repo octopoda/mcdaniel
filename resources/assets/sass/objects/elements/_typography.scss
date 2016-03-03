@@ -28,6 +28,11 @@ h2 {
 
 h3 {
 	font-size:rem-calc(20);
+	
+	&.underlined {
+		border-bottom:1px solid $gray-light;
+		padding-bottom:rem-calc(10);
+	}
 }
 
 h4 {
@@ -54,5 +59,11 @@ ul  {
 		list-style:disc;
 		margin-left:rem-calc(20);
 		margin-top:rem-calc(8);
+	}
+
+	&.no-bullet {
+		li {
+			list-style:none;
+		}
 	}
 }

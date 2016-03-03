@@ -8,20 +8,17 @@
 (function ($) {	
   $(document).ready(function() {
 
-    //Open Menu on Mobild
+    //Open Menu on Mobile
     $('#openMenu').on('tap click', function (e) {
-        console.dir(e);
-        e.preventDefault();
-        $('#sideMenu').addClass('active');
-    })
-
-    $('')
+      e.preventDefault();
+      $('#sideMenu').addClass('active');
+    });
 
     //Close Menu on Mobile
     $('#menu-close-button').on('tap click', function (e) {
         e.preventDefault();
         $('#sideMenu').removeClass('active');
-    })
+    });
 
 
     //Add Fixed menu on Scroll  

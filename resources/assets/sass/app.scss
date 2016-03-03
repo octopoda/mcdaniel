@@ -7,26 +7,27 @@ $dev: true !default;
 
 @import 'utilities/functions';
 @import 'utilities/settings';
-
-@import 'materialize.scss';
-@import 'dashboard/redactor/redactor';
-
-
-/** Not in Alphabetical Order because of load order */
 @import 'utilities/mixins';
 @import 'utilities/placeholders';
 @import 'utilities/animation';
 @import 'utilities/helpers';
 
 
+@import 'materialize.scss';
+@import 'dashboard/redactor/redactor';
+
+
+/** Not in Alphabetical Order because of load order */
+
+
+
 //Elements
-@import 'objects/elements/typography';
 @import 'objects/elements/buttons';
+@import 'objects/elements/typography';
 
 
 //objects
 @import 'objects/layouts/sitewide';
-
 @import 'objects/layouts/footer';
 @import 'objects/layouts/full-screen-fixed';
 @import 'objects/layouts/navigation';
@@ -39,3 +40,4 @@ $dev: true !default;
 //Pages 
 @import 'pages/index';
 @import 'pages/article';
+@import 'pages/faqs';
