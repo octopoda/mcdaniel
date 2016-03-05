@@ -22,6 +22,7 @@
     "jquery-ujs": "~1.2.0",
     "jquery-touch-events": "~1.0.1",
     "jquery": "~2.2.1",
-    "mustache.js": "mustache#~2.2.1"
+    "mustache.js": "mustache#~2.2.1",
+    "css-hamburgers": "~0.2.0"
   }
 }

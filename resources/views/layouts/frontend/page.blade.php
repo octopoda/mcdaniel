@@ -61,11 +61,11 @@
   @include('layouts.frontend.partials.contact-modal')
   
   <section>
-      <header class="navigation">
+      <header>
          @include('layouts.frontend.partials.navigation')
       </header>
       
-      <main class="sitewide_content_wrapper">
+      <main class="sitewide_content_wrapper" id="contentWrapper">
             @yield('content')
       </main>
 

@@ -1,300 +1,14 @@
-
-
-body {
-	margin-top:$menu-height;
-	
-	@include breakpoint('tablet') {
-		margin-top:auto;
-	}
-}
-
-
-.navigation {
-	position: fixed;
-	height:rem-calc(65);
-	width:100%;
-	background:$white;
-	top:0;
-	box-shadow:0 0 3px rgba($black, 0.4);
-	margin-bottom:rem-calc(80);
-
-	@include breakpoint('tablet') {
-		background:none;
-		height:auto;
-		position: relative;
-		width:95%;
-		margin:auto;
-		box-shadow:none;
-	}
-
-	@include breakpoint('laptop') {
-		width:95%;
-	}
-
-	@include breakpoint('desktop') {
-		width:80%;
-		
-	}
-}
-
-
-
-.navigation__quick-nav {
-	.menu-button {
-		display: inline-block;
-		margin-top:rem-calc(15);
-		margin-left:rem-calc(20);
-	}
-
-
-	.btn-flatten {
-		float:right;
-		padding:rem-calc(5) rem-calc(10);
-		border:1px solid $green;
-		font-style: italic;
-		font-family:$body-font-family;
-		margin-right:rem-calc(10);
-		margin-top:rem-calc(12);
-	}
-
-	@include breakpoint('tablet') {
-		.menu-button {
-			display:none;
-		}	
-
-		.btn-flatten {
-			float:right;
-			padding:rem-calc(8) rem-calc(12);
-			border:1px solid $green;
-			margin-right:rem-calc(10);
-			margin-top:rem-calc(10);
-		}
-	}
-}
-
-.navigation__logo {
-	position: fixed;
-	top:2%;
-	left:0;
-	right:0;
-	width:90px;
-	
-	.logo {
-		width:90px;
-		height:rem-calc(40);
-	}
-
-	@include breakpoint('tablet') {
-		position: relative;
-		margin-top:rem-calc(-40);
-		
-		.logo {
-			height:rem-calc(80);
-		}
-	}
-}
-
-.navigation__menu {
-	display:none;
-	box-shadow:none;
-
-	@include breakpoint('tablet') {
-		display:block;
-		background:none;
-		position: relative;
-		top:auto;
-		left:auto;
-		height:auto;
-		border-bottom:2px solid $green;
-		text-align: center;
-		@include clearfix;
-		@include translateX(0);
-
-		.dropdown-button:after {
-			font-family: 'Material Icons';
-			content: "keyboard_arrow_down";
-			position: relative;
-			top:rem-calc(2);
-			margin-left:rem-calc(5);
-			-webkit-font-feature-settings: 'liga';
-		}
-
-	
-		.dropdown-content {
-			display:block;
-			@include clearMP;
-			width:auto !important;
-			
-			li {
-				@include clearMP;
-
-				&:hover {
-			
-					a {
-						color:$white;
-					}
-				}
-			}
-		}
-	}
-}
-
-
-	
-
-
-
-.navigation__menu  li {
-	float:none !important;
-	display: block;
-	font-size:rem-calc(18);
-	@include transition(transform $cubic 0.8s);
-
-	a {
-		color:$white;
-	}
-
-
-	@include breakpoint('tablet') {
-		display: inline-block;
-		font-size:rem-calc(16);
-
-		a {
-			color:$black;
-		}
-	}
-}
-
-
-
-.navigation__side-menu {
-	box-shadow:none;
-	position: fixed;
-	left:0;
-	top:0;
-	height:100vh;
-	background:rgba($secondary-color, 0.8);
-	width:100%;
-	z-index:$z-layer-range-10;
-	@include transition(transform $sidebar-cubic 0.4s);
-	@include translateX(-100%);
-	
-	overflow:scroll;
-	overflow-scrolling:touch;
-
-
-
-	&--close-button {
-		position: absolute;
-		top:2%; 
-		right:5%;
-	}
-
-	.logo {
-		margin-left:rem-calc(17);
-	}
-
-	&.active {
-		@include translateX(0);
-	}
-
-
-	li {
-		float:none !important;
-		display:block;
-		font-size:rem-calc(22);
-	}
-
-
-	a {
-		color:$white;
-	}
-	
-	@include breakpoint('tablet') {
-		padding-top:rem-calc(10);
-		width:30%;
-	}
-
-	@include breakpoint('laptop') {
-		padding-top:rem-calc(20);
-		width:20%;
-	}
-}
-
 /*
 |--------------------------------------------------------------------------
-| Fixed Position Navigation
+| Attribute and Animations
 |--------------------------------------------------------------------------
 |
 |
 */
 
-body.nav-fixed {
-	margin-top:$menu-height
-}
-
-.navigation.fixed {
-	@include breakpoint('tablet') {
-		position: fixed;
-		top:0;
-		left:0;
-		width:100%;	
-		height:$menu-height;
-		box-shadow:0 0 3px rgba($black, 0.6);
-		background:$white;
-		@include transition(transform ease-in 0.2s);
-		@include translateY(-100%);
-		z-index:$z-layer-range-10;
-
-		&.active {
-			@include translateY(0);
-		}
-
-
-		.navigation__quick-nav {
-			padding-right:rem-calc(20);
-			padding-left:rem-calc(20);
-			
-			
-			.menu-button { 
-				display:block; 
-				float:left;
-				margin-top:rem-calc(18);
-			}
-		}
-
-	
-
-		.navigation__menu  {
-			border-bottom: none;
-
-			ul {
-				display: none;
-			}
-		}
-
-		.navigation__logo {
-			position: fixed;
-			width:rem-calc(90);
-			margin-top:rem-calc(0);
-
-			.logo {
-				width:90px;
-				height:rem-calc(40);
-			}
-		}
-	}
-	
-}
-
-
-// 		-webkit-animation-name: navTopDown;
-//  	-webkit-animation-duration:1s;
-//  	-webkit-animation-delay:0.2s;
-//  	-webkit-animation-iteration-count: 1;
-//  	-webkit-animation-timing-function:$cubic;
-//  	-webkit-animation-fill-mode: forwards;
-
+$nav-length-phone: 80%;
+$nav-length-tablet: 85%;
+$nav-length-laptop: 70%;
 
 @keyframes navTopDown {
 	0% {
@@ -304,3 +18,380 @@ body.nav-fixed {
 		@include translateY(0);
 	}
 }
+
+/*
+|--------------------------------------------------------------------------
+| Overall Body Changes
+|--------------------------------------------------------------------------
+|
+| Description 1
+|  Description 2
+| 
+|
+*/
+body.nav-open {
+	position: fixed;
+	height:100%;
+	width:100%;
+	overflow:hidden;
+
+	@include breakpoint('tablet') {
+		position: inherit;
+		height:auto;
+		width:auto;
+		overflow:visible;
+
+	}
+}
+
+body.nav-fixed {
+	//margin-top:$menu-height;
+}
+
+
+//Reset some shitty stuff. 
+nav {
+	box-shadow:none !important;
+
+	ul {
+		@include clearMP;
+	}
+
+	li {
+		@include clearMP;
+		list-style:none;
+	}
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Quick Navigation
+|--------------------------------------------------------------------------
+|
+|
+*/
+.quick-navigation {
+	
+	@include breakpoint('tablet') {
+		margin:auto;
+		width: $nav-length-tablet;
+	}
+
+	@include breakpoint('laptop') {
+		margin:auto;
+		width:$nav-length-laptop;
+	}
+}
+
+
+.quick-navigation__logo {
+	margin-top:rem-calc(50);
+	margin-bottom:rem-calc(-50);
+
+	@include breakpoint('tablet') {
+		margin-top:rem-calc(90);
+		margin-bottom:rem-calc(30);
+	}
+
+}
+
+
+.quick-navigation__started {
+	display: none;
+
+	@include breakpoint('tablet') {
+		display: block;
+		float:right;
+		margin-right:rem-calc(40);
+		margin-top:rem-calc(-150);
+	}
+}
+
+
+.hamburger {
+	position: fixed;
+	top:2%;
+	right:2%;
+	z-index:99999;
+	
+	@include breakpoint('tablet') {
+		display: none;
+
+		.nav-fixed & {
+			display: block;
+			top:1%;	
+			@include translateY(-100%);
+		}
+	}
+}
+
+.in-view .hamburger {
+	-webkit-animation-name: navTopDown;
+ 	-webkit-animation-duration:0.4s;
+ 	-webkit-animation-delay:0s;
+ 	-webkit-animation-iteration-count: 1;
+ 	-webkit-animation-timing-function:$cubic;
+ 	-webkit-animation-fill-mode: forwards;
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Main Navigation
+|--------------------------------------------------------------------------
+|
+| 
+|
+*/
+
+
+
+
+//Modal for Phone
+.navigation__modal {
+	&.is-active {
+		position: fixed;
+		top:0;
+		left:0;
+		height:100%;
+		width:100%;
+		background:rgba($black, 0.6);
+	}
+}
+
+
+
+
+//Main Navigation
+.main-navigation {
+	background:$white;
+	box-shadow: 10px 0px 3px rgba($black, 0.3);
+	width:$nav-length-phone;
+	position: fixed;
+	top:0;
+	height:100vh;
+	overflow:scroll;
+	-webkit-overflow-scrolling:touch;
+	z-index:$z-layer-range-10;
+	
+	@include transition(transform $sidebar-cubic 0.4s);
+	@include translateX(-100%);
+
+	&.is-active {
+		@include translateX(0);
+	}
+	
+	li {
+		display:block;
+		width:100%;
+		float:none;
+
+		a {
+			width:100%;
+			padding-top:rem-calc(10);
+			padding-bottom:rem-calc(10);
+		}
+	}
+}
+
+
+//Tablet and Up
+@include breakpoint('tablet') {
+	.main-navigation {
+		@include translateX(0);
+		box-shadow:none;
+		text-align: center;
+		background:none;
+		position: relative;
+		width:$nav-length-tablet;
+		height:auto;
+		margin:0 auto;
+		overflow:visible;
+		
+		> ul {
+			border-bottom: rem-calc(2) solid $green;	
+			@include clearfix;
+			list-style-type:none;
+			text-align: center;
+		}
+
+		> ul > li {
+			display:inline-block;	
+			width:auto;
+			> a:hover {
+				background:none;
+			}
+		}
+
+	}
+
+
+	.main-navigation.fixed {
+		position: fixed;
+		width:100%;
+		background:rgba($white, 0.9);
+		box-shadow:0 0 3px rgba($black, 0.3);
+		border-bottom:1px solid $gray-lightest;
+		@include translateY(-100%);
+		display: none;
+
+		> ul {
+			border:none;
+			text-align: left;
+			@include clearMP;
+			@include transition(transform $sidebar-cubic 0.4s);
+			@include translateX(100%);
+
+			> li:first-child {
+				margin-left:rem-calc(-50);
+			}
+		}
+
+		.main-navigation__logo {
+			@include transition(opacity $sidebar-cubic 0.4s);
+			opacity:1;
+		}
+
+		.main-navigation__started {
+			@include transition(opacity $sidebar-cubic 0.4s);
+			opacity:1;
+		}
+
+
+		&.is-active {
+			.main-navigation__logo, .main-navigation__started {
+				opacity:0;
+			}
+
+
+			ul {
+				@include translateY(0);
+			}
+		}
+
+		&.in-view {
+			display: block;
+			-webkit-animation-name: navTopDown;
+		 	-webkit-animation-duration:0.4s;
+		 	-webkit-animation-delay:0s;
+		 	-webkit-animation-iteration-count: 1;
+		 	-webkit-animation-timing-function:$cubic;
+		 	-webkit-animation-fill-mode: forwards;
+		}
+	}
+}
+
+
+
+@include breakpoint('laptop') {
+	.main-navigation {
+		width:$nav-length-laptop;
+	}
+}
+
+
+
+
+
+//Logo for Phone
+.main-navigation__logo .logo {
+	background-position:top left;
+	margin-bottom:rem-calc(10);
+	margin-left:rem-calc(10);
+
+	@include breakpoint('tablet') {
+		display: none;
+
+		.fixed & {
+			display: block;
+			float:left;
+			height:rem-calc(50);
+			width:rem-calc(80);
+			margin-top:rem-calc(14);	
+			margin-left:rem-calc(10);
+		}
+	}
+}
+
+
+.main-navigation__started {
+	width:auto !important;
+	margin-left:rem-calc(11);
+	
+	@include breakpoint('tablet') {
+		display: none;
+		
+		.fixed & {
+			position: absolute;
+			right:0;
+			margin-right:rem-calc(120);
+			display: block;
+		}
+	}
+}
+
+
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Dropdowns
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+
+//Add arrow after dropdown
+.Dropdown__trigger {
+	&:after {
+		font-family: 'Material Icons';
+		content: "keyboard_arrow_down";
+		position: relative;
+		top:rem-calc(2);
+		margin-left:rem-calc(5);
+		-webkit-font-feature-settings: 'liga';	
+	}
+
+	@include breakpoint('tablet') {
+		marging-top:rem-calc(-10);
+	}
+	
+}
+
+
+//Dropdown Boxes.  
+.Dropdown__content {
+	display:none; 
+
+	li {
+		a {
+			display: block;
+			padding-left:rem-calc(30);
+		}
+	}
+
+
+	@include breakpoint('tablet') {
+		position: absolute;
+		background:$white;
+		box-shadow: 0 2px rem-calc(3) rgba($black, 0.4);
+		// margin-top:rem-calc(12);
+
+		li {
+			display: block;
+			width:100%;
+			text-align: left;
+			border-bottom:1px solid $gray-lightest;
+		}
+	}
+}
+
+
+
+
+

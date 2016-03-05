@@ -148,8 +148,6 @@ $body-font-family: 'Lora', serif;
 |
 */
 
-$menu-height: rem-calc(65);
-
 
 /*** Colors ***/
 $primary-color: $green !default;
@@ -160,6 +158,28 @@ $secondary-color: $orange !default;
 $success-color: $success !default;
 $error-color: $error !default;
 $link-color: $green !default;
+
+
+/**  Navigatoni */
+$menu-height: rem-calc(65);
+$hamburger-padding-x: 15px !default;
+$hamburger-padding-y: 15px !default;
+$hamburger-layer-width: 30px !default;
+$hamburger-layer-height: 4px !default;
+$hamburger-layer-spacing: 6px !default;
+$hamburger-layer-color: $primary-color !default;
+$hamburger-layer-border-radius: 4px !default;
+$hamburger-hover-opacity: 0.7 !default;
+$hamburger-hover-transition-duration: 0.15s !default;
+$hamburger-hover-transition-timing-function: linear !default;
+
+// To use CSS filters as the hover effect instead of opacity,
+// set $hamburger-hover-use-filter as true and
+// change the value of $hamburger-hover-filter accordingly.
+$hamburger-hover-use-filter: false !default;
+$hamburger-hover-filter: opacity(50%) !default;
+
+
 
 /*** Badges ***/
 $badge-bg-color: $secondary-color !default;
@@ -202,9 +222,9 @@ $datepicker-selected-outfocus: desaturate(lighten($secondary-color, 35%), 15%) !
 
 /*** Dropdown ***/
 $dropdown-bg-color: $white !default;
-$dropdown-hover-bg-color: $gray-lightest !default;
+$dropdown-hover-bg-color: $green-lightest !default;
 $dropdown-color: $black !default;
-$dropdown-item-height: rem-calc(50) !default;
+$dropdown-item-height:auto !default;
 
 /*** Fonts ***/
 $roboto-font-path: "../font/roboto/" !default;
