@@ -18,6 +18,7 @@ class Post extends Model
     protected $fillable = ['title', 'content', 'searchable', 'summary', 'publish_date', 'published', 'post_image', 'video', 'video_url', 'blog_id', 'direct_link', 'post_type'];
 
 
+
     /**
      * Define One to One relationship with Blog
      * @return
@@ -52,7 +53,7 @@ class Post extends Model
     protected static function boot()
     {
         static::saving(function ($model) {
-            $model->direct_link = $model->santize($model->title);
+            $model->direct_link = $model->sanitize($model->title);
             $model->searchable = strip_tags($model->content);
         });
     }
@@ -78,20 +79,9 @@ class Post extends Model
 
   
    protected function getPostTypeAttributes($value) {
-        switch($value) { 
-            case 1: 
-                return 'Nutrition 101';
-                break;
-            case 2: 
-                return 'Recipes';
-                break;
-            case 3: 
-                return "Lastest Nutrition Info";
-                break;
-            case 4: 
-                return "Personal";
-                break;
-        }
+        
+        dd($this->postTypes);
+        return $this->postTypes[$value];
    }
 
 }

@@ -118,6 +118,11 @@ textarea.materialize-textarea {
     opacity: 0;
     transition: .2s opacity ease-out, .2s color ease-out;
   }
+
+  &.filled {
+    background:$input-bg-color;
+    border-bottom:none;
+  }
 }
 
 // Styling for input field wrapper

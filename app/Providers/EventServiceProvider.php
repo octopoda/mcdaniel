@@ -5,6 +5,9 @@ namespace App\Providers;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
+use App\Events\ContactFormSubmitted;
+use App\Listeners\EmailAdminContactForm;
+
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -13,9 +16,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\SomeEvent' => [
-            'App\Listeners\EventListener',
-        ],
+        ContactFormSubmitted::class => [
+            EmailAdminContactForm::class
+        ]
     ];
 
     /**

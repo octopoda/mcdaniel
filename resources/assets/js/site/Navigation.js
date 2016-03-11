@@ -66,23 +66,7 @@
       dropDropDown($(this).attr('data-dropdown'));
     });
 
-    $('.Dropdown__trigger').on('mouseover', function (e) {
-      var dropdown = $(this).attr('data-dropdown')
-      dropDropDown(dropdown);
-
-      $('#' + dropdown).on('mouseleave', function () {
-        dropDropDown(dropdown);
-      })
-    });
-
-    
-
-
-    
-    
-
-    
-
+ 
     /**
      * Drop the Dropdown
      * @param  {string} attr 
@@ -112,25 +96,24 @@
     $(document).scroll(function (e) {
       var y = $(this).scrollTop();  
       var navigationOffset = $('#contentWrapper').position().top;
+      
+      var glued = $('#navigation').hasClass('glued');
+      var fixed = $('#navigation').hasClass('fixed');
 
-      if (y > navigationOffset-0) {
+      if (y > navigationOffset-0 && !glued) {
         $('#navigation').addClass('fixed');
         $('body').addClass('nav-fixed');
-      } else {
+      } else if (!glued) {
         $('#navigation').removeClass('fixed');
         $('body').removeClass('nav-fixed');
       }
 
-      if (y > lastScrollTop) {
-        //downward Scroll
+      if (y > lastScrollTop && fixed && !glued) {   //downward Scroll
         $('#navigation').removeClass('in-view');  
         $('#quickNavigation').removeClass('in-view')
-      } else {
-        //updward scroll
-        if ($('#navigation').hasClass('fixed')) {
-            $('#navigation').addClass('in-view');
-            $('#quickNavigation').addClass('in-view');
-        }
+      } else if (!glued) { //updward scroll
+        $('#navigation').addClass('in-view');
+        $('#quickNavigation').addClass('in-view');
       }
 
       lastScrollTop = y;

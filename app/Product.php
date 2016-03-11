@@ -26,7 +26,7 @@ class Product extends Model
     protected static function boot()
     {
         static::saving(function ($model) {
-            $model->direct_link = $model->santize($model->title);
+            $model->direct_link = $model->sanitize($model->title);
             $model->searchable = strip_tags($model->description);
         });
     }

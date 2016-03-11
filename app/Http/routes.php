@@ -74,6 +74,16 @@ Route::group(["prefix" => "api/v1"], function () {
 		'as' => 'allFAQsAPI',
 		'uses' => 'FaqController@staredFAQs'
 	]);
+
+	Route::post('/contact/formSubmit', [
+		"as" => 'ajaxFormSubmit',
+		"uses" => 'ContactController@create'
+	]);
+
+	Route::get('/fireContactEvent',  [
+		'as' => 'fireContactEvent',
+		"uses" => "AjaxController@fireEvent"
+	]);
 	
 	
 });
@@ -269,20 +279,13 @@ Route::group(['prefix' => 'store'], function () {
 
 
 
-//Home Route
-Route::get('/', [
-	"as" => "homeRoute",
-	"uses" => "PageController@home"
-]);
-
-
 /*
 |--------------------------------------------------------------------------
 | Indivdaul Routes
 |--------------------------------------------------------------------------
 |
 */
-Route::group(['prefix' => 'indivduals'], function () {
+Route::group(['prefix' => 'individuals'], function () {
 
 	Route::get('/weight-loss', [
 		'as' => 'weight-loss',
@@ -298,7 +301,43 @@ Route::group(['prefix' => 'indivduals'], function () {
 		'as' => 'maternal-nutrition',
 		"uses" => 'PageController@maternal'
 	]);
+
+	Route::get('/rmr-testing', [
+		"as" => "rmr",
+		"uses" => "PageController@rmr"
+	]);
 });
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+| About/Team Routes
+|--------------------------------------------------------------------------
+| 
+|
+*/
+
+Route::group(['prefix' => "about-mcdaniel-nutrition"], function () {
+	Route::get('/', [
+		"as" => "about",
+		"uses" => "PageController@about"
+	]);
+
+	Route::get('/jennifer-mcdaniel', [
+		"as" => "jennifer",
+		"uses" => "PageController@jennifer" 
+	]);
+
+	Route::get('/kayli-dice', [
+		"as" => "kayli",
+		"uses" => "PageController@kayli"
+	]);
+});
+
+
+
 
 
 /*
@@ -310,32 +349,62 @@ Route::group(['prefix' => 'indivduals'], function () {
 */
 
 Route::group(['prefix' => 'corporate-wellness'], function () {
-	Route::get('/sustain', [
-		'as' => 'sustain',
-		'uses' => 'PageController@sustain'
-	]);
-
-	Route::get('/lunch-and-learns', [
-		"as" => 'lunchAndLearn',
-		"uses" => "PageController@lunch"
-	]);
-
-	Route::get('/teach-and-tastes', [
-		"as" => "teachAndTaste",
-		"uses" => "PageController@taste"
-	]);
-
-	Route::get('/webinars', [
-		"as" => "webinars",
-		"uses" => "PageController@webinars"
+	Route::get('/',  [
+		"as" => "corporate",
+		"uses" => "PageController@corporate"
 	]);
 });
-	
 
 
-Route::get('/about-mcdaniel-nutrition', [
-	'as' => 'about',
-	'uses' => 'PageController@about'
+
+
+/*
+|--------------------------------------------------------------------------
+| Testing Routes
+|--------------------------------------------------------------------------
+| 
+|
+*/
+
+
+
+Route::group(['prefix' => 'testing',   'middleware'=>['auth']], function () {
+	Route::get('/contact-test', [
+		"as" => "contact-test",
+		"uses" => "ContactController@testContact"
+	]);
+
+	Route::post('/contact-test', [
+		"as" => "contact-test",
+		"uses" => "ContactController@store"
+	]);
+});
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Single Page Routes
+|--------------------------------------------------------------------------
+| 
+|
+*/	
+
+
+Route::get('/contact-mcdaniel-nutrition', [
+	"as" => "contact",
+	"uses" => "PageController@contact"
+]);
+
+Route::get('/get-started', [
+	"as" => "getStarted",
+	"uses" => "PageController@getStarted"
+]);
+
+Route::get('/', [
+	"as" => "homeRoute",
+	"uses" => "PageController@home"
 ]);
 
 

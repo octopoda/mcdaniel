@@ -11,14 +11,6 @@
 |
 */
 
-function santize($string) {
-    $strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]",
-                           "}", "\\", "|", ";", ":", "\"", "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;",
-                           "â€”", "â€“", ",", "<", ".", ">", "/", "?", ".", '©', '®', '℗');
-    $clean = trim(str_replace($strip, "", strip_tags($string)));
-    $clean = strtolower(preg_replace('/\s+/', "-", $clean));
-    return $clean;
- }
 
 
 /**
@@ -59,7 +51,7 @@ $factory->define(App\Post::class, function (Faker\Generator $faker) {
         'summary' => $content,
         'publish_date' => $faker->date($format = 'Y-m-d', $max = 'now'),
         'published' => 1,
-        'direct_link' => santize($title),
+        'direct_link' => str_replace(" ",  "-", $title),
         'post_image' => $faker->imageUrl,
         'video' => 1,
         'video_url' => $faker->imageUrl,
@@ -79,7 +71,7 @@ $factory->define(App\Faq::class, function (Faker\Generator $faker) {
         'question' => $sentence,
         'answer' => $faker->paragraphs(3, true),
         "published" => $faker->numberBetween(0,1),
-        "direct_link" => santize($sentence),
+        "direct_link" => str_replace(" ",  "-", $sentence),
         "stared" => $faker->numberBetween(0,1)
     ];
 });
@@ -98,7 +90,7 @@ $factory->define(App\Product::class, function (Faker\Generator $faker) {
         'searchable' => $desc,
         'price' => $faker->randomFloat(2, 0, 100),
         'product_image' => $faker->imageUrl(640, 480),
-        'direct_link' => santize($title),
+        'direct_link' => str_replace(" ",  "-", $title),
         'published' => $faker->numberBetween(0, 1)
     ];
 });

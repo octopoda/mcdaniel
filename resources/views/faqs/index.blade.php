@@ -1,20 +1,31 @@
-@extends('layouts.frontend.page')
+<?php
+$header = [
+	"title" => "Support Center  McDaniel Nutrition Therapy St Louis Missouri",
+	"description" => "Wnat to know more about our nutrition services. Frequently asked questions for McDaniel",
+	"Keywords" => "FAQS, Frequently Asked Questions,  St. Louis, Missouri, corporate wellness, weight loss management, sports nutrition, maternal nutrition, dietitian, consultation, nutritionist, speaking, media",
+	"fixed" => true
+	];
+
+?>
+
+
+@extends('layouts.frontend.page', compact('header'))
 
 @section('content')
-	<section class="faq__header container">
-		<div class="faq__header--text">
+	<section class="faq__header">
+		<div class="faq__header--text  container">
 			<h1>Support Center</h1>
 			<form id="faqSearch">
-				<input type="text" name="query" id="faqQuery">
+				<input type="text" name="query" id="faqQuery" class="filled">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 				<button><i class="material-icons">search</i></button>
 			</form>	
 		</div>
 	</section>
 	
-	<section class="container">
+	<div class="container">
 		<div class="row">
-			<div class="s12 m12 l8 col">
+			<section class="s12 m12 l8 col">
 				<h3 class="underlined">Popular Questions</h3>
 				
 				<ul class="collapsible faq__wrapper" id="faqQuestions">
@@ -25,21 +36,35 @@
 						</li>
 					@endforeach
 				</ul>
-			</div>
+			</section>
 
-			<div class="s12  m12 l4 col">
+			<section class="s12  m12 l4 col  faq__contact">
 				<h3 class="underlined">Get in Touch</h3>
 				
 				<ul class="no-bullet">
-					<li><i class="material-icons">email</i> Email Us</li>
-					<li><i class="material-icons">phone_iphone</i> Call Us</li>
+					<li><a href="#contactModal" class="modal-trigger"><i class="material-icons">email</i> Email Us</a></li>
+					<li><a href="{{ route('contact') }}"><i class="material-icons">phone_iphone</i> Call Us</a></li>
 					
 				</ul>
 
 				</ul>
-			</div>
+			</section>
 		</div>
 	</section>
+
+
+	<div class="container faq__more">
+		<div class="row">
+			<section class="s12 col">
+				<h3 class="underlined">Still have Questions?</h3>
+				<p>Fill out the form below and we will help you find an answer.</p>	
+				
+				<div class="faq__more--form">
+					@include('forms.faq')
+				</div>
+			</section>
+		</div>
+	</div>
 	<div>
 @endsection
 

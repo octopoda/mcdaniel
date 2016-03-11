@@ -10,7 +10,7 @@ trait DirectLinkTrait {
    * @param  string $string 
    * @return string         
    */
-  protected function santize($string) {
+  protected function sanitize($string) {
     $strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]",
                            "}", "\\", "|", ";", ":", "\"", "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;",
                            "â€”", "â€“", ",", "<", ".", ">", "/", "?", ".", '©', '®', '℗');

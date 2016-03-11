@@ -1,12 +1,20 @@
+<?php 
+  $pageTitle = (isset($header['title'])) ? $header['title'] : 'McDaniel Nutrition Therapy – St Louis, Missouri';
+  $pageDescription =  (isset($header['description'])) ? $header['description'] : "McDaniel Nutrition Therapy delivers corporate wellness, weight loss management, and sports nutrition programs tailored to your personal needs and goals.";
+  $pageKeywords =  (isset($header['keywords'])) ? $header['keywords'] : "Nutrition, St. Louis, Missouri, corporate wellness, weight loss management, sports nutrition, maternal nutrition"; 
+  $fixed = (isset($header['fixed']) && $header['fixed']) ? 'glued in-view fixed' : null;
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<!-- General Site Info -->
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title> PAGE TITLE </title> <!-- TODO -->
-  <meta name="description" content="PAGE DESCRIPTION"> <!-- TODO -->
-  <meta name="keywords" content="PAGE KEYWORDS"> <!-- TODO -->
+  <title> {{ $pageTitle }} </title> <!-- TODO -->
+  <meta name="description" content="{{ $pageDescription }}">
+  <meta name="keywords" content="{{ $pageKeywords }}"> <!-- TODO -->
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -15,21 +23,21 @@
   <!-- Facebook Metadata /-->
   <meta property="fb:page_id" content=""> <!-- TODO -->
   <meta property="og:image" content="images/icons/facebook.jpg">
-  <meta property="og:description" content="PAGE DESCRIPTION">
-  <meta property="og:title" content="PAGE TITLE">
+  <meta property="og:description" content="{{ $pageDescription }}">
+  <meta property="og:title" content="{{ $pageTitle }}">
 
   <!-- Google+ Metadata /-->
   <meta itemprop="name" content="">
-  <meta itemprop="description" content="PAGE DESCRIPTION">
+  <meta itemprop="description" content="{{ $pageDescription }}">
   <meta itemprop="image" content="/images/icons/facebook.jpg">
 
   <!-- Twitter Card Metadata /-->
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:site" content="@2721west" /> <!-- TODO -->
-  <meta name="twitter:title" content="2721West: Portfolio of Zack Davis" />
-  <meta name="twitter:description" content="PAGE DESCRIPTION" />
+  <meta name="twitter:site" content="" /> <!-- Add Site Social Media Profile -->
+  <meta name="twitter:title" content="{{ $pageTitle }}" />
+  <meta name="twitter:description" content="{{ $pageDescription }}" />
   <meta name="twitter:image" content="" /> <!-- TODO -->
-  <meta name="twitter:url" content="http://2721west.com" />
+  <meta name="twitter:url" content="http://mcdanielnutrition.com" />
 
   <!-- iOS Integration -->
   <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
@@ -57,12 +65,13 @@
 
 </head>
 
-<body>
+<body class="{{ $fixed }}">
   @include('layouts.frontend.partials.contact-modal')
   
   <section>
       <header>
-         @include('layouts.frontend.partials.navigation')
+         @include('layouts.frontend.partials.navigation', ['fixed' => $fixed ])
+         @yield('subnav')
       </header>
       
       <main class="sitewide_content_wrapper" id="contentWrapper">

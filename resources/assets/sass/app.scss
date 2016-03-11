@@ -30,16 +30,21 @@ $dev: true !default;
 
 //objects
 @import 'objects/layouts/sitewide';
+@import 'objects/layouts/contact';
 @import 'objects/layouts/footer';
 @import 'objects/layouts/full-screen-fixed';
 @import 'objects/layouts/navigation';
 @import 'objects/layouts/small-article';
+@import 'objects/layouts/subnavigation';
 
 //Elements
 
 
 
 //Pages 
-@import 'pages/index';
 @import 'pages/article';
+@import 'pages/contact';
 @import 'pages/faqs';
+@import 'pages/get-started';
+@import 'pages/index';
+@import 'pages/post-list';

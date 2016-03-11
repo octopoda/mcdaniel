@@ -15,7 +15,7 @@ class Faq extends Model
      * Set Mass Assignable
      * @var array
      */
-	protected $fillable = ['question', 'answer', 'published', 'stared'];
+	protected $fillable = ['question', 'answer', 'published', 'stared', 'direct_link'];
 
 	/*
 	|--------------------------------------------------------------------------
@@ -32,7 +32,7 @@ class Faq extends Model
     protected static function boot()
     {
         static::saving(function ($model) {
-            $model->direct_link = $model->santize($model->question);
+            $model->direct_link = $model->sanitize($model->question);
         });
     }
 

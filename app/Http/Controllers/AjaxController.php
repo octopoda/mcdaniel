@@ -20,6 +20,11 @@ use App\Repositories\Criteria\Post\AscendingOrder;
 use App\Repositories\Criteria\Post\SearchPosts;
 use App\Repositories\Criteria\Post\PostsFromDate;
 
+use Event;
+use App\Events\ContactFormSubmitted;
+
+
+
 
 
 class AjaxController extends Controller
@@ -61,6 +66,27 @@ class AjaxController extends Controller
         return compact('message', 'published');
     } 
 
+    public function fireEvent() {
+        $input = [
+            "name" => "Zack Davis",
+            "email" => "zack@2721west.com",
+            "message" => "message from firing the event",
+        ];
+
+        Event::fire(new ContactFormSubmitted($input));
+    }
+
+
+
+    public function formSubmit(Request $request) {
+        Event::fire(new contactFormSubmitted( $request->except('_token', 'form_type') )); 
+        
+        $message = [
+            "success" => "Your mail has been sent.  Please give us 2 to 3 business days to respond."
+        ];
+
+        return $message;
+    }
     
 
 }

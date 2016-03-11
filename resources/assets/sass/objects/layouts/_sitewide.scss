@@ -42,7 +42,7 @@
 
 
 .sitewide_content_wrapper {
-	margin-top:rem-calc(100);
+	
 
 	@include breakpoint('tablet') {
 		margin-top:rem-calc(20);

@@ -42,7 +42,6 @@ class DashboardPostTest extends TestCase  {
 				"content" => $post->content,
 				"summary" => $post->summary,
 				"searchable" => strip_tags($post->content),
-				"direct_link" => str_replace(" ", "-", $post->title),
 				"publish_date" => '2016-02-18 17:00:00',
 				"post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/image-test.jpg"		
 			]);

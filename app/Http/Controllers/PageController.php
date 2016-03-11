@@ -33,15 +33,27 @@ class PageController extends Controller
         return view('pages.index', compact('posts'));
     }
 
-
-    public function corporate() {
-    	return view('pages.corporate');
-    }
-
+    /**
+     * About Routes
+     * @return [type] [description]
+     */
     public function about() {
-    	return view('pages.about');
+    	return view('pages.team.team');
     }
 
+    public function jennifer() {
+        return view('pages.team.jennifer');
+    }
+
+
+    public function kayli() {
+        return view('pages.team.kayli');
+    }
+
+
+    public function getStarted() {
+        return view('pages.get-started');
+    }
 
     public function weightLoss() {
         return view('pages.individual.weightloss');
@@ -57,21 +69,34 @@ class PageController extends Controller
         return view('pages.individual.maternal');
     }
 
-
-    public function sustain() {
-        return view('pages.corporate.sustain');
+    public function rmr() {
+        return view('pages.individual.rmr');
     }
 
-    public function lunch() {
-        return view('pages.corporate.lunch');
+
+    public function corporate() {
+        return view('pages.corporate.corporate');
     }
 
-    public function teach() {
-        return view('pages.corporate.teach');
-    }
+    // public function sustain() {
+    //     return view('pages.corporate.sustain');
+    // }
 
-    public function webinars() {
-        return view('pages.coporate.webinars');
+    // public function lunch() {
+    //     return view('pages.corporate.lunch');
+    // }
+
+    // public function teach() {
+    //     return view('pages.corporate.teach');
+    // }
+
+    // public function webinars() {
+    //     return view('pages.coporate.webinars');
+    // }
+
+   
+    public function contact() {
+        return view('pages.contact');
     }
 }
 

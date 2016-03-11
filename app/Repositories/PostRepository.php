@@ -31,5 +31,9 @@ class PostRepository extends Repository {
 	}
 
 
+	public function getPostTypes() {
+		return ['Nutrition 101', 'Recipes', 'Nutrition News', 'Personal'];
+	}
+
 
 }

@@ -13,6 +13,7 @@ use Illuminate\Contracts\Auth\Guard;
 use App\Repositories\PostRepository as Post;
 use App\Repositories\BlogRepository as Blog;
 use App\Repositories\UserRepository as User;
+use App\Repositories\CategoryRepository as Category;
 
 use App\Repositories\Criteria\Post\PostsWithAuthor;
 use App\Repositories\Criteria\Post\AscendingOrder;
@@ -36,20 +37,27 @@ class PostController extends Controller
 
 
     /**
-     * Category Model
+     * User Model
      * @var \App\User
      */
     protected $user;
+
+    /**
+     * Category Model
+     * @var \App\Category
+     */
+    protected $category;
 
 
     /**
      * @param Post $post [description]
      * @param Blog $blog [description]
      */
-    public function __construct(Post $post, Blog $blog, User $user) {
+    public function __construct(Post $post, Blog $blog, User $user, Category $category) {
         $this->post = $post;
         $this->blog = $blog;
         $this->user = $user;
+        $this->category = $category;
     }
 
 
@@ -245,7 +253,9 @@ class PostController extends Controller
      */
     public function paginatePost() {
         $posts = $this->post->pushCriteria(new AscendingOrder())->paginate(25);
-        return view('posts.index', compact('posts'));
+        $types = $this->post->getPostTypes();
+        $categories = $this->category->all();
+        return view('posts.index', compact('posts', 'types', 'categories'));
     }
 
     
