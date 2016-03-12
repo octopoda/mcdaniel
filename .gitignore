@@ -34,11 +34,11 @@ tests/_output/*
 
 
 # AssetFiles
-/public/assets/css
-/public/assets/images
-/public/tmp
-/public/assets/scripts
-/public/assets/videos
+#/public/assets/css
+#/public/assets/images
+#/public/tmp
+#/public/assets/scripts
+#/public/assets/videos
 
 
 # Elastic Beanstalk Files
