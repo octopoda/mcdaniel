@@ -180,6 +180,20 @@
 
 
 /**
+ * Retina Images
+ */
+
+@mixin retinaImage($imageName, $ext, $size) {
+    background-image:url('#{$imageName}@2x.#{$ext}');
+
+
+    @include breakpoint('retina') {
+        background-image:url('#{$imageName}@2x.#{$ext}')
+    }
+}
+
+
+/**
  * Stagger a list 
  */
 @mixin staggerList($childrenNum, $element) {

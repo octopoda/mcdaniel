@@ -3,11 +3,12 @@
   $pageDescription =  (isset($header['description'])) ? $header['description'] : "McDaniel Nutrition Therapy delivers corporate wellness, weight loss management, and sports nutrition programs tailored to your personal needs and goals.";
   $pageKeywords =  (isset($header['keywords'])) ? $header['keywords'] : "Nutrition, St. Louis, Missouri, corporate wellness, weight loss management, sports nutrition, maternal nutrition"; 
   $fixed = (isset($header['fixed']) && $header['fixed']) ? 'glued in-view fixed' : null;
+  $subnav = (isset($header['subnav']) && $header['fixed']) ? 'is-subnav' : null;
 ?>
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 	<!-- General Site Info -->
   <meta charset="utf-8">
@@ -65,8 +66,8 @@
 
 </head>
 
-<body class="{{ $fixed }}">
-  @include('layouts.frontend.partials.contact-modal')
+<body class="{{ $fixed }} {{ $subnav }}">
+  @yield('modals')
   
   <section>
       <header>

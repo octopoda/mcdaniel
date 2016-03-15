@@ -17,6 +17,10 @@ if (window.jQuery) {
 		headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').val() }
 	 });
 
+
+	 
+	 
+
 } else {
     console.log('jquery is not loaded');
 }

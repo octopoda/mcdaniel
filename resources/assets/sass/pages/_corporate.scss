@@ -1,0 +1,140 @@
+/*
+|--------------------------------------------------------------------------
+| Header
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+.corporate__header {
+	@include retinaImage('#{$page}corporate_header', 'jpg', cover);
+	padding-bottom:39.06%;
+	background-position:center left;
+}
+
+.corporate__header--text {
+	padding:rem-calc(40) rem-calc(20);
+	
+	p {
+		font-size:rem-calc(18);
+	}
+
+	@include breakpoint('tablet') {
+		padding:rem-calc(40) rem-calc(60);
+	}
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Sustain
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+.corporate__sustain {
+	
+	.row {
+		margin-top:rem-calc(30);
+		margin-bottom:0;
+	}
+
+	
+	&--title {
+		@include retinaImage('#{$page}sustain_header', 'jpg', cover);
+		position: relative;
+		background-size:cover;
+		padding-bottom:35% !important;
+
+		section {
+			width:80%;
+		}
+
+		@include breakpoint('tablet') {
+			padding-bottom:61% !important;
+		}
+
+		@include breakpoint('laptop') {
+			padding-bottom:26% !important;
+		}
+	}
+
+	&--text {
+		@include breakpoint('tablet') {
+			padding:rem-calc(30) rem-calc(20);
+
+			p {
+				margin-top:rem-calc(50);
+			}
+
+			.btn-flatten {
+				margin-top:rem-calc(20);
+				margin-bottom:rem-calc(20);
+			}
+		}
+	}
+}
+
+
+.corporate__sustain--CTA {
+	padding:rem-calc(40) rem-calc(20);
+	text-align: center;
+
+	@include breakpoint('tablet') {
+		.button-group {
+			padding-top:rem-calc(30);
+
+			a:first-child {
+				margin-right:rem-calc(15);
+			}
+		}
+	}
+}
+
+.corporate__header--lunch {
+	@include retinaImage('#{$page}lunch_header', 'jpg', cover);
+	padding-bottom:37.39%;
+	background-position:center center;
+
+	@include breakpoint('tablet') {
+		padding-bottom:17.37%;
+	}
+}
+
+
+.corporate__header--webinar {
+	@include retinaImage('#{$page}webinar_header', 'jpg', cover);
+	padding-bottom:27.39%;
+	background-position:left top;
+
+	@include breakpoint('tablet') {
+		padding-bottom:17.73%;
+	}
+	
+}
+
+
+
+.corporate__testiomonial_1 {
+	background:$green-lightest;
+	
+	@include breakpoint('tablet') {
+		padding:rem-calc(30);
+	}
+	
+}
+
+
+.corporate__testiomonial_2 {
+	background:$green-white;
+	
+	@include breakpoint('tablet') {
+		padding:rem-calc(30);
+	}
+}
+
+.corporate__lunch  {
+	padding-top:rem-calc(60);
+}

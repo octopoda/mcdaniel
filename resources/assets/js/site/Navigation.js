@@ -19,8 +19,7 @@
     /**
      * Make Logo click take you home
      */
-    $('.home-button').on('click tap', function (e) {
-      e.preventDefault();
+    $('.logo').on('click', function () {
       window.location = "/";
     })
 

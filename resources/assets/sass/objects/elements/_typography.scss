@@ -8,27 +8,46 @@ h1, h2, h3, h4, h5, h6 {
 
 p, blockquote, a, td, li {
 	font-family:$body-font-family;
+	font-size:rem-calc(14);
 	line-height:1.6;
 }
 
 
 p {
-	font-size:rem-calc(16);
-	line-height:rem-calc(33);
+	font-size:rem-calc(14);
+	line-height:1.8;
 }
 
 
 h1 {
 	font-size:rem-calc(30);
+	color:$green;
+
+	&.underlined {
+		border-bottom:1px solid $gray-light;
+		padding-bottom:rem-calc(10);
+	}
 }
 
 h2 {
 	font-size:rem-calc(25);
+	color:$orange;
+
+	&.underlined {
+		border-bottom:1px solid $gray-light;
+		padding-bottom:rem-calc(10);
+	}
+
+	small {
+		font-size:rem-calc(18);
+		color:$gray;
+	}
 }
 
 h3 {
 	font-size:rem-calc(20);
-	
+	color:$gray;
+
 	&.underlined {
 		border-bottom:1px solid $gray-light;
 		padding-bottom:rem-calc(10);
@@ -65,5 +84,19 @@ ul  {
 		li {
 			list-style:none;
 		}
+	}
+}
+
+
+blockquote {
+	border:none;
+
+	padding:rem-calc(20) rem-calc(60);
+	p {
+		font-size:rem-calc(18);
+		font-family:$heading-font-family;
+		font-weight:500;
+		font-style:italic;
+		line-height:2;
 	}
 }

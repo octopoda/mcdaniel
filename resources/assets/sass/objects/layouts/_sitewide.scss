@@ -49,5 +49,41 @@
 	}
 }
 
+.sitewide__boxed {
+	position: relative;
+
+	section {
+		position: absolute;
+		@include center(xy);
+	}
+
+	h1, h2 {
+		border:1px solid $white;
+		text-align: center;
+		border:1px solid $white; 
+		padding:rem-calc(5);
+		width:auto;
+		
+		span {
+			display: block;
+			background:rgba($white, 0.81);
+			padding:rem-calc(20);
+		}
+
+		small {
+			text-align: center;
+
+		}
+	}
+
+	h1 {
+		color:$green;
+	}
+
+	h2 {
+		color:$green;
+	}
+}
+
 
 

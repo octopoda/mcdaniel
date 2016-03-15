@@ -203,7 +203,7 @@ Route::group(['prefix' => 'appearances'], function () {
 	
 	Route::get('/', [
 		'as' => 'allAppearances',
-		'uses' => 'AppearancesController@allAppearances'
+		'uses' => 'AppearancesController@topVideoAppearances'
 	]);	
 
 	Route::get('/{title}',  [

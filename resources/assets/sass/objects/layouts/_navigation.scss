@@ -200,6 +200,9 @@ nav {
 	overflow:scroll;
 	-webkit-overflow-scrolling:touch;
 	z-index:$z-layer-range-10;
+
+	
+
 	
 	@include transition(transform $sidebar-cubic 0.4s);
 	@include translateX(-100%);
@@ -212,7 +215,9 @@ nav {
 		display:block;
 		width:100%;
 		float:none;
-		font-size:rem-calc(16);
+		font-size:rem-calc(15) !important;
+		font-family:$heading-font-family !important;
+		font-style:italic;
 
 		a {
 			width:100%;
@@ -254,9 +259,7 @@ nav {
 			}
 		}
 
-		li {
-			font-size:rem-calc(12) !important;
-		}
+		
 	}
 
 
@@ -277,7 +280,7 @@ nav {
 			@include translateX(100%);
 
 			> li:first-child {
-				margin-left:rem-calc(-50);
+				margin-left:rem-calc(0);
 			}
 		}
 
@@ -327,10 +330,11 @@ nav {
 	.main-navigation.fixed {
 
 		> ul {
+			text-align: center;
 			@include translateX(0);
 
 			>li:first-child {
-				margin-left:0;
+				margin-left:rem-calc(-0);
 			}
 		}
 
@@ -342,10 +346,21 @@ nav {
 
 
 //Logo for Phone
+.main-navigation__logo {
+	@include clearfix;
+	float:left;
+	width:auto;
+	cursor:pointer;
+	z-index:100000;
+	position: absolute;
+}
+
 .main-navigation__logo .logo {
 	background-position:top left;
 	margin-bottom:rem-calc(10);
 	margin-left:rem-calc(10);
+	cursor:pointer;
+	z-index:$z-layer-range-10;
 
 	@include breakpoint('tablet') {
 		display: none;
@@ -365,6 +380,7 @@ nav {
 .main-navigation__started {
 	width:auto !important;
 	margin-left:rem-calc(11);
+	margin-top:rem-calc(5);
 	
 	@include breakpoint('tablet') {
 		display: none;

@@ -23,7 +23,7 @@
 
 
 <nav id="navigation" class="main-navigation {{ (isset($fixed)) ? $fixed : '' }}">
-  	<div class="main-navigation__logo" class="home-button">
+  	<div class="main-navigation__logo" id="homeButton">
   		<div class="logo">
 			<a href="/">McDaniel Nutrition</a>
 		</div>
@@ -35,7 +35,7 @@
 
   	<ul>
 		<li class="Dropdown__trigger" data-dropdown="individualDropdown">
-			<a href="#" class="Dropdown__link">Individuals</a>
+			<a class="Dropdown__link">Individuals</a>
 			
 			<ul id="individualDropdown" class="Dropdown__content">
 				<li><a href="{{ route('weight-loss') }}">Weight Loss</a></li>
@@ -60,7 +60,7 @@
 		<li><a href="{{ route('allAppearances') }}">Media</a></li>
 		
 		<li class="Dropdown__trigger" data-dropdown="aboutDropdown">
-			<a href="#" class="Dropdown__link">About Us</a>
+			<a class="Dropdown__link">About Us</a>
 			
 			<ul id='aboutDropdown' class='Dropdown__content'>
 			    <li><a href="{{ route('about') }}">About McDaniel Nutrition</a></li>
