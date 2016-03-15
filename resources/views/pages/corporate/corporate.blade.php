@@ -12,7 +12,22 @@ $header = [
 
 @extends('layouts.frontend.page', compact('header'))
 
+{{-- Nodals --}}
+@section('modal')
+		<div class="modal modal-fixed-footer corporate__modal" id="corporateModal">
+			<section class="modal-content">		
+				<h3>Thank you for choosing McDaniel Nutrition</h3>
+				<p>Complete the form below to get started.  We will then contact you shortly with more information.</p>
+				@include('forms.corporate')
+			</section>
+			<section class="modal-footer text-right">
+				<a href="#!" class="modal-action waves-effect waves-green btn-flatten hollow"  id="modalSubmit">Sign Up Now</a>
+				<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flatten hollow" >Cancel</a>
+			</section>
+		</div>
+@endsection
 
+{{-- Sub Navigation --}}
 @section('subnav')
 	<nav class="subnav" id="subnav">
 		<ul class="table-of-contents">
@@ -23,6 +38,8 @@ $header = [
 	</nav>
 @endsection
 
+
+{{-- Content --}}
 @section('content')
 	<div class="coporate">
 		<div class="corporate__header sitewide__boxed">
@@ -40,6 +57,8 @@ $header = [
 			</div>
 		</div>
 
+
+	
 
 		<div id="sustain" class="corporate__sustain scrollspy">
 			<div class="row">
@@ -64,7 +83,7 @@ $header = [
 								<li>Weekly weigh-ins & body fat measurements (optional)</li>
 							</ul>
 
-							<a class="btn-flatten hollow waves-effect waves-green">Signup Today</a>
+							<a class="btn-flatten hollow waves-effect waves-green modal-trigger" href="#corporateModal" data-service="Sustain" id="sustain">Signup Today</a>
 						</section>
 					</div>
 				</div>
@@ -102,8 +121,8 @@ $header = [
 					<h2>Build your Company’s Health Today</h2>
 					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa iusto, odio distinctio possimus! Dolor, aliquid sunt inventore. Repellat quisquam tempore doloremque, voluptas, officia, cum perferendis voluptates necessitatibus dolor commodi nostrum.</p>
 					<div class="button-group">
-						<a href="#" class="btn-flatten hollow waves-effect waves-green">In Office SUSTAIN</a>
-						<a href="#" class="btn-flatten hollow waves-effect waves-green">Virtual SUSTAIN</a>
+						<a class="btn-flatten hollow waves-effect waves-green modal-trigger" href="#corporateModal" data-service="In Office Sustain" id="sustainOffice">In Office SUSTAIN</a>
+						<a class="btn-flatten hollow waves-effect waves-green modal-trigger" href="#corporateModal" data-service="Virtual Sustain" id="sustainOnline">Virtual SUSTAIN</a>
 					</div>
 				</div>
 			</div> 
@@ -135,7 +154,7 @@ $header = [
 							<li><strong>Eating Real Food on the Fly:</strong> Our lives are busy. Learn simple, easy ways to incorporate whole, natural foods into everyday meals that everyone will love.</li>
 						</ul>
 
-						<a href="#" class="btn-flatten hollow waves-effect waves-green">Setup Your Next Lunch</a>
+						<a class="btn-flatten hollow waves-effect waves-green modal-trigger" data-service="Lunch And Learn" href="#corporateModal" id="lunchAndLearn">Setup Your Next Lunch</a>
 					</section>
 					<section class="s12 m1 col">&nbsp;</section>
 					<section class="s12 m5 col">
@@ -149,7 +168,7 @@ $header = [
 							<li>Cum, officia, similique! Voluptates error ipsum nihil dolorum, culpa, assumenda.</li>
 						</ul>
 
-						<a href="#" class="btn-flatten hollow waves-effect waves-green">Setup Your Next Lunch</a>
+						<a class="btn-flatten hollow waves-effect waves-green modal-trigger" data-service="lunch and learn" href="#corporateModal" id="tasteAndTeach">Setup Your Next Lunch</a>
 					</section>
 				</div>
 			</div>

@@ -2,8 +2,14 @@ if (window.jQuery) {
     // jQuery is loaded  
     
     //Initalize Materialize Shit here 
-     $('.modal-trigger').leanModal();
-	 $('.scrollspy').scrollSpy();
+    $('.modal-trigger').leanModal();
+
+    $('.modal-trigger').on('click tap', function () {
+    	var id = $(this).attr('href')
+    	$(id).openModal();
+    });
+	
+	$('.scrollspy').scrollSpy();
   
       
 	// $('.dropdown-button').dropdown({

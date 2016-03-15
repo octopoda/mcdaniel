@@ -67,7 +67,7 @@
 </head>
 
 <body class="{{ $fixed }} {{ $subnav }}">
-  @yield('modals')
+  @yield('modal')
   
   <section>
       <header>

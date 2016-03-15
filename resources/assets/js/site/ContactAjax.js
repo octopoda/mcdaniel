@@ -26,6 +26,12 @@
     });
 
 
+    //Submit on Modal Submit Button
+    $('#modalSubmit').on('click tap', function (e) {
+      $('form[data-remote]').submit();
+    })
+
+
 
 
     /**

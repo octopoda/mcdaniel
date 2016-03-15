@@ -77,7 +77,7 @@ Route::group(["prefix" => "api/v1"], function () {
 
 	Route::post('/contact/formSubmit', [
 		"as" => 'ajaxFormSubmit',
-		"uses" => 'ContactController@create'
+		"uses" => 'ContactController@store'
 	]);
 
 	Route::get('/fireContactEvent',  [
