@@ -30,17 +30,7 @@
 	background-position:center left;
 }
 
-.corporate__header--text {
-	padding:rem-calc(40) rem-calc(20);
-	
-	p {
-		font-size:rem-calc(18);
-	}
 
-	@include breakpoint('tablet') {
-		padding:rem-calc(40) rem-calc(60);
-	}
-}
 
 
 

@@ -1,0 +1,104 @@
+.services__main-text {
+	padding:rem-calc(40) rem-calc(20);
+	
+	p {
+		font-size:rem-calc(18);
+	}
+
+	@include breakpoint('tablet') {
+		padding:rem-calc(40) rem-calc(60);
+	}
+}
+
+
+
+.services__packages {
+	ul, ul li {
+		@include clearMP;
+	}
+
+	li {
+		list-style:none;
+		width:100%;
+		height:rem-calc(300);
+		position: relative;
+	}
+
+	li .title {
+		position: absolute;
+		@include center(y);
+		background:rgba($white, 0.8);
+		text-align: center;
+		width:100%;
+		padding:rem-calc(20) rem-calc(8);
+
+		h3 {
+				color:$orange;
+				font-size:rem-calc(24);
+				
+				small {
+					color:$black;
+					display: block;
+				}
+		}
+	}
+
+	
+	@include breakpoint('tablet') {
+		li {
+			float:left;
+			width:50%;
+			cursor: pointer;
+			height:rem-calc(400);
+		}
+
+		.row {
+			margin-bottom:0;
+		}
+	}
+}
+
+
+.services__packages--background {
+	height:100%;
+	width:100%;
+	background:rgba($black, 0.4);
+	@include transition(opacity ease-in 0.4s);
+	position: relative;
+
+	span {
+		color:$white;
+		position: absolute;
+		bottom:rem-calc(10);
+		text-align: center;
+		@include center(x);
+		border: 1px solid $white;
+		padding:rem-calc(8) rem-calc(20);
+		background:none;
+	}
+
+
+	@include breakpoint('laptop') {
+		opacity:0;
+		background:rgba($black, 0.5);
+
+		&:hover {
+			opacity:1;
+		}
+	}
+}
+
+
+.services__descriptions {
+	position: relative;
+	@include clearfix;
+}
+
+
+.services__description {
+	@include breakpoint('tablet') {
+		display:none;
+		padding-top:rem-calc(40);
+		padding-bottom:rem-calc(40);
+	}
+}

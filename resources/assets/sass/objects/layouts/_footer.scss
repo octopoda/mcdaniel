@@ -1,4 +1,6 @@
-
+.page-footer {
+	@include clearMP;
+}
 
 .footer__social-icon-row {
 	background:$green-lightest;

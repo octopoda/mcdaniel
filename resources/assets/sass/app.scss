@@ -34,6 +34,7 @@ $dev: true !default;
 @import 'objects/layouts/footer';
 @import 'objects/layouts/full-screen-fixed';
 @import 'objects/layouts/navigation';
+@import 'objects/layouts/services';
 @import 'objects/layouts/small-article';
 @import 'objects/layouts/subnavigation';
 
@@ -49,4 +50,5 @@ $dev: true !default;
 @import 'pages/get-started';
 @import 'pages/index';
 @import 'pages/post-list';
+@import 'pages/weightloss';
 

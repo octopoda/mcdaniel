@@ -49,7 +49,7 @@ $header = [
 		</div>
 
 
-		<div class="corporate__header--text">
+		<div class="corporate__header--text services__main-text">
 			<div class="container">
 				<p>You know what a difference good health can make to your personal life. Now find out what a difference it can make to your company. </p>
 
