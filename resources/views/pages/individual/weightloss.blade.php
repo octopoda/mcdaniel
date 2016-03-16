@@ -15,7 +15,7 @@ $header = [
 	<div class="modal modal-fixed-footer indivdual" id="weightLossModal">
 			<section class="modal-content">		
 				<h3>Thank you for choosing McDaniel Nutrition</h3>
-				<p>Complete the form below to get started.  We will then contact you shortly with more information.</p>
+				<p>We are excited to help you get started on your weight loss journey.  Please fill out the form and we will contact you shortly to schedule an appointment.</p>
 				@include('forms.individual')
 			</section>
 			<section class="modal-footer text-right">

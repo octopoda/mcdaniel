@@ -1,0 +1,69 @@
+.maternal__header {
+	@include retinaImage('#{$page}maternal_header', 'jpg', cover);
+	background-size:cover;
+	padding-bottom:51%;
+	background-position:center center;
+
+	@include breakpoint('tablet') {
+		padding-bottom:39.06%;
+	}
+}
+
+.maternal__boxes {
+	
+	
+	.col {
+		border:1px solid $green;
+		padding:rem-calc(8);
+		display: flex;
+		margin-top:rem-calc(20);
+	}
+
+	&-box {
+		background:$green-light;
+		color:$white;
+		padding:rem-calc(20);
+
+		h4 {
+			margin-top:0;
+			padding-bottom:rem-calc(10);
+			text-align: center;
+			margin-left:rem-calc(10);
+			border-bottom:1px solid $white;
+			line-height:1.6;
+		}
+
+		ul {
+			@include clearMP;
+		}
+
+		li {
+			list-style:none;
+		}
+	}
+
+	@include breakpoint('tablet') {
+		display:flex;
+
+		.col {
+			justify-content:space-around;
+			width:auto !important;
+			margin-right:rem-calc(15);
+		}
+	}
+}
+
+
+.maternal__individual {
+	@include retinaImage('#{$page}maternal_individual', 'jpg', cover);
+	background-size:cover;
+	background-position:center left;
+}
+
+
+
+.maternal__followup {
+	@include retinaImage('#{$page}maternal_followup', 'jpg', cover);
+	background-size:cover;
+	background-position:center left;
+}
