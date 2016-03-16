@@ -287,6 +287,7 @@ nav {
 		.main-navigation__logo {
 			@include transition(opacity $sidebar-cubic 0.4s);
 			opacity:1;
+			position: relative;
 		}
 
 		.main-navigation__started {
@@ -348,11 +349,16 @@ nav {
 //Logo for Phone
 .main-navigation__logo {
 	@include clearfix;
-	float:left;
-	width:auto;
-	cursor:pointer;
-	z-index:100000;
-	position: absolute;
+	
+	
+
+	@include breakpoint('tablet') {
+		float:left;
+		width:auto;
+		cursor:pointer;
+		z-index:10000;
+		position: absolute;
+	}
 }
 
 .main-navigation__logo .logo {

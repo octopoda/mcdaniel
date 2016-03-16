@@ -62,7 +62,14 @@
     //Have dropdowns operate on Click for Mobile.
     $('.Dropdown__trigger').on('tap', function (e) {
       e.preventDefault();
-      dropDropDown($(this).attr('data-dropdown'));
+      var target = $(e.target);
+      
+      if (target.hasClass('Dropdown__link')) {
+        dropDropDown($(this).attr('data-dropdown'));  
+      } else {
+        window.location = target.attr('href');
+      }
+      
     });
 
  

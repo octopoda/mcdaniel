@@ -45,15 +45,8 @@
 			</ul>
 		</li>
 		
-		<li>  <!-- class="Dropdown__trigger" data-dropdown="corporateDropdown"> -->
+		<li>  
 			<a href="{{ route('corporate') }}">Corporate Wellness</a>
-			
-			{{--  <ul id="corporateDropdown" class="Dropdown__content">
-				<li><a href="{{ route('sustain') }}">Sustain Program</a></li>
-				<li><a href="{{ route('lunchAndLearn') }}">Lunch and Learn</a></li>
-				<li><a href="{{ route('teachAndTaste') }}">Teach and Taste</a></li>
-				<li><a href="{{ route('webinars') }}">Webinars</a></li>
-			 </ul> --}}
 		</li>
 		
 		<li><a href="{{ route('allPosts') }}">Blog</a></li>
@@ -68,7 +61,7 @@
 			</ul>
 		</li>
 		
-		<li><a href="{{ route('allProducts') }}">Store</a></li>
+		{{-- <li><a href="{{ route('allProducts') }}">Store</a></li> --}}
 	</ul>
 
 </nav>

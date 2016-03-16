@@ -5,16 +5,13 @@
 
 		$('.package-trigger').on('click tap', function (e) {
 			e.preventDefault()
-			console.log('clicked');
 			var service = $('#'  + $(this).attr('data-package'));
 			
 			if (phone.matches) {
-
 				$('body').animate({ 
 					scrollTop: service.offset().top 
 				}, 1000);
 			} else {
-				console.log('tablet');
 				if (service.hasClass('is-active')) {
 					service.siblings().slideUp(500);
 				} else {
