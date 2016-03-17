@@ -1,0 +1,137 @@
+.appearances__header {
+	@include retinaImage('#{$page}appearances_header', 'jpg', cover);
+	background-size:cover;
+	padding-bottom:51%;
+	background-position:top left;
+
+	@include breakpoint('tablet') {
+		padding-bottom:39.06%;
+	}
+}
+
+
+
+
+.appearances__logos {
+	background:$green;
+	padding-top:rem-calc(40);
+	padding-bottom:rem-calc(20);
+
+	h2, p {
+		text-align: center;
+		color:$white;
+	}
+
+	ul {
+		@include clearMP;
+		
+		li {
+			@include clearMP;
+			list-style:none;
+			height:100px;
+			width:50%;
+			margin:auto;
+			margin-top:rem-calc(20);
+		}
+	}
+
+	@include breakpoint('tablet') {
+		h2 {
+			font-size:rem-calc(25);
+		}
+
+		p {
+			width:80%;
+			margin:auto;
+			padding-bottom:rem-calc(30);
+		}
+
+		ul {
+			display:flex;
+
+			li {
+				justify-content:center;
+				width:20%;
+				margin-left:rem-calc(20);
+			}
+		}
+	}
+}
+
+
+.appearance__logos--book {
+	text-align: center;
+	margin-top:rem-calc(30);
+	
+	.btn-flatten.hollow {
+		border:1px solid $white;
+		color:$white;
+		font-size:rem-calc(20);
+	}
+
+
+	@include breakpoint('tablet') {
+		.btn-flatten.hollow {
+			font-size:rem-calc(16);
+		}
+	}
+}
+
+
+
+.appearances__appearances {
+	padding-top:rem-calc(40);
+
+	h2 {
+		text-align: center;
+		font-size:rem-calc(25);
+	}
+
+	.button-group {
+		text-align: center;
+	}
+
+
+	@include breakpoint('tablet') {
+
+	}
+
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Logos 
+|--------------------------------------------------------------------------
+|
+|
+*/
+.appearances__mens-health {
+	@include retinaImage('#{$icon}mh_logo', 'png', contain);
+	background-repeat:no-repeat;
+	background-size:contain;
+	background-position:center center;
+}
+
+.appearances__us-news {
+	@include retinaImage('#{$icon}us_news', 'png', contain);
+	background-repeat:no-repeat;
+	background-size:contain;
+	background-position:center center;
+
+}
+
+.appearances__iVillage {
+	@include retinaImage('#{$icon}ivillage', 'png', contain);
+	background-repeat:no-repeat;
+	background-size:contain;
+	background-position:center center;
+}
+
+.appearances__MSN {
+	@include retinaImage('#{$icon}msn', 'png', contain);
+	background-repeat:no-repeat;
+	background-size:contain;
+	background-position:center center;
+}

@@ -1,0 +1,25 @@
+.sports__header {
+	@include retinaImage('#{$page}sports_header', 'jpg', cover);
+	background-size:cover;
+	padding-bottom:51%;
+	background-position:center center;
+
+	@include breakpoint('tablet') {
+		padding-bottom:39.06%;
+	}
+}
+
+
+.sports__individual {
+	@include retinaImage('#{$page}sports_individual', 'jpg', cover);
+	background-size:cover;
+	background-position:center left;
+}
+
+
+
+.sports__followup {
+	@include retinaImage('#{$page}sports_followup', 'jpg', cover);
+	background-size:cover;
+	background-position:center left;
+}

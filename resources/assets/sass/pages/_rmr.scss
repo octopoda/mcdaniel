@@ -1,0 +1,12 @@
+.rmr__header {
+	@include retinaImage('#{$page}rmr_header', 'jpg', cover);
+	background-size:cover;
+	padding-bottom:51%;
+	background-position:top left;
+
+	@include breakpoint('tablet') {
+		padding-bottom:39.06%;
+	}
+}
+
+

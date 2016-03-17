@@ -43,7 +43,9 @@ $dev: true !default;
 
 
 //Pages 
+@import 'pages/about';
 @import 'pages/article';
+@import 'pages/appearances';
 @import 'pages/contact';
 @import 'pages/corporate';
 @import 'pages/faqs';
@@ -51,5 +53,7 @@ $dev: true !default;
 @import 'pages/index';
 @import 'pages/maternal';
 @import 'pages/post-list';
+@import 'pages/rmr';
+@import 'pages/sports';
 @import 'pages/weightloss';
 

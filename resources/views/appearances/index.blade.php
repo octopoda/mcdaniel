@@ -11,46 +11,65 @@ $header = [
 
 @extends('layouts.frontend.page', compact('header'))
 
+
+<div class="modal modal-fixed-footer indivdual" id="appearanceModal">
+			<section class="modal-content">		
+				<h3>I am ready to help you viewers/readers get healthy</h3>
+				<p>Please fill out the form below and we will contact you with more information.</p>
+				@include('forms.individual')
+			</section>
+			<section class="modal-footer text-right">
+				<a href="#!" class="modal-action waves-effect waves-green btn-flatten hollow"  id="modalSubmit">Sign Up Now</a>
+				<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flatten hollow" >Cancel</a>
+			</section>
+		</div>
+
 @section('content')
 	
-	<h1>
-		Speaking of Healthy
-	</h1>
+	<div class="appearances__header sitewide__boxed">
+		<section class="container">
+			<h1><span>Speaking of Healthy</span></h1>
+		</section>
+	</div>
 
 
-	<div class="speaking__desciprtion">
-		<div class="container">
-			<div class="row">
+	<div class="appearances__description">
+		<div class="container services__main-text">
 				<p>Jennifer McDaniel, Founder of McDaniel Nutrition Therapy, is a sought after national media spokesperson for The Academy of Nutrition and Dietetics and regular on-air contributor. Her healthy, positive messages on the power of proper nutrition and her personal, enthusiastic style connect with diverse audiences, putting nutritional success within their grasp.  </p>
-			</div>
 		</div>
 	</div>
 
 
-	<div class="speaking__logos">
+	<div class="appearances__logos">
 		<div class="container">
 			<div class="row">
+				<h2>Inspiring Growth</h2>
 				<p>Jennifer has been quoted in local and national media outlets including: Men’s Health Magazine, US News and World Report, IVillage.com, MSN.com, St. Louis Magazine, and STL Today. Contact her for interviews, guest spots, and speaking at your next event. </p>
 				<ul>
-					<li class="speaking__mens-health"></li>
-					<li class="speaking__us-news"></li>
-					<li class="speaking__iVillage"></li>
-					<li class="speaking__MSN"></li>
-					<li class="speaking__fox"></li>
+					<li class="appearances__mens-health"></li>
+					<li class="appearances__us-news"></li>
+					<li class="appearances__iVillage"></li>
+					<li class="appearances__MSN"></li>
 				</ul>
+
+				<div class="appearance__logos--book">
+						<a href="#appearanceModal" class="btn-flatten hollow modal-trigger" data-services="Book for Appearanaces">Book Jennifer Today</a>
+				</div>
 			</div>
 		</div>
 	</div>
 	
 	
 
-	<div class="speaking__appearances">
+	<div class="appearances__appearances">
 		<div class="container">
 			<div class="row">
 				<h2>Jennifer's Recent Appearances</h2>
 				<ul>
 				@foreach($appearances as $appearance)
-					<li>{{ $appearance->title }}</li>
+					<div class="appearances__video-thumb">
+						<a href="{{ $appearance->direct_link }}"><span class="posterImage" style="display:block; background:url('http://img.youtube.com/vi/{{ $appearance->link }}/0.jpg') top left no-repeat; background-size:cover"></span></a>
+					</div>
 				@endforeach
 				</ul>
 			</div>

@@ -44,7 +44,7 @@ $header = [
 	</div>
 
 
-	<div class="weight-loss__packages">
+	<div class="services__package-intro">
 		<div class="container">
 			<h2>Nutrition Packages</h2>
 			<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past and what allows us to give you the most personally tailored consultations.</p>
