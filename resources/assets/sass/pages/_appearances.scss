@@ -12,6 +12,12 @@
 
 
 
+.appearances__sub-header {
+	padding-top:rem-calc(80);
+	text-align: center;
+}
+
+
 .appearances__logos {
 	background:$green;
 	padding-top:rem-calc(40);
@@ -167,31 +173,37 @@
 }
 
 
-.play-button {
-    height: 40px;
-    width: 65px;    
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 5px;
-    position: absolute;
-    @include center(xy);
-}
+.appearances__list {
+	li {
+		@include clearMP;
+		list-style:none;
+		line-height:1.8;
+		padding:rem-calc(12) rem-calc(20);
+		border-bottom:1px solid $gray-lightest;
+		@include clearfix;
 
-.play-button:hover {
-    background-color: rgba(0, 173, 239, 0.9);
-}
+		&:hover {
+			background:$green-lightest;
+		}
+	}
 
-.play-button:after {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 10.5px;
-    left: 24px;
-    margin: 0 auto;
-    border-style: solid;
-    border-width: 9.5px 0 9.5px 17px;
-    border-color: transparent transparent transparent rgba(255, 255, 255, 1);
-}
+	&--title {
+		display: block;
+		font-size:rem-calc(20);	
+		float:left;
+	}
 
+	&--date {
+		display: none;
+		float:right;
+		color:$gray-light;
+
+
+		@include breakpoint('tablet') {
+			display: block;
+		}
+	}
+}
 
 
 

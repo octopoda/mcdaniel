@@ -1,8 +1,8 @@
 <?php
 $header = [
-	"title" => "Support Center  McDaniel Nutrition Therapy St Louis Missouri",
-	"description" => "Wnat to know more about our nutrition services. Frequently asked questions for McDaniel",
-	"Keywords" => "FAQS, Frequently Asked Questions,  St. Louis, Missouri, corporate wellness, weight loss management, sports nutrition, maternal nutrition, dietitian, consultation, nutritionist, speaking, media",
+	"title" => "Speaking & Publicity – Jennifer McDaniel, St Louis",
+	"description" => "Jennifer McDaniel is a sought after national media spokesperson and regular on-air contributor. She is available for local and national media engagements.",
+	"Keywords" => "Spokesperson, speaking, publicity, media, on-air contributor, local, national, nutrition, registered dietitian, ",
 	"fixed" => true
 	];
 
@@ -77,8 +77,8 @@ $header = [
 			</div>
 
 			<div class="button-group row">
-				<a href="#" class="btn-flatten hollow waves-effect">Book Jennifer</a>
-				<a href="#" class="btn-flatten hollow waves-effect">See More Appearances</a>
+				<a href="#appearanceModal" class="btn-flatten hollow waves-effect modal-trigger" data-service="Book for Appearance">Book Jennifer</a>
+				<a href="{{ route('appearancesArchive') }}" class="btn-flatten hollow waves-effect">See More Appearances</a>
 			</div>
 		</div>
 	</div>

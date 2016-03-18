@@ -172,7 +172,7 @@ class AppearancesController extends Controller
      */
     public function getPaginatedAppearances() {
         $appearances = $this->appearance->pushCriteria(new Published())->paginate(25);
-        return view('appearances.index', compact('appearances'));
+        return view('appearances.archive', compact('appearances'));
     }
 
     /**

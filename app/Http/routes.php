@@ -212,6 +212,11 @@ Route::group(['prefix' => 'appearances'], function () {
 		'uses' => 'AppearancesController@topVideoAppearances'
 	]);	
 
+	Route::get('/archive', [
+		"as" => 'appearancesArchive',
+		"uses" => "AppearancesController@getPaginatedAppearances"
+	]);
+
 	Route::get('/{title}',  [
 		'as' => 'appearanceByTitle',
 		'uses' => 'AppearancesController@appearanceByTitle'
