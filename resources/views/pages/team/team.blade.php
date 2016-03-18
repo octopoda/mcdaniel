@@ -13,22 +13,26 @@ $header = [
 
 
 @section('content')
-	<div class="sitewide__page-header">
-		<div class="sitewide__page-header--text container">
-			<h1>Put Our Expertise Behind Your Change</h1>
-		</div>
+	<div class="about__header sitewide__boxed">
+		<section class="container">
+			<h1><span>Put Our Expertise Behind Your Change</span></h1>
+		</section>
 	</div>
 
 	<div class="team__text">
 		<div class="container sitewide__page--text">
-			<section>
+			<section class="services__main-text">
 				<p>We believe you can go further, make change last, and unlock potential that you haven’t dared to believe you possess. But sometimes it takes help from someone who has been there before and is willing to walk alongside you.    </p>
 				<p>Our team of registered dietitians trade hype for science-backed wisdom and personal experience. We exchange perfection-seeking plans for simple, human insights. And most importantly, we put your personal growth ahead of any system or standard.  </p>
 			</section>
 		</div>
 	</div>
 
-
+	<div class="services__package-intro">
+		<div class="container">
+			<h2>Our Team</h2>
+		</div>
+	</div>
 	
 
 	<div class="team__bios">	

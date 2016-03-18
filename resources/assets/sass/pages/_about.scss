@@ -1,0 +1,10 @@
+.about__header {
+	@include retinaImage('#{$page}about_header', 'jpg', cover);
+	background-size:cover;
+	padding-bottom:51%;
+	background-position:center center;
+
+	@include breakpoint('tablet') {
+		padding-bottom:39.06%;
+	}
+}
