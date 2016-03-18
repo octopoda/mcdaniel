@@ -153,7 +153,7 @@ class AppearancesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function topVideoAppearances() {
-        $appearances = $this->appearance->pushCriteria(new VideosPublishedAcending())->paginate(5);
+        $appearances = $this->appearance->pushCriteria(new VideosPublishedAcending())->paginate(4);
         return view('appearances.index', compact('appearances'));
     }
 
@@ -192,10 +192,12 @@ class AppearancesController extends Controller
      */
     public function appearanceByTitle($title) {
         $appearance = $this->appearance->findBy('direct_link', $title);
-        if ($appearance->published == 0) {
-            abort(404);
-        }
-        return view('appearances.appearance', compact('appearance'));
+        $moreAppearances = $this->appearance->pushCriteria(new VideosPublishedAcending())->paginate(4);
+        
+        // if ($appearance->published == 0) {
+        //     abort(404);
+        // }
+        return view('appearances.appearance', compact('appearance', 'moreAppearances'));
     }
 
 

@@ -198,7 +198,13 @@ Route::get('/categories/{category}', function ($category) {
 });
 
 
-//Media Routes
+/*
+|--------------------------------------------------------------------------
+| Media Routes
+|--------------------------------------------------------------------------
+|
+|
+*/
 Route::group(['prefix' => 'appearances'], function () {
 	
 	Route::get('/', [

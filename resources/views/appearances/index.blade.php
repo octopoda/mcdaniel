@@ -65,11 +65,13 @@ $header = [
 		<div class="container">
 			<div class="row">
 				<h2>Jennifer's Recent Appearances</h2>
-				<ul>
+				<ul class="appearances__videos">
 				@foreach($appearances as $appearance)
-					<div class="appearances__video-thumb">
-						<a href="{{ $appearance->direct_link }}"><span class="posterImage" style="display:block; background:url('http://img.youtube.com/vi/{{ $appearance->link }}/0.jpg') top left no-repeat; background-size:cover"></span></a>
-					</div>
+					<li class="appearances__videos-thumb">
+						<a href="{{ route('appearanceByTitle', ['title' => $appearance->direct_link ]) }}">
+							<span class="posterImage" >{{ $appearance->title }}</span>
+						</a>
+					</li>
 				@endforeach
 				</ul>
 			</div>
