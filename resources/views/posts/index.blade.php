@@ -15,7 +15,7 @@
 	<div class="article-list row">
 		<div class="article-list__categories">
 			<div class="article-list__search">
-				<a href="#">Search <i class="material-icons">search</i></a>
+				<a href="#">Search Posts <i class="material-icons">search</i></a>
 			</div>
 			<div class="article-list__topics">
 				<h3>Topics</h3>
