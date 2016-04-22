@@ -38,18 +38,12 @@ class PageController extends Controller
      * @return [type] [description]
      */
     public function about() {
-    	return view('pages.team.team');
+    	return view('pages.about');
     }
 
     public function jennifer() {
         return view('pages.team.jennifer');
     }
-
-
-    public function kayli() {
-        return view('pages.team.kayli');
-    }
-
 
     public function getStarted() {
         return view('pages.get-started');
@@ -78,21 +72,6 @@ class PageController extends Controller
         return view('pages.corporate.corporate');
     }
 
-    // public function sustain() {
-    //     return view('pages.corporate.sustain');
-    // }
-
-    // public function lunch() {
-    //     return view('pages.corporate.lunch');
-    // }
-
-    // public function teach() {
-    //     return view('pages.corporate.teach');
-    // }
-
-    // public function webinars() {
-    //     return view('pages.coporate.webinars');
-    // }
 
    
     public function contact() {

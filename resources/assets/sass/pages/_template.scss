@@ -1,0 +1,32 @@
+.template-heading {
+
+}
+
+.template-content__wrapper {
+	padding-bottom:rem-calc(40);
+
+	&--disclosures{
+		h2 {
+			margin-top:rem-calc(60);
+			padding-bottom:rem-calc(10);
+			border-bottom:1px solid $gray;
+		}
+	}
+}
+
+
+.template-content {
+	
+
+
+	@include breakpoint('tablet') {
+			@include span(8 of 12 80);
+	}
+}
+
+
+.template-sidebar {
+	@include breakpoint('tablet') {
+		@include span(4 of 12 last); 	
+	}
+}

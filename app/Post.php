@@ -5,11 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\PublishedTrait;
 use App\Traits\DirectLinkTrait;
+use App\Traits\ContentTrait;
 
 class Post extends Model
 {
     
-    use PublishedTrait, DirectLinkTrait;
+    use PublishedTrait, DirectLinkTrait, ContentTrait;
 
     /**
      * Set Mass Assignable
@@ -17,8 +18,7 @@ class Post extends Model
      */
     protected $fillable = ['title', 'content', 'searchable', 'summary', 'publish_date', 'published', 'post_image', 'video', 'video_url', 'blog_id', 'direct_link', 'post_type'];
 
-
-
+    
     /**
      * Define One to One relationship with Blog
      * @return
@@ -77,11 +77,24 @@ class Post extends Model
    }
 
 
-  
-   protected function getPostTypeAttributes($value) {
-        
-        dd($this->postTypes);
-        return $this->postTypes[$value];
+   /**
+    * Set custom attribute for Post Types
+    * @return array 
+    */
+   protected function getPostTypesAttribute() {
+        return ['recipe', 'nutritional information', 'nutrition 101'];
    }
 
+   
+   /**
+    * Get the Post Type value in USer readable format
+    * @param  int $value 
+    * @return string        
+    */
+   protected function getPostTypeAttribute($value) {
+        
+        return  ucwords($this->postTypes[$value]);
+   }
+
+   
 }

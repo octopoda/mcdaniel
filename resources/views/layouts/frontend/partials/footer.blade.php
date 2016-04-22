@@ -1,6 +1,6 @@
 <section id="siteFooter">
-	<div class="row footer__social-icon-row">
-		<ul class="col s12 m6">
+	<div class="footer__social-icon-row">
+		<ul class="row">
 			<li><a href=""><i class="fa fa-twitter"></i></a></li>
 			<li><a href=""><i class="fa fa-instagram"></i></a></li>
 			<li><a href=""><i class="fa fa-facebook"></i></a></li>
@@ -8,7 +8,7 @@
 		</ul>
 	</div>
 
-	<div class="row footer__contact">
+	<div class="footer__contact">
 		<div class="row">
 			<address>
 				230 S. Bemiston Ave. Suite #430 Clayton, MO 63105

@@ -1,0 +1,91 @@
+.weight-loss_hero {
+	background-image: url('#{$page}weight-loss/weight-loss-hero-sm.jpg');
+	background-position:center right;
+
+	@include breakpoint('tablet') {
+		background-image: url('#{$page}weight-loss/weight-loss-hero-med.jpg');
+	}
+
+	@include breakpoint('laptop') {
+		background-image: url('#{$page}weight-loss/weight-loss-hero-large.jpg');
+	}
+}
+
+
+.weight-loss__text {
+	 text-align: center;
+  	 background:$off-white;
+  	 position: relative;
+
+  	 @include angle(before, true);
+
+  	 @include breakpoint('tablet') {
+  	 	text-align: left;
+
+  	 	&__image  {
+  	 		position: absolute;
+  	 		overflow:hidden;
+			width:span(7 of 12);
+			img {width:100%;}
+		}
+  	 }
+
+  	 @include breakpoint('laptop') {
+  	 	&__image {
+			width:span(6 of 12);
+			top:-120px;
+  	 	}
+  	 }
+}
+
+.weight-loss__packages {
+	padding:rem-calc(40) rem-calc(20);
+}
+
+
+
+.weight-loss__package-image {
+	display:none;
+
+	@include breakpoint('tablet') {
+		display:block;
+		
+		&--left {
+			@include span(6 of 12 no-gutter wide);
+			background-image:url('#{$page}weight-loss/weight-loss-sustain-med.jpg');
+			background-size:cover;
+			background-repeat:no-repeat;
+			background-position:top right;
+			min-height:rem-calc(300);
+		}
+
+
+		&--right {
+			@include span(6 of 12 no-gutter wide last);
+			background-image:url('#{$page}weight-loss/weight-loss-sustain-premium-med.jpg');
+			background-size:cover;
+			background-repeat:no-repeat;
+			background-position:top right;	
+			min-height:rem-calc(300);;
+		}
+	}
+
+
+	@include breakpoint('retina') {
+		&--left {
+			background-image:url('#{$page}weight-loss/weight-loss-sustain-large.jpg');
+			height:rem-calc(400);
+
+		}
+
+		&--right {
+			background-image:url('#{$page}weight-loss/weight-loss-sustain-premium-large.jpg');
+			height:rem-calc(400);
+		}
+
+	}
+}
+
+
+
+

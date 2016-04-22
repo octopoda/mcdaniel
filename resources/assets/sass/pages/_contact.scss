@@ -1,10 +1,134 @@
 /*
 |--------------------------------------------------------------------------
-| Contact Page
+| Contact Page Styles
 |--------------------------------------------------------------------------
 |
 |
 */
+
+/**
+ * Information and Map Wrapper
+ */
+.contact-address {
+	@extend %clearfix;
+	background:$ivory;
+	
+	@include breakpoint('laptop') {
+		max-height:650px;
+		overflow:hidden;
+	}
+	
+}
+
+/**
+ * Wrapper around Contact Support Inforamtion
+ */
+.contact-address__wrapper {
+	
+
+		@include breakpoint('tablet') {
+			@include span(6 of 12 no-gutter);
+		}
+}
+
+/**
+ * Customer Support Contact Information 
+ */
+.contact-address__content {
+	padding:rem-calc(20);
+	
+	h6 {
+		margin-bottom:0;
+		padding-bottom:rem-calc(5);
+		border-bottom:1px solid $gray;
+		width:80%;
+	}
+
+	address {
+		white-space: pre-line;
+	}
+
+	.contact-address__email {
+		cursor:pointer;
+	}
+
+	@include breakpoint('tablet') {
+		padding-left:rem-calc(40);
+	}
+
+	@include breakpoint('laptop') {
+		@include span(4 of 6 last);
+		@include push(2);
+	}
+}
+
+
+
+
+/**
+ * Contact Form Wrapper
+ * @Note sits off screen and is pulled in 
+ */
+
+.contact-form {
+	width:100%;
+	
+	
+}
+
+
+	
+/**
+ * Form
+ */
+.contact-address__form {
+	padding:rem-calc(20);
+		
+
+	h3 {
+		@extend %font-light;
+		color:$gray;
+		text-align: center;
+		border-bottom:1px solid $gray;
+		padding-bottom:rem-calc(20);
+	}	
+
+	&__checkboxes {
+		@include clearMP;
+		margin-left:rem-calc(20);
+		
+		li {
+			list-style:none;
+		}
+	}
+
+	@include breakpoint('tablet') {
+		padding-left:rem-calc(40);
+		width:span(10 of 12);
+
+		&__checkboxes {
+			li {
+				display:inline-block;
+				width:45%;
+			}
+		}
+
+	}
+
+	@include breakpoint('laptop') {
+		padding:0;
+		width:span(8 of 12);
+		margin:auto;
+		
+		&__checkboxes {
+			li {
+				width:auto;
+				margin-right:rem-calc(20);
+			}
+		}
+	}
+}
+
 
 /**
  * Wrapper for Map 
@@ -15,6 +139,7 @@
 	@include breakpoint('tablet') {
 		display:block;
 		position: relative;
+		@include span(6 of 12 no-gutter last);	
 	}
 
 }
@@ -26,10 +151,8 @@
  */
 
 .contact-map {
-	
 	&__cover {
-		height:rem-calc(430);
-		background:rgba($green, 0.2);
+		height:800px;
 		position: absolute;
 		z-index:$z-layer-range-2;
 		width:100%;

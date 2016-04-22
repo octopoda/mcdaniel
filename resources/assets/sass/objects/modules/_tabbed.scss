@@ -1,0 +1,14 @@
+.m-tabbed {
+	position: relative;
+}
+
+
+.m-tabbed-info {
+	position: absolute;
+	display: none;
+
+	&.active {
+		position: relative;
+		display: block;
+	}
+}

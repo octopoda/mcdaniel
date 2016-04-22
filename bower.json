@@ -17,13 +17,19 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap-material-datetimepicker": "~2.5.3",
-    "moment": "~2.11.2",
-    "jquery-ujs": "~1.2.0",
-    "jquery-touch-events": "~1.0.1",
-    "jquery": "~2.2.1",
-    "mustache.js": "mustache#~2.2.1",
-    "css-hamburgers": "~0.2.0",
+    "jquery": "~2.1.4",
+    "angular": "~1.4.2",
+    "angular-animate": "~1.4.2",
+    "angular-cookies": "~1.4.6",
+    "angular-loading-bar": "~0.8.0",
+    "angular-messages": "~1.4.2",
+    "angular-touch": "~1.4.2",
+    "ng-directive-lazy-image": "afkl-lazy-image#~0.1.4",
+    "susy": "~2.2.7",
+    "waypoints": "~3.1.1",
+    "instafeed.js": "~1.4.1"
+  },
+  "devDependencies": {
     "instafeed.js": "~1.4.1"
   }
 }

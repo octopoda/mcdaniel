@@ -12,7 +12,8 @@ $header = [
 @extends('layouts.frontend.page', compact('header'))
 
 
-<div class="modal modal-fixed-footer indivdual" id="appearanceModal">
+@section('modal')
+		<div class="m-modal indivdual" id="appearanceModal">
 			<section class="modal-content">		
 				<h3>I am ready to help you viewers/readers get healthy</h3>
 				<p>Please fill out the form below and we will contact you with more information.</p>
@@ -23,29 +24,32 @@ $header = [
 				<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flatten hollow" >Cancel</a>
 			</section>
 		</div>
+@endsection 
 
 @section('content')
 	
-	<div class="appearances__sub-header">
-		<section class="container">
-			<h1>{{ $appearance->title }}</h1>
+	<!-- Header -->
+	<div class="appearances__hero hero">
+		<section class="row">
+			<h1>Speaking of Healthy</h1>
 		</section>
 	</div>
 
-	<div class="container">
+
+
+	<div class="appearance__video-wrapper">
 		<div class="apperances__video">
+			<h1>{{ $appearance->title }}</h1>
+
 			<div class="video-container">
 				{!! $appearance->video_url !!}
 			</div>
+
+			<p>Jennifer McDaniel, Founder of McDaniel Nutrition Therapy, is a sought after national media spokesperson for The Academy of Nutrition and Dietetics and regular on-air contributor. Her healthy, positive messages on the power of proper nutrition and her personal, enthusiastic style connect with diverse audiences, putting nutritional success within their grasp.  </p>
 		</div>
 	</div>
 
-	<div class="appearances__description">
-		<div class="container services__main-text">
-				<p>Jennifer McDaniel, Founder of McDaniel Nutrition Therapy, is a sought after national media spokesperson for The Academy of Nutrition and Dietetics and regular on-air contributor. Her healthy, positive messages on the power of proper nutrition and her personal, enthusiastic style connect with diverse audiences, putting nutritional success within their grasp.  </p>
-		</div>
-	</div>
-
+	
 
 	<div class="appearances__logos">
 		<div class="container">
@@ -59,8 +63,14 @@ $header = [
 					<li class="appearances__MSN"></li>
 				</ul>
 
-				<div class="appearance__logos--book">
-						<a href="#appearanceModal" class="btn-flatten hollow modal-trigger" data-services="Book for Appearanaces">Book Jennifer Today</a>
+				<div class="button-group row">
+					<div class="button">
+						<a href="#appearanceModal" data-service="Book for Appearance">Book Jennifer</a>
+					</div>
+					
+					<div class="button">
+						<a href="{{ route('appearancesArchive') }}" >See More Appearances</a>
+					</div>
 				</div>
 			</div>
 		</div>

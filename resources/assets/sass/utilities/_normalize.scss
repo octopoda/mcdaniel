@@ -6,10 +6,6 @@
  *    user zoom.
  */
 
-* {
-  box-sizing:border-box;
-} 
-
 html {
   font-family: sans-serif; /* 1 */
   -ms-text-size-adjust: 100%; /* 2 */
@@ -33,9 +29,6 @@ body {
  * and Firefox.
  * Correct `block` display not defined for `main` in IE 11.
  */
-
-
-
 
 article,
 aside,
@@ -95,7 +88,6 @@ template {
 
 a {
   background-color: transparent;
-  text-decoration: none;
 }
 
 /**
@@ -150,8 +142,8 @@ h1 {
  */
 
 mark {
-  background: #ff0;
-  color: #000;
+  background: none;
+  color:$gray;
 }
 
 /**

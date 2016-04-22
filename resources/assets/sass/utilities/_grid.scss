@@ -11,23 +11,20 @@
 
 
 .g-two-columns {
-	section, article {
+   
+
+	section, article, div {
 		margin-bottom:rem-calc(80);	
+       
 	}
 	
 
 	@include breakpoint('tablet') {
 		section, article {
 			@include clearMP;
-			@include span(6 of 12);		
+			@include span(6 of 12 40);		
 			&:last-child {@include last;}
 			margin-bottom:rem-calc(10);
-
-			span {
-				display: block;
-				width:70%;
-				margin:auto;
-			}
 		}
 
 		
@@ -42,12 +39,12 @@
 	
 	
 	@include breakpoint('tablet') { 
-		section {
+		div {
 				@include clearMP;
 				@include span(4 of 12);
 				&:last-child { @include last;}
 
-				span {
+				section, div {
 					width:80%;
 					display: block;
 				}
@@ -57,7 +54,7 @@
 	&__no-gutters {
 		
 		@include breakpoint('tablet') { 
-			section {
+			div {
 				@include clearMP;
 				@include span(4 of 12 wide no-gutters);
 	
@@ -94,6 +91,23 @@
 		}
 	}
 
+}
+
+.g-half {
+	@include container;
+
+	section, article {
+		padding: rem-calc(20);
+		margin-bottom: rem-calc(20);
+	}
+
+	@include breakpoint('tablet') {
+		section, article {
+			@include span(6 of 12);
+			&:last-child { @include last; }
+			padding:rem-calc(60);
+		}
+	}
 }
 
 

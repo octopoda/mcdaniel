@@ -1,0 +1,213 @@
+.home__hero {
+	background-image: url('#{$page}home/home-hero-sm.jpg');
+	background-size:cover;
+	
+	p {
+		color:$white;
+		z-index:$z-layer-range-2;
+		position: relative;
+	}
+	
+	@include breakpoint('phone-only') {
+		padding-right:rem-calc(10);
+		padding-left:rem-calc(10);	
+	}
+
+
+	@include breakpoint('tablet') {
+		background-image: url('#{$page}home/home-hero-large.jpg');
+		padding-bottom:rem-calc(150);
+
+		h1 {
+			padding-bottom:0;
+			margin-bottom:0;
+		}
+
+		p {
+			width:80%;
+		}
+	}
+
+	@include breakpoint('laptop') {
+		padding-bottom:rem-calc(160);
+
+		p {
+			width:60%;
+		}
+	}
+}
+
+
+.home__sales-text {
+	position: relative;
+	padding:rem-calc(60) rem-calc(0);
+
+	h2 {
+		color:$green;
+		margin-bottom:rem-calc(5);
+	}
+
+	@include breakpoint('laptop') {
+		padding:rem-calc(100) rem-calc(0);
+	}
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Corporate
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+//Phone
+.home__corporate__phone {
+	&--hero {
+		background-image:url('#{$page}home/corporate-wellness-sm.jpg');
+		background-size:cover;
+		min-height:200px;
+		position: relative;
+		overflow: hidden;
+
+		h2 {
+			margin-top:0;
+			position: absolute;
+			bottom:0;
+			padding-left:rem-calc(20);
+			color:$green;
+		}	
+	}
+
+
+	&--text {
+		padding:rem-calc(40) rem-calc(20);
+		position: relative;
+	}		
+
+}
+
+.home__corporate  {
+	.home__sales-text {
+		background-image:url('#{$page}home/corporate-wellness-large.png');
+		background-size:cover;
+		margin-top:rem-calc(-130);
+	}
+}
+
+/*
+|--------------------------------------------------------------------------
+| Weight Loss
+|--------------------------------------------------------------------------
+|
+| Description 1
+|  Description 2
+| 
+|
+*/
+.home__weight__phone {
+	
+	&--hero {
+		background-image:url('#{$page}home/weight-loss-sm.jpg');
+		background-size:cover;
+		min-height:200px;
+		position: relative;
+		overflow:hidden;
+		padding:rem-calc(20);
+
+		h2 {
+			margin-top:0;
+			position: absolute;
+			bottom:0;
+			color:$green;
+		}	
+	}
+
+	&--text {
+		padding:rem-calc(40) rem-calc(20);
+		position: relative;
+	}
+}	
+
+
+.home__weight  {
+	.home__sales-text {
+		background-image:url('#{$page}home/weight-loss-large.png');
+		background-size:cover;
+		margin-top:rem-calc(-90);
+
+		@include breakpoint('laptop') {
+			
+		}
+
+		@include breakpoint('desktop') {
+			margin-top:rem-calc(-120);
+		}
+
+		@include breakpoint('medium-desktop') {
+			margin-top:rem-calc(-130);
+		}
+
+		@include breakpoint('large-desktop') {
+			margin-top:rem-calc(-200);
+		}
+	}
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Sports Nutrition
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+.home__sports__phone {
+	&--hero {
+		background-image:url('#{$page}home/sports-sm.jpg');
+		background-size:cover;
+		min-height:200px;
+		position: relative;
+		overflow: hidden;
+		padding:rem-calc(20);
+
+		h2 {
+			margin-top:0;
+			position: absolute;
+			bottom:0;
+			color:$green;
+		}	
+	}
+
+	&--text {
+		padding:rem-calc(40) rem-calc(20);
+		position: relative;
+	}
+
+}
+
+.home__sports {
+	.home__sales-text {
+		background-image:url('#{$page}home/sports-large.png');
+		background-size:cover;
+		margin-top:rem-calc(-90);
+
+		@include breakpoint('laptop') {
+			margin-top: rem-calc(-130);
+			padding-top:rem-calc(80);
+		}
+
+		@include breakpoint('desktop') {
+			margin-top: rem-calc(-150);
+		}
+
+		@include breakpoint('medium-desktop') {
+			margin-top:rem-calc(-220);
+		}
+	}
+}
+
+
+

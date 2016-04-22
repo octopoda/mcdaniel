@@ -206,7 +206,6 @@ Route::get('/categories/{category}', function ($category) {
 |
 */
 Route::group(['prefix' => 'appearances'], function () {
-	
 	Route::get('/', [
 		'as' => 'allAppearances',
 		'uses' => 'AppearancesController@topVideoAppearances'
@@ -234,7 +233,6 @@ Route::group(['prefix' => 'appearances'], function () {
 */
 
 Route::group(['prefix' => 'faqs'], function () {
-	
 	Route::get('/', [
 		'as' => 'allFAQs',
 		'uses' => 'FaqController@staredFAQs'
@@ -339,11 +337,6 @@ Route::group(['prefix' => "about-mcdaniel-nutrition"], function () {
 	Route::get('/jennifer-mcdaniel', [
 		"as" => "jennifer",
 		"uses" => "PageController@jennifer" 
-	]);
-
-	Route::get('/kayli-dice', [
-		"as" => "kayli",
-		"uses" => "PageController@kayli"
 	]);
 });
 

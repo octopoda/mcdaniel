@@ -1,0 +1,174 @@
+/**
+ *  Site Layouts
+ *
+ *  Class will always have a l in front of definition.
+ *  Example is l-hero.
+ *
+ *  Is Mobile First
+ *
+ */
+
+.l-hero{
+    
+
+
+    @include breakpoint('tablet') {
+        min-height: rem-calc(300);
+    }
+
+    @include breakpoint('laptop') {
+        min-height:rem-calc(400);;    
+    }
+
+
+
+}
+
+
+.l-hero-text {
+    padding:20px;
+
+    h1 {
+        @include clearMP;
+        color:$white;
+        padding-top:20%;
+        padding-bottom:10%;
+    }
+
+    p {color:$white;}
+
+    @include breakpoint('tablet') {
+        margin-top:15%;
+        @include span(6 of 12);
+
+        h1 {
+            margin-top:0;
+            padding-top:10%;
+            line-height:rem-calc(60);
+        }
+    }
+
+    @include breakpoint('laptop') {
+        @include span(8 of 12);
+        h1 {
+            margin-top:10%;
+            line-height:rem-calc(65);
+        }
+    }
+}
+
+
+.l-template-hero {
+    border-bottom:1px solid $green;
+
+    h1 {
+        text-align: center;
+        @extend %font-light;
+        color:$gray;
+        font-weight:100;    
+        margin:0;
+        padding-top:rem-calc(40);
+        padding-bottom:rem-calc(30);
+    }
+
+    h3 {
+        color:$gray;
+        margin-top:rem-calc(-20);
+        text-align:center;
+    }
+    
+
+    @include breakpoint('tablet') {
+        h1 {
+            padding-bottom:rem-calc(20);
+        }
+    }
+}
+
+
+
+.l-section {
+    padding-top:rem-calc(20);
+    padding-bottom:rem-calc(20);
+
+    @include breakpoint('phone-only') {
+        margin-top:rem-calc(60);
+    }
+
+    @include breakpoint('large-phone') {
+
+    }
+
+    @include breakpoint('tablet') {
+
+    }
+
+    @include breakpoint('laptop') {
+        padding-top:  rem-calc(50);
+        padding-bottom: rem-calc(50);
+    }
+
+    @include breakpoint('desktop') {
+
+    }
+}
+
+
+.l-section__small{
+    //Mobile First
+
+    @include breakpoint('large-phone') {
+        //phone styles
+    }
+
+    @include breakpoint('tablet') {
+        padding: rem-calc(30);
+    }
+    @include breakpoint('laptop') {
+        padding: rem-calc(20);
+    }
+    @include breakpoint('desktop') {
+        //desktop styles
+    }
+}
+
+
+.l-action-button-row {
+    padding-top:rem-calc(50);
+    padding-bottom:rem-calc(50);
+
+    text-align: center;
+
+    .button {
+        margin:auto;
+    }
+}
+
+
+.l-action-bar {
+    width:100%;
+    padding-top: rem-calc(10);
+    padding-bottom:  rem-calc(10);
+    background:$green;
+
+    &.gray {
+      background:$gray;
+    }
+
+    &.gray-lightest {
+      background:$gray-lightest;
+    }
+
+    &.ivory {
+      background:$ivory;
+    }
+
+    &.transparent {
+        background:transparent;
+        border-bottom:1px solid $gray;
+    }
+
+    &.expat {
+        background:$blue-dark;
+    }
+}

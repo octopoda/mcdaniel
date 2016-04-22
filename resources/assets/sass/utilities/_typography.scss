@@ -1,0 +1,94 @@
+
+
+
+/**
+ * Type Functions
+ *
+ */
+
+
+/**
+ * Generate the Font Properties
+ * @param  {[type]} $label            [description]
+ * @param  {[type]} $base-font-size   [description]
+ * @param  {[type]} $base-line-height [description]
+ * @param  {[type]} $scale            [description]
+ * @return {[type]}                   [description]
+ */
+// @mixin generate-font-properties($label, $base-font-size, $base-line-height, $scale) {
+// 	$scale-value: index($font-sizes, $label) - 1;
+
+// 	$fs: $base-font-size * pow($scale, $scale-value);
+// 	$lh: $base-font-size * $base-line-height / $fs;
+
+// 	@while $lh < 1 {
+// 		$lh: $lh + $lh;
+// 	}
+
+// 	font-size:rem-calc($fs);
+// 	line-height:1.2;
+// }
+
+
+// @each $size, $data in $bp-sizes {
+// 	$bsf: get-breakpoint-property(base-font-size, $size);
+// 	$blh: get-breakpoint-property(base-line-height, $size);
+// 	$s: get-breakpoint-property(scale, $size);
+
+// 	@include breakpoint($size) {
+// 		@each $label in $font-sizes {
+// 			%#{$label} {
+// 				@include generate-font-properties($label, $s, $bsf, $blh);
+// 			}
+// 		}
+// 	}
+// }
+
+
+// .hero {
+// 	@extend %hero;
+// }
+
+// h1 {
+// 	@extend %h;
+// }
+
+// h2 {
+// 	@extend %sh;
+// }
+
+// h3 {
+// 	@extend %ssh;
+// }
+
+// blockquote {
+// 	@extend %bh;
+// }
+
+// p {
+// 	@extend %p;
+// }
+
+/**
+ * Navigation
+ */
+nav {
+	ul {
+		@include clearMP();
+		text-align: center;
+	}
+
+	li {
+		@include clearMP();
+		list-style:none;
+		display:inline-block;
+	}
+
+	a {text-decoration:none;}
+}
+
+
+/**
+ * Links
+ */
+

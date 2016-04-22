@@ -22,6 +22,8 @@ class CreatePostsTable extends Migration
             $table->boolean('published')->index()->unsigned();
             $table->string('direct_link')->unique();
             $table->string('post_image');
+            $table->string('post_thumbnail');
+            $table->string('post_facebook');
             $table->tinyInteger('video')->unsigned();
             $table->string('video_url');
             $table->integer('blog_id')->unsigned();

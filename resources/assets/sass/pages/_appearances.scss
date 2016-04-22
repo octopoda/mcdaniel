@@ -1,244 +1,319 @@
-.appearances__header {
-	@include retinaImage('#{$page}appearances_header', 'jpg', cover);
-	background-size:cover;
-	padding-bottom:51%;
-	background-position:top left;
+.appearances__hero {
+	background-image: url('#{$page}appearances/appearances-hero-sm.jpg');
+	background-position:center right;
 
 	@include breakpoint('tablet') {
-		padding-bottom:39.06%;
+		background-image: url('#{$page}appearances/appearances-hero-med.jpg');
+	}
+
+	@include breakpoint('laptop') {
+		background-image: url('#{$page}appearances/appearances-hero-large.jpg');
 	}
 }
 
 
-
-
-.appearances__sub-header {
-	padding-top:rem-calc(80);
-	text-align: center;
+.appearance__text {
+	position: relative;
 }
 
 
-.appearances__logos {
-	background:$green;
-	padding-top:rem-calc(40);
-	padding-bottom:rem-calc(20);
-
-	h2, p {
-		text-align: center;
-		color:$white;
+.appearance__text__image {
+	.tablet-only, .laptop-up {
+		display:none;
 	}
 
-	ul {
-		@include clearMP;
-		
-		li {
-			@include clearMP;
-			list-style:none;
-			height:100px;
-			width:50%;
-			margin:auto;
-			margin-top:rem-calc(20);
-		}
-	}
 
-	@include breakpoint('tablet') {
-		h2 {
-			font-size:rem-calc(25);
-		}
-
-		p {
-			width:80%;
-			margin:auto;
-			padding-bottom:rem-calc(30);
-		}
-
-		ul {
-			display:flex;
-
-			li {
-				justify-content:center;
-				width:20% !important;
-				margin-left:rem-calc(20);
-			}
-		}
-	}
-}
-
-
-.appearance__logos--book {
-	text-align: center;
-	margin-top:rem-calc(30);
-	
-	.btn-flatten.hollow {
-		border:1px solid $white;
-		color:$white;
-		font-size:rem-calc(20);
-	}
 
 
 	@include breakpoint('tablet') {
-		.btn-flatten.hollow {
-			font-size:rem-calc(16);
-		}
-	}
-}
-
-
-
-.appearances__appearances {
-	padding-top:rem-calc(40);
-
-	h2 {
-		text-align: center;
-		font-size:rem-calc(25);
-	}
-	
-
-
-	.button-group {
-		text-align: center;
-	}
-
-
-	@include breakpoint('tablet') {
-		
-	}
-
-}
-
-
-.appearances__videos {
-	@include clearMP;
-
-	li {
-		@include clearMP;
-		width:80%;
-		margin:auto;
-		background-color:rgba($green, 0.5);
-		list-style:none;
-		margin-top:rem-calc(20);
-		background-size:contain;
-		background-repeat:no-repeat;
-		background-position:top left;
-		padding-bottom:45%;
-		position: relative;
-
-		&:nth-child(1) {
-		  background-image:url('#{$videos}video-1.png');
+		position: absolute;
+		bottom:0;
+		left:50%;
+		height:100%;
+		img {
+			height:100%;
 		}
 
-		&:nth-child(2) {
-		  background-image:url('#{$videos}video-2.png');
-		}
-
-		&:nth-child(3) {
-		  background-image:url('#{$videos}video-3.png');
-		}
-
-		&:nth-child(4) {
-		  background-image:url('#{$videos}video-4.png');
-		}
-
-		&:nth-child(5) {
-		  background-image:url('#{$videos}video-5.png');
-		}
-
-
-		span {
-			position: absolute;
-			@include center(y);
-			text-align: center;
-			width:100%;
-			display: block;
-			background:rgba($white, 0.9);
-			font-size:rem-calc(20);
-			padding:rem-calc(8);
-			border: 1px solid $white;	
+		.tablet-only {
+			display:block
 		}
 	}
 
+	@include breakpoint('laptop') {
+		left:50%;
 
-	
-	@include breakpoint('tablet') {
-		display:flex;
-		flex-wrap: wrap;
-
-		li {
-			justify-content:center;
-			width:45%;
-			padding-bottom:25.45%;
-			margin-left:rem-calc(10);
-		}
-	}
-}
-
-
-.appearances__list {
-	li {
-		@include clearMP;
-		list-style:none;
-		line-height:1.8;
-		padding:rem-calc(12) rem-calc(20);
-		border-bottom:1px solid $gray-lightest;
-		@include clearfix;
-
-		&:hover {
-			background:$green-lightest;
-		}
-	}
-
-	&--title {
-		display: block;
-		font-size:rem-calc(20);	
-		float:left;
-	}
-
-	&--date {
-		display: none;
-		float:right;
-		color:$gray-light;
-
-
-		@include breakpoint('tablet') {
+		.laptop-up {
 			display: block;
 		}
+
+		.tablet-only {
+			display: none;
+		}
+	}
+
+	
+	@include breakpoint('medium-desktop') {
+		right:8%;
+	}
+
+	@include breakpoint('large-desktop') {
+		@include container;
+		right:15%;
 	}
 }
-
 
 
 /*
 |--------------------------------------------------------------------------
-| Logos 
+| Logo Section
 |--------------------------------------------------------------------------
 |
 |
 */
+.appearances__logos {
+	background:$green;
+	padding:rem-calc(40) rem-calc(20);
+
+	h2 {
+		text-align: center;
+		color:$white;
+	}
+	
+	p {
+		text-align: center;
+		color:$white;
+		margin-bottom:rem-calc(40);
+	}
+
+	ul {
+		@include clearMP;
+		text-align: center;
+	}
+	
+	li {
+		list-style:none;
+		min-height:rem-calc(200);
+		width:60%;
+		margin:auto;
+		
+		background-size:contain;
+		background-position:center center;
+		background-repeat:no-repeat;
+	}
+
+	
+	.button-group {
+		margin:auto;
+		text-align: center;
+		width:auto;
+	}
+
+	@include breakpoint('tablet') {
+		li {
+			@include span(3 of 12);
+			&:last-child { @include last; }
+		}
+
+		p {
+			width:span(8 of 12);
+			margin:auto;
+		}
+	}
+}
+
+
 .appearances__mens-health {
-	@include retinaImage('#{$icon}mh_logo', 'png', contain);
-	background-repeat:no-repeat;
-	background-size:contain;
-	background-position:center center;
+	background-image:url('#{$icon}mh_logo.png');
+
+	@include breakpoint('retina') {
+		background-image:url('#{$icon}mh_logo@2x.png');
+	}
 }
 
 .appearances__us-news {
-	@include retinaImage('#{$icon}us_news', 'png', contain);
-	background-repeat:no-repeat;
-	background-size:contain;
-	background-position:center center;
-
+	background-image:url('#{$icon}us_news.png');
+	
+	@include breakpoint('retina') {
+		background-image:url('#{$icon}us_news@2x.png');
+	}
 }
 
 .appearances__iVillage {
-	@include retinaImage('#{$icon}ivillage', 'png', contain);
-	background-repeat:no-repeat;
-	background-size:contain;
-	background-position:center center;
+	background-image:url('#{$icon}ivillage.png');
+
+	@include breakpoint('retina') {
+		background-image:url('#{$icon}ivillage@2x.png');
+	}
 }
 
 .appearances__MSN {
-	@include retinaImage('#{$icon}msn', 'png', contain);
-	background-repeat:no-repeat;
-	background-size:contain;
-	background-position:center center;
+	background-image:url('#{$icon}msn.png');
+
+	@include breakpoint('retina') {
+		background-image:url('#{$icon}msn@2x.png');
+	}	
 }
+
+
+/*
+|--------------------------------------------------------------------------
+| Appearances Section
+|--------------------------------------------------------------------------
+|
+|
+*/
+.appearances__appearances {
+	
+	h3 {
+		text-align: center;
+	}
+
+	ul { @include clearMP; }
+	
+	li {
+		list-style:none;
+		position: relative;
+		width:90%;
+		margin:auto;
+		margin-top:rem-calc(20);
+		min-height:rem-calc(147);
+		background-size:cover;
+		background-repeat:no-repeat;
+		position: relative;
+
+		&:nth-child(n+1) {
+			background-image:url('#{$video}video-1.png');
+		}
+
+		&:nth-child(n+2) {
+			background-image:url('#{$video}video-2.png');	
+		}
+
+		&:nth-child(n+3) {
+			background-image:url('#{$video}video-3.png');	
+		}
+
+		&:nth-child(n+4) {
+			background-image:url('#{$video}video-4.png');	
+		}
+		
+		a {
+			position: absolute;
+			@include center(xy);
+			color:$white;
+			text-align: center;
+			text-decoration: none;
+			font-size:rem-calc(24);
+
+			width:90%;
+
+			z-index:3;
+		}
+	
+		&:before {
+			content:'';
+			position: absolute;
+			top:0;
+			left:0;
+			height:100%;
+			width:100%;
+			background:rgba($black, 0.4);
+			z-index:2;
+		}
+
+	}
+
+	.button-group {
+		margin:auto;
+		text-align: center;
+	}
+
+
+	@include breakpoint('tablet') {
+		li {
+			display: inline-block;
+			@include span(6 of 12);
+			margin-top:rem-calc(10);
+			
+
+			
+			z-index:1;
+
+		}
+
+		
+		
+
+	}
+
+	@include breakpoint('laptop') {
+		li {
+			margin-top:rem-calc(30);
+			@include span(3 of 12);
+			
+		}
+
+
+		.appearances__list--date {
+			display: block;
+			border-top:1px solid $white;
+			font-size:rem-calc(16);
+		}
+	}
+
+} 
+
+
+/*
+|--------------------------------------------------------------------------
+| Individual Appearance
+|--------------------------------------------------------------------------
+|
+*/
+
+.appearance__video-wrapper  {
+	background:$off-white;
+	@include angle(before, true);
+}
+
+
+.apperances__video {
+	@include container;
+	
+	h1 {
+  		text-align: center;
+  		// margin-top:rem-calc(-30);
+  	}
+
+
+	.video-container {
+		height: 0;
+  		padding-bottom: 56.25%; /* 16:9 */
+  		position: relative;
+  		pading-top:rem-calc(25);
+  		// border: 1px solid #000;	
+
+  		video {
+			max-width: 100%;
+			height: auto !important;
+		}
+
+		iframe {
+			position: absolute;
+  		  	@include center(xy);
+  		  	width:100%;
+  		  	height:100%;
+		}
+	}
+	
+	
+	@include breakpoint('tablet') {
+		width:span(8 of 12);
+		margin:auto;
+	}
+
+	@include breakpoint('laptop') {
+		width:span(10 of 12);
+	}
+}
+

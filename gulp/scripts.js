@@ -31,70 +31,68 @@ var plugins = require('gulp-load-plugins')({
 */
 
 gulp.task('vendor', function () {
-      return gulp.src([
-            path.join(conf.bower.directory, 'jquery/dist/jquery.js'),
-            path.join(conf.bower.directory, 'jquery-touch-events/src/1.0.1/jquery.mobile-events.js'),
-            path.join(conf.bower.directory, 'jquery-ujs/src/rails.js'),
-            path.join(conf.bower.directory, 'jquery/moment/src/moment.js'),
-            path.join(conf.bower.directory, 'materialize/dist/js/materialize.js'),
-            path.join(conf.bower.directory, 'mustache.js/mustache.js')
-        ])
+      return gulp.src(plugins.mainBowerFiles(), { base: conf.bower.directory })
+        .pipe(plugins.filter('**/*.js'))
         .pipe(plugins.chmod(666))
         .pipe(plugins.flatten())
-        // .pipe(plugins.uglify({
-        //   mangleNames: false
-        // })).on('error',  conf.errorHandler('Uglify Vendor'))
-        .pipe(plugins.concat('vendor.min.js'))
-        .pipe(gulp.dest(path.join(conf.paths.min, '/js')));
+        .pipe(plugins.uglify({
+          mangleNames: false
+        })).on('error',  conf.errorHandler('Uglify Vendor'))
+        .pipe(plugins.concat('vendor-file.js'))
+        .pipe(gulp.dest(path.join(conf.paths.min, '/tmp')));
 });
 
 
-gulp.task('js', function () {
-  return gulp.src([
-      path.join(conf.paths.js, '/site/**/*.js')
-    ])
-    .pipe(plugins.chmod(755))
-    .pipe(plugins.flatten())
-    .pipe(plugins.sourcemaps.init())
-    // .pipe(plugins.uglify()).on('error', conf.errorHandler('compiling site Script Files'))
-    .pipe(plugins.concat('app.min.js'))
-    .pipe(plugins.sourcemaps.write())
-    .pipe(gulp.dest(path.join(conf.paths.min, '/js')))
+gulp.task('angular', function () {
+    return gulp.src([
+        path.join(conf.paths.js, '**/*.module.js'),
+        path.join(conf.paths.js, '**/*.js'),
+        path.join('!' + conf.paths.js, '**/*.spec.js'),
+        path.join('!' + conf.paths.js, '**/*.mock.js')
+      ])
+      .pipe(plugins.chmod(755))
+      .pipe(plugins.ngAnnotate()).on('error',  conf.errorHandler('Angular Annotate'))
+      .pipe(plugins.ngAnnotateCheck({
+            options: { "single_quotes": true },
+            callback: function (diff, fileName) {
+                console.log(fileName);
+                console.log(diff);
+            }
+      }))
+      .pipe(plugins.jshint())
+      .pipe(plugins.concat('angular.js'))
+      .pipe(gulp.dest(path.join(conf.paths.min, '/tmp')));
 });
-
-
-gulp.task('js-dashboard', function () {
-  return gulp.src([
-      path.join(conf.paths.js, '/dashboard/**/*.js')
-    ])
-    .pipe(plugins.chmod(755))
-    .pipe(plugins.flatten())
-    .pipe(plugins.sourcemaps.init())
-    .pipe(plugins.uglify()).on('error', conf.errorHandler('compiling dashboard script Files'))
-    .pipe(plugins.concat('dashboard.min.js'))
-    .pipe(plugins.sourcemaps.write())
-    .pipe(gulp.dest(path.join(conf.paths.min, '/js')))
-});
-
-
 
 gulp.task('templates', function () {
-    return gulp.src([
-        path.join(conf.paths.js, '/site/templates/**/*.mst')
-    ])
-    .pipe(plugins.minifyHtml())
-    .pipe(gulp.dest(path.join(conf.paths.min, '/js/templates/')))
-})
+  return gulp.src(path.join(conf.paths.templates, '**/*.html'))
+      .pipe(plugins.chmod(755))
+      .pipe(plugins.minifyHtml({ quotes: true }))
+      .pipe(plugins.angularTemplatecache({
+          module: 'mcdaniel.templates',
+          standalone: false,
+          root: '/templates'
+      }))
+      // .pipe(plugins.uglify()).on('error', conf.errorHandler('Uglify Templates'))
+      .pipe(plugins.concat('templates.js'))
+      .pipe(gulp.dest(path.join(conf.paths.min, '/tmp')));
+});
+
 
 
 /**
  * Build the scripts and send them to S3
 */
-// gulp.task('build-scripts', ['vendor', 'js', 'js-dashboard'], function () {
-//       .pipe(plugins.concat('app.min.js'))
-//       .pipe(plugins.uglify()).on('error', conf.errorHandler('Building Script Files'))
-//       .pipe(plugins.gzip())
-//       .pipe(plugins.s3(conf.amazon, conf.awsOptions('scripts'))).on('error', conf.errorHandler('Uploading Scripts'))
-//       .pipe(gulp.dest(path.join(conf.paths.min, '/assets/scripts')));
-// });
+gulp.task('build-scripts', ['vendor', 'angular', 'templates'], function () {
+    return gulp.src([
+        path.join(conf.paths.min, '/tmp/vendor-file.js'),
+        path.join(conf.paths.min, '/tmp/angular.js'),
+        path.join(conf.paths.min, '/tmp/templates.js')
+      ])
+      .pipe(plugins.concat('app.min.js'))
+      .pipe(plugins.uglify()).on('error', conf.errorHandler('Building Script Files'))
+      .pipe(plugins.gzip())
+      .pipe(plugins.s3(conf.amazon, conf.awsOptions('scripts'))).on('error', conf.errorHandler('Uploading Scripts'))
+      .pipe(gulp.dest(path.join(conf.paths.min, '/assets/scripts')));
+});
 

@@ -1,0 +1,29 @@
+.footer__social-icon-row {
+	background:$green-light;
+	padding:rem-calc(30) rem-calc(20);
+
+	ul { 
+		@include clearMP; 
+		margin:auto;
+		text-align: center;
+	}
+	
+	li { 
+		list-style:none;
+		font-size:rem-calc(30);
+		display:inline-block;
+		margin-right:rem-calc(25);
+	}
+}
+
+
+.footer__contact {
+	background:$gray-light;
+	text-align: center;
+	padding:rem-calc(30) rem-calc(20);
+
+
+	.copyright {
+		font-size:$font-size-legal;
+	}
+}

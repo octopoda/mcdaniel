@@ -1,67 +1,37 @@
-<div class="navigation__modal phone-only" id="navigationModal" id="closeMenu"></div>
+<li class="phone-only"><a class="mobile-navigation-button"><span class="navigation__menu"></span></a></li>
 
-<div class="quick-navigation" id="quickNavigation">
-	<div class="hamburger hamburger--slider"  aria-label="Menu" aria-controls="navigation" id="openMenu">
-	  <span class="hamburger-box">
-	    <span class="hamburger-inner"></span>
-	  </span>
-	</div>
+<nav id="navigation" class="navigation">
+  <div class="navigation__row">
+      <div class="site-branding">
+    		<a href="\">McDaniel Nutrition</a>
+    	</div>
+
+    	<div class="main-navigation">
+          <ul class="main-navigation__menu">
+        		<li class="dropdown-trigger"><a href="#" title="Indivduals">Individuals</a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ route('weight-loss') }}">Weight Loss</a></li>
+                <li><a href="{{ route('sports-nutrition') }}">Sports Nutrition</a></li>
+                <li><a href="{{ route('maternal-nutrition') }}">Maternal Nutrition</a></li>
+                <li><a href="{{ route('rmr') }}">RMR Testing</a></li>
+              </ul>
+            </li>
+        		<li><a href="{{ route('corporate') }}" title="Corporate">Corporate</a></li>
+        		<li><a href="{{ route('allPosts') }}" title="Blog" >Blog</a></li>
+        		<li><a href="{{ route('allAppearances') }}" title="Media" >Media</a></li>
+        		<li class="dropdown-trigger"><a href="{{ route('about') }}" title="About" >About</a>
+                <ul class="dropdown-menu">
+                  <li><a href="{{ route('jennifer') }}">Jennifer McDaniel</a></li>
+                  <li><a href="{{ route('allFAQs') }}">FAQs</a></li>
+                </ul>
+            </li>
+        		<li><a href="#" title="Store" >Store</a></li>
+      	 </ul>
 
 
-	<section>
-		<div class="quick-navigation__logo" class="home-button">
-	  		<div class="logo">
-				<a href="/">McDaniel Nutrition</a>
-			</div>
-  		</div>
-
-	  	<div class="quick-navigation__started">
-			<a href="{{ route('getStarted') }}" class="btn-flatten hollow waves-effect modal-trigger" >Get Started</a>
-		</div>
-	</section>
-</div>
-
-
-<nav id="navigation" class="main-navigation {{ (isset($fixed)) ? $fixed : '' }}">
-  	<div class="main-navigation__logo" id="homeButton">
-  		<div class="logo">
-			<a href="/">McDaniel Nutrition</a>
-		</div>
-  	</div>
-
-  	<div class="main-navigation__started">
-		<a href="{{ route('getStarted') }}" class="btn-flatten hollow waves-effect">Get Started</a>
-	</div>
-
-  	<ul>
-		<li class="Dropdown__trigger" data-dropdown="individualDropdown">
-			<a class="Dropdown__link">Individuals</a>
-			
-			<ul id="individualDropdown" class="Dropdown__content">
-				<li><a href="{{ route('weight-loss') }}">Weight Loss</a></li>
-				<li><a href="{{ route('sports-nutrition') }}">Sports Nutrition</a></li>
-				<li><a href="{{ route('maternal-nutrition') }}">Maternal Nutrition</a></li>
-				<li><a href="{{ route('rmr') }}">RMR Testing</a></li>
-			</ul>
-		</li>
-		
-		<li>  
-			<a href="{{ route('corporate') }}">Corporate Wellness</a>
-		</li>
-		
-		<li><a href="{{ route('allPosts') }}">Blog</a></li>
-		<li><a href="{{ route('allAppearances') }}">Media</a></li>
-		
-		<li class="Dropdown__trigger" data-dropdown="aboutDropdown">
-			<a class="Dropdown__link">About Us</a>
-			
-			<ul id='aboutDropdown' class='Dropdown__content'>
-			    <li><a href="{{ route('about') }}">About McDaniel Nutrition</a></li>
-			    <li><a href="{{ route('allFAQs') }}">FAQs</a></li>
-			</ul>
-		</li>
-		
-		{{-- <li><a href="{{ route('allProducts') }}">Store</a></li> --}}
-	</ul>
-
+        	<ul class="main-navigation__cta">
+            <li class="button"> <a href="{{ route('contact') }}">Contact US</a> </li> 
+          </ul>
+    </div>
+  </div>
 </nav>

@@ -1,0 +1,446 @@
+input[type="checkbox"],
+input[type="radio"] {
+  box-sizing: border-box; /* 1 */
+  padding: 0; /* 2 */
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Placholders
+|--------------------------------------------------------------------------
+|
+*/
+
+::-webkit-input-placeholder {
+  color: $placeholder-color;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  color: $placeholder-color;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+  color: $placeholder-color;  
+}
+
+:-ms-input-placeholder {  
+  color: $placeholder-color;  
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Text Inputs
+|--------------------------------------------------------------------------
+|
+| Inputs that accept Text
+*/
+
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=url],
+input[type=time],
+input[type=date],
+input[type=datetime-local],
+input[type=tel],
+input[type=number],
+input[type=search] {
+	-webkit-appearance: none;
+	width:100%;
+	margin:auto;
+	padding:rem-calc(20) rem-calc(20);
+	border:1px solid $gray;
+	border-radius:0;
+	outline:none;
+
+
+	&.bw {
+		border:1px solid $black;
+	}
+
+  &.currency-input {
+    padding-left:rem-calc(30);
+  }
+
+ 
+	@include breakpoint('laptop') {
+		padding:rem-calc(15) rem-calc(20);
+	}
+}
+
+
+textarea {
+	-webkit-appearance: none;
+	outline:none;
+	width:100%;
+	margin:auto;
+	padding:rem-calc(20);
+	border:1px solid $gray;
+	border-radius:0;
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Radio Button Input Styles
+|--------------------------------------------------------------------------
+| @note Label need to be after the input and the id attribute on the input and 
+| for attribute on the label need to match.
+|
+*/
+
+/* Remove default Radio Buttons */
+[type="radio"]:not(:checked),
+[type="radio"]:checked {
+  position: absolute;
+  left: -9999px;
+  visibility: hidden;
+}
+
+[type="radio"]:not(:checked) + label,
+[type="radio"]:checked + label {
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+  display: inline-block;
+  height: 25px;
+  line-height: 25px;
+  font-size: 1rem;
+  @include transition(.28s ease);
+
+  -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+  -moz-user-select: none; /* mozilla browsers */
+  -khtml-user-select: none; /* webkit (konqueror) browsers */
+  -ms-user-select: none; /* IE10+ */
+}
+
+[type="radio"] + label:before,
+[type="radio"] + label:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 4px;
+  width: 16px;
+  height: 16px;
+  z-index: 0;
+  @include transition(.28s ease);
+}
+
+
+/* Unchecked styles */
+[type="radio"]:not(:checked) + label:before {
+  border-radius: 50%;
+  border: 2px solid $radio-empty-color;
+}
+[type="radio"]:not(:checked) + label:after {
+  border-radius: 50%;
+  border: 2px solid $radio-empty-color;
+  z-index: -1;
+
+  @include transform(scale(0));
+}
+
+/* Checked styles */
+[type="radio"]:checked + label:before {
+  border-radius: 50%;
+  border: 2px solid transparent;
+}
+[type="radio"]:checked + label:after {
+  border-radius: 50%;
+  border: 2px solid $radio-fill-color;
+  background-color: $radio-fill-color;
+  z-index: 0;
+  @include transform(scale(1.02));
+}
+
+/* Radio With gap */
+[type="radio"].with-gap:checked + label:before {
+  border-radius: 50%;
+  border: 2px solid $radio-fill-color;
+}
+[type="radio"].with-gap:checked + label:after {
+  border-radius: 50%;
+  border: 2px solid $radio-fill-color;
+  background-color: $radio-fill-color;
+  z-index: 0;
+  @include transform(scale(.5));
+}
+
+/* Disabled style */
+[type="radio"]:disabled:not(:checked) + label:before,
+[type="radio"]:disabled:checked + label:before {
+  background-color: transparent;
+  border-color: $input-disabled-color;
+}
+[type="radio"]:disabled + label {
+  color: $input-disabled-color;
+}
+[type="radio"]:disabled:not(:checked) + label:hover:before {
+  border-color: $input-disabled-color;
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Checkbox Styls
+|--------------------------------------------------------------------------
+|
+| Styles for Checkboxes
+|
+*/
+
+/**
+ * Remove the Default Checkbox
+ * @type {String}
+ */
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+  position: absolute;
+  left:-9999px;
+}
+
+
+// Checkbox Styles
+[type="checkbox"] {
+  // Text Label Style
+  + label {
+    position: relative;
+    padding-left: 35px;
+    cursor: pointer;
+    display: inline-block;
+    height: 25px;
+    line-height: 25px;
+    user-select: none; 
+  }
+
+  /* checkbox aspect */
+  + label:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: rem-calc(18);
+    height: rem-calc(18);
+    z-index: 0;
+    border: 2px solid $gray;
+    margin-top:rem-calc(2);
+    @include transition(ease-in-out .2s);
+  }
+
+  &:not(:checked):disabled + label:before {
+    border: none;
+    background-color: $input-disabled-color;
+  }
+
+}
+
+[type="checkbox"]:checked {
+  + label:before {
+    top: rem-calc(-4);
+    left: rc(-3);
+    width: rem-calc(12); 
+    height: rem-calc(22);
+    
+    border-top: 2px solid transparent;
+    border-left: 2px solid transparent;
+    border-right: 2px solid $radio-fill-color;
+    border-bottom: 2px solid $radio-fill-color;
+    
+    @include rotate(40deg);
+    @include transformOrigin(100% 100%);
+    @include backface-visibility(hidden);
+  }
+
+  &:disabled + label:before {
+    border-right: 2px solid $input-disabled-color;
+    border-bottom: 2px solid $input-disabled-color;
+  }
+
+}
+
+
+// Filled in Style
+[type="checkbox"] {
+  // General
+  + label:after {
+    border-radius: 2px;
+  }
+ 
+  + label:before,
+  + label:after {
+    content: '';
+    left: 0;
+    position: absolute;
+    @include transition(border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s);
+    z-index: $z-layer-range-1;
+  }
+  
+  // Unchecked style
+  &:not(:checked)  {
+  	+ label:before {
+	     width: 0;
+	     height: 0;
+	     border: 3px solid transparent;
+	     left: 6px;
+	     top: 10px;
+
+	     @include rotateZ(37deg);
+	     @include transformOrigin(20% 40%);
+	     // -webkit-transform-origin: 20% 40%;
+	     //         transform-origin: 100% 100%;
+     }
+
+     + label:after {
+	    height: 20px;
+	    width: 20px;
+	    background-color: transparent;
+	    border: 2px solid $radio-empty-color;
+	    top: 0px;
+	    z-index: 0;
+  	 }
+  }
+  
+
+  // Checked style
+  &:checked {
+    + label:before {
+      top: 0;
+      left: 1px;
+      width: 8px;
+      height: 13px;
+      border-top: 2px solid transparent;
+      border-left: 2px solid transparent;
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+
+      @include rotateZ(37deg);
+			@include transformOrigin(100% 100%);
+    }
+    
+    + label:after {
+      top: 0px;
+      width: 20px;
+      height: 20px;
+      border: 2px solid $success;
+      background-color: $success;
+      z-index: 0;
+    }
+  }
+  // Disabled style
+  &:disabled:not(:checked) + label:before {
+		background-color: transparent;
+    border: 2px solid transparent;
+	}
+  
+  &:disabled:not(:checked) + label:after {
+    border-color: transparent;
+    background-color: $input-disabled-solid-color;
+  }
+  
+  &:disabled:checked + label:before {
+    background-color: transparent;
+
+  }
+  
+  &:disabled:checked + label:after {
+    background-color: $input-disabled-solid-color;
+    border-color: $input-disabled-solid-color;
+  }
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Select Box Styles
+|--------------------------------------------------------------------------
+|
+| Styles for Select Boxes
+|
+*/
+
+
+select {
+   -webkit-appearance:none;
+   background-color: rgba($white, 0.9);
+   border: 1px solid $input-border-color;
+   border-radius:0px !important;
+   width: 100%;
+   padding: rem-calc(8);
+   
+   height: rem-calc(54);
+
+   background-image: url('#{$icon}select-box-arrows.jpg');
+   background-repeat:no-repeat;
+   background-position:95% 50%;
+
+   @include breakpoint('retina') {
+     background-image: url('#{$icon}select-box-arrows@2x.jpg');
+     background-size:13px 26px;
+   }
+   
+}
+
+
+.select-label {
+  position: absolute;
+}
+
+
+// Disabled styles
+select:disabled {
+  color: $gray-light;
+  cursor:default;
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Validations and Errors
+|--------------------------------------------------------------------------
+|
+| Styles for Anuglar Validations and Errors
+| 
+|
+*/
+
+//Error 
+input.ng-invalid.ng-dirty {
+	border:1px solid $error;
+}	
+
+//Remove red border from firefox
+input:invalid, select:invalid {
+    box-shadow: none;
+}
+.ng-pristine .ng-invalid-required {
+    box-shadow: none;
+}
+
+//Valid
+input.ng-valid{
+	border:1px solid $success;
+}
+
+input.ng-untouched {
+	border:1px solid $gray-dark !important;
+}
+
+
+.currency-input {
+	background:url('#{$icon}input-dollar-sign.jpg') center left no-repeat $white;
+	padding-left:rem-calc(25);
+	
+	
+	@include breakpoint('retina') {
+		background-image:url('#{$icon}input-dollar-sign@2x.jpg');
+		background-size:28px 27px;
+	}
+}
+

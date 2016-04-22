@@ -74,8 +74,6 @@
 }
 
 
-
-
 /**
  * Remove List style and display list as a display Item
  * @param  {string} $inline:inline  inline or block
@@ -171,24 +169,13 @@
     }
 
     &:before {
-		@include transform(translateY($burger-hg) rotate(45deg))
-	}
+		  @include transform(translateY($burger-hg) rotate(45deg))
+      background-color:$burger-open;
+	  }
+
     &:after {
-		@include transform(translateY(-$burger-hg) rotate(-45deg))
-    }
-}
-
-
-/**
- * Retina Images
- */
-
-@mixin retinaImage($imageName, $ext, $size) {
-    background-image:url('#{$imageName}@2x.#{$ext}');
-
-
-    @include breakpoint('retina') {
-        background-image:url('#{$imageName}@2x.#{$ext}')
+		  @include transform(translateY(-$burger-hg) rotate(-45deg))
+      background-color:$burger-open;
     }
 }
 
@@ -209,6 +196,104 @@
     
 }
 
+
+
+/*
+Angle Shit
+ */
+@mixin angle($pseudo, $flip: false, $angle: 2.5deg) {
+  // Possible values for $pseudo are: before, after, both
+  @if $pseudo == 'before' or $pseudo == 'after' or $pseudo == 'both' {
+    position: relative;
+    z-index: 1;
+    $selector: if($pseudo == 'both', '&:before,&:after', '&:#{$pseudo}');
+
+    #{$selector} {
+      background: inherit;
+      content: '';
+      display: block;
+      height: 80%;
+      left: 0;
+      margin-top:-40px;
+      position: absolute;
+      right: 0;
+      z-index: -1;
+      -webkit-backface-visibility: hidden; // for Chrome Windows
+    }
+
+    @if $pseudo == 'before' {
+      #{$selector} {
+        top: 0;
+
+        @if $flip {
+          transform: skewY($angle * -1);
+          transform-origin: 0 0;
+        } @else {
+          transform: skewY($angle);
+          transform-origin: 100% 0;
+        }
+      }
+    }
+
+    @if $pseudo == 'after' {
+      #{$selector} {
+        bottom: 0;
+
+        @if $flip {
+          transform: skewY($angle);
+          transform-origin: 0 100%;
+        } @else {
+          transform: skewY($angle * -1);
+          transform-origin: 100%;
+        }
+      }
+    }
+
+    @if $pseudo == 'both' {
+      &:before {
+        top: 0;
+
+        @if $flip {
+          transform: skewY($angle * -1);
+          transform-origin: 0 0;
+        } @else {
+          transform: skewY($angle);
+          transform-origin: 100% 0;
+        }
+      }
+
+      &:after {
+        bottom: 0;
+
+        @if $flip {
+          transform: skewY($angle);
+          transform-origin: 0 0;
+        } @else {
+          transform: skewY($angle * -1);
+          transform-origin: 100%;
+        }
+      }
+    }
+  }
+}
+
+
+/**
+ * Maintain Vido Ratios (1:1, 16:9)
+ * @param  {[int]} $ratio: 1:1 
+ */
+@mixin maintainRatio($ratio: 1 1) {
+  @if length($ratio) < 2 or length($ratio) > 2 {
+     @warn "$ratio must be a list with two values.";
+  }
+
+  $width: 100%;
+  $height: percentage(nth($ratio, 2) / nth($ratio, 1));
+  
+  width: $width;
+  height: 0;
+  padding-bottom: $height;
+}
 
 
 

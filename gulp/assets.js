@@ -34,10 +34,17 @@ gulp.task('images', function() {
 
 
 gulp.task('build-images', function () {
-  return gulp.src(path.join(conf.paths.min, '/assets/images/**/*.{png,jpg,jpeg,gif,svg}'))
-    .pipe(plugins.gzip())
-    .pipe(plugins.s3(conf.amazon, conf.awsOptions('images'))).on('error', conf.errorHandler('Uploading Images'));
+	return gulp.src(path.join(conf.paths.min, '/assets/images/**/*.{png,jpg,jpeg,gif,svg}'))
+		.pipe(plugins.gzip())
+		.pipe(plugins.s3(conf.amazon, conf.awsOptions('images'))).on('error', conf.errorHandler('Uploading Images'));
 });
+
+
+gulp.task('dailyui', function() {
+  return gulp.src(path.join(conf.paths.min, '/assets/images/dailyui/**/*.{png,jpg,jpeg,gif,svg}'))
+    .pipe(plugins.gzip())
+    .pipe(plugins.s3(conf.amazon, conf.awsOptions('images/dailyui'))).on('error', conf.errorHandler('Uploading Daily'));
+})
 
 
 gulp.task('build-videos', function () {

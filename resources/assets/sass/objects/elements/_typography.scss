@@ -1,102 +1,203 @@
-
-
-h1, h2, h3, h4, h5, h6 {
-	font-family: $heading-font-family;
-	line-height:1.2;
-	font-style:italic;
-}
-
-p, blockquote, a, td, li {
-	font-family:$body-font-family;
-	font-size:rem-calc(14);
-	line-height:1.6;
-}
-
-
-p {
-	font-size:rem-calc(14);
-	line-height:1.8;
-}
-
+/*
+|--------------------------------------------------------------------------
+| Site Typography
+|--------------------------------------------------------------------------
+|
+| All Element Typography is handled below
+|
+*/
 
 h1 {
-	font-size:rem-calc(30);
-	color:$green;
-
-	&.underlined {
-		border-bottom:1px solid $gray-light;
-		padding-bottom:rem-calc(10);
+	font-size:rem-calc(60);
+	line-height:rem-calc(64);
+	font-family: $header-font;
+	
+	@include breakpoint('tablet') {
+		line-height:1.61;
 	}
 }
 
 h2 {
-	font-size:rem-calc(25);
-	color:$orange;
+	font-size:rem-calc(42);
+	line-height:rem-calc(44);
+	color:$gray;
+	font-family: $header-font;
 
-	&.underlined {
-		border-bottom:1px solid $gray-light;
-		padding-bottom:rem-calc(10);
-	}
-
-	small {
-		font-size:rem-calc(18);
-		color:$gray;
+	@include breakpoint('laptop') {
+		font-size:rem-calc(42);
+		line-height:rem-calc(54);
 	}
 }
 
 h3 {
-	font-size:rem-calc(20);
-	color:$gray;
-
-	&.underlined {
-		border-bottom:1px solid $gray-light;
-		padding-bottom:rem-calc(10);
-	}
+	font-size:rem-calc(26);
+	line-height:rem-calc(30);
+	color:$green;
+	margain-bottom:rem-calc(5);
+	font-family: $header-font;
 }
 
 h4 {
-	font-size:rem-calc(19);
+	font-size:rem-calc(22);
+	line-height:1.61;
+	font-family: $header-font;
 }
 
 h5 {
 	font-size:rem-calc(18);
-}
+	line-height:1.61;
+	color:$green;
+	font-family: $header-font;
+}	
 
-h6 {
-	font-size:rem-calc(17);
-}
-
-
-strong {
-	font-weight:bolder;
-}
-
-ul  {
-	margin-left:rem-calc(20);
-
-	li {
-		list-style:disc;
-		margin-left:rem-calc(20);
-		margin-top:rem-calc(8);
+blockquote {
+	@include clearMP;
+	margin-left:rem-calc(5);
+	p {
+		font-style:italic;
+		font-size:rem-calc(18);
+		line-height:rem-calc(32);
 	}
 
-	&.no-bullet {
-		li {
-			list-style:none;
+	.author {
+		display: block;
+		font-weight:bold;
+	}
+}	
+
+p {
+	font-size:rem-calc(16);
+	font-family:$body-font-family;
+	line-height:1.61;
+	
+	&.large {
+		font-size:rem-calc(18);
+	}
+
+	&.small {
+		font-size:rem-calc(14);
+	}
+}
+
+
+strong, b {
+	font-weight:bold;
+}
+
+
+ul {
+	 &.no-bullets {
+        @include clearMP;
+
+        li {
+            list-style:none;
+            @include clearMP;
+            margin-bottom:rem-calc(20);
+        }
+    }
+}
+
+li {
+	font-size:rem-calc(16);
+	font-family:$body-font-family;
+	line-height:2.1;
+	
+	.large &{
+		font-size:rem-calc(18);
+		line-height: rem-calc(48);
+	}
+
+	@include breakpoint('laptop') {
+		font-size:rem-calc(16);
+		line-height:rem-calc(32);
+
+		.large &{
+			font-size:rem-calc(20);
+			line-height: rem-calc(40);
 		}
 	}
 }
 
 
-blockquote {
-	border:none;
 
-	padding:rem-calc(20) rem-calc(60);
-	p {
-		font-size:rem-calc(18);
-		font-family:$heading-font-family;
-		font-weight:500;
-		font-style:italic;
-		line-height:2;
+
+/**
+ * Navigation
+ */
+nav {
+	@include displayList(block);
+
+	ul {
+		text-align: center;
+	}
+
+	li {
+		list-style:none;
+	}
+
+	a {text-decoration:none;}
+
+	@include breakpoint('tablet') {
+		li {
+			display: inline-block;
+		}
+	}	
+}
+
+
+
+/**
+ * Links
+ */
+
+a {
+	color:$green;
+	
+	&:hover {
+		color:$black;
+	}
+
+	&.expat {
+		color:$blue;
+
+		&:hover {
+			color:$blue-dark
+		}
 	}
 }
+
+a.tel {
+    @include breakpoint('laptop') {
+        color:$black;
+        pointer-events:none;
+        cursor:default;
+        text-decoration:none;
+    }
+}
+
+
+
+
+
+
+/** Placement Styles */
+.text-center {
+	text-align: center;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.text-right {
+	text-align: right;
+}
+
+
+/**Other Styles */
+.legal {
+	font-size:$font-size-small;
+	color:$gray;
+}
+
+

@@ -24,3 +24,107 @@
 
 
 
+/**
+ * Font Styling
+ */
+
+%font-light {
+	font-family: $body-font-family;
+	font-style: normal;
+	font-weight:100;
+}
+
+%font-light-italic {
+	font-family: $body-font-family;
+	font-style:italic;
+	font-weight:100; 
+}
+
+%font-medium {
+	font-family: $body-font-family;
+	font-style: normal;
+	font-weight:500;
+}
+
+%font-medium-italic {
+	font-family: $body-font-family;
+	font-style:italic;
+	font-weight:500; 
+}
+
+
+%font-heavy {
+	font-family: $body-font-family;
+	font-style: normal;
+	font-weight:700;
+}
+
+%font-heavy-italic {
+	font-family: $body-font-family;
+	font-style:italic;
+	font-weight:700; 
+}
+
+
+%blackCover {
+	&:before {
+		content: '';
+		display:block;
+		position: absolute;
+		top:0;
+		left:0;
+		height:100%;
+		width:100%;
+		background:rgba($black, 0.42);
+	}
+}
+
+
+/**
+ * Make Banners for Knowledge Center
+ */
+%makeBanner {
+	&:before {
+		display: block;
+		position: absolute;
+		text-transform: uppercase;
+		padding: rem-calc(10) rem-calc(15);
+		left: 0;
+		top: 0;
+		width:100%;
+		color:$white;
+		white-space: nowrap;
+		font-size:$font-size-small;
+		z-index:$z-layer-range-2;
+		
+
+		@include breakpoint('tablet') {
+			left:-6.25%;
+			top:rem-calc(15);
+			width:108%;
+			font-size:$font-size-medium;
+			box-shadow:  rem-calc(2) rem-calc(8) rem-calc(10) rgba($black, 0.4);
+		}
+
+		@include breakpoint('laptop') {
+			width:90%;
+		}
+	}
+
+	&:after {
+
+		@include breakpoint('tablet') {
+			content: '';
+			display:block;
+			position: absolute;
+			height:0;
+			width:0;
+			border:15px solid;
+			border-color: $black transparent transparent transparent;
+			top:rem-calc(50);
+			left:-6.55%;
+			z-index: -1;	//code)
+		}
+		
+	}
+}

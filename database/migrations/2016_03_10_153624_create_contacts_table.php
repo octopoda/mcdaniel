@@ -28,6 +28,6 @@ class CreateContactsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('transactions');
+        Schema::drop('contacts');
     }
 }

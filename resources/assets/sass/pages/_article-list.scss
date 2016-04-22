@@ -1,0 +1,104 @@
+/*
+|--------------------------------------------------------------------------
+| Article List Styles
+|--------------------------------------------------------------------------
+|
+| Used in Second page of article listing after knowledge center
+| homepage. 
+| 
+|
+*/
+
+
+.article-list {
+	&__topics {
+		display:none;
+	}
+
+
+	@include breakpoint('tablet') {
+		padding-right:0;
+
+		&__topics {
+			display:block;
+		}
+
+		&__categories {
+			@include span(3 of 12);	
+		}
+
+		&__articles {
+			@include span(9 of 12 last);
+			padding:0;
+		}
+	}
+
+	@include breakpoint('laptop') {
+		padding-right:rem-calc(20);
+	}
+	
+
+}
+
+
+.article-list__search {
+	width:100%;
+	padding:rem-calc(20);
+	text-align: right;
+	
+	a {
+		text-decoration: none;
+		color:$gray;
+		width:100%;
+
+		i {
+			margin-left:rem-calc(10);
+			position: relative;
+			top:rem-calc(5);
+		}
+	}
+
+	@include breakpoint('tablet') {
+		@include clearMP;
+		padding-top:rem-calc(20);
+	}
+
+}
+
+
+.article-list__topics {
+	h3 {
+		font-size:rem-calc(24);
+		color:$black;
+		border-bottom:1px solid $gray-light;
+		text-align: right;
+		margin-bottom:rem-calc(5);
+		width:80%;
+		float:right;
+	}
+
+	ul {
+		@include clearMP;
+		clear:both;
+	}
+
+	li {
+		list-style:none;
+		text-align: right;
+		
+		a {
+			text-decoration: none;
+			color:$gray;
+		}
+
+		&:hover {
+			background:$green-light;
+
+			a {
+				color:$green;
+			}
+		}
+	}
+}
+
+

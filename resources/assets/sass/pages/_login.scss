@@ -1,0 +1,57 @@
+/*
+|--------------------------------------------------------------------------
+| Style for login and register forms
+|--------------------------------------------------------------------------
+|
+|
+*/
+.login__wrapper {
+	@include container();
+
+	.button-group {
+		margin-top:rem-calc(40);
+	}
+}
+
+
+.login__login-form {
+	padding:rem-calc(20);
+
+	@include breakpoint('tablet') {
+		width:span(6 of 12);
+		margin:auto;
+	}
+}
+
+
+.login__register-form {
+	padding:rem-calc(20);
+
+	h5 {
+		@extend %font-medium;
+	}
+
+	p {
+		margin-top:0;
+	}
+
+	&__preferences {
+		@include displayList(block);
+	}
+
+	@include breakpoint('tablet') {
+		width:span(8 of 12);
+		margin:auto;
+
+
+		&__preferences {
+			ul {
+				@include span(6 of 12);
+				&:last-child { @include last; }
+			}
+		}
+		
+
+
+	}
+}

@@ -26,8 +26,24 @@
 		</div>
  	</div>
 
- 
-	<div class="row">
+ 	<div class="row">
+		<div class="input-field col s12 m6">
+			{!! Form::select('post_type', $post->postTypes, ['class'=>'validate',]) !!}
+			{!! Form::label('post_type', 'Post Title') !!}
+		</div>
+
+
+		<div class="input-field s12 m6 col">
+			{!! Form::label('publish_date', 'Publish Date:') !!}
+			<input type="date" class="datepicker" name="publish_date" id="publish_date" value="{{ (isset($post)) ? $post->publish_date : '' }}">
+		</div>
+	
+ 	</div>
+
+
+
+
+ 	<div class="row">
  		{!! Form::label('content', 'Post Content') !!}
  		<div class="input-field col s12">
  			{!! Form::textarea('content', null, ['class'=>'redactor validate',]) !!}
@@ -42,13 +58,6 @@
  	</div> 	
 	
 	
-	<div class="row">
-		<div class="form-input">
-			<input type="date" class="datepicker" name="publish_date" id="publish_date" value="{{ (isset($post)) ? $post->publish_date : '' }}">
-			{!! Form::label('publish_date', 'Publish Date:') !!}
-		</div>
-	</div>
-
 	
 
 	<div class="row">
@@ -58,7 +67,7 @@
 	        	<input type="file" name="post_image" id="post_image">
 	      	</div>
 	      	<div class="file-path-wrapper">
-		        <input class="file-path validate" type="text">
+		        <input class="file-path validate" type="text" value="{{ (isset($post->post_image)) ? $post->post_image  : null }}">
 	    	</div>
     	</div>
 	</div>

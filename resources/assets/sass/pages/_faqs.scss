@@ -1,119 +1,114 @@
-
-.faq__header {
-	background:url('#{$headers}faq_xlarge.jpg') top left no-repeat;
-	background-size:cover;
-	padding-bottom:rem-calc(60);
-	padding-top:rem-calc(40);
+.faqs__hero {
+	background-image: url('#{$page}faqs/faqs-hero-sm.jpg');
+	background-position:center right;
 
 	h1 {
-		color:$green;
-		text-shadow:1px 1px 0 rgba($black, 0.9);
+		margin-bottom:0;
 	}
-
-
-	&--text {
-		text-align: center;
-		
-
-		form {
-			width:90%;
-			margin:auto;
-			position: relative;
-		}
-
-		button {
-			float:right;
-			position: absolute;
-			top:rem-calc(8);
-			right:0;
-			border:none;
-			outline:none;
-			background:none;
-			color:$gray;
-		}
-
-	}
-
 
 	@include breakpoint('tablet') {
-		padding-top:rem-calc(50);
-
-		h1 {
-			font-size:rem-calc(48);
-		}
-
-		form {
-			width:80%;
-			margin:auto;
-		}
+		background-image: url('#{$page}faqs/faqs-hero-med.jpg');
 	}
 
-
 	@include breakpoint('laptop') {
-		h1 {
-			font-size:rem-calc(56);
-		}
+		background-image: url('#{$page}faqs/faqs-hero-large.jpg');
 
-		padding:rem-calc(80);
 	}
 }
 
+.faq__question__search {
+	background:$gray-light;
+	position: relative;
 
-
-.faq__wrapper {
-	box-shadow: none;
-	border:none;
-	@include clearMP;
+	@include breakpoint('phone-only') {
+		.row { @include clearMP; }
+	}
 	
-	li {
-		list-style:none;
-		padding-left:rem-calc(0);
-		margin-left:0;
+
+	.search-icon {
+		position: absolute;
+		top:rem-calc(10);
+		right:20px;
 	}
 
-}
-
-
-
-.faq__contact {
-	margin-top:rem-calc(40);
-
-	@include breakpoint('laptop') {
-		margin-top:0;
+	input {
+		background:none;
+		border:none;
 	}
 }
+
+
+.faqs__questions__wrapper {
+	 padding-bottom:rem-calc(80);
+	
+	 ul {
+	 	@include clearMP;
+	 }
+
+	 li {
+	 	list-style:none;
+
+	 	a {
+	 		text-decoration: none;
+	 	}
+	 }
+
+	 @include breakpoint('tablet') {
+	 	.faqs__questions {
+	 		@include span(8 of 12);
+	 	}
+
+	 	.faqs__contact {
+	 		@include span(4 of 12);
+	 		
+	 		h3 {
+	 			color:$gray;
+	 		}
+	 	}
+	 }
+}
+
 
 .faq__question {
+	font-size:rem-calc(18);
+	border-bottom:1px solid $gray-light;
+	padding-top:rem-calc(30);
+	padding-bottom:rem-calc(30);
+	margin-left:rem-calc(20);
+	
 	i {
-		font-size:rem-calc(16);
-		color:$gray-light;
-		margin-right:10px;
-	}
-
-	.collapsible-header {
-		@include clearMP;
-		color:$green;
-		font-size:rem-calc(20);
-		padding:rem-calc(20) 0;
-		line-height:1.6;
-	}
-
-	.collapsible-body {
-		margin-left:rem-calc(42);
-		border:none;
-		padding:rem-calc(40) rem-calc(60) rem-calc(40) 0;
+		position: relative;
+		top:rem-calc(5);
+		margin-left:rem-calc(-30);
+		display: inline-block;
+		@include transition(transform ease-in 0.4s);
 	}
 	
+	.faq__answer {
+		display:none;
+		margin-left:rem-calc(20);
+	}
+
+	&:last-child {
+		border-bottom:none;
+	}
+
+
+	&.active {
+		.faq__answer {
+			display:block;
+		}
+
+		i {
+			@include rotate(90deg);
+		}
+	}
 }
 
 
-.faq__more {
-	margin-top:rem-calc(50);
+.faqs__more {
+	background:$white;
+	padding:rem-calc(40) rem-calc(20);
 
-
-	@include breakpoint('laptop') {
-		&--form {
-			margin-top:rem-calc(40);
-		}
-	}
+	@include angle(before, true);
 }

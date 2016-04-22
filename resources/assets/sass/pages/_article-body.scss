@@ -1,0 +1,160 @@
+/*
+|--------------------------------------------------------------------------
+| Article Body Styles
+|--------------------------------------------------------------------------
+|
+| Only for the body of the articles
+| 
+|
+*/
+
+.article-body {
+
+/**
+ * Typography
+ */
+
+
+/**
+ * Images
+ * @type {[type]}
+ */
+	img {width:100%;}
+
+	//New Images with Figure
+	figure {
+		position: relative;
+		@include clearMP;
+
+		img {width:100%;}
+		
+		figcaption {
+			position: absolute;
+			bottom:0;
+			right:0;
+			background:rgba($white, 0.8);
+			padding:rem-calc(8) rem-calc(10);
+		}
+
+        &.half-right {
+               width:50%;
+               float:right;
+               margin-left:rem-calc(30);
+               margin-bottom:rem-calc(30);
+               margin-top:rem-calc(30);
+               margin-right:rem-calc(-80);
+        }
+
+        &.half-left {
+            width:50%;
+            float:left;
+            margin-right:rem-calc(30);
+            margin-top: rem-calc(30);
+            margin-bottom:rem-calc(30);
+            margin-left:rem-calc(-80);
+        }
+	}
+
+
+/**
+    Videos
+*/
+
+.article-video {
+    position:relative;
+    height:0;
+    margin-bottom:rem-calc(5);
+    overflow:hidden;
+    padding-bottom:67.5%;
+    padding-top:rem-calc(20);
+    
+    a, div, object, embed, iframe {
+        position:absolute;
+        top:0;
+        left:0;
+        height:100% !important;
+        width:100% !important;
+    }
+
+}
+
+/**
+ * Tables
+ */
+	.greenBackground {
+		background:$green;
+		border:0;
+		td {
+			color:$white;
+		}
+	}
+
+	.highlight {
+		background:$ivory;	
+	}
+
+    table {
+        width:100%;
+        margin-top:rem-calc(50);
+        margin-bottom:rem-calc(50);
+    }
+
+    table thead tr th, table thead tr td {
+       padding:rem-calc(20);
+       color:$white;
+       text-align:left;
+    }
+
+/**
+ * Callouts
+ */
+.callout {
+	display: none;
+	border-top:1px solid $green;
+	border-bottom:1px solid $green;
+
+	blockquote {
+		font-size:$font-size-xxlarge;
+		font-style:italic;
+		line-height:1.2;
+	}
+
+	@include breakpoint('tablet') {
+		display: block;
+		width:50%;
+		float:left;
+		margin: rem-calc(20) rem-calc(20) rem-calc(20) rem-calc(-40);	
+	}	
+}
+
+
+/** 
+ * Asides
+ */
+	.article-related {
+		width:100%;
+		margin:rem-calc(20) auto;
+		background:$ivory;
+		padding:rem-calc(20) rem-calc(40);
+		border-top:2px solid $ivory-dark;
+		border-bottom:2px solid $ivory-dark;
+
+		@include displayList;
+		
+		ul li {
+			list-style:none;
+			line-height:1.3;
+			margin-top:rem-calc(15);
+		}
+
+		@include breakpoint('tablet') {
+			width:60%;
+			float:right;
+			margin: 0 rem-calc(-70) rem-calc(20) rem-calc(20);
+		}
+	}
+
+
+
+}
+

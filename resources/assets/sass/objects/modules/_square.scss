@@ -1,0 +1,184 @@
+/*
+|--------------------------------------------------------------------------
+| Important
+|--------------------------------------------------------------------------
+|
+| Squares are reversed due to client layout changes
+  Right is left and left is right. 
+| 
+|
+*/
+
+/*
+|--------------------------------------------------------------------------
+| Square Right
+|--------------------------------------------------------------------------
+
+|
+*/
+.m-square-left__wrapper {
+	@include breakpoint('desktop') {
+		@include container;
+		position: relative;
+	}
+}
+
+
+.m-square-left__text {
+	position: relative;
+	padding-bottom:rem-calc(130);
+	margin-top:rem-calc(80);
+	padding-top:rem-calc(40);
+	z-index:2;
+	
+
+	@include breakpoint('tablet') {
+		@include span(5 of 12);	
+	}
+
+	@include breakpoint('laptop') {
+		@include span(4 of 12);
+		@include push(1 of 12);
+	}
+
+	@include breakpoint('desktop') {
+		@include span(4 of 12);
+	}
+
+	@include breakpoint('medium-desktop') {
+		padding:rem-calc(120) rem-calc(20);
+	}
+
+
+}
+
+
+.m-square-left {
+	position: absolute;
+	background:$white;
+	@include rotate(309deg);
+	background-clip: content-box;
+	border-right:rem-calc(10) double $white;
+	
+	
+
+	@include breakpoint('tablet') {
+		width:rem-calc(600);
+		height:rem-calc(600);
+		margin-top:rem-calc(70);
+		left:-20%;
+	}
+
+	@include breakpoint('laptop') {
+		left:-8%;
+		margin-top:rem-calc(100);
+	}
+
+
+	@include breakpoint('desktop') {
+		width:rem-calc(700);
+		height:rem-calc(700);
+		left:-20%;
+	}
+
+	@include breakpoint('medium-desktop') {
+		width:rem-calc(800);
+		height:rem-calc(800);
+		left:-15%;
+	}
+
+	@include breakpoint('large-desktop') {
+		
+	}
+}
+
+//For Moblie
+.m-square-left-small {
+	@include breakpoint('phone-only') {
+		height:rem-calc(300);
+		width:rem-calc(300);
+		@include rotate(309deg);
+		background:rgba($white,  0.9);
+		border:8px solid $white;
+		position: absolute;
+		
+		margin-left:-20%;
+	}
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Square Left;
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+
+.m-square-right__wrapper {
+	@include breakpoint('desktop') {
+		@include container;
+		position: relative;
+	}
+}
+
+
+.m-square-right__text {
+	position: relative;
+	padding-top:rem-calc(40);
+	padding-bottom:rem-calc(40);
+
+	@include breakpoint('tablet') {
+		@include span(5 of 12);
+		@include push(7 of 12);
+		padding-right:rem-calc(20);
+	}
+
+	@include breakpoint('laptop') {
+		@include span(4 of 12 last);
+		@include push(8 of 12);
+
+	}
+
+	@include breakpoint('medium-desktop') {
+		padding:rem-calc(120) rem-calc(20);
+	}
+}
+
+
+.m-square-right {
+	position: absolute;
+	background:$white;
+	@include rotate(309deg);
+	right:0;
+	background-clip: content-box;
+	border-top:10px double white;
+
+	@include breakpoint('tablet') {
+		width: rem-calc(600);
+		height: rem-calc(600);
+		margin-right:-8%;
+	}
+
+	@include breakpoint('laptop') {
+		width: rem-calc(650);
+		height: rem-calc(650);
+		margin-right:-10%;
+	}
+
+	@include breakpoint('desktop') {
+		width:rem-calc(700);
+		height:rem-calc(700);
+		margin-right:-15%;
+	}
+
+	@include breakpoint('medium-desktop') {
+		
+	}
+
+	
+}
+
+
+

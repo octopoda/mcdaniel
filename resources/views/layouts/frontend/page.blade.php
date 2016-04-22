@@ -2,8 +2,6 @@
   $pageTitle = (isset($header['title'])) ? $header['title'] : 'McDaniel Nutrition Therapy – St Louis, Missouri';
   $pageDescription =  (isset($header['description'])) ? $header['description'] : "McDaniel Nutrition Therapy delivers corporate wellness, weight loss management, and sports nutrition programs tailored to your personal needs and goals.";
   $pageKeywords =  (isset($header['keywords'])) ? $header['keywords'] : "Nutrition, St. Louis, Missouri, corporate wellness, weight loss management, sports nutrition, maternal nutrition"; 
-  $fixed = (isset($header['fixed']) && $header['fixed']) ? 'glued in-view fixed' : null;
-  $subnav = (isset($header['subnav']) && $header['fixed']) ? 'is-subnav' : null;
 ?>
 
 
@@ -32,6 +30,8 @@
   <meta itemprop="description" content="{{ $pageDescription }}">
   <meta itemprop="image" content="/images/icons/facebook.jpg">
 
+
+
   <!-- Twitter Card Metadata /-->
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:site" content="" /> <!-- Add Site Social Media Profile -->
@@ -55,11 +55,11 @@
   <meta name="msapplication-square310x310logo" content="images/icons/large.jpg"/>
 	
   <!-- CSS: implied media="all" -->
-  <link rel="stylesheet" href="/css/app.min.css">
+  <link rel="stylesheet" href="/assets/css/app.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- <link href='https://fonts.googleapis.com/css?family=Merriweather:400,700|Lora' rel='stylesheet' type='text/css'> -->
   <link href='https://fonts.googleapis.com/css?family=Material+Icons' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Source+Serif+Pro' rel='stylesheet' type='text/css'>
 <!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
@@ -67,12 +67,12 @@
 
 </head>
 
-<body class="{{ $fixed }} {{ $subnav }}">
-  @yield('modal')
+<body>
+  {{-- @yield('modal') --}}
   
   <section>
       <header>
-         @include('layouts.frontend.partials.navigation', ['fixed' => $fixed ])
+        @include('layouts.frontend.partials.navigation')
          @yield('subnav')
       </header>
       
@@ -87,8 +87,8 @@
 
   
 
-  <script src="/js/vendor.min.js"></script>
-  <script src="/js/app.min.js"></script>
+  <script src="/tmp/vendor-file.js"></script>
+  <script src="/tmp/angular.js"></script>
   
   @yield('extra-scripts')
 

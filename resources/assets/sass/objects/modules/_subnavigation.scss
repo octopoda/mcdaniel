@@ -1,0 +1,43 @@
+.m-sub-navigation {
+	z-index:$z-layer-range-9;
+	position: relative;
+	background:$green;
+	min-height:rem-calc(30);
+
+
+	ul {
+		text-align: center;
+		@include clearMP;
+	}
+
+	li {
+		display: inline-block;
+		text-align: center;
+		font-size:$navigation-font-size;	
+		list-style:none;
+		padding:rem-calc(12) rem-calc(20);
+ 
+		a {
+			color:$white;
+			text-decoration: none;
+			&:hover, &.active {color:$white;}
+			cursor:pointer;
+		}
+
+		&.active {
+			border-bottom:rem-calc(5) solid $white;
+		}
+	}
+
+	@include breakpoint('tablet') {
+		li {
+			text-align: center;
+			margin-right:rem-calc(20);
+		}
+
+		&.fixed {
+			position: fixed;
+			top:rem-calc(83);
+		}
+	}
+}

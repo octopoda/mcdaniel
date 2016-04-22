@@ -19,6 +19,7 @@ use App\Repositories\Criteria\Post\PostsWithAuthor;
 use App\Repositories\Criteria\Post\AscendingOrder;
 use App\Repositories\Criteria\Post\SearchPosts;
 use App\Repositories\Criteria\Post\PostsFromDate;
+use App\Repositories\Criteria\Post\RandomPosts;
 
 class PostController extends Controller
 {
@@ -252,10 +253,12 @@ class PostController extends Controller
      * @return /Illuminate/Html/Response
      */
     public function paginatePost() {
-        $posts = $this->post->pushCriteria(new AscendingOrder())->paginate(25);
+        $posts = $this->post->pushCriteria(new AscendingOrder())->paginate(20);
         $types = $this->post->getPostTypes();
         $categories = $this->category->all();
-        return view('posts.index', compact('posts', 'types', 'categories'));
+        $main = $posts->pull(0);
+        $second = $posts->pull(1);
+        return view('posts.index', compact('posts', 'types', 'categories', 'main', 'second'));
     }
 
     
@@ -266,7 +269,9 @@ class PostController extends Controller
      */
     public function postByTitleView($title) {
         $post = $this->post->findBy('direct_link', $title);
-        return view('posts.post', compact('post'));
+        $posts = $this->post->all();
+        $random = $posts->random(3);
+        return view('posts.post', compact('post', 'random'));
     }
 
     

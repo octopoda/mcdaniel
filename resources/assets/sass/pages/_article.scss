@@ -1,148 +1,239 @@
-
-$article-image-height: rem-calc(800);
-
-.article {
-	padding:rem-calc(20);
-}
-
-
+/*
+|--------------------------------------------------------------------------
+| Article Image Stuff
+|--------------------------------------------------------------------------
+|
+| Description 1
+|  Description 2
+| 
+|
+*/
 .article__header {
-	margin-top:rem-calc(100);
-	
+	position: relative;
+	padding-top:rem-calc(100);
+	padding-bottom:rem-calc(20);
+	padding-left:rem-calc(20);
+	padding-right:rem-calc(20);
+	text-align: center;
 
-	h4 {
-		color:$primary-color;
-		border-top: 1px solid $green;
-		padding-top:rem-calc(15);
-	}
-
-	@include breakpoint('tablet') {
+	.button {
+		position: relative;
 		text-align: center;
-		margin-top:rem-calc(50);
-
-		h4 {
-			width:20%; 
-			margin:auto;
-		}
-	}
-	
-}
-
-
-
-.article__content {
-	padding-top:rem-calc(50);
-	
-	.callout {
-		line-height:2.1;
-		font-size:rem-calc(18);
-		color:$green;
-		padding-bottom:rem-calc(40);
-		padding-top:rem-calc(40);
-		border-left:none;
-		margin:auto;
-		padding-left:0;
-
-		.callout__twitter {
-			margin-top:rem-calc(40);
-			cursor:pointer;
-		}
+		margin-top:0;
 	}
 
-	strong {
-		font-weight:bolder;
+
+	h1 {
+		text-align: center;
+		font-size:rem-calc(40);
+		width:100%;
+		line-height:rem-calc(46);
 	}
 
 	
 	@include breakpoint('tablet') {
-		width:80%;
-		margin:auto;
-
-
-		.callout {
-			padding-top:rem-calc(40);
-			text-align: center;
-			width:80%;
+		h1 {
+			width:90%;
+			margin:auto;
+			font-size:rem-calc(60);
+			line-height: rem-calc(68);
+			margin-bottom:rem-calc(20);
 		}
 	}
 
 	@include breakpoint('laptop') {
-		width:60%;
-		margin:auto;
+		h1 {
+			width:60%;
+		}
 	}
 }
 
 
+.article__author {
+	text-align: center;
+	
+	
+	a {
+		text-decoration: none;
+		color:$white;
+	}
+
+	small {
+		display: block;
+	}
+}
 
 .article__image {
-	display:none;
-	
-	@include breakpoint('tablet') {
-		position: absolute;
-		z-index:-1;
-		margin:auto;
-		margin-top:rem-calc(-55);
-		height: $article-image-height;
-		overflow:hidden;
+	position: absolute;
+	z-index:-1;
+	width:100%;
+	top:0;
+	right:0;
+
+	img {
 		width:100%;
-		left:0;
-		top:0;
-		display: block;
+	}
+}
 
-		&--gradient {
-			position: absolute;	
-			top:0;
-			width:100%;
-			height:$article-image-height;
 
-			/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&0+0,1+63,1+63 */
-			background: -moz-linear-gradient(top,  rgba(255,255,255,0.4) 0%, rgba(255,255,255,1) 63%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
-			background: -webkit-linear-gradient(top,  rgba(255,255,255,0.4) 0%,rgba(255,255,255,1) 63%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
-			background: linear-gradient(to bottom,  rgba(255,255,255,0.4) 0%,rgba(255,255,255,1) 63%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+.article__content {
+	background:$off-white;
+	position: relative;
+	z-index:2;
+
+	&--content {
+		padding-top:rem-calc(20);
+	}
+
+	@include breakpoint('tablet') {
+		&--content {
+			width:span(10 of 12);
+			margin:auto;
 		}
+	}
 
-		&--image {
-			img {
-				width:100%;
-				margin:auto;
+	@include breakpoint('laptop') {
+		&--content {
+			width:span(6 of 12);
+			margin:auto;
+			
+			p {
+				line-height:2.0;
 			}
 		}
 	}
 }
 
 
+/*
+|--------------------------------------------------------------------------
+| Article you might also like
+|--------------------------------------------------------------------------
+|
+|
+*/
 
-.article__footer {
-	background:rgba($gray-lightest, 0.9);
-
+.article__also {
+	margin-bottom:rem-calc(40);
+	
 	h3 {
-		color:$green;
+		color:$gray;
+		text-align: center;
 	}
 
 	@include breakpoint('tablet') {
-		position: fixed;
-		left:0;
-		bottom:0;
-		width:100%;
-		box-shadow:0 3px 3px rgba($black, 0.4);
-		z-index:$z-layer-range-9;
-		@include transition(transform $cubic 0.4s);
-		@include translateY(100%);
+		.m-article {
+			@include gallery(4 of 12);
+    		@include gutters(5px);
+		}
+	}
 
-		&.active {
-			@include translateY(0);
+	@include breakpoint('laptop') {
+		&--articles {
+			width:span(8 of 12);
+			margin:auto;
+		}
+	}
+
+	
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Footer
+|--------------------------------------------------------------------------
+|
+| Description 1
+|  Description 2
+| 
+|
+*/
+
+.article__footer {
+	position: fixed;
+	bottom:0;
+	width::100%;
+	z-index:2;
+
+	background:rgba($green, 0.9);
+	@include transition(transform ease-in 0.4s);
+	@include translateY(100%)
+
+
+
+	h4 {
+		margin-bottom:rem-calc(3);;
+		color:$white;
+		small {
+			display: block;
+		}
+	}
+
+
+	&--close {
+		float:right;
+		color:$white;
+		margin-top:rem-calc(5);
+		margin-right:rem-calc(5);
+	}
+
+	&--mailchimp {
+		input {
+			border:none;
+		}
+
+		button {
+			padding-bottom:rem-calc(13);
+			padding-top:rem-calc(13);
+			color:$white;
+			border:1px solid $white;
+			margin-top:rem-calc(5);;
+		}
+	}
+
+	&.open {
+		@include translateY(0);
+	}
+
+
+	@include breakpoint('tablet') {
+		&--title {
+			@include span(5 of 12);
 		}
 
 		&--mailchimp {
-			margin-top:rem-calc(10);
+			@include span(7 of 12 last);
 
-			.btn  {
-				margin-top:rem-calc(10);
-				box-shadow: none;
-				border-radius: 0;
+			input {
+				@include span(3 of 6 no-gutter wide)
+				margin-top:rem-calc(33);
+			}
+			
+			button {
+				@include span(3 of 6 no-gutter wide last);
+				margin-top:rem-calc(33);
 			}
 		}
 	}
 
+
+	@include breakpoint('laptop') {
+		&--title {
+			@include span(4 of 12);
+		}
+
+		&--mailchimp {
+			@include span(8 of 12 last);
+			
+			input {
+				@include span(5 of 6 no-gutter wide)
+			}
+			
+			button {
+				@include span(1 of 6 no-gutter wide last);
+
+			}
+		}
+	}
 }

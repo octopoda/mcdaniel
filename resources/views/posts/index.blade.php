@@ -1,52 +1,104 @@
 @extends('layouts.frontend.blog')
 
+
 @section('content')
-	
-	<div class="container">
-		
-		<div class="row post-list__header">
-			<div class="container">
-				<h1>McDaniel Nutrition Blog</h1>
-				<h2>Features Of Health</h2>
+	<!-- Header -->
+	<?php $mainImage = (empty($main->post_image)) ? 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/1.jpg' : $main->post_image; ?>
+	<header class="article__header hero" style="background-image:url('{{ $mainImage }}')">	
+			<h1>{{ $main->title }}</h1>
+			<div class="button reverse">
+				<a href="/posts/{{ $main->direct_link }}">Read</a>
 			</div>
-		</div>
+	</header>
 
 
-		<div class="row">
-			<ul class="post-list__types">
-				@foreach ($types as $type) 
-					<li>{{ $type }}</li>
-				@endforeach 
-			</ul>
-		</div>
-
-
-		<div class="row">
-			<div class="s12 m8 col">
-				@foreach ($posts as $post) 
-					<div class="post-list__post">
-						<h3 class="post-list__title"><a href="{{ route('postByTitle', ['title' => $post->direct_link]) }}">{{ $post->title }}</a></h3>
-						<h5 class="post-list__date">{{ $post->publish_date }}</h5>
-						
-						<div class="post-list__summary">
-							{!! $post->summary !!}
-						</div>
-						
-						<a class="btn-flatten hollow waves-effect waves-green post-list__read-button">Read More</a>
-					</div>
-				@endforeach
-
-				<div class="post-index__pagination">
-					{!!$posts->render() !!}
-				</div>
+	<div class="article-list row">
+		<div class="article-list__categories">
+			<div class="article-list__search">
+				<a href="#">Search <i class="material-icons">search</i></a>
 			</div>
-			<div class="s12 m4 col post-list__categories">
+			<div class="article-list__topics">
+				<h3>Topics</h3>
 				<ul>
-					@foreach($categories as $category) 
-						<li><a href="#">{{ $category->title }}</a></li>
+					@foreach($categories as $category)
+						<li>
+							<a href="/category/{{ $category->direct_link }}">{{ $category->title }}</a>
+						</li>
 					@endforeach
 				</ul>
 			</div>
 		</div>
+
+		<div class="article-list__articles">
+			<div class="article-list__articles-second row">
+				<figure class="m-article large">
+					<?php $secondImage = (empty($second->post_image)) ? 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/2.jpg' : $second->post_image; ?>
+					<div class="m-article__image" style="background-image:url('{{ $secondImage }}')"></div>
+					<figcaption class="m-article__text">
+						<h2><a href="/posts/{{ $second->direct_link }}">{{ $second->title }}</a></h2>
+						<div class="button reverse">
+							<a href="/posts/{{ $second->direct_link }}">Read</a>
+						</div>
+					</figcaption>
+				</figure>
+			</div>
+			<section class="article-list__articles-remaining row">
+				<?php $nTimes = 3; ?>
+				@foreach ($posts as $post)
+					<?php  $image = (empty($post->post_image)) ? 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/'. $nTimes. '.jpg' : $post->post_image; ?>
+					<figure class="m-article">
+						<div class="m-article__image" style="background-image:url('{{ $image }}')"></div>
+						<figcaption class="m-article__text">
+							<h2><a href="/posts/{{ $post->direct_link }}">{{ $post->title }}</a></h2>
+							<div class="button reverse">
+								<a href="/posts/{{ $post->direct_link }}">Read</a>
+							</div>
+						</figcaption>
+					</figure>
+					<?php $nTimes++ ?>
+				@endforeach
+			</section> 
+
+
+			<div class="pagination">
+				{!! $posts->render() !!}
+			</div>
+		</div>
+
+
 	</div>
+
+
+	@include('layouts.frontend.partials.blog-ad')
+
+
+
+	
+@endsection
+
+
+@section('extra-scripts')
+<!-- 	<script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			var pinButton = $('.pinterestButton');
+			pinButton.on('click', function (e) {
+				PinUtils.pinOne({
+					'media': pinButton.attr('data-pin-media'),
+					'description': pinButton.attr('data-pin-description'),
+					'url' : 'https://' + pinButton.attr('data-pin-url')
+				});
+			});
+
+
+			// var pinOneButton = document.querySelector('.pinIt');
+		 //    pinOneButton.addEventListener('click', function() {
+		 //        PinUtils.pinOne({
+		 //            media: e.target.getAttribute('data-media'),
+		 //            description: e.target.getAttribute('data-description')
+		 //        });
+		 //    });
+
+		});
+	</script> -->
 @endsection

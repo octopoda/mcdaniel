@@ -1,0 +1,42 @@
+/*
+|--------------------------------------------------------------------------
+| Tables on the site
+|--------------------------------------------------------------------------
+|
+| Styles for Table
+| @note Tables inside of article body are handled in pages/article-body
+| 
+|
+*/
+
+table {
+	width:100%;
+}
+
+thead {
+	background:$green-gray;
+}
+
+tr {
+	border-top:1px solid $black;
+	&:first-child {
+		border:0;
+	}
+}
+
+td {
+	padding:rem-calc(10) rem-calc(15);
+}
+
+
+tfoot {
+	font-size:$font-size-legal;
+	background:$gray-lightest;
+	color:$black;
+}
+
+
+
+
+
+

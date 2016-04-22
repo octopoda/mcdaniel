@@ -31,7 +31,7 @@ gulp.task('watch', function () {
   
 
   //Vendor Files
-  gulp.watch('bower.json', function (event) {
+  gulp.watch('bower.json', function () {
     gulp.start('vendor')
     browserSync.reload(event.path);
   });
@@ -41,47 +41,28 @@ gulp.task('watch', function () {
   //CSS and SCSS
   gulp.watch([
     path.join(conf.paths.css, '/**/*.css'),
-    path.join(conf.paths.css, '/**/*.scss'),
-    // !path.join(conf.paths.css, 'dashboard/')
+    path.join(conf.paths.css, '/**/*.scss')
   ], function (event) {
     if(isOnlyChange(event)) {
       gulp.start('sass');
+      
     }
   });
-
-
-  gulp.watch([
-    path.join(conf.paths.css, 'dashboard.scss'),
-    path.join(conf.paths.css, 'dashboard/**/*.scss')
-  ], function (event) {
-    if (isOnlyChange(event)) {
-      gulp.start('sass-dashboard')
-    }
-  })
 
  //JS
-  gulp.watch(path.join(conf.paths.js, 'site/**/*.js'), function(event) {
+  gulp.watch(path.join(conf.paths.js, '**/*.js'), function(event) {
     if(isOnlyChange(event)) {
-      gulp.start('js');
+      gulp.start('angular');
       browserSync.reload(event.path);
     } 
   });
 
-  //Js Dashboard
-  gulp.watch(path.join(conf.paths.js, 'dashboard/**/*.js'), function(event) {
-    if(isOnlyChange(event)) {
-      gulp.start('js-dashboard');
-      browserSync.reload(event.path);
-    } 
-  });
 
-  //Mustache Templates
-  gulp.watch(path.join(conf.paths.js, '/site/**/*.mst'), function (event) {
-    if (isOnlyChange(event)) {
-      gulp.start('templates')
-      browserSync.reload(event.path);
-    }
-  })
+  //Templates
+  gulp.watch(path.join(conf.paths.templates, '**/*.html'), function(event) {
+    gulp.start('templates');
+    browserSync.reload({stream: true})
+  });
 
 });
 

@@ -11,31 +11,34 @@ $header = [
 
 @extends('layouts.frontend.page', compact('header'))
 
+@section('modal')
+	<div class="modal modal-fixed-footer indivdual" id="appearanceModal">
+		<section class="modal-content">		
+			<h3>I am ready to help you viewers/readers get healthy</h3>
+			<p>Please fill out the form below and we will contact you with more information.</p>
+			@include('forms.individual')
+		</section>
+		<section class="modal-footer text-right">
+			<a href="#!" class="modal-action waves-effect waves-green btn-flatten hollow"  id="modalSubmit">Sign Up Now</a>
+			<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flatten hollow" >Cancel</a>
+		</section>
+	</div>
+@endsection
 
-<div class="modal modal-fixed-footer indivdual" id="appearanceModal">
-			<section class="modal-content">		
-				<h3>I am ready to help you viewers/readers get healthy</h3>
-				<p>Please fill out the form below and we will contact you with more information.</p>
-				@include('forms.individual')
-			</section>
-			<section class="modal-footer text-right">
-				<a href="#!" class="modal-action waves-effect waves-green btn-flatten hollow"  id="modalSubmit">Sign Up Now</a>
-				<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flatten hollow" >Cancel</a>
-			</section>
-		</div>
 
 @section('content')
-	
-	<div class="appearances__sub-header">
-		<section class="container">
-			<h1><span>Jennifer's Recent Appearances</span></h1>
+		<!-- Header -->
+	<div class="appearances__hero hero">
+		<section class="row">
+			<h1>Recent Appearances</h1>
 		</section>
 	</div>
 
 
+
 	
 
-	<div class="appearances__appearances">
+	<div class="appearances__appearances appearance__video-wrapper">
 		<div class="container">
 			<div class="row">
 				<ul class="appearances__list">
@@ -53,7 +56,7 @@ $header = [
 	</div>
 
 	<div>
-		<div class="container">
+		<div class="row">
 			{!! $appearances->render() !!}
 		</div>
 	</div>
@@ -72,9 +75,11 @@ $header = [
 					<li class="appearances__iVillage"></li>
 					<li class="appearances__MSN"></li>
 				</ul>
-
-				<div class="appearance__logos--book">
-						<a href="#appearanceModal" class="btn-flatten hollow modal-trigger" data-services="Book for Appearanaces">Book Jennifer Today</a>
+	
+				<div class="button-group">
+					<div class="button reverse">
+						<a href="#appearanceModal" class="">Book Jennifer Today</a>
+					</div>
 				</div>
 			</div>
 		</div>

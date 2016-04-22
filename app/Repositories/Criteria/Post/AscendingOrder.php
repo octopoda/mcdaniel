@@ -15,7 +15,7 @@ class AscendingOrder extends Criteria {
 	 * @return mixed
 	 */
 	public function apply( $model, Repository $repository ) {
-		$model = $model->orderBy('publish_date', 'DESC');
+		$model = $model->orderBy('publish_date', 'DESC')->where('published', "=", "1");
 		return $model;
 	}
 

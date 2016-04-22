@@ -1,0 +1,1 @@
+angular.module("mcdaniel.templates").run(["$templateCache", function($templateCache) {$templateCache.put("/templates/shared/instafeed.html","<section><h3>Insta-gram</h3><div id=\"instafeed\"></div></section>");}]);

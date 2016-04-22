@@ -1,12 +1,53 @@
-.rmr__header {
-	@include retinaImage('#{$page}rmr_header', 'jpg', cover);
-	background-size:cover;
-	padding-bottom:51%;
-	background-position:top left;
+.rmr__hero {
+	background-image: url('#{$page}rmr/rmr-hero-sm.jpg');
+	background-position:center right;
 
 	@include breakpoint('tablet') {
-		padding-bottom:39.06%;
+		background-image: url('#{$page}rmr/rmr-hero-med.jpg');
+	}
+
+	@include breakpoint('laptop') {
+		background-image: url('#{$page}rmr/rmr-hero-large.jpg');
 	}
 }
 
 
+.rmr__text {
+	 text-align: left;
+  	 background:$off-white;
+  	 position: relative;
+	
+  	 @include angle(before);
+
+  	 @include breakpoint('tablet') {
+  	 	text-align: left;
+
+  	 	&__image  {
+  	 		position: absolute;
+  	 		overflow:hidden;
+			width:span(8 of 12);
+			bottom:10%;
+			img {width:100%;}
+		}
+  	 }
+
+  	 @include breakpoint('laptop') {
+  	 	&__image {
+			width:span(6 of 12);
+			bottom:-10%;
+  	 	}
+  	 }
+	
+
+	@include breakpoint('desktop') {
+		&__image {
+			width:span(5 of 12);
+
+		}
+	}
+
+}
+
+.rmr__packages {
+	padding:rem-calc(40) rem-calc(20);
+}

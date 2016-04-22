@@ -6,24 +6,27 @@
 	}
 }
 
-.phone-only{
-	display:block;
+.phone-only {
+	display:block !important;
 
 	@include breakpoint('tablet') { 
-		display:none;
+		display:none !important;
 	}
 }
 
+
+
 .tablet-only {
-	display:none;
+	display:none !important;
 	
 	@include breakpoint('tablet') {
-		display:block	
+		display:block !important;	
 	}
 	@include breakpoint('laptop') {
 		display:none;
 	}
 }
+
 
 .tablet-up {
 	display:none;

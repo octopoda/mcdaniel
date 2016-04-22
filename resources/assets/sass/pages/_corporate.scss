@@ -1,148 +1,186 @@
-/*
-|--------------------------------------------------------------------------
-| Modal
-|--------------------------------------------------------------------------
-|
-|
-*/
 
-.corporate__modal {
-	.modal-footer {
-		a  { 
-			float:right;
-			margin-right:rem-calc(10);
-		}
+
+.corporate__hero {
+	background-image: url('#{$page}corporate/corporate-hero-sm.jpg');
+	background-position:center right;
+
+	h1, h4 {
+		@include clearMP;
+		color:$white;
+		position: relative;
+	}
+
+	@include breakpoint('tablet') {
+		background-image: url('#{$page}corporate/corporate-hero-med.jpg');
+	}
+
+	@include breakpoint('laptop') {
+		background-image: url('#{$page}corporate/corporate-hero-large.jpg');
 	}
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| Header
-|--------------------------------------------------------------------------
-|
-|
-*/
-
-.corporate__header {
-	@include retinaImage('#{$page}corporate_header', 'jpg', cover);
-	padding-bottom:39.06%;
-	background-position:center left;
+.corporate-subnav {
+	@include breakpoint('phone') {
+		li {
+			display: block;
+			width:100%;
+		}
+	}
 }
-
-
-
-
 
 /*
 |--------------------------------------------------------------------------
 | Sustain
 |--------------------------------------------------------------------------
 |
+*/
+
+.corporate-sustain {
+	background-image: url('#{$page}corporate/sustain-sm.jpg');
+	background-position:center right;
+
+	h1, h4 {
+		@include clearMP;
+	}
+
+	h4 {
+		margin-bottom:rem-calc(20);
+	}
+
+	@include breakpoint('tablet') {
+		background-image: url('#{$page}corporate/sustain-med.jpg');
+	}
+
+	@include breakpoint('laptop') {
+		background-image: url('#{$page}corporate/sustain-large.jpg');
+	}
+}
+
+.corporate-sustain__text {
+	@extend %green-gradient;
+  	position: relative;
+
+	@include angle(before, true);
+
+	&--cta {
+		margin-top:rem-calc(60);
+	}
+
+	padding-bottom:rem-calc(20);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Lunch
+|--------------------------------------------------------------------------
 |
 */
 
-.corporate__sustain {
-	
-	.row {
-		margin-top:rem-calc(30);
-		margin-bottom:0;
+
+
+
+.corporate-lunch {
+	background-image: url('#{$page}corporate/lunch-and-learn-sm.jpg');
+	background-position:center right;
+
+
+	@include breakpoint('tablet') {
+		background-image: url('#{$page}corporate/lunch-and-learn-med.jpg');
+
+		h1 {
+			text-align: right;
+		}
 	}
 
+	@include breakpoint('laptop') {
+		background-image: url('#{$page}corporate/lunch-and-learn-large.jpg');
+	}
+}
+
+.corporate-lunch__text {
+	@extend %green-gradient;
+  	position: relative;
+
+	@include angle(before);
+	padding-bottom:rem-calc(40);
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Taste and Teach
+|--------------------------------------------------------------------------
+|
+*/
+
+
+
+
+.corporate-taste {
+	background-image: url('#{$page}corporate/taste-and-teach-sm.jpg');
+	background-position:center right;
 	
-	&--title {
-		@include retinaImage('#{$page}sustain_header', 'jpg', cover);
-		position: relative;
+	
+	@include breakpoint('tablet') {
+		background-image: url('#{$page}corporate/taste-and-teach-med.jpg');
+	}
+
+	@include breakpoint('laptop') {
+		background-image: url('#{$page}corporate/taste-and-teach-large.jpg');
+	}
+}
+
+
+.corporate-taste__text {
+	@extend %green-gradient;
+  	position: relative;
+  	padding-bottom:rem-calc(40);
+
+	@include angle(before, true);
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Taste and Teach
+|--------------------------------------------------------------------------
+|
+*/
+
+.corporate__webinars {
+	position: relative;
+	
+	@include breakpoint('tablet') {
+	
+	}
+
+}
+
+
+.corporate__webinars--image {
+	background-image: url('#{$page}corporate/webinar-sm.jpg');
+	background-position:top center;
+	background-size:cover;
+	
+	height:rem-calc(150);
+	width:100%;
+	
+
+	@include breakpoint('tablet') {
+		background-image: url('#{$page}corporate/webinar-med.jpg');
 		background-size:cover;
-		padding-bottom:35% !important;
-
-		section {
-			width:80%;
-		}
-
-		@include breakpoint('tablet') {
-			padding-bottom:61% !important;
-		}
-
-		@include breakpoint('laptop') {
-			padding-bottom:26% !important;
-		}
+		background-position:top right;
+		width:span(6 of 12 wider);
+		height:100%;
+		position: absolute;
+		top:0;
+		right:0;
 	}
 
-	&--text {
-		@include breakpoint('tablet') {
-			padding:rem-calc(30) rem-calc(20);
 
-			p {
-				margin-top:rem-calc(50);
-			}
-
-			.btn-flatten {
-				margin-top:rem-calc(20);
-				margin-bottom:rem-calc(20);
-			}
-		}
-	}
-}
-
-
-.corporate__sustain--CTA {
-	padding:rem-calc(40) rem-calc(20);
-	text-align: center;
-
-	@include breakpoint('tablet') {
-		.button-group {
-			padding-top:rem-calc(30);
-
-			a:first-child {
-				margin-right:rem-calc(15);
-			}
-		}
-	}
-}
-
-.corporate__header--lunch {
-	@include retinaImage('#{$page}lunch_header', 'jpg', cover);
-	padding-bottom:37.39%;
-	background-position:center center;
-
-	@include breakpoint('tablet') {
-		padding-bottom:17.37%;
-	}
-}
-
-
-.corporate__header--webinar {
-	@include retinaImage('#{$page}webinar_header', 'jpg', cover);
-	padding-bottom:27.39%;
-	background-position:left top;
-
-	@include breakpoint('tablet') {
-		padding-bottom:17.73%;
-	}
-	
-}
-
-
-
-.corporate__testiomonial_1 {
-	background:$green-lightest;
-	
-	@include breakpoint('tablet') {
-		padding:rem-calc(30);
-	}
-	
-}
-
-
-.corporate__testiomonial_2 {
-	background:$green-white;
-	
-	@include breakpoint('tablet') {
-		padding:rem-calc(30);
-	}
-}
-
-.corporate__lunch  {
-	padding-top:rem-calc(60);
+	@include breakpoint('laptop') {
+		background-image: url('#{$page}corporate/webinar-large.jpg');
+		background-size:cover;
+	}	
 }

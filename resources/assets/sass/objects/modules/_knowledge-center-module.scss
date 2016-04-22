@@ -1,0 +1,327 @@
+/*
+|--------------------------------------------------------------------------
+| Knowledge Center Yellow Header
+|--------------------------------------------------------------------------
+|
+| Header for the Knowledge Base Section on the homepage
+|
+*/
+
+.m-knowledge-center__header {
+	background:$ivory;
+	text-align: center;
+	padding:rem-calc(20);
+	z-index: $z-layer-range-0;
+	position: relative;
+	padding-bottom:rem-calc(70);
+
+
+	.row {position: relative;}
+
+	h2 {
+		color:$green;
+		text-transform: uppercase;
+		font-size:$font-size-absurd;
+		@extend %font-medium;
+		text-shadow:0px 2px 0px rgba($black, 0.6);
+		line-height:1.2em;
+		margin-bottom:rem-calc(20);
+
+		small {
+			display: block;
+			font-size:$font-size-xxlarge;
+			text-shadow:0px 1px 0px rgba($black, 0.7);
+		}
+		.uppercase {font-size:130%;}
+
+		@include breakpoint('tablet') {
+			font-size:rem-calc(72);
+			line-height:0.8em;
+		}
+	
+	}
+
+	h5 {
+		color:$black;
+		@extend %font-light;
+		font-size:$font-size-xlarge;
+	}
+
+	.kc-line-left, .kc-line-right, .kc-line-bottom {
+		display: block;
+		position: absolute;
+		border-top:1px solid $green;
+	}
+
+	.line-top {
+		margin-top:rem-calc(25);
+
+		@include breakpoint('tablet') {
+			margin-top:rem-calc(30);
+		}
+	}
+
+	.kc-line-left {
+		@include span(3 of 12);
+		@include push(1);
+
+		@include breakpoint('tablet') {
+			@include push(2.0)
+		}
+
+		@include breakpoint('laptop') {
+			@include push(2.2);
+		}
+
+	}
+
+	.kc-line-right {
+		@include span(3 of 12);
+		@include push(7);
+		float:right;
+
+		@include breakpoint('tablet') {
+			@include push(6.4);
+		}
+
+		@include breakpoint('laptop') {
+			@include push(6.7);
+		}
+	}
+
+	.kc-line-bottom {
+		@include span(12 of 12);
+		margin:0;
+
+		@include breakpoint('tablet') {
+			width:60%;
+			margin:auto;
+			left:0;
+			right:0;
+		}
+
+		@include breakpoint('laptop') {
+			width:60%;
+			margin:auto;
+		}
+	}
+
+}
+
+/*
+|--------------------------------------------------------------------------
+| Action Butons at top of Modules
+|--------------------------------------------------------------------------
+|
+*/
+
+.m-knowledge-base__actions {
+	@include displayList(block);
+	
+	li {
+		width:100%;
+		
+		.button, button {
+			width:100%;
+			text-align: center;
+			font-size:$font-size;
+		}
+	}
+
+	
+
+	//Scott Button
+	.m-knowledge-base__actions--scott {
+		margin-top:rem-calc(20);
+		
+		.button {
+			text-align: left;
+			background:url('#{$icon}scott_button.jpg') top right no-repeat $green;
+			background-size:contain;
+			a {
+				color:$white;
+			}
+		}
+	}
+
+	//Tablet
+	@include breakpoint('tablet') {
+		.m-knowledge-base__actions--feed {
+			@include span(3 of 12);
+		}
+	
+		.m-knowledge-base__actions--subscribe {
+			@include span(6 of 12);
+			// margin-top:rem-calc(10);
+
+		
+		}
+
+		.m-knowledge-base__actions--scott {
+			@include span(3 of 12 last);
+			margin-top:0;
+
+			.button {
+				background-position: 100px 0px;
+			}
+		}
+	}
+
+	//Laptop
+	@include breakpoint('laptop') {
+		.m-knowledge-base__actions--subscribe{
+			
+		}
+	}
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Knowledge Center Article Lisiting Modules
+|--------------------------------------------------------------------------
+|
+| Article Listings on the Homepage and used knowledge center
+|
+*/
+
+$article-listing-height: rem-calc(300);
+
+/** Listing of Articles */
+.m-knowledge-center__article-listing {
+	margin-top:rem-calc(20);
+
+	article {
+		@extend %clearfix;
+		@include clearMP();
+		margin:rem-calc(20) auto;
+	}
+
+	@include breakpoint('tablet') {
+		article {
+			@include gallery(4 of 12);
+		}
+	}
+
+	@include breakpoint('laptop') {
+		article {
+			@include gallery(3 of 12);
+
+		}
+	}
+}
+
+/** Individual Article */
+.m-knowledge-center__article {
+	position: relative;
+	overflow: hidden;
+	height:$article-listing-height;
+
+	figure {
+		@include clearMP;
+		position: absolute;
+		top:0;
+		left:0;
+		padding:0;
+		width:80%;
+		margin:0 auto;
+		overflow:hidden;
+		@include translateX(12.5%);
+	}
+
+	img {
+		min-width:100%;
+		margin-left:-180%;
+		min-height:$article-listing-height;
+	}
+
+	figcaption {
+		text-align: left;
+		position: absolute;
+		top:0;
+		height:$article-listing-height;
+		padding:rem-calc(30);
+		width:100%;
+		top:0;
+		left:auto;
+		background:rgba($white, 0.8);
+
+
+		h4 {
+			margin-top:rem-calc(60);
+		}
+	}
+
+	/** Preferred Banner */
+	&.preferred {
+		@extend %makeBanner;
+
+		&:before {
+			content: "You Might Like";
+			background:$blue;
+		}
+	}
+
+	/** Trending Banner */
+	&.trending {
+		@extend %makeBanner;
+
+		&:before {
+			content: "What's Trending Now";
+			background:$green;
+		}
+	}
+
+
+}
+
+/** Individual Article on a Desktop */
+.no-touch .m-knowledge-center__article {
+	img {
+		@include transformTransition(0.4s);
+	}
+
+	figcaption {
+		@include transformTransition(0.4s);
+		@include translateX(-100%);
+	}
+
+	figure:hover {
+		figcaption {
+			@include translateX(0);
+		}
+		img {
+			@include scale(1.1);
+		}
+	}
+}
+
+/** Individual Article on Touch Device */
+.touch .m-knowledge-center__article {
+	img {
+		@include transformTransition(0.4s);
+	}
+
+	figcaption {
+		@include transformTransition(0.4s);
+		@include translateX(0%);
+	}
+
+	figure:hover {
+		figcaption {
+			@include translateX(0);
+		}
+		img {
+			@include scale(1.1);
+		}
+	}
+}
+
+
+
+
+
+
+
+
+

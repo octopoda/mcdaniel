@@ -1,0 +1,38 @@
+.m-blog-ad {
+	background:$green;
+	padding:rem-calc(40);
+	text-align: center;
+
+
+	.fork {
+		background-image:url('#{$icon}fork-logo.png');
+		height:rem-calc(60);
+		width:rem-calc(20);
+		background-size:contain;
+		background-position:center center;
+		background-repeat: no-repeat;
+		margin:auto;
+		
+		@include breakpoint('retina') {
+			background-image:url('#{$icon}fork-logo@2x.png');
+		}
+	}
+
+	h2 {
+		color:$white;
+	}
+
+	p {
+		color:$white;
+	}
+
+	@include breakpoint('laptop') {
+		
+		&__wrapper {
+			width:span(8 of 12);
+			margin:auto;
+		}
+	}
+
+
+}

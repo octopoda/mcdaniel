@@ -1,10 +1,166 @@
-.about__header {
-	@include retinaImage('#{$page}about_header', 'jpg', cover);
+/*
+|--------------------------------------------------------------------------
+| About Jennifer Bar
+|--------------------------------------------------------------------------
+|
+| 
+|
+*/
+
+.about__jennifer {
+	height:100%;
+	overflow:hidden;
+	position: relative;
+}
+
+.about__jennifer--image {
+	display:none;
+	
+	position: absolute;
+	background-image: url('#{$page}about/jen-about-sm.jpg');
+	background-position:left top;
 	background-size:cover;
-	padding-bottom:51%;
-	background-position:center center;
+	
+	
 
 	@include breakpoint('tablet') {
-		padding-bottom:39.06%;
+		display:block;
+		width:span(6 of 12);
+		height:100%;
+		background-position:top right;
+		background-image: url('#{$page}about/jen-about-med.jpg');
+	}
+
+	@include breakpoint('laptop') {
+		background-image: url('#{$page}about/jen-about-large.jpg');
+	}
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| About PAge
+|--------------------------------------------------------------------------
+|
+| Description 1
+|  Description 2
+| 
+|
+*/
+
+.about__hero {
+	background-image: url('#{$page}about/about-hero-sm.jpg');
+	background-position:center right;
+
+	@include breakpoint('tablet') {
+		background-image: url('#{$page}about/about-hero-med.jpg');
+	}
+
+	@include breakpoint('laptop') {
+		background-image: url('#{$page}about/about-hero-large.jpg');
+	}
+}
+
+
+.about__text {
+	 text-align: center;
+  	 background:$off-white;
+  	 position: relative;
+
+  	 @include angle(before, true);
+
+  	 @include breakpoint('tablet') {
+  	 	
+
+  	 	section {
+			width:span(8 of 12);
+			margin:auto;
+			font-size:rem-calc(20);
+			line-height:2.2;
+			padding-top:rem-calc(20);
+			padding-bottom:rem-calc(40);
+		}
+  	 }
+
+  	 @include breakpoint('laptop') {
+  	 	text-align: left;
+
+		section {
+			width:span(10 of 12);
+
+			p {
+				@include span(6 of 12 40);
+				font-size:rem-calc(20);
+				padding-bottom:rem-calc(80);
+			}
+			
+			padding-top:rem-calc(60);
+		}
+  	 }
+}
+
+/*
+|--------------------------------------------------------------------------
+| Bio Section
+|--------------------------------------------------------------------------
+|
+|
+*/
+.about__jennifer-family {
+	background-repeat:no-repeat;
+	background-image:url('#{$page}about/about-jen-family-large.jpg');
+	background-size:contain;
+	padding-bottom:31.25%;
+}
+
+
+.about__jen-bio--bio {
+	
+	@include breakpoint('tablet') {
+		columns: 2;
+		column-gap: rem-calc(50);
+	}	
+
+}
+
+
+.about__jen-bio--header {
+	@include breakpoint('phone-only') {
+		h2 small {
+			display: block;
+		}
+	}
+	
+	
+	h2 {
+		margin-top:rem-calc(60);
+		margin-bottom:0;
+	}
+
+	h5 {
+		margin-top:0;
+		color:lighten($gray, 10%);
+	}
+
+	@include breakpoint('laptop') {
+		@include span(8 of 12);
+	}
+
+}
+
+.about__jen-bio--header-social {
+	@include clearMP;
+
+	li {
+		list-style:none;
+		font-size:rem-calc(30);
+		display: inline-block;	
+		margin-right:rem-calc(10);
+	}
+
+	@include breakpoint('laptop') {
+		text-align: right;
+		@include span(4 of 12 last);
+		padding-top:rem-calc(50);
 	}
 }

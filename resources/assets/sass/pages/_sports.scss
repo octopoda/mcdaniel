@@ -1,25 +1,44 @@
-.sports__header {
-	@include retinaImage('#{$page}sports_header', 'jpg', cover);
-	background-size:cover;
-	padding-bottom:51%;
-	background-position:center center;
+.sports_hero {
+	background-image: url('#{$page}sports/sports-hero-sm.jpg');
+	background-position:center right;
 
 	@include breakpoint('tablet') {
-		padding-bottom:39.06%;
+		background-image: url('#{$page}sports/sports-hero-med.jpg');
+	}
+
+	@include breakpoint('laptop') {
+		background-image: url('#{$page}sports/sports-hero-large.jpg');
 	}
 }
 
 
-.sports__individual {
-	@include retinaImage('#{$page}sports_individual', 'jpg', cover);
-	background-size:cover;
-	background-position:center left;
+.sports__text {
+	 text-align: center;
+  	 background:$off-white;
+  	 position: relative;
+
+  	 @include angle(before, true);
+
+  	 @include breakpoint('tablet') {
+  	 	text-align: left;
+
+  	 	&__image  {
+  	 		position: absolute;
+  	 		overflow:hidden;
+			width:span(6 of 12);
+			top:-120px;
+			img {width:100%;}
+		}
+  	 }
+
+  	 @include breakpoint('laptop') {
+  	 	&__image {
+			width:span(6 of 12);
+			bottom:0;
+  	 	}
+  	 }
 }
 
-
-
-.sports__followup {
-	@include retinaImage('#{$page}sports_followup', 'jpg', cover);
-	background-size:cover;
-	background-position:center left;
+.sports__packages {
+	padding:rem-calc(40) rem-calc(20);
 }

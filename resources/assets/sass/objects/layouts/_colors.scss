@@ -1,0 +1,70 @@
+/** ivory background */
+.c-ivory-background {
+	background:$ivory;
+}
+
+/** ivory background */
+.c-sky-background {
+	background:$sky;
+}
+
+.c-blue-light-background {
+	background:$blue-light;
+}
+
+/** green gray background */
+.c-green-gray-background {
+	background:$green-gray;
+}
+
+/** green gray background */
+.c-gray-background {
+	background:$gray;
+}
+
+/** green gray background */
+.c-gray-lightest-background {
+	background:$gray-lightest;
+}
+
+.c-green-bullets {
+	margin-left:0;
+	padding-left:rem-calc(20);
+	
+	li {
+		color:$green;
+		
+		span {
+				color:$black;
+		
+		}
+	}
+}
+
+
+/**
+ * Social Colors
+ */
+
+.c-facebook {
+	background:$facebook;
+	a {color:$white;}
+}
+
+
+.c-twitter {
+	background:$twitter;
+	a {color:$white;}
+}
+
+
+.c-youtube {
+	background:$youtube;
+	a {color:$white;}
+}
+
+.c-share {
+	background:$green;
+	color:$white;
+	a {color:$white;}
+}

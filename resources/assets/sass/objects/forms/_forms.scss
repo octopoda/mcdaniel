@@ -1,0 +1,191 @@
+/*
+|--------------------------------------------------------------------------
+| Form Elements
+|--------------------------------------------------------------------------
+|
+*/
+
+form {
+    
+}
+ 
+fieldset {
+	border:none !important;
+    width:100%;
+
+    @include breakpoint('tablet') {
+        width:auto;
+        margin-top:rem-calc(20);
+    }
+}
+
+legend {
+	
+}
+
+
+label, .label {
+	display:block;
+    @extend %font-light;
+    font-size:$font-size-large;
+    margin-bottom:rem-calc(20);
+
+    .required {
+        color:$gray-light;
+    }
+
+    .error &.required {
+        color:$error;
+    }
+}
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Form Group Elements
+|--------------------------------------------------------------------------
+|
+*/
+
+/** Setup the spacing between form groups */
+.form-group, .form-group__center {
+	margin:$form-group-spacing auto;
+}
+
+
+/** 
+ * Group of Label and Buttons 
+ * .collapse will remove all margins and make it a set
+*/
+.form-group {
+	width:100%;
+	margin-top:rem-calc(10);
+    
+    
+    &.collapse {
+        input, button {
+        	margin:0;
+        	width:100%;
+        }
+
+        input {
+            padding:rem-calc(13);
+        }
+    }
+
+
+    button  {
+        padding:rem-calc(11);
+    }
+
+    
+
+		//Tablet
+    @include breakpoint('tablet') {
+        @include span(12 of 12);
+
+    	&.collapse {
+    		input {
+    			width:40%;
+    			float:left;
+                padding:rem-calc(11);
+                border-right:0;
+    		}
+
+    		button {
+    			width:60%;
+    			float:left;
+                border-left:0;
+    		}
+    	}
+    }
+}
+
+
+
+/** Centered Buttons and Inputs */
+.form-group__center {
+	text-align: center;
+
+    @include breakpoint('tablet') {
+        @include span(12 of 12);
+    }
+}
+
+
+.form-half {
+    @include breakpoint('tablet') {
+        @include span(6 of 12);
+    }
+}
+
+
+/** Errors on Input Field */
+.input-errors {
+    text-align: center;
+
+    
+    .error {
+       color:$error;
+    }
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Special Form Rewrites
+|--------------------------------------------------------------------------
+|
+| For Special Peices that don't fit the grid above
+| Class will always start with a sf-
+| 
+|
+*/
+
+
+/**
+ * Put Error Messages next to Label: 
+ *
+ */
+
+
+.top-errors {
+    
+
+    .form-group {
+        @extend %clearfix;
+        
+        label {
+           display: inline-block;
+        }    
+
+        .input-errors {
+         display: inline-block;
+         margin-left:rem-calc(10);
+         @include transition(transform $cubic 0.4s, opacity $cubic 0.4s);
+
+        //  &.ng-inactive {
+        //     @include translateX(rem-calc(20));
+        //     @include transition( traform $cubic 0.2s, opacity $cubic 0.2s);   
+        //  }
+         
+        &.ng-inactive {
+            opacity:0;
+
+            @include translateX(20px);
+        }
+
+        &.ng-active {
+            opacity:1;
+            @include translateX(0px);
+         }
+        
+        }
+    }
+
+    
+
+    
+}

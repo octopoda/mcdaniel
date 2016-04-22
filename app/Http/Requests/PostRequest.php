@@ -23,11 +23,28 @@ class PostRequest extends Request {
 	 */
 	public function rules()
 	{
-		return [
-			'title' => 'required|unique:posts|min:3',
-			'content' =>  'required',
-			'publish_date' => 'required',
-		];
+		  switch($this->method()) {
+		        case 'GET':
+		        case 'DELETE': {
+		            return [];
+		        }
+		        case 'POST': {
+					return [
+						'title' => 'required|unique:posts|min:3',
+						'content' =>  'required',
+						'publish_date' => 'required',
+					];
+				}
+				case 'PUT' :
+				case 'PATCH' : {
+					return [
+						'title' => 'required|min:3',
+						'content' =>  'required',
+						'publish_date' => 'required',
+					];
+				}
+				default:break;
+			}
 	}
 
 }

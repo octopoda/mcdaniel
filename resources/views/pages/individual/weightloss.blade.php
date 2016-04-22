@@ -27,116 +27,119 @@ $header = [
 
 
 @section('content')
-	<div class="weightloss__header sitewide__boxed">
-		<section class="container">
-			<h1><span>Move From Surviving To Thriving</span></h1>
+	<div class="weight-loss_hero hero">
+		<section class="row">
+			<h1>Sustain Your <br>Healthy Weight <br>For Good</h1>
 		</section>
 	</div>
 
+
+	<!-- Sports Text -->
 	<div class="weight-loss__text">
-		<div class="container services__main-text">
+		<div class="weight-loss__text__image tablet-up">
+			<img src="/assets/images/pages/weight-loss/weight-loss-text-side.png" alt="Fuel Your New Best with McDaniel Nutrition Sports Packages">
+		</div>
+		<div class="g-half">
+			<section class="tablet-up ">
+				
+			</section>
 			<section>
-					<p>Fighting through flagging willpower time and again or failing to see the results you expected after months of work can be devastating. We believe there’s more to the equation. Will and dedication don’t have to be your only tools for lasting weight loss. </p>
-					<p>During our weight loss management programs, we work with you to uncover the habits and motivations behind your weight loss struggle. And then walk with you through the peaks and valleys to a new foundation for your health. </p>
-					<p>Purchase one of our packages for long-term results, get started with an initial consultation, or contact us to discuss your individual needs. </p>
+				<h2>Sustain Weight Loss</h2>
+				<p>We believe there’s’ more to the weight loss equation than willpower. Will and dedication don’t have to be your only tools for weight loss. </p>
+				<p>During our weight loss management programs, we work with you to uncover the habits and motivations behind your weight loss struggle. And then walk with you through the peaks and valleys to a new foundation for your health sustaining weight loss for good.  </p>
+				<p>Purchase one of our longer term packages such as Sustain Premium Program or simply get started with an initial consultation.</p>
+
+				<div class="button">
+					<a href="">Sustain Your Goals Today</a>
+				</div>
 			</section>
 		</div>
 	</div>
+	<!-- Controller Wrapper -->
+	<div>
+		
+		<div class="weight-loss__package-image">
+			<div class="weight-loss__package-image--left square-small__wrapper">	
+				<div class="square-small"></div>
+				<div class="square-small__text">
+					<h3>Sustain</h3>
+					<h5>Getting Started</h5>
+				</div>
+			</div>
 
-
-	<div class="services__package-intro">
-		<div class="container">
-			<h2>Nutrition Packages</h2>
-			<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past and what allows us to give you the most personally tailored consultations.</p>
-
+			<div class="weight-loss__package-image--right square-small__wrapper">	
+				<div class="square-small"></div>
+				<div class="square-small__text">
+					<h3>Sustain Premium</h3>
+					<h5>Weight Loss Package</h5>
+				</div>
+			</div>
 		</div>
-	</div>
 
-
-	<div class="services__packages">
-		<div class="row">
+		<div class="row weight-loss-break"></div>
+		<div class="m-sub-navigation">
 			<ul>
-				<li class="services__packages--package weightloss__individual package-trigger" data-package="weightlossIndividual">
-					<div class="services__packages--background">
-						<span>Get More Info</span>
-					</div>
-					<span class="title">
-						<h3>
-							Individual Consultation
-							<small>60 Minutes</small>
-						</h3>
-					</span>
-				</li>
-				<li class="services__packages--package weightloss__followup package-trigger" data-package="weightlossFollowup">
-					<div class="services__packages--background">
-						<span>Get More Info</span>
-					</div>
-					<span class="title">
-						<h3>
-							Follow-up Consultation
-							<small>30 Minutes</small>
-						</h3>
-					</span>
-				</li>
+				<li class="active"><a href="">Sustain</a></li>
+				<li><a href="">Sustain Premium</a></li>
 			</ul>
 		</div>
-	</div>
 
 
-	<div class="services__descriptions">	
-		<div class="container">
-			<div class="services__description" id="weightlossIndividual">
-				<div class="row">
-					<section class="s12 m6 col">
-						<h2>
-							Initial Individual Consultation<br>
-							<small>60 Minutes</small>
-						</h2>
+		<div class="sports__packages green-gradient m-tabbed">
+			<div class="row g-two-columns m-tabbed-info active" id="sustain">
+				<section class="sports-description__right">
+					<h2>Sustain</h2>
+					<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past and what allows us to give you the most personally tailored consultations.</p>
+				</section>
+				<section class="sports-description__left">
+					<h4>How We Help Empower You</h4>
+							<ul>
+								<li>Detailed evaluation of your food journal</li>
+								<li>(Optional computerized nutritional analysis)</li>
+								<li>Personalized eating strategies and meal plans for optimal results and health</li>
+								<li>Development of your foundational action plan</li>
+								<li>Tailored follow-up plan</li>
+							</ul>
 
-						<div class="services__descriptions--signup">
-							<a href="#weightLossModal" class="btn-flatten hollow waves-effect waves-green modal-trigger" data-service="weightloss initial consultation">Sign Up Today</a>
-						</div>
-					</section>
-					<section class="s12 m6 col">
-						<h4>How We Help Empower You</h4>
-						<ul>
-							<li>Detailed evaluation of your food journal</li>
-							<li>(Optional computerized nutritional analysis)</li>
-							<li>Personalized eating strategies and meal plans for optimal results and health</li>
-							<li>Development of your foundational action plan</li>
-							<li>Tailored follow-up plan</li>
-						</ul>
-
-						<p>Prior to consultation, you will need to complete a client contract and comprehensive nutritional assessment, found here. Please bring the completed paperwork to your initial consultation. If you desire a computerized nutritional analysis of your 3-day food journal, we will complete this prior to the consult for an additional fee of $30. During our initial consult, we will review your information to glean insights into your unique eating habits, lifestyle needs, experience with weight loss, and areas of focus.</p>
-					</section>
-				</div>
+							<p class="legal">Prior to consultation, you will need to complete a client contract and comprehensive nutritional assessment, found here. Please bring the completed paperwork to your initial consultation. If you desire a computerized nutritional analysis of your 3-day food journal, we will complete this prior to the consult for an additional fee of $30. During our initial consult, we will review your information to glean insights into your unique eating habits, lifestyle needs, experience with weight loss, and areas of focus.</p>
+							<p class="legal">Follow-up visits are highly recommended. These sessions support your success and allow us to answer any questions you might have after implementing initial recommendations. These sessions can be completed by phone or in-person. </p>
+				</section>
 			</div>
-			<div class="services__description" id="weightlossFollowup">
-				<div class="row">
-					<section class="s12 m6 col">
-						<h2>
-							Follow up Consultation<br>
-							<small>30 Minutes</small>
-						</h2>
+			
 
-						<div class="services__descriptions--signup">
-							<a href="#weightLossModal" class="btn-flatten hollow waves-effect waves-green modal-trigger" data-service="weightloss followup consultation">Continue Your Success</a>
-						</div>
-					</section>
-					<section class="s12 m6 col">
-						<h4>How We Help Empower You</h4>
-						<ul>
-						<li>Review of your foundational action plan</li>
-						<li>Analysis of your food journal </li>
-						<li>Meal planning support & recipe ideas incorporating your preferences</li>
-					</ul>
+			<div class="row g-two-columns m-tabbed-info" id=->
+				<section class="sports-description__right">
+					<h2>Sustain Premium</h2>
+					<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past and what allows us to give you the most personally tailored consultations.</p>
+				</section>
+				<section class="sports-description__left">
+					<h4>Setting you up for Success</h4>
+							<ul>
+								<li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, praesentium.</li>
+								<li>Nobis, voluptates odio eaque provident harum cupiditate a ullam quas?</li>
+								<li>In consequuntur maiores nihil nemo soluta distinctio, cum quibusdam quos?</li>
+								<li>Sed quam ea illo placeat ipsum mollitia veritatis necessitatibus qui.</li>
+								<li>Omnis sequi eveniet ratione ipsam quas dolorem quod, obcaecati iste!</li>
+							</ul>
 
-					<p>Follow-up visits are highly recommended. These sessions support your success and allow us to answer any questions you might have after implementing initial recommendations. These sessions can be completed by phone or in-person. </p>
-					</section>
+							<p class="legal">Prior to consultation, you will need to complete a client contract and comprehensive nutritional assessment, found here. Please bring the completed paperwork to your initial consultation. If you desire a computerized nutritional analysis of your 3-day food journal, we will complete this prior to the consult for an additional fee of $30. During our initial consult, we will review your information to glean insights into your unique eating habits, lifestyle needs, experience with weight loss, and areas of focus.</p>
+							
+				</section>
+			</div>
+			
+			<div class="row sales-button">
+				<div class="button">
+					<a href="">Setup a Individual Consultation</a>
 				</div>
 			</div>
 		</div>
-	</div>
+	</div><!-- Eno Controller Wrapper -->
+
+
+
+	@include('layouts.frontend.partials.about')
+
+	
 
 @endsection
 

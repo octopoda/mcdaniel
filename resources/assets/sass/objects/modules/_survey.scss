@@ -1,0 +1,85 @@
+.m-survey {
+	.row {
+		@include container;
+		clear:both;
+	}
+}
+
+
+.m-survey-buttons {
+	background-color:$green;
+	border-bottom:1px solid $white;
+
+	section {
+        margin:auto;
+		text-align: center;
+		padding:rem-calc(40);
+
+		&:last-child {
+			//border-top:1px solid $white;
+		}
+	}
+
+	h4 {
+		margin:0;
+		padding:rem-calc(20);
+		color:$white;
+		margin-bottom:0;
+		padding:0;
+		@extend %font-heavy;
+	}
+
+	p {
+			margin-top:0;
+			color:white;
+			display:block;
+			margin:auto;
+			line-height:2.0;
+	}
+
+	@include breakpoint('tablet') {
+		section {
+			//@include span(6 of 12 wide no-gutters);
+			padding:rem-calc(20);
+			
+            /*&:last-child {
+				@include last;
+				border-left:1px solid $white;
+				border-top:0;
+			}*/
+		}
+
+		p {
+			width:50%;
+			margin-bottom:rem-calc(10);
+		}
+	}
+}
+
+
+
+
+
+.m-survey__close {
+	float:right;
+	margin-top:rem-calc(20);
+	margin-right:rem-calc(20);
+	background:$green;
+	height:rem-calc(30);
+	width:rem-calc(30);
+	border-radius: rem-calc(30);
+	font-size:$font-size-large;
+	@extend %font-light;
+	text-align: center;
+	@include transition(background-color ease-in-out 0.4s);
+
+	a {
+		color:$white;
+		text-decoration:none;
+	}
+
+	&:hover {
+		background:$gray;
+	}
+}
+
