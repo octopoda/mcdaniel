@@ -30,7 +30,7 @@
 
 
         	<ul class="main-navigation__cta">
-            <li class="button"> <a href="{{ route('contact') }}">Contact US</a> </li> 
+            <li class="button"> <a href="{{ route('contact') }}">Get Started</a> </li> 
           </ul>
     </div>
   </div>
