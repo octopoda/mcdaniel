@@ -16,7 +16,7 @@ class Post extends Model
      * Set Mass Assignable
      * @var array
      */
-    protected $fillable = ['title', 'content', 'searchable', 'summary', 'publish_date', 'published', 'post_image', 'video', 'video_url', 'blog_id', 'direct_link', 'post_type'];
+    protected $fillable = ['title', 'content', 'searchable', 'summary', 'publish_date', 'published', 'post_image', 'post_thumbnail', 'post_facebook', 'video', 'video_url', 'blog_id', 'direct_link', 'post_type'];
 
     
     /**

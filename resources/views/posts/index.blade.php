@@ -2,6 +2,7 @@
 
 
 @section('content')
+
 	<!-- Header -->
 	<?php $mainImage = (empty($main->post_image)) ? 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/1.jpg' : $main->post_image; ?>
 	<header class="article__header hero" style="background-image:url('{{ $mainImage }}')">	
@@ -70,9 +71,6 @@
 
 
 	@include('layouts.frontend.partials.blog-ad')
-
-
-
 	
 @endsection
 

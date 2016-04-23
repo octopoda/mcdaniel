@@ -22,7 +22,8 @@
                         "direct_link" => "about-me", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "My First Post", 
@@ -34,7 +35,8 @@
                         "direct_link" => "my-first-post", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "stir it up!", 
@@ -46,7 +48,8 @@
                         "direct_link" => "stir-it-up", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Buying Local...on Campus!", 
@@ -58,7 +61,8 @@
                         "direct_link" => "buying-localon-campus", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Diet Face-Off", 
@@ -70,7 +74,8 @@
                         "direct_link" => "diet-face-off", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Tomato Tomata", 
@@ -82,7 +87,8 @@
                         "direct_link" => "tomato-tomata", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/tomatoes.jpg", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Mid-term Buzz", 
@@ -94,7 +100,8 @@
                         "direct_link" => "mid-term-buzz", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Not So Scary Treats", 
@@ -106,7 +113,8 @@
                         "direct_link" => "not-so-scary-treats", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Another Excuse to Eat Out", 
@@ -118,7 +126,8 @@
                         "direct_link" => "another-excuse-to-eat-out", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "The Red and White Checkered Tablecloth", 
@@ -130,7 +139,8 @@
                         "direct_link" => "the-red-and-white-checkered-tablecloth", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Turkey Trot", 
@@ -142,7 +152,8 @@
                         "direct_link" => "turkey-trot", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "May in Winter", 
@@ -154,7 +165,8 @@
                         "direct_link" => "may-in-winter", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Dietitian does not = food police", 
@@ -166,7 +178,8 @@
                         "direct_link" => "dietitian-does-not-food-police", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "The Chocolate Spa", 
@@ -178,7 +191,8 @@
                         "direct_link" => "the-chocolate-spa", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "An Engaged Blogger and Her New Bike", 
@@ -190,7 +204,8 @@
                         "direct_link" => "an-engaged-blogger-and-her-new-bike", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Dare to Drink?", 
@@ -202,7 +217,8 @@
                         "direct_link" => "dare-to-drink", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Cheap Eats in College Can Be Healthy!", 
@@ -214,7 +230,8 @@
                         "direct_link" => "cheap-eats-in-college-can-be-healthy", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Super Bowl Party: A 6 hour feast", 
@@ -226,7 +243,8 @@
                         "direct_link" => "super-bowl-party-a-6-hour-feast", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Honesty & Love. It\'s Valentines Day!", 
@@ -238,7 +256,8 @@
                         "direct_link" => "honesty-love-its-valentines-day", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "nNitric Oxide: Performance Enhancers or Money Sucking Supplementsn", 
@@ -250,7 +269,8 @@
                         "direct_link" => "nitric-oxide-performance-enhancers-or-money-sucking-supplements", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Lab Rat", 
@@ -262,7 +282,8 @@
                         "direct_link" => "lab-rat", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Breakfast Wars", 
@@ -274,7 +295,8 @@
                         "direct_link" => "breakfast-wars", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Don\'t Get \"Creamed\"", 
@@ -286,7 +308,8 @@
                         "direct_link" => "dont-get-creamed", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "A Natural Fit", 
@@ -298,7 +321,8 @@
                         "direct_link" => "a-natural-fit", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "It\'s My Party, and I\'ll Cry If I Want To", 
@@ -310,7 +334,8 @@
                         "direct_link" => "its-my-party-and-ill-cry-if-i-want-to", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "A Beer A Day Keeps the Doctor Away?", 
@@ -322,7 +347,8 @@
                         "direct_link" => "a-beer-a-day-keeps-the-doctor-away", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Passed Up", 
@@ -334,7 +360,8 @@
                         "direct_link" => "passed-up", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Ban the Bottle", 
@@ -346,7 +373,8 @@
                         "direct_link" => "ban-the-bottle", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "100 Calorie Snack Attack", 
@@ -358,7 +386,8 @@
                         "direct_link" => "100-calorie-snack-attack", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "What is \"Super\" About Super foods?", 
@@ -370,7 +399,8 @@
                         "direct_link" => "what-is-super-about-super-foods", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/swiss_chard.jpg", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Too Much of A Good Thing?", 
@@ -382,7 +412,8 @@
                         "direct_link" => "too-much-of-a-good-thing", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Summer Foods", 
@@ -394,7 +425,8 @@
                         "direct_link" => "summer-foods", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "It\'s Finally Here", 
@@ -406,7 +438,8 @@
                         "direct_link" => "its-finally-here", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Sticking to my Guns", 
@@ -418,7 +451,8 @@
                         "direct_link" => "sticking-to-my-guns", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "What A Dietitian Eats", 
@@ -430,7 +464,8 @@
                         "direct_link" => "what-a-dietitian-eats", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Mrs. McDaniel in Mexico", 
@@ -442,7 +477,8 @@
                         "direct_link" => "mrs-mcdaniel-in-mexico", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/fish-market-300x225.jpg", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "The Office: Friend or Foe to Your Health Goals ?", 
@@ -454,7 +490,8 @@
                         "direct_link" => "the-office-friend-or-foe-to-your-health-goals", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "The Next Marathon", 
@@ -466,7 +503,8 @@
                         "direct_link" => "the-next-marathon", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "5 Ideas to Impress the One You Love", 
@@ -478,7 +516,8 @@
                         "direct_link" => "5-ideas-to-impress-the-one-you-love", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Its \"D\"at Time of the Year", 
@@ -490,7 +529,8 @@
                         "direct_link" => "its-dat-time-of-the-year", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Cookie Infiltration", 
@@ -502,7 +542,8 @@
                         "direct_link" => "cookie-infiltration", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/samoa.gif", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "On Pins and Needles", 
@@ -514,7 +555,8 @@
                         "direct_link" => "on-pins-and-needles", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/moz-screenshot.jpg", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Take A Dip", 
@@ -526,7 +568,8 @@
                         "direct_link" => "take-a-dip", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Beat the late night cravings", 
@@ -538,7 +581,8 @@
                         "direct_link" => "beat-the-late-night-cravings", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Queen of the Grill", 
@@ -550,7 +594,8 @@
                         "direct_link" => "queen-of-the-grill", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "I Scream, You Scream, Should I Do the Real Thing?", 
@@ -562,7 +607,8 @@
                         "direct_link" => "i-scream-you-scream-should-i-do-the-real-thing", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Go Grazin", 
@@ -574,7 +620,8 @@
                         "direct_link" => "go-grazin", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Adding to the Confusion?", 
@@ -586,7 +633,8 @@
                         "direct_link" => "adding-to-the-confusion", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/moz-screenshot-7.jpg", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "The Hunger Challenge", 
@@ -598,7 +646,8 @@
                         "direct_link" => "the-hunger-challenge", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/moz-screenshot-8.jpg", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Food Hunger Challenge Day 1", 
@@ -610,7 +659,8 @@
                         "direct_link" => "food-hunger-challenge-day-1", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Day 2: Dreaming About Food", 
@@ -622,7 +672,8 @@
                         "direct_link" => "day-2-dreaming-about-food", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "A Diet I Would Hate to Follow", 
@@ -634,7 +685,8 @@
                         "direct_link" => "a-diet-i-would-hate-to-follow", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Risky Foods? Dare Me to Eat Them", 
@@ -646,7 +698,8 @@
                         "direct_link" => "risky-foods-dare-me-to-eat-them", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Trick or Treat? My Trip to the Dietitian Expo", 
@@ -658,7 +711,8 @@
                         "direct_link" => "trick-or-treat-my-trip-to-the-dietitian-expo", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/img_0065-300x225.jpg", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Maintaining a Mindful Perspective", 
@@ -670,7 +724,8 @@
                         "direct_link" => "maintaining-a-mindful-perspective", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Wordy Resolutions", 
@@ -682,7 +737,8 @@
                         "direct_link" => "wordy-resolutions", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/moz-screenshot.png", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "The Best Thing I Ever Cooked", 
@@ -694,7 +750,8 @@
                         "direct_link" => "the-best-thing-i-ever-cooked", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "The 4 Food Groups of the NFL", 
@@ -706,7 +763,8 @@
                         "direct_link" => "the-4-food-groups-of-the-nfl", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Get A Taste of the Sauce", 
@@ -718,7 +776,8 @@
                         "direct_link" => "get-a-taste-of-the-sauce", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "\"TRI\" and do it.", 
@@ -730,7 +789,8 @@
                         "direct_link" => "tri-and-do-it", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Gimme Some Sugar!", 
@@ -742,7 +802,8 @@
                         "direct_link" => "gimme-some-sugar", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "My New Grocery Store", 
@@ -754,7 +815,8 @@
                         "direct_link" => "my-new-grocery-store", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/img_01631-300x225.jpg", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "My New Pine Nut Diet", 
@@ -766,7 +828,8 @@
                         "direct_link" => "my-new-pine-nut-diet", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Packing Up", 
@@ -778,7 +841,8 @@
                         "direct_link" => "packing-up", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "The \"Thin\" Commandments", 
@@ -790,7 +854,8 @@
                         "direct_link" => "the-thin-commandments", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Cooking Up A CSA Storm", 
@@ -802,7 +867,8 @@
                         "direct_link" => "cooking-up-a-csa-storm", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "The Incredible (Innocent) Edible Egg", 
@@ -814,7 +880,8 @@
                         "direct_link" => "the-incredible-innocent-edible-egg", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/IMG_0244-e1281531416281-225x300.jpg", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Salad Sabotage", 
@@ -826,7 +893,8 @@
                         "direct_link" => "salad-sabotage", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Take a Nutri-Bite", 
@@ -850,7 +918,8 @@
                         "direct_link" => "a-true-temporary-food-challenge", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Hot Pockets", 
@@ -874,7 +943,8 @@
                         "direct_link" => "its-fallen-upon-us", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/img_0306-300x225.jpg", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Grab and Go Breakfast Ideas", 
@@ -898,7 +968,8 @@
                         "direct_link" => "hunger-challenge-day-2", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/IMG_0307%5B1%5D", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "The Joy of Eating: Last Days of the Hunger Challenge", 
@@ -910,7 +981,8 @@
                         "direct_link" => "the-joy-of-eating-last-days-of-the-hunger-challenge", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => " Sneaky Spaghetti Squash", 
@@ -934,7 +1006,8 @@
                         "direct_link" => "the-baby-bump-and-booze", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Chicken Wings", 
@@ -970,7 +1043,8 @@
                         "direct_link" => "measuring-up", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Hummus", 
@@ -994,7 +1068,8 @@
                         "direct_link" => "d-light-full", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "The Well Stocked Kitchen", 
@@ -1006,7 +1081,8 @@
                         "direct_link" => "the-well-stocked-kitchen", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Liquid Calories", 
@@ -1030,7 +1106,8 @@
                         "direct_link" => "holiday-superfoods", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/img_0384-225x300.jpg", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "It\'s Week 1 of Jan...How Are You Doing?", 
@@ -1042,7 +1119,8 @@
                         "direct_link" => "its-week-1-of-janhow-are-you-doing", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "What is Your Snack Personality?", 
@@ -1054,7 +1132,8 @@
                         "direct_link" => "what-is-your-snack-personality", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Honey, I Shrunk our Breakfast...Is It a Good Idea?", 
@@ -1066,7 +1145,8 @@
                         "direct_link" => "honey-i-shrunk-our-breakfastis-it-a-good-idea", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/img_0399-300x225.jpg", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Veggie Burgers", 
@@ -1090,7 +1170,8 @@
                         "direct_link" => "are-you-meeting-the-2010-dietary-guidelines-here-is-a-list-of-the-dietary-guideline-superfoods", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Just a Strip of Advice About Bacon...", 
@@ -1102,7 +1183,8 @@
                         "direct_link" => "just-a-strip-of-advice-about-bacon", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Looking for Long-Term Weight Loss Strategies?", 
@@ -1114,7 +1196,8 @@
                         "direct_link" => "looking-for-long-term-weight-loss-strategies", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "The Heart Healthiest Food...Fish!", 
@@ -1138,7 +1221,8 @@
                         "direct_link" => "color-yourself-healthy-with-these-easy-tips", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Kale Chips", 
@@ -1162,7 +1246,8 @@
                         "direct_link" => "arrival-of-summer-foods-and-baby-jack", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Summertime Sweet Tooth", 
@@ -1174,7 +1259,8 @@
                         "direct_link" => "summertime-sweet-tooth", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Nutritional Mis-Steps...", 
@@ -1186,7 +1272,8 @@
                         "direct_link" => "nutritional-mis-steps", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "January Roasted Chickpeas", 
@@ -1222,7 +1309,8 @@
                         "direct_link" => "marathon-nutrition-countdown-to-race-day", 
                         "post_image" => "", 
                         "video" => "", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => " Super Seed Quinoa", 
@@ -1306,7 +1394,8 @@
                         "direct_link" => "the-chocolate-milk-mustache-a-new-face-of-recovery", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/chocolate-300x212.png", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Eat Seasonally: Fall Foods", 
@@ -1354,7 +1443,8 @@
                         "direct_link" => "am-i-the-dietitian-for-you", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/jen_bio_pic.jpg", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Foods to Lift Your Winter Blues", 
@@ -1366,7 +1456,8 @@
                         "direct_link" => "foods-to-lift-your-winter-blues", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/Sad_Face.jpg", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "All Things Avocado", 
@@ -1414,7 +1505,8 @@
                         "direct_link" => "tips-to-spring-clean-your-diet", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/greenbroom.jpg", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Dear Diary: On-Line Health Journaling", 
@@ -1426,7 +1518,8 @@
                         "direct_link" => "dear-diary-on-line-health-journaling", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/foodj.jpg", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Honor Your Earth: Turn on Your Tap! ", 
@@ -1438,7 +1531,8 @@
                         "direct_link" => "honor-your-earth-turn-on-your-tap", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/earthdaywater.gif", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Cleaning Your Fruits & Vegetables - Food Safety 101!", 
@@ -1462,7 +1556,8 @@
                         "direct_link" => "exercise-induced-weight-gain", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/running.png", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "A Celebration of Fathers & Grilling", 
@@ -1474,7 +1569,8 @@
                         "direct_link" => "a-celebration-of-fathers-grilling", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/dadpj.png", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Running Through Pregnancy & Beyond!", 
@@ -1486,7 +1582,8 @@
                         "direct_link" => "running-through-pregnancy-beyond", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "School Lunch & Its Healthy Makeover", 
@@ -1498,7 +1595,8 @@
                         "direct_link" => "school-lunch-its-healthy-makeover", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Got Good Gut Bugs?", 
@@ -1522,7 +1620,8 @@
                         "direct_link" => "fall-out-of-your-food-rut", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/women-carrot-plate-md.jpg", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Healthy Family Treats for Halloween!", 
@@ -1546,7 +1645,8 @@
                         "direct_link" => "tips-for-healthy-holiday-eating-no-weight-gain", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/weightgain.jpg", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "4 Ways to Snack Smarter", 
@@ -1558,7 +1658,8 @@
                         "direct_link" => "4-ways-to-snack-smarter", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/snacking-e1348139741727.jpg", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "5 Eating Tips to Fuel Your Metabolic Furnace!", 
@@ -1570,7 +1671,8 @@
                         "direct_link" => "5-eating-tips-to-fuel-your-metabolic-furnace", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Will losing the gluten help me lose the weight?", 
@@ -1582,7 +1684,8 @@
                         "direct_link" => "will-losing-the-gluten-help-me-lose-the-weight", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/bread2.jpg", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Spring Into Exercise & Melt Winter Weight Woes!", 
@@ -1594,7 +1697,8 @@
                         "direct_link" => "spring-into-exercise-melt-winter-weight-woes", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/pjrunfix.jpg.jpg", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "April Nutri-Bite: All Things Eggs!", 
@@ -1618,7 +1722,8 @@
                         "direct_link" => "dear-diary-im-down-10-pounds", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Meal in a Minute: Spiralized Zucchini Supper! ", 
@@ -1642,7 +1747,8 @@
                         "direct_link" => "substantial-supper-salads", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/saladsmall.jpg", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Meal in a Minute: Kale Egg Bake", 
@@ -1678,7 +1784,8 @@
                         "direct_link" => "catching-up-with-mnt", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/slm0714.jpg", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "A Colorful Summer Weight Loss Strategy", 
@@ -1690,7 +1797,8 @@
                         "direct_link" => "a-colorful-summer-weight-loss-strategy", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Does Your Diet Take the Weekend Off?", 
@@ -1702,7 +1810,8 @@
                         "direct_link" => "does-your-diet-take-the-weekend-off", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/pjburger2.JPG", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Thinking Outside the Lunch \"Box\"", 
@@ -1714,7 +1823,8 @@
                         "direct_link" => "thinking-outside-the-lunch-box", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "2015 Ironman: New Fuel to \"Tri\"", 
@@ -1726,7 +1836,8 @@
                         "direct_link" => "2015-ironman-new-fuel-to-tri", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "All in the timing! Nutrient timing & health", 
@@ -1738,7 +1849,8 @@
                         "direct_link" => "all-in-the-timing-nutrient-timing-health", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "How Well Is Your Workplace?", 
@@ -1750,7 +1862,8 @@
                         "direct_link" => "how-well-is-your-workplace", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Buzzing 2015 Diet Trends!", 
@@ -1762,7 +1875,8 @@
                         "direct_link" => "buzzing-2015-diet-trends", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "The Naptime Nutritionist - Power Hour Cooking", 
@@ -1774,7 +1888,8 @@
                         "direct_link" => "the-naptime-nutritionist---power-hour-cooking", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Naptime Nutritionsist - Chipotle Pumpkin & Sweet Potato Soup", 
@@ -1786,7 +1901,8 @@
                         "direct_link" => "naptime-nutritionsist---chipotle-pumpkin-sweet-potato-soup", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Get 10% Happier (and Healthier)", 
@@ -1798,7 +1914,8 @@
                         "direct_link" => "get-10-happier-and-healthier", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Saturated Fat: Friend or Foe", 
@@ -1810,7 +1927,8 @@
                         "direct_link" => "saturated-fat-friend-or-foe", 
                         "post_image" => "https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/coffee2.JPG", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "3 steps to get more plants on your plate", 
@@ -1822,7 +1940,8 @@
                         "direct_link" => "3-steps-to-get-more-plants-on-your-plate", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Naptime Nutritionist - Got 5? + Spring Parmesan Pasta!", 
@@ -1834,7 +1953,8 @@
                         "direct_link" => "naptime-nutritionist---got-5-spring-parmesan-pasta", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Naptime Nutritionist - Family Mealtime + Lemon Goat Cheese Turkey Burgers", 
@@ -1846,7 +1966,8 @@
                         "direct_link" => "naptime-nutritionist---family-mealtime-lemon-goat-cheese-turkey-burgers", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Naptime Nutritionist: Brain Food - Parmesan & Pesto Encrusted Fish", 
@@ -1858,7 +1979,8 @@
                         "direct_link" => "naptime-nutritionist-brain-food---parmesan-pesto-encrusted-fish", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Food Waste: Save Money + Earth", 
@@ -1870,7 +1992,8 @@
                         "direct_link" => "food-waste-save-money-earth", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Grilling Your Way to Better Health", 
@@ -1882,7 +2005,8 @@
                         "direct_link" => "grilling-your-way-to-better-health", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Naptime Nutritionist - Healthier Habits & Cilantro Baked Bean Burgers", 
@@ -1894,7 +2018,8 @@
                         "direct_link" => "naptime-nutritionist---healthier-habits-cilantro-baked-bean-burgers", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "2015 Dietitian of the Year! ", 
@@ -1906,7 +2031,8 @@
                         "direct_link" => "2015-dietitian-of-the-year", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "MNT Launches New Service! Maternal Nutrition", 
@@ -1918,7 +2044,8 @@
                         "direct_link" => "mnt-launches-new-service-maternal-nutrition", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Eating during pregnancy: Are you getting fishy advice?", 
@@ -1930,7 +2057,8 @@
                         "direct_link" => "eating-during-pregnancy-are-you-getting-fishy-advice", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Secrets Of The Successful: 5 habits of people who maintain weight loss", 
@@ -1942,7 +2070,8 @@
                         "direct_link" => "secrets-of-the-successful-5-habits-of-people-who-maintain-weight-loss", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Tasting Summer: My Fave Watermelon Recipes", 
@@ -1954,7 +2083,8 @@
                         "direct_link" => "tasting-summer-my-fave-watermelon-recipes", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Coconut & Curry Chicken Lettuce Wraps", 
@@ -1966,7 +2096,8 @@
                         "direct_link" => "coconut-curry-chicken-lettuce-wraps", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Break for Breakfast: Three Grab n Go Ideas!", 
@@ -1978,7 +2109,8 @@
                         "direct_link" => "break-for-breakfast-three-grab-n-go-ideas", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Eating for 2 + Pumpkin Recipes!", 
@@ -1990,7 +2122,8 @@
                         "direct_link" => "eating-for-2-pumpkin-recipes", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Adding Years to Your Life with the Blue Zone Solution ", 
@@ -2002,7 +2135,8 @@
                         "direct_link" => "adding-years-to-your-life-with-the-blue-zone-solution", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Your Marathon Week Nutrition Fuel Plan!", 
@@ -2014,7 +2148,8 @@
                         "direct_link" => "your-marathon-week-nutrition-fuel-plan", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Conquer Your Cravings: Trigger Foods", 
@@ -2026,7 +2161,8 @@
                         "direct_link" => "conquer-your-cravings-trigger-foods", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Does Eating Meat Increase My Cancer Risk? ", 
@@ -2038,7 +2174,8 @@
                         "direct_link" => "does-eating-meat-increase-my-cancer-risk", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Maintaining Your Health with a Newborn", 
@@ -2050,7 +2187,8 @@
                         "direct_link" => "maintaining-your-health-with-a-newborn", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "New Year, New You", 
@@ -2062,7 +2200,8 @@
                         "direct_link" => "new-year-new-you", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Roasted Sunchoke, Celeriac Root, & Butternut Squash Soup", 
@@ -2074,7 +2213,8 @@
                         "direct_link" => "roasted-sunchoke-celeriac-root-butternut-squash-soup", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "No Food Waste: Cultivate Kitchen Creativity", 
@@ -2086,7 +2226,8 @@
                         "direct_link" => "no-food-waste-cultivate-kitchen-creativity", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Super Bowls for the Super Bowl!", 
@@ -2098,7 +2239,8 @@
                         "direct_link" => "super-bowls-for-the-super-bowl", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Bouncing Back to Your Pre-Baby Health (and body)", 
@@ -2110,7 +2252,8 @@
                         "direct_link" => "bouncing-back-to-your-pre-baby-health-and-body", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Spiced Sweet Potato, Peanut Butter & Coconut Milk Soup", 
@@ -2122,7 +2265,8 @@
                         "direct_link" => "spiced-sweet-potato-peanut-butter-coconut-milk-soup", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "What\'s Your Habit Personality?", 
@@ -2134,7 +2278,8 @@
                         "direct_link" => "whats-your-habit-personality", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ],
                 [ 
                         "title" => "Savor the Flavor of Healthy Eating: Mindful Eating at Mealtime", 
@@ -2146,7 +2291,8 @@
                         "direct_link" => "savor-the-flavor-of-healthy-eating-mindful-eating-at-mealtime", 
                         "post_image" => "", 
                         "video" => "0", 
-                        "video_url" => "", 
+                        "video_url" => ""
+
                 ]
             ]; 
 

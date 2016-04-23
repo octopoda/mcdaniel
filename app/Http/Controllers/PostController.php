@@ -258,6 +258,7 @@ class PostController extends Controller
         $categories = $this->category->all();
         $main = $posts->pull(0);
         $second = $posts->pull(1);
+        
         return view('posts.index', compact('posts', 'types', 'categories', 'main', 'second'));
     }
 
