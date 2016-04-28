@@ -17,9 +17,9 @@ var jq = $.noConflict();
             'mcdaniel.navigation',
             // 'mcdaniel.survey',
             'mcdaniel.blog',
-            // 'mcdaniel.pages',
+            'mcdaniel.pages',
             'mcdaniel.faq',
-            // 'mcdaniel.forms',
+            'mcdaniel.forms',
             // 'mcdaniel.admin',
             'mcdaniel.templates'
         ]);

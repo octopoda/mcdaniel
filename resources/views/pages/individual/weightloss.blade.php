@@ -61,7 +61,7 @@ $header = [
 		<div class="weight-loss__package-image">
 			<div class="weight-loss__package-image--left m-square-small__wrapper">	
 				<div class="m-square-small"></div>
-				<div class="m-square-small__text">
+				<div class="m-square-small__text" data-tabbed-services data-target="sustain">
 					<h3>Sustain</h3>
 					<h5>Getting Started</h5>
 				</div>
@@ -69,7 +69,7 @@ $header = [
 
 			<div class="weight-loss__package-image--right m-square-small__wrapper">	
 				<div class="m-square-small"></div>
-				<div class="m-square-small__text">
+				<div class="m-square-small__text" data-tabbed-services data-target="premium">
 					<h3>Sustain Premium</h3>
 					<h5>Weight Loss Package</h5>
 				</div>
@@ -79,14 +79,14 @@ $header = [
 		<div class="row weight-loss-break"></div>
 		<div class="m-sub-navigation">
 			<ul>
-				<li class="active"><a href="">Sustain</a></li>
-				<li><a href="">Sustain Premium</a></li>
+				<li class="active" data-tabbed-services data-target="sustain">Sustain</li>
+				<li data-tabbed-services data-target="premium">Sustain Premium</li>
 			</ul>
 		</div>
 
 
 		<div class="sports__packages green-gradient m-tabbed">
-			<div class="row g-two-columns m-tabbed-info active" id="sustain">
+			<div class="row g-two-columns m-tabbed-info open" id="sustain">
 				<section class="sports-description__right">
 					<h2>Sustain</h2>
 					<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past and what allows us to give you the most personally tailored consultations.</p>
@@ -107,7 +107,7 @@ $header = [
 			</div>
 			
 
-			<div class="row g-two-columns m-tabbed-info" id=->
+			<div class="row g-two-columns m-tabbed-info" id="premium">
 				<section class="sports-description__right">
 					<h2>Sustain Premium</h2>
 					<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past and what allows us to give you the most personally tailored consultations.</p>

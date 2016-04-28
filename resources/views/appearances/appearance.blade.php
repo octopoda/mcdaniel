@@ -93,8 +93,10 @@ $header = [
 				</ul>
 			</div>
 
-			<div class="button-group row">
-				<a href="{{ route('appearancesArchive') }}" class="btn-flatten hollow waves-effect">View Archive</a>
+			<div class="button-group">
+				<div class="button">
+					<a href="{{ route('appearancesArchive') }}" class="">View Archive</a>
+				</div>
 			</div>
 		</div>
 	</div> 

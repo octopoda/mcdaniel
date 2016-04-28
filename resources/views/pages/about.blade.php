@@ -61,11 +61,7 @@ $header = [
 	</div>
 
 
-	<div class="about__jen-insta">
-		<div insta-feed></div>
-	</div>
-
-
+	
 	<!-- Contact Form -->
  <section class="contact-form  l-section" id="contactForm" ng-controller="ContactFormController as fc">
 	<div class="contact-address__form row">
@@ -131,7 +127,7 @@ $header = [
 				</div>
 			</form>
 		</div>	
-</section>  -->
+</section> 
 
 @endsection
 

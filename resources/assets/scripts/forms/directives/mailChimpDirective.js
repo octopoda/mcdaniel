@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('assetbuilder.forms')
+        .module('mcdaniel.forms')
         .directive('mailChimp', mailChimp);
 
     /* @ngInject */

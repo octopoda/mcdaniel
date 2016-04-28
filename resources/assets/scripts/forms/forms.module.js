@@ -1,6 +1,6 @@
 (function() {
     'use strict';
 
-    angular .module('assetbuilder.forms', []); 
+    angular .module('mcdaniel.forms', []); 
 
   })();

@@ -5,10 +5,11 @@
 
 .m-tabbed-info {
 	position: absolute;
-	display: none;
+	opacity:0;
+	@include transition(opacity ease-in 0.4s);
 
-	&.active {
+	&.open {
 		position: relative;
-		display: block;
+		opacity:1;
 	}
 }

@@ -21,9 +21,9 @@
         		<li><a href="{{ route('allPosts') }}" title="Blog" >Blog</a></li>
         		<li><a href="{{ route('allAppearances') }}" title="Media" >Media</a></li>
         		<li class="dropdown-trigger" data-dropdown>
-                <a href="{{ route('about') }}" title="About" >About</a>
+                <a href="#" title="About" >About</a>
                 <ul class="dropdown-menu">
-                  <li><a href="{{ route('jennifer') }}">Jennifer McDaniel</a></li>
+                  <li><a href="{{ route('about') }}">Jennifer McDaniel</a></li>
                   <li><a href="{{ route('allFAQs') }}">FAQs</a></li>
                 </ul>
             </li>

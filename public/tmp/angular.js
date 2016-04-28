@@ -17,9 +17,9 @@ var jq = $.noConflict();
             'mcdaniel.navigation',
             // 'mcdaniel.survey',
             'mcdaniel.blog',
-            // 'mcdaniel.pages',
+            'mcdaniel.pages',
             'mcdaniel.faq',
-            // 'mcdaniel.forms',
+            'mcdaniel.forms',
             // 'mcdaniel.admin',
             'mcdaniel.templates'
         ]);
@@ -43,7 +43,7 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular .module('assetbuilder.forms', []); 
+    angular .module('mcdaniel.forms', []); 
 
   })();
 (function() {
@@ -54,7 +54,7 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular.module('assetbuilder.pages', []);
+    angular.module('mcdaniel.pages', []);
 })();
 /**
  * All Shared Modules inserted here. 
@@ -1072,13 +1072,13 @@ var jq = $.noConflict();
     'use strict';
 
     angular
-        .module('assetbuilder.forms')
+        .module('mcdaniel.forms')
         .controller('ContactFormController', ContactFormController);
 
-    ContactFormController.$inject = ['$scope', 'mailService', 'surveyService',  'flash', 'common'];
+    ContactFormController.$inject = ['$scope', 'mailService', 'flash', 'common'];
 
     /* @ngInject */
-    function ContactFormController($scope, mailService, surveyService, flash, common) {
+    function ContactFormController($scope, mailService, flash, common) {
         var vm = this;
         vm.title = 'ContactFormController';
         
@@ -1106,7 +1106,6 @@ var jq = $.noConflict();
             question: null,
             lastViewedPortfolio: null,
             alertMessage: null,
-            survey: getSurveyData()
         }
 
         /**
@@ -1136,14 +1135,7 @@ var jq = $.noConflict();
         
         }
 
-        function getSurveyData() {
-            if (surveyService.isSurveyComplete()) {
-                return surveyService.getSurveyCookie();
-            } 
-
-            return false;
-        }
-
+        
 
         /*
         |--------------------------------------------------------------------------
@@ -1227,7 +1219,6 @@ var jq = $.noConflict();
                 formType: null,
                 question: null,
                 alertMessage: null,
-                survey: getSurveyData() 
             }
         }
 
@@ -1254,15 +1245,6 @@ var jq = $.noConflict();
                 question: 'Big Gulps Huh?',
                 alertMessage: null,
                 lastViewedPortfolio: 'portfolio 10',
-                survey: {
-                    initialInvestment : 200000,
-                    addMonthly: 100,
-                    investmentTimeline: 13,
-                    investmentRisk: 2,
-                    investmentType: 'assetbuilder',
-                    date: new Date(),
-                    expire: new Date()
-                }
             }
         }
 
@@ -1364,202 +1346,6 @@ var jq = $.noConflict();
 
     /* @ngInject */
     function subNavigationController () {
-
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Team Page Controller
-|--------------------------------------------------------------------------
-|
-| Controller to operate the team page.
-| Kennon will be featured if no path has been detected.
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.pages')
-        .controller('teamController', teamController);
-
-
-    teamController.$inject = ['$scope', 'teamService', '$filter', '$location', 'common'];
-
-    /* @ngInject */
-    function teamController($scope, teamService, $filter, $location, common) {
-        var vm = this;
-		vm.title = 'teamController';
-        vm.Team = [];
-		vm.featured = 0;
-        vm.Featured = [];
-        vm.urlPath;
-        
-        //Methods
-        vm.isFeatured = isFeatured;
-        vm.changeFeatured = changeFeatured;
-
-        activate();
-
-        ////////////////
-        
-        /*
-        |--------------------------------------------------------------------------
-        | Data Methods
-        |--------------------------------------------------------------------------
-        */
-
-        /** Activate Controller */
-        function activate() {
-            return getTeamData().then(function () {
-        		makeLinks();
-                if (checkUrl()) {
-                  var name = linkToName(vm.urlPath);
-                  vm.Featured = findFeaturedByName(vm.Team, name);
-                } else {
-                  vm.Featured = setFeatured(vm.Team, vm.featured);
-                }
-                
-            });
-        }
-
-
-        /**
-         * Check the URL and return set the final string
-         * @return {boolean} 
-         */
-        function checkUrl() {
-            var url =  $location.absUrl();
-            var parts = url.toString().split('/');
-            
-            if (angular.isDefined(parts[4])) {
-                vm.urlPath = parts[4];
-                return true;
-            }
-
-            return false;
-        }
-
-        
-        /**
-         * Get the Team Data from the TeamService in API 
-         * @return {Object} 
-         */
-        function getTeamData() {
-        	return teamService.getTeamInformation().then(function (data) {
-        		vm.Team = data.team;
-                return vm.Team;
-        	})
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Setting Featured Methods
-        |--------------------------------------------------------------------------
-        */
-        
-        /**
-         * Filter Data to show only featured person
-         * @param {object} data 
-         * @param {int} id
-         */
-        function setFeatured(data, team_name) {
-        	var featuredArray  = $filter('filter')(data, team_name);
-            return featuredArray[0];
-        }
-
-
-        /**
-         * Change the Featured Value
-         * @param  {int} team_id 
-         * @return {$scope.$apply function}         
-         */
-        function changeFeatured(team_name) {
-            vm.Featured = findFeaturedByName(vm.Team, team_name);
-            scrollTop();
-        }
-
-        /**
-         * Check if small team member matches featured team member
-         * @param  {int}  team_id 
-         * @return {string}         
-         */
-        function isFeatured(team_id) {
-            return (team_id === vm.Featured.id) ? "featured" : '';
-        }
-
-        /**
-         * Find the featured team member by link name
-         * @param  {object} data       
-         * @param  {string} memberName 
-         * @return {int}            
-         */
-        function findFeaturedByName(data, memberName) {
-           for (var i =0; i < data.length; i++) {
-                if (data[i].name === memberName) {
-                    break;
-                }
-            }
-
-            return data[i];
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Dom Methods
-        |--------------------------------------------------------------------------
-        */
-
-        /**
-         * Scroll Back to the Top
-         * @return {DOM} 
-         */
-        function scrollTop() {
-            jq('html, body').animate({
-                scrollTop: 0
-            }, 500);
-        }
-
-
-      
-
-        /*
-        |--------------------------------------------------------------------------
-        | Helper Methods
-        |--------------------------------------------------------------------------
-        */
-
-        /**
-         * Make links out of names
-         * @return {object}
-         */
-        function makeLinks() {
-            for(var i = 0; i < vm.Team.length; i++) {
-                var parts = vm.Team[i].name.split(' ');
-                for (var j = 0; j < parts.length; j++) {
-                    parts[j] = parts[j].toLowerCase();
-                }
-                vm.Team[i].link = parts.join('-');
-            }
-
-            return vm.Team;
-        }
-
-
-        /**
-         * Turn the Links back to names
-         * @param  {string} memberName 
-         * @return {[type]}            [description]
-         */
-        function linkToName(memberName) {
-            var name = memberName.replace(/-/g, ' ');
-            name = common.toTitleCase(name);
-            return name;
-        }
-
-        
-      
 
     }
 })();
@@ -2931,64 +2717,11 @@ var jq = $.noConflict();
 
     }
 })();
-/*
-|--------------------------------------------------------------------------
-| U.S. CitizenShip Checkbox Directive	
-|--------------------------------------------------------------------------
-|
-| Validates and returns US Citizenship checkbox
-|
-*/
-
 (function() {
     'use strict';
 
     angular
-        .module('assetbuilder.forms')
-        .directive('citizenship', citizenship);
-
-    /* @ngInject */
-    function citizenship () {
-        // Usage:
-        // <input citizenship type="checkbox" ng-model="">
-        var directive = {
-            link: link,
-            restrict: 'A',
-            require: 'ngModel'
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs, ngModel) {
-        		
-        		ngModel.$parsers.push(checkCitizenship);
-        		ngModel.$formatters.push(checkCitizenship);
-
-        		/**
-        		 * Check Value of citizen ship and return validity
-        		 * @param  {boolean} value 
-        		 * @return {boolean}       
-        		 */
-        		function checkCitizenship(value) {
-        			if (angular.isUndefined(value)) { value = false; }
- 							if (value === true) {
- 								ngModel.$setValidity('citizenship', true);
- 								return value;
- 							} else {
- 								ngModel.$setValidity('citizenship', false);	
- 								return value;
- 							}
- 	       		}
-        }
-    }
-
-    
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.forms')
+        .module('mcdaniel.forms')
         .directive('mailChimp', mailChimp);
 
     /* @ngInject */
@@ -3070,349 +2803,6 @@ var jq = $.noConflict();
 })();
 /*
 |--------------------------------------------------------------------------
-| Form Directive to go to next fieldset
-|--------------------------------------------------------------------------
-|
-| Used in open an account form
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.forms')
-        .directive('nextFieldset', nextFieldset);
-
-    /* @ngInject */
-    function nextFieldset (common) {
-        // Usage:
-        // <div next-fieldset target-id="" class="button"><a href="#"">Button Text</a></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	targetId: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-				var el = jq(element);
-        		var tar = jq('#' + scope.targetId);
-        		
-        		
-						/**
-        		 * When element is clicked add/remove open to target_id
-        		 * @return {DOM} 
-        		 */
-        		el.on('click', function (e) {
-        		    e.preventDefault();
-        		   if (el.hasClass('disabled')) return false;
-
-        			if (tar.hasClass('open')) {
-        				tar.removeClass('open');
-        				scrollToFormTop();
-        				return;
-        			} 
-
-        			scrollToFormTop();
-        			tar.addClass('open');
-        			
-        			
-        			/**  Scroll to Top of Form  */
-        			function scrollToFormTop() {
-        				jq('html, body').animate({
-        					scrollTop: tar.offset().top
-        				}, 400);	
-        			};
-
-        		});
-
-        }
-    }
-    nextFieldset.$inject = ["common"];
-
-
-
-
-})();
-
-
-
-
-/*
-|--------------------------------------------------------------------------
-| Open Account Long Form Directive
-|--------------------------------------------------------------------------
-|
-| Handles the AssetBuilder Regular Model Open Account Form
-| For Mobile or ETF Look at other directives.
-| 
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.forms')
-        .directive('openAccountForm', openAccountForm);
-
-    /* @ngInject */
-    function openAccountForm () {
-        // Usage:
-        // <div open-account-form></div>
-        var directive = {
-            bindToController: true,
-            controller: OpenAccountController,
-            controllerAs: 'vd',
-            replace:true,
-            link: link,
-            templateUrl: 'ngViews/forms/open-account-medium.html',
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        }
-    }
-
-		
-		OpenAccountController.$inject = ['$scope', '$rootScope', 'surveyService', 'portfolioService', 'helperService', 'common', 'openAccountService', 'flash', '$location']; 
-
-    
-    /* @ngInject */
-    function OpenAccountController ($scope, $rootScope, surveyService, portfolioService, helperService, common, openAccountService, flash, $location) {
-					var vd = $scope.vd;
-					vd.loading = false;
-					vd.Portfolios = [];
-					vd.SelectedPortfolio;
-					vd.States = {};
-
-					vd.successMessage =  "Thanks's for opening an account with AssetBuilder.  One of our team members will contact you within 1-2 business days with further instructions.";
-
-					vd.formData =  {
-						first_name: null,
-						middle_initial: null,
-						last_name: null,
-						email: '',
-						birth_date: null,
-						address_1: null,
-						address_2: null,
-						city: null,
-						state: null,
-						zipcode: null,
-						main_phone: null,
-						us_citizen: true,
-						secondary_phone: null,
-						employmentStatus: null, 
-						employerName: null, 
-						employer_address_1:null, 
-						employer_address_2:null, 
-						employer_city: null,
-						employer_state: null,
-						employer_zipcode: null, 
-						portfolio: {
-						    Name: getSelectedPortfolio(),
-                        }, 
-						initialInvestment: getInitialInvestment(), 
-						custodian: 'none', 
-						accountTypes: {
-							traditional_ira: null,
-							roth_ira:null, 
-							sep_ira:null, 
-							individual: null, 
-							trust: null, 
-							joint: null, 
-						},
-						notes:null
-					}
-
-					if (common.isTesting) {
-						fillForm();
-					}
-
-
-
-					//Methods
-					vd.submitForm = submitForm;
-					vd.formatFormDataKey = formatFormDataKey;
-					
-
-					activate();
-
-					/////////////////////
-
-					/**
-					 * Activate the Controller
-					 * @return {[type]} [description]
-					 */
-					function activate() {
-					    //common.setupOptimizely(3707392123);
-
-						return getPortfolios().then(function () {
-						    getSurveyData();
-						});
-					};
-
-					/**
-					 * Get Portfolios For Dropdonw
-					 * @return {object} 
-					 */
-					function getPortfolios() {
-						return portfolioService.getPortfolioForGroupTicker('ABP').then(function (data) {
-							vd.Portfolios = data;
-							return vd.Portfolios;
-						});
-					};
-
-				
-
-					/**
-					 * Get the Survey Data
-					 * @return {[type]} [description]
-					 */
-					function getSurveyData() {
-					    if (surveyService.isSurveyComplete()) {
-					        var surveyData = surveyService.getSurveyCookie();
-					    }
-					};
-
-                    
-                    /**
-                     * GEt the Initial Investment if survey is complete
-                     * @return num
-                     */
-					function getInitialInvestment() {
-					    if (surveyService.isSurveyComplete()) {
-					        return surveyService.getSurveyCookie().initialInvestment
-					    }
-
-					    return 50000;
-					}
-
-                    
-					function getSelectedPortfolio() {
-					    if (surveyService.isSurveyComplete) {
-					        return surveyService.getSelectedPortfolio();
-					    }
-
-					    return 'Portfolio 8';
-					}
-
-					
-					/**
-					 * Submit The Form to Client Service 
-					 * @return {} [description]
-					 */
-					function submitForm() {
-					    vd.loading = 'loading';
-					    var name = vd.formData.portfolio.Name;
-					    vd.formData.portfolio = name;
-
-					    console.dir(vd.formData);
-					    openAccountService.sendOpenAccountRequest(vd.formData)
-							.then(function (data) {
-							    accountOpen(data)
-							  
-							});
-
-
-					    function accountOpen(data) {
-					        if (data.status == 200) {
-					             window.location = "/welcome-to-assetbuilder";
-					             //flash.success(vd.successMessage);
-					             vd.loading = false;
-					        }
-					    }
-					};
-
-
-					/*
-					|--------------------------------------------------------------------------
-					| Scope Methods
-					|--------------------------------------------------------------------------
-					|
-					*/
-
-					/**
-					 * If employment is selected show employment information
-					*/
-					$scope.$watch('vd.formData.employmentStatus', function () {
-						if (vd.formData.employmentStatus === 'employeed') {
-							jq('#employmentSection').slideDown(500);
-							return;
-						}
-						jq('#employmentSection').slideUp(500);
-					});
-
-
-
-					/*
-					|--------------------------------------------------------------------------
-					| Helpers
-					|--------------------------------------------------------------------------
-					|
-					*/
-				
-					function formatFormDataKey(key) {
-						if (!key) return key;
-						
-						key = key.replace("_", " ");
-						return common.toTitleCase(key);
-					}
-
-					/**
-					 * Fills the Form For Testing Purposes
-					 * @return {[type]} [description]
-					 */
-					function fillForm() {
-						vd.formData =  {
-							first_name: 'John ',
-							middle_initial: 'F',
-							last_name: 'Doe',
-							email: 'johnd@assetbuilder.com',
-							birth_date: '07.15.1975',
-							address_1: '1234 Oak St ',
-							address_2: 'Suite 200',
-							city: 'Plano',
-							state: 'TX',
-							zipcode: '75075',
-							main_phone: '972.535.4040',
-							us_citizen: true,
-							secondary_phone: '970.555.4040',
-							employmentStatus: 'employeed', 
-							employerName: 'assetbuilder inc', 
-							employer_address_1:'1255 W 15th St', 
-							employer_address_2:'suite 1000', 
-							employer_city: 'Plano',
-							employer_state: 'TX',
-							employer_zipcode: '75076', 
-							portfolio: {
-								Name: 'Portfolio 10', 
-							}, 
-							initialInvestment: 250000, 
-							custodian: 'Fidelity_Investments', 
-							accountTypes: {
-								traditional_ira: true,
-								roth_ira:null, 
-								sep_ira: true, 
-								individual: null, 
-								trust: null, 
-								joint: null, 
-							},
-							notes: "Yeah I called her up, she gave me a bunch of crap about me not listenin' to her enough, or somethin'. I don't know, I wasn't really payin' attention."
-						}
-					}
-
-
-
-    }
-})();
-/*
-|--------------------------------------------------------------------------
 | Directive for Phone Input
 |--------------------------------------------------------------------------
 |
@@ -3424,7 +2814,7 @@ var jq = $.noConflict();
     'use strict';
 
     angular
-        .module('assetbuilder.forms')
+        .module('mcdaniel.forms')
         .directive('phoneInput', phoneInput);
 
     /* @ngInject */
@@ -3478,130 +2868,6 @@ var jq = $.noConflict();
 
             
 
-        }
-    }
-
-    
-})();
-/*
-|--------------------------------------------------------------------------
-| Build a state select box in a form
-|--------------------------------------------------------------------------
-|
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.forms')
-        .directive('stateSelect', stateSelect);
-
-    /* @ngInject */
-    function stateSelect (helperService) {
-        // Usage:
-        // <div state-select></div>
-        var directive = {
-            bindToController: true,
-            controller: StateSelectController,
-            controllerAs: 'vd',
-            link: link,
-            restrict: 'A',
-            replace:true,
-            required: true,
-            templateUrl: '/ngViews/forms/state-select.html',
-            scope: {
-            	name: "&",
-            	selectedState: "="
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	
-        }
-    }
-    stateSelect.$inject = ["helperService"];
-
-
-     /* @ngInject */
-    function StateSelectController (helperService) {
-      var vd = this;
-
-       activate();
-            
-        /**
-         * Activate the directive
-         * @return {promise} 
-         */
-        function activate() {
-          return getStates().then(function () {
-            
-          });
-        }
-
-        /**
-         * Get the States from the Helper Service
-         * @return {object} 
-         */
-        function getStates() {
-            return helperService.getStates().then(function (data) {
-                vd.states = data.States;
-                return vd.states;
-            });
-        }
-    }
-    StateSelectController.$inject = ["helperService"];
-
-
-})();
-
-
-
-
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.forms')
-        .directive('zipcode', zipcode);
-
-    zipcode.$inject = ['common'];    
-
-    /* @ngInject */
-    function zipcode (common) {
-        // Usage:
-        // <input zipcode type="text" ng-model="">
-        var directive = {
-            link: link,
-            restrict: 'A',
-        		require: "ngModel"
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs, ngModel) {
-        		
-			    ngModel.$parsers.push(checkZipCode)
-        	 	ngModel.$formatters.push(checkZipCode)
-
-
-        	 	/**
-        	 	 * Check to make sure Zip Code
-        	 	 * @param  {string} value 
-        	 	 * @return {boolean}   
-        	 	 */
-        	  function checkZipCode(value) {
-        	  	var reg = /^\d{5}(?:[-\s]\d{4})?$/;
-        	  	if (reg.test(value)) {
-        	  		ngModel.$setValidity('zipcode', true);
-        	  		return value;
-        	  	} else {
-        	  		ngModel.$setValidity('zipcode', false);
-        	  		return undefined;
-        	  	}
-        	  }
         }
     }
 
@@ -4674,211 +3940,39 @@ var jq = $.noConflict();
     'use strict';
 
     angular
-        .module('assetbuilder.pages')
-        .directive('randomReturnBlock', randomReturnBlock);
+        .module('mcdaniel.pages')
+        .directive('tabbedServices', tabbedServices);
 
     /* @ngInject */
-    function randomReturnBlock () {
+    function tabbedServices () {
         // Usage:
         //
         // Creates:
         //
         var directive = {
-            bindToController: true,
-            controller: RandomReturnBlock,
-            controllerAs: 'vb',
             link: link,
             restrict: 'A',
-            templateUrl: '/ngViews/pages/random-returns-block.html',
             scope: {
-            	returns : "=",
-            	assetClass : "="
+            	target: "@"
             }
         };
         return directive;
 
         function link(scope, element, attrs) {
-     		var vb = scope.vb;
-     			vb.returnNumber = vb.returns[1];
-     			vb.assetClassName = vb.assetClass.css[vb.returns[0]];
+        	console.log('message');
 
-     			
+        	var el = jq(element);
+        	var target = jq('#' + scope.target);
 
-     		jq(element[0]).on('mouseover', function () {
-     			highlight();
-     		});
-
-     		jq(element[0]).on('mouseout', function () {
-     			unhighlight();
-     		})
-
-
-     		function highlight() {
-     			jq('.'+ vb.assetClass.css[vb.returns[0]]).addClass('active');
-     			jq('#randomReturnsWrapper').addClass('white-out');
-     			addTooltip();
-     		}
-
-     		function unhighlight() {
-				jq('.'+ vb.assetClass.css[vb.returns[0]]).removeClass('active');
-     			jq('#randomReturnsWrapper').removeClass('white-out');
-     			jq(element[0]).children('.asset-tooltip').remove();
-     		}
-
-
-     		function addTooltip() {
- 			 var html = '<div class="asset-tooltip">';
-    		 	 html += '<span class="tooltip_name">' + vb.assetClass.friendly[vb.returns[0]] + '</span>'
-    		 	 html += '<span class="tooltip_full_name">' + vb.assetClass.names[vb.returns[0]] + '</span>'
-    		 	 html += '</div>'
-
-        		jq(element[0]).append(html);
-     		}
+        	el.on('click', function (e) {
+        		e.preventDefault();
+				target.addClass('open').siblings('.m-tabbed-info').removeClass('open');
+        		el.addClass('active').siblings('.active').removeClass('active');
+        	});
         }
     }
 
-    /* @ngInject */
-    function RandomReturnBlock () {
-
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Random Returns Directive
-|--------------------------------------------------------------------------
-|
-| Show the Random Returns Appliaction
-| Built for Annual Letter each year
-| 
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.pages')
-        .directive('randomReturns', randomReturns);
-
-    /* @ngInject */
-    function randomReturns () {
-        // Usage:
-        // <div random-returns></div>
-        var directive = {
-            bindToController: true,
-            controller: RandomReturnsController,
-            controllerAs: 'vm',
-            templateUrl: '/ngViews/pages/random-return.html',
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        
-    }
-
-	RandomReturnsController.$inject = ['$scope', '$attrs', 'randomReturnsService'];
-
-
-    /* @ngInject */
-    function RandomReturnsController ($scope, $attrs, randomReturnsService) {
-    	var vm = $scope.vm;
-    		vm.assetClasses = {};
-    		vm.years = [];
-    		vm.numYears = 16;
-    		vm.jsonYears = {};
-    		vm.sorted = [];
-
-
-    	console.dir(vm);
-    	activate();
-    	
-    	/////////
-    	
-
-    	/**
-    	 * Activate The Controller
-    	 */
-    	function activate() {
-    		return getRandomData().then(function () {
-    			setYearsToDisplay(2015);
-    			enumerateJson();
-    		});
-    	}
-
-/*
-|--------------------------------------------------------------------------
-| Data Methods
-|--------------------------------------------------------------------------
-|
-*/
-
-    	/**
-    	 * Get the returns from the services
-    	 * @return {object} 
-    	 */
-    	function getRandomData() {
-    		return randomReturnsService.getRandomReturns().then(function (data) {
-    			vm.assetClasses = data.asset_classes;
-    			vm.jsonYears = data.years;
-    			return vm.assetClasses;
-    		});
-    	}
-
-
-
-    	/**
-    	 * Build an Object based on the amount of years to display
-    	 * @param {int} firstYear 
-    	 * @return {object}
-    	 */
-    	function setYearsToDisplay(firstYear) {
-    		for (var i = 0; i < vm.numYears; i++) {
-    			vm.years.push(firstYear);
-    			firstYear--;
-    		}
-
-    		return vm.years;
-    	}
-
-
-    	/**
-    	 * Sort the Data for each Year
-    	 * @param  {int} year 
-    	 * @return {array}      
-    	 */
-    	function sortYear(year) {
-    		var y = vm.jsonYears[year];
-    		var sortable = [];
-
-			for (var id in y) {
-    			sortable.push([id, y[id]]);
-    			sortable.sort(function (a,b ) { return b[1] - a[1]});
-    		}
-
-    		return sortable;
-    	}
-
-
-    	/**
-    	 * Enumerate JSON and build out object for HTML
-    	 * @return {object} 
-    	 */
-    	function enumerateJson() {
-    		angular.forEach(vm.years, function (key, value) {
-    			
-    			var sorted =  {
-    				"year" : key, 
-    				"data" : sortYear(key)
-    			}
-
-    			vm.sorted[value] = sorted;
-    		});	
-    		jq('.random-returns__block').on('mouseover', function () { console.log('fuck'); })
-    		return vm.sorted;
-    	}
-
-
-    }
+    
 })();
 (function() {
     'use strict';
@@ -4981,7 +4075,7 @@ var jq = $.noConflict();
         		userId: 13141599,
         		sortBy: 'most-recent',
         		limit: 8,
-        		clientId: '	0d31d74e63da4ef28a15986302562504'
+        		clientId: 'b867a55a04494dd7a0a013ca52d35188'
 			});
     		
     		feed.run();
@@ -5059,7 +4153,7 @@ var jq = $.noConflict();
 
         	jq(element).on('click', function () {
         		target.toggleClass('open');
-        	});	
+            });	
         
         }
     }
@@ -8161,50 +7255,6 @@ var jq = $.noConflict();
 }(angular));
 /*
 |--------------------------------------------------------------------------
-| Range Slider Template
-|--------------------------------------------------------------------------
-|
-| The template to inject in the rangeslider
-| Not included in regular templates because it 
-| needs be injected into sliderDirective
-*/
-
-(function() {
-  'use strict';
-
-  angular
-    .module('global.rangeslider')
-    .run(rangeSliderTemplate);
-
-    rangeSliderTemplate.$inject = ['$templateCache'];
-
-    function rangeSliderTemplate ($templateCache) {
-       $templateCache.put('range-slider/range-slider.html',
-        '<span ng-class="mainSliderClass" id="{{sliderTmplId}}">' +
-          '<table><tr><td>' +
-            '<div class="jslider-bg">' +
-              '<i class="left"></i>'+
-              '<i class="right"></i>'+
-              '<i class="range"></i>'+
-              '<i class="before"></i>'+
-              '<i class="default"></i>'+
-              '<i class="default"></i>'+
-              '<i class="after"></i>'+          
-            '</div>' +
-            '<div class="jslider-pointer"></div>' +
-            '<div class="jslider-pointer jslider-pointer-to"></div>' +
-            '<div class="jslider-label" ng-show="options.limits"><span ng-bind="limitValue(options.from)"></span>{{options.dimension}}</div>' +
-            '<div class="jslider-label jslider-label-to" ng-show="options.limits"><span ng-bind="limitValue(options.to)"></span>{{options.dimension}}</div>' +
-            '<div class="jslider-value"><span></span>{{options.dimension}}</div>' +
-            '<div class="jslider-value jslider-value-to"><span></span>{{options.dimension}}</div>' +
-            '<div class="jslider-scale" id="{{sliderScaleDivTmplId}}"></div>' +
-          '</td></tr></table>' +
-        '</span>');
-    }  
-})();
-
-/*
-|--------------------------------------------------------------------------
 | Utility Factory for Range Slider
 |--------------------------------------------------------------------------
 |
@@ -8266,4 +7316,47 @@ var jq = $.noConflict();
           return 'unknown';
         }
     }
+})();
+/*
+|--------------------------------------------------------------------------
+| Range Slider Template
+|--------------------------------------------------------------------------
+|
+| The template to inject in the rangeslider
+| Not included in regular templates because it 
+| needs be injected into sliderDirective
+*/
+
+(function() {
+  'use strict';
+
+  angular
+    .module('global.rangeslider')
+    .run(rangeSliderTemplate);
+
+    rangeSliderTemplate.$inject = ['$templateCache'];
+
+    function rangeSliderTemplate ($templateCache) {
+       $templateCache.put('range-slider/range-slider.html',
+        '<span ng-class="mainSliderClass" id="{{sliderTmplId}}">' +
+          '<table><tr><td>' +
+            '<div class="jslider-bg">' +
+              '<i class="left"></i>'+
+              '<i class="right"></i>'+
+              '<i class="range"></i>'+
+              '<i class="before"></i>'+
+              '<i class="default"></i>'+
+              '<i class="default"></i>'+
+              '<i class="after"></i>'+          
+            '</div>' +
+            '<div class="jslider-pointer"></div>' +
+            '<div class="jslider-pointer jslider-pointer-to"></div>' +
+            '<div class="jslider-label" ng-show="options.limits"><span ng-bind="limitValue(options.from)"></span>{{options.dimension}}</div>' +
+            '<div class="jslider-label jslider-label-to" ng-show="options.limits"><span ng-bind="limitValue(options.to)"></span>{{options.dimension}}</div>' +
+            '<div class="jslider-value"><span></span>{{options.dimension}}</div>' +
+            '<div class="jslider-value jslider-value-to"><span></span>{{options.dimension}}</div>' +
+            '<div class="jslider-scale" id="{{sliderScaleDivTmplId}}"></div>' +
+          '</td></tr></table>' +
+        '</span>');
+    }  
 })();

@@ -25,7 +25,7 @@
         		userId: 13141599,
         		sortBy: 'most-recent',
         		limit: 8,
-        		clientId: '	0d31d74e63da4ef28a15986302562504'
+        		clientId: 'b867a55a04494dd7a0a013ca52d35188'
 			});
     		
     		feed.run();

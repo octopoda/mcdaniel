@@ -13,13 +13,13 @@
     'use strict';
 
     angular
-        .module('assetbuilder.forms')
+        .module('mcdaniel.forms')
         .controller('ContactFormController', ContactFormController);
 
-    ContactFormController.$inject = ['$scope', 'mailService', 'surveyService',  'flash', 'common'];
+    ContactFormController.$inject = ['$scope', 'mailService', 'flash', 'common'];
 
     /* @ngInject */
-    function ContactFormController($scope, mailService, surveyService, flash, common) {
+    function ContactFormController($scope, mailService, flash, common) {
         var vm = this;
         vm.title = 'ContactFormController';
         
@@ -47,7 +47,6 @@
             question: null,
             lastViewedPortfolio: null,
             alertMessage: null,
-            survey: getSurveyData()
         }
 
         /**
@@ -77,14 +76,7 @@
         
         }
 
-        function getSurveyData() {
-            if (surveyService.isSurveyComplete()) {
-                return surveyService.getSurveyCookie();
-            } 
-
-            return false;
-        }
-
+        
 
         /*
         |--------------------------------------------------------------------------
@@ -168,7 +160,6 @@
                 formType: null,
                 question: null,
                 alertMessage: null,
-                survey: getSurveyData() 
             }
         }
 
@@ -195,15 +186,6 @@
                 question: 'Big Gulps Huh?',
                 alertMessage: null,
                 lastViewedPortfolio: 'portfolio 10',
-                survey: {
-                    initialInvestment : 200000,
-                    addMonthly: 100,
-                    investmentTimeline: 13,
-                    investmentRisk: 2,
-                    investmentType: 'assetbuilder',
-                    date: new Date(),
-                    expire: new Date()
-                }
             }
         }
 

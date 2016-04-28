@@ -25,7 +25,7 @@
 
         	jq(element).on('click', function () {
         		target.toggleClass('open');
-        	});	
+            });	
         
         }
     }
