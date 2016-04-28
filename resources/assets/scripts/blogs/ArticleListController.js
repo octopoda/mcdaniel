@@ -11,7 +11,7 @@
     'use strict';
 
     angular
-        .module('assetbuilder.knowledge')
+        .module('mcdaniel.blog')
         .controller('ArticleListController', ArticleListController);
 
     ArticleListController.$inject = ['articleService'];

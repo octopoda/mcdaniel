@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('assetbuilder.faq')
+        .module('mcdaniel.faq')
         .directive('faqBlock', faqBlock);
 
     /* @ngInject */
@@ -20,17 +20,17 @@
         return directive;
 
         function link(scope, element, attrs) {
-        		var el = jq(element);
-        		var question = el.children('.faq-question');
-        		var answer = el.children('.faq-answer');
+        		
+                var question = jq(element[0]);
+        		var answer = question.children('.faq__answer');
 
         		question.on('click', function (e) {
-        			if (el.hasClass('open')) {
+        			if (question.hasClass('open')) {
         				answer.slideUp(200);
-        				el.toggleClass('open');
+        				question.toggleClass('open');
         			} else {
         				answer.slideDown(200);
-        				el.toggleClass('open');
+        				question.toggleClass('open');
         			}
         		});
         }

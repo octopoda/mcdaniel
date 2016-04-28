@@ -67,7 +67,7 @@
 
 </head>
 
-<body>
+<body data-ng-app="mcdaniel">
   {{-- @yield('modal') --}}
   
   <section>
@@ -87,9 +87,13 @@
 
   
 
+  
   <script src="/tmp/vendor-file.js"></script>
+  <script src="/tmp/templates.js"></script>
   <script src="/tmp/angular.js"></script>
   
+
+
   @yield('extra-scripts')
 
   

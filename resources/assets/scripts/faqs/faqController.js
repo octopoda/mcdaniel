@@ -11,7 +11,7 @@
     'use strict';
 
     angular
-        .module('assetbuilder.faq')
+        .module('mcdaniel.faq')
         .controller('FaqController', FaqController);
 
     /* @ngInject */
@@ -20,7 +20,7 @@
         vm.title = 'FaqController';
         vm.Faqs =[];
 
-        activate();
+        // activate();
 
         ////////////////
 

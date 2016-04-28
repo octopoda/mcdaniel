@@ -75,6 +75,7 @@
 	padding-top:rem-calc(30);
 	padding-bottom:rem-calc(30);
 	margin-left:rem-calc(20);
+	cursor: pointer;
 	
 	i {
 		position: relative;
@@ -94,7 +95,7 @@
 	}
 
 
-	&.active {
+	&.open {
 		.faq__answer {
 			display:block;
 		}

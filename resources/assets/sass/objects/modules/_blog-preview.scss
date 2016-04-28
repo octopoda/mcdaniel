@@ -1,0 +1,112 @@
+
+
+.m-blog-preview__main {
+	background-size:cover;
+	background-position:center center;
+	background-repeat:no-repeat;
+	padding:rem-calc(30);
+
+	h3 {
+		margin-top:0;
+		font-size: rem-calc(24);
+		a { 
+			color:$white;
+			text-decoration: none;
+		} 
+	}
+
+	h5 {
+		display:none;
+		color:$white;
+	}
+
+	@extend %blackCover;
+
+	@include breakpoint('tablet') {
+		padding:rem-calc(60);
+		text-align: center;
+		
+		h3 {
+			font-size:rem-calc(35);
+			line-height:rem-calc(38);
+		}
+
+		h5 {
+			display: block;
+			margin-top:rem-calc(10);;
+		}
+
+		.button {
+			margin:auto;
+			right:0;
+			left:0;
+		}
+	}
+	@include breakpoint('laptop') {
+		padding: rem-calc(80);
+
+		h3 {
+			width:span(8 of 12);
+			margin:auto;
+		}
+	}
+}
+
+
+
+
+.m-blog-preview__others {
+	section {
+		padding:rem-calc(40);
+		background-repeat:no-repeat;
+		background-size:cover;
+		background-position:center center;
+
+		@extend %blackCover;
+	}
+
+	h4 {
+		font-size: rem-calc(24);
+		a { 
+			color:$white;
+			text-decoration: none;
+		} 
+	}
+
+	h5 {
+		display:none;
+		color:$white;
+	}
+
+
+
+
+	@include breakpoint('tablet') {
+		section {
+			@include span(4 of 12 no-gutter wide);
+			min-height:rem-calc(400);
+			padding:rem-calc(20);
+			
+			&:last-child {
+				@include last;
+			}	
+
+			.button {
+				position: absolute;
+				bottom:rem-calc(40);
+			}
+		}
+	}
+
+	@include breakpoint('laptop') {
+		section {
+			padding:rem-calc(40);
+
+			
+			h5 {
+				display:block;
+				margin-top:0;
+			}
+		}
+	}
+}

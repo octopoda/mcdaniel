@@ -1,0 +1,22 @@
+<div class="m-blog-preview">
+	<section class="m-blog-preview__main" style="background-image:url('{{ vd.mainArticle.post_image }}')">
+		<div class="row">
+			<h3><a href="/posts/{{ article.direct_link }}">{{ vd.mainArticle.title }}</a></h3>
+			<h5>{{ vd.mainArticle.author }}</h5>
+
+			<div class="button reverse">
+				<a href="/posts/{{ vd.mainArticle.direct_link }}">Read</a>
+			</div>
+		</div>
+	</section>
+
+	<div class="m-blog-preview__others">
+		<section data-ng-repeat="article in vd.otherArticles" style="background-image:url('{{ article.post_thumbnail }}')">
+			<h4><a href="/posts/{{ article.direct_link }}">{{ article.title }}</a></h4>
+			<h5>{{ article.author }}</h5>
+			<div class="button reverse">
+				<a href="/posts/{{ article.direct_link }}">Read</a>
+			</div>
+		</section>
+	</div>
+</div>

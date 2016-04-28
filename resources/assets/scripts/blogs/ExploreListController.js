@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('assetbuilder.knowledge')
+        .module('mcdaniel.blog')
         .controller('ExploreListController', ExploreListController);
 
     /* @ngInject */

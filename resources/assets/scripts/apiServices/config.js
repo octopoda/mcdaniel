@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-  	var api = angular.module('assetbuilder.api');
+  	var api = angular.module('mcdaniel.api');
 
 
   	var config = {

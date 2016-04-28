@@ -65,6 +65,7 @@ Route::group(["prefix" => "api/v1"], function () {
 	]);
 
 
+	//FAQ Routes
 	Route::post('/faqs/search', [
 		"as" => 'faqSearch',
 		"uses" =>  'FAQController@searchFaqs'
@@ -75,6 +76,8 @@ Route::group(["prefix" => "api/v1"], function () {
 		'uses' => 'FaqController@staredFAQs'
 	]);
 
+	
+	//Form Routes
 	Route::post('/contact/formSubmit', [
 		"as" => 'ajaxFormSubmit',
 		"uses" => 'ContactController@store'

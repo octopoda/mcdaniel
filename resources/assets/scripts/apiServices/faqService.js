@@ -12,7 +12,7 @@
     'use strict';
 
     angular
-        .module('assetbuilder.api')
+        .module('mcdaniel.api')
         .factory('faqService', faqService);
 
     faqService.$inject = ['$http', 'common',  'errors']

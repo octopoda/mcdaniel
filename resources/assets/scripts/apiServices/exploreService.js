@@ -14,7 +14,7 @@
     'use strict';
 
     angular
-        .module('assetbuilder.api')
+        .module('mcdaniel.api')
         .factory('exploreService', exploreService);
 
     exploreService.$inject = ['$http', '$location', 'flash', 'common', 'errors', '$cookieStore'];

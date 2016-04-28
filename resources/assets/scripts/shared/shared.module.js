@@ -21,7 +21,7 @@
     angular
         .module('mcdaniel.shared', [
         	/** Angular  */
-            'ngMessages',  'ngSanitize', 'ngCookies', 'ngAnimate', 'ngTouch',
+            'ngMessages',  'ngCookies', 'ngAnimate', 'ngTouch',
 
             /** Globals */
             'global.flash', 'global.errors', 'global.modal', 'global.share', 'global.sidemenu', 'global.rangeslider', 'global.loading',

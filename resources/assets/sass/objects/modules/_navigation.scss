@@ -5,6 +5,8 @@
 	position: fixed;
 	z-index:$z-layer-range-10;
 	width:100%;
+	top:0;
+	@include transition(transform $cubic 0.4s);
 	
 	@include breakpoint('tablet') {
 		position: absolute;
@@ -12,12 +14,38 @@
 		background:transparent;
 		margin:auto;
 	}
+
+
+	.nav-fixed & {
+		position: fixed;
+		top:0;
+		background:rgba($off-white, 0.96);
+		animation: menuDown 0.4s forwards;
+		border:2px solid $white;
+
+	}
 }
 
 
 .navigation__row {
 	@include breakpoint('laptop') {
 		@include container;
+	}
+}
+
+.nav-open {
+	position: fixed;
+	width:100%;
+	height:100vh;
+}
+
+
+@keyframes menuDown {
+	to {
+		@include translateY(0);
+	}
+	from {
+		@include translateY(-100%);
 	}
 }
 
@@ -60,7 +88,7 @@
 		}			
 	}
 
-	.open &{
+	.open &, .nav-fixed & {
 		background-image:url('#{$icon}logo.png');
 
 		@include breakpoint('retina') {
@@ -79,6 +107,7 @@
 		height:rem-calc(68);
 		margin-top:rem-calc(5);
 		margin-left:0;
+		position: relative;
 		
 	
 		.open & {
@@ -92,6 +121,7 @@
 
 	@include breakpoint('laptop') {
 		margin-top:0;
+		cursor:pointer;
 	}
 }
 
@@ -108,9 +138,12 @@
 */
 
 .main-navigation {
+	position: fixed;
 	background:rgba($off-white, 0.96);
 	width:100%;
 	height:100vh;
+	top:0;
+
 	@include transition(transform $sidebar-cubic 0.4s);
 	@include translateX(-100%);
 	
@@ -133,9 +166,9 @@
 		@include translateX(0);
 	}
 
-
 	@include breakpoint('tablet') {
 		background:none;
+		position: relative;	
 		height:auto;
 		@include span(10 of 12);
 		@include translateX(0);
@@ -158,6 +191,8 @@
 	
 	}	
 }
+
+
 /*
 |--------------------------------------------------------------------------
 | Menu
@@ -170,6 +205,12 @@
 	li {
 		text-transform: uppercase;
 		font-size:rem-calc(16);
+	}
+
+	.nav-fixed & {
+		li a {
+			color:$black;
+		}
 	}
 
 	@include breakpoint('tablet') {
@@ -191,11 +232,13 @@
 .dropdown-trigger {
 	position: relative;
 
-	&.active {
+	&:hover {
 		.dropdown-menu {
 			display:block;
 		}
 	}
+
+
 }
 
 .dropdown-menu {
@@ -203,11 +246,13 @@
 
 	li {
 		padding-left:rem-calc(20);
+		text-align: left;
 	}
 
 	@include breakpoint('tablet') {
 		position: absolute;
 		width:rem-calc(200);
+		text-align: center;
 
 		ul, li {
 			@include clearMP;
@@ -256,6 +301,13 @@
 			a { 
 				color:$black; 
 			} 
+
+			.nav-fixed & {
+				background:$green;
+				a {
+					color:$white;
+				}	
+			}
 		}
 	}
 }
@@ -267,8 +319,9 @@
 	top:rem-calc(20);
 	right:rem-calc(20);
 	z-index:1100;
+	@include transition(backgroundColor ease-in 0.4s);
 
-	.open & {
+	.active & {
 		@include burger-to-cross
 	}
 }

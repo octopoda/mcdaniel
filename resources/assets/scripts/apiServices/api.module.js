@@ -1,5 +1,5 @@
 (function() {
     'use strict';
 
-    angular.module('assetbuilder.api', []);
+    angular.module('mcdaniel.api', []);
 })();

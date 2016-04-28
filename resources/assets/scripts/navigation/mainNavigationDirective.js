@@ -20,10 +20,13 @@
         return directive;
 
         function link(scope, element, attrs) {
-            var el = document.querySelector('.main-navigation-wrapper'),
-              menuButton = jq('.navigation__menu');
+            
 
-             /**
+          var el = document.getElementById('navigation'),
+              menuButton = jq('.mobile-navigation-button');
+
+          
+          /**
       		 * Fixed Navigation
       		 * Waypoints http://imakewebthings.com/waypoints/ 
       		 */
@@ -32,20 +35,12 @@
       			handler: function () {
               jq('body').toggleClass('nav-fixed');
       			},
-      			offset:-10
+      			offset: -100
       		});
 
-      		//var mobileMenu = document.querySelector('navigation__menu');
-
-      		//mobileMenu.addEventListener('touchend', function () {
-      		//    document.querySelector('mobile-navigation-button').classList.toggle('active');
-      		//    document.querySelector('main-navigation').classList.toggle('open');
-            //    document.body.classList.toggle('nav-open')
-      		//});
-
-          menuButton.on('click', function (e) {
+      		menuButton.on('click', function (e) {
             jq('.mobile-navigation-button').toggleClass('active');
-            jq('.main-navigation').toggleClass('open');
+            jq('.navigation').toggleClass('open');
             jq('body').toggleClass('nav-open');
           });
 

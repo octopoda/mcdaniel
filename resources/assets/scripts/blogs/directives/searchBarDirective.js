@@ -11,7 +11,7 @@
     'use strict';
 
     angular
-        .module('assetbuilder.knowledge')
+        .module('mcdaniel.blog')
         .directive('searchBar', searchBar);
 
     searchBar.$inject = ['$rootScope', 'exploreService', 'searchService'];

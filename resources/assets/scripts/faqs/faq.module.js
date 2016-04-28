@@ -1,6 +1,6 @@
 (function() {
    'use strict';
 
-    angular.module('assetbuilder.faq', []); 
+    angular.module('mcdaniel.faq', []); 
 
  })();

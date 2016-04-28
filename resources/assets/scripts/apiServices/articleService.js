@@ -2,21 +2,20 @@
     'use strict';
 
     angular
-        .module('assetbuilder.api')
+        .module('mcdaniel.api')
         .factory('articleService', articleService);
 
     articleService.$inject = ['$http', '$location', 'flash', 'common', 'errors'];
 
     /* @ngInject */
     function articleService($http, $location, flash, common, errors) {
-        var apiUrl = common.apiUrl + '/Articles';
-        var homepageUrl = common.apiUrl + '/homepage';
+        var apiUrl = common.apiUrl + '/posts';
         var defaultPageSize = 24;
 
         var service = {
             getArticles: getArticles,
             getPaginatedArticles: getPaginatedArticles,
-            getArticlesForHomepage : getArticlesForHomepage
+            getArticlesForBlogPreview: getArticlesForBlogPreview
         };
         
         return service;
@@ -63,23 +62,16 @@
         }
 
 
-        /**
-         * Get Articles for the homepage that include trending and internal articles
-         * @param  {int} articlePerPage   
-         * @param  {int} trendingAmount   
-         * @param  {boolean} includeInternals 
-         * @return {object}                  
-         */
-        function getArticlesForHomepage(articlePerPage, trendingAmount, includeInternals) {
-            return $http.get(homepageUrl +  '/' + articlePerPage + '/' + 2 + '/' + includeInternals)
+       function getArticlesForBlogPreview(number) {
+            return $http.get(apiUrl + '/byNumber/' + number)
                 .then(articleComplete)
                 .catch(function (message) {
-                    errors.catcher('Sorry we we not able to retrieve the articles at this time.')(message);
+                    errors.catcher('Sorry we are not able to retrieve the articles at this time.')(message);
                 });
 
-                function articleComplete(data, status, header, config) {
-                    return data.data;
+                function articleComplete(data, status, headers, config) {
+                    return data.data
                 }
-        }
+       }
     }
 })();

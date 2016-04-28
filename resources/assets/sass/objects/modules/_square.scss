@@ -181,4 +181,54 @@
 }
 
 
+/*
+|--------------------------------------------------------------------------
+| Square Small
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+.m-square-small__wrapper {
+	position: relative;
+	overflow:hidden;
+}
+
+.m-square-small {
+	@include breakpoint('tablet') {
+		width:rem-calc(400);
+		height:rem-calc(400);
+		position: absolute;
+		left:-40%;
+		top:30%;
+		@include rotate(309deg);
+
+		background:rgba($white, 0.9);
+		background-clip: content-box;
+		border-right:10px double white;
+	}
+
+	@include breakpoint('laptop') {
+		left:-15%;
+
+	}
+}
+
+.m-square-small__text {
+	@include breakpoint('tablet') {
+		position: absolute;
+		bottom:0;
+		padding:rem-calc(20);
+
+		h3 {
+			margin-bottom:0;
+		}
+
+		h5 {
+			margin-top:rem-calc(5);
+			color:$black;
+		}
+	}
+}
+
 

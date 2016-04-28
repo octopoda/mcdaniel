@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('assetbuilder.api')
+        .module('mcdaniel.api')
         .factory('mailService', mailService);
 
     mailService.$inject = ['$http', 'common', 'errors'];

@@ -67,7 +67,7 @@
 
 </head>
 
-<body>
+<body data-ng-app="mcdaniel">
   {{-- @yield('modal') --}}
   
   <section>

@@ -23,7 +23,7 @@
 		display:block !important;	
 	}
 	@include breakpoint('laptop') {
-		display:none;
+		display:none !important;
 	}
 }
 

@@ -1,14 +1,15 @@
 <li class="phone-only"><a class="mobile-navigation-button"><span class="navigation__menu"></span></a></li>
 
-<nav id="navigation" class="navigation">
+<nav id="navigation" class="navigation" data-main-navigation>
   <div class="navigation__row">
-      <div class="site-branding">
+      <div class="site-branding" data-go-home>
     		<a href="\">McDaniel Nutrition</a>
     	</div>
 
     	<div class="main-navigation">
           <ul class="main-navigation__menu">
-        		<li class="dropdown-trigger"><a href="#" title="Indivduals">Individuals</a>
+        		<li class="dropdown-trigger" data-dropdown>
+              <a href="#" title="Indivduals">Individuals</a>
               <ul class="dropdown-menu">
                 <li><a href="{{ route('weight-loss') }}">Weight Loss</a></li>
                 <li><a href="{{ route('sports-nutrition') }}">Sports Nutrition</a></li>
@@ -19,7 +20,8 @@
         		<li><a href="{{ route('corporate') }}" title="Corporate">Corporate</a></li>
         		<li><a href="{{ route('allPosts') }}" title="Blog" >Blog</a></li>
         		<li><a href="{{ route('allAppearances') }}" title="Media" >Media</a></li>
-        		<li class="dropdown-trigger"><a href="{{ route('about') }}" title="About" >About</a>
+        		<li class="dropdown-trigger" data-dropdown>
+                <a href="{{ route('about') }}" title="About" >About</a>
                 <ul class="dropdown-menu">
                   <li><a href="{{ route('jennifer') }}">Jennifer McDaniel</a></li>
                   <li><a href="{{ route('allFAQs') }}">FAQs</a></li>

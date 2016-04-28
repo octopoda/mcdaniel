@@ -61,10 +61,10 @@
         function apiUrl() {
             if (dev)
                 //return 'https://192.168.0.111:3000/api/v1.0/';
-                return 'https://assetbuilder.com/api/v1.0/';
+                return '/api/v1';
               
         	
-            return '/api/v1.0/';
+            return '/api/v1';
         };
 
 

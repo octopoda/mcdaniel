@@ -2,23 +2,18 @@
     'use strict';
 
     angular
-        .module('assetbuilder.knowledge')
+        .module('mcdaniel.blog')
         .directive('footerRollup', footerRollup);
 
     /* @ngInject */
     function footerRollup () {
         // Usage:
-        //
+        // <div footer-rollup></div>
         var directive = {
             link: link,
             restrict: 'A',
             replace:true,
-            templateUrl: '/ngViews/knowledge/footer-rollup.html',
-            scope: { 
-              text: "@",
-              buttonText: "@",
-              buttonLink: "@"
-            }
+            templateUrl: '/templates/blog/footer-rollup.html',
         };
         
         return directive;
@@ -56,8 +51,5 @@
         }
     }
 
-    /* @ngInject */
-    function Controller () {
-
-    }
+    
 })();

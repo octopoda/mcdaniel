@@ -1,3 +1,7 @@
+.home {
+	overflow:hidden;
+}
+
 .home__hero {
 	background-image: url('#{$page}home/home-hero-sm.jpg');
 	background-size:cover;
@@ -131,6 +135,8 @@
 
 
 .home__weight  {
+
+
 	.home__sales-text {
 		background-image:url('#{$page}home/weight-loss-large.png');
 		background-size:cover;

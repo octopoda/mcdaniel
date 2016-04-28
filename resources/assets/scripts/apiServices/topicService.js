@@ -13,7 +13,7 @@
     'use strict';
 
     angular
-        .module('assetbuilder.api')
+        .module('mcdaniel.api')
         .factory('topicService', topicService);
 
    topicService.$inject = ['$http', '$cookieStore', 'errors', 'flash', '$cookies'];

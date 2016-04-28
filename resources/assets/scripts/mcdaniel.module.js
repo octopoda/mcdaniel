@@ -6,21 +6,21 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    
     /** Build Our Applications - Vroom Vroom  Lets Go Speedracer!  */
     angular
         .module('mcdaniel', [
             //All Share Modules;
             'mcdaniel.shared',
-            
+
             //Larger AB Specific Modules
-            // 'mcdaniel.api', 
+            'mcdaniel.api', 
             'mcdaniel.navigation',
             // 'mcdaniel.survey',
-            // 'mcdaniel.knowledge',
+            'mcdaniel.blog',
             // 'mcdaniel.pages',
-            // 'mcdaniel.faq',
+            'mcdaniel.faq',
             // 'mcdaniel.forms',
             // 'mcdaniel.admin',
+            'mcdaniel.templates'
         ]);
 })();

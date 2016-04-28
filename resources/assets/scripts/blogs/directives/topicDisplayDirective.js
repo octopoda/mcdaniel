@@ -11,7 +11,7 @@
     'use strict';
 
     angular
-        .module('assetbuilder.knowledge')
+        .module('mcdaniel.blog')
         .directive('topicDisplay', topicDisplay);
 
     topicDisplay.$inject = ['$rootScope',  'topicService'];

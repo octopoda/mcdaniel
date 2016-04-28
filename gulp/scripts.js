@@ -70,7 +70,7 @@ gulp.task('templates', function () {
       .pipe(plugins.minifyHtml({ quotes: true }))
       .pipe(plugins.angularTemplatecache({
           module: 'mcdaniel.templates',
-          standalone: false,
+          standalone: true,
           root: '/templates'
       }))
       // .pipe(plugins.uglify()).on('error', conf.errorHandler('Uglify Templates'))

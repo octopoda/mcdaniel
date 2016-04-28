@@ -1,8 +1,7 @@
 @extends('layouts.frontend.page')
 
 @section('content')
-	
-		
+	<div class="home">
 		<div class="home__hero hero">
 			<!-- <div class="hero-overylay"></div> -->
 			
@@ -12,6 +11,7 @@
 			</div>
 		</div>
 		
+	
 
 		<!-- Corporate Wellness -->
 		<div class="home__corporate">
@@ -72,6 +72,7 @@
 			<!-- Tablet -->
 			<div class="home__sales-text  tablet-up">
 					
+				
 				<div class="m-square-right__wrapper row">
 					<div class="m-square-right"> </div>
 					<section class="m-square-right__text">
@@ -121,11 +122,11 @@
 				
 			</div>
 		</div>
-	
+	</div> <!-- End Home -->
 
-		<div class="blog__listing">
-			
-		</div>
+		
+	<div data-blog-preview></div>
+		
 
 
 @endsection

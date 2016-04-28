@@ -6,39 +6,38 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    
     /** Build Our Applications - Vroom Vroom  Lets Go Speedracer!  */
     angular
         .module('mcdaniel', [
             //All Share Modules;
             'mcdaniel.shared',
-            
+
             //Larger AB Specific Modules
-            // 'mcdaniel.api', 
+            'mcdaniel.api', 
             'mcdaniel.navigation',
             // 'mcdaniel.survey',
-            // 'mcdaniel.knowledge',
+            'mcdaniel.blog',
             // 'mcdaniel.pages',
-            // 'mcdaniel.faq',
+            'mcdaniel.faq',
             // 'mcdaniel.forms',
             // 'mcdaniel.admin',
+            'mcdaniel.templates'
         ]);
 })();
 (function() {
     'use strict';
 
-    angular .module('assetbuilder.admin', []); 
-
- })();
+    angular.module('mcdaniel.api', []);
+})();
 (function() {
     'use strict';
 
-    angular.module('assetbuilder.api', []);
+    angular.module('mcdaniel.blog', []);
 })();
 (function() {
    'use strict';
 
-    angular.module('assetbuilder.faq', []); 
+    angular.module('mcdaniel.faq', []); 
 
  })();
 (function() {
@@ -50,32 +49,12 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular.module('assetbuilder.knowledge', []);
-})();
-(function() {
-    'use strict';
-
     angular.module('mcdaniel.navigation', []);
 })();
 (function() {
     'use strict';
 
     angular.module('assetbuilder.pages', []);
-})();
-/*
-|--------------------------------------------------------------------------
-| Module for Survey 
-|--------------------------------------------------------------------------
-|
-| Module for all survey partials.  
-| Injection in main assetbuilder module
-| 
-|
-*/
-(function() {
-    'use strict';
-
-    angular.module('assetbuilder.survey', []);
 })();
 /**
  * All Shared Modules inserted here. 
@@ -100,7 +79,7 @@ var jq = $.noConflict();
     angular
         .module('mcdaniel.shared', [
         	/** Angular  */
-            'ngMessages',  'ngSanitize', 'ngCookies', 'ngAnimate', 'ngTouch',
+            'ngMessages',  'ngCookies', 'ngAnimate', 'ngTouch',
 
             /** Globals */
             'global.flash', 'global.errors', 'global.modal', 'global.share', 'global.sidemenu', 'global.rangeslider', 'global.loading',
@@ -108,6 +87,21 @@ var jq = $.noConflict();
             /** Third Party */
             'angular-loading-bar'
         ]);
+})();
+/*
+|--------------------------------------------------------------------------
+| Module for Survey 
+|--------------------------------------------------------------------------
+|
+| Module for all survey partials.  
+| Injection in main assetbuilder module
+| 
+|
+*/
+(function() {
+    'use strict';
+
+    angular.module('assetbuilder.survey', []);
 })();
 (function() {
     'use strict';
@@ -146,199 +140,24 @@ var jq = $.noConflict();
 
     angular.module('global.rangeslider', []);
 })();
-
 (function() {
     'use strict';
 
     angular
-        .module('assetbuilder.admin')
-        .controller('AdminFAQListController', AdminFAQListController);
-
-    /* @ngInject */
-    function AdminFAQListController(faqService) {
-        var vm = this;
-        vm.title = 'AdminFAQListController';
-        
-        vm.FaqList;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-        	return getFaqs().then(function () {
-        		
-        	});
-        }
-
-        /** GEt t */
-        function getFaqs() {
-        	return faqService.getFaqs().then(function (data) {
-        		vm.FaqList = data;
-        		return vm.FaqList;
-        	});
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Scope Methods
-        |--------------------------------------------------------------------------
-        */
-
-
-
-
-    }
-    AdminFAQListController.$inject = ["faqService"];
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.admin')
-        .controller('AdminPostListController', AdminPostListController);
-
-    AdminPostListController.$inject = ['articleService', 'exploreService'];
-
-    /* @ngInject */
-    function AdminPostListController(articleService, exploreService) {
-        var vm = this;
-        vm.title = 'AdminPostListController';
-        vm.pageNumber = 1;
-        vm.articlesPerPage = 20;
-        vm.isSearch = false;
-
-        vm.ArticleList;
-        vm.totalPages;
-
-        //Methods
-        vm.search = searchArticles;
-        vm.prevPage = prevPage;
-        vm.nextPage = nextPage;
-
-        activate();
-
-        ////////////////
-
-        /**
-         * Activate the Controller
-         */
-        function activate() {
-        	return getArticles().then(function () {
-        	    vm.totalPages = getTotalPages();
-        	});
-        }
-
-        
-        /**
-         * Get the articles from the service.
-         */
-        function getArticles() {
-        	return articleService.getPaginatedArticles(vm.pageNumer, vm.articlesPerPage).then(function (data) {
-        	    vm.ArticleList = data.Articles;
-        	    vm.count = data.Count;
-        	    return vm.ArticleList;
-        	});
-        }
-
-        function paginateArticles() {
-            return articleService.getPaginatedArticles(vm.pageNumer, vm.articlesPerPage).then(function (data) {
-                vm.ArticleList = data.Articles;
-                $scope.$apply();
-                return vm.ArticleList;
-            });
-        }
-
-        /**
-         * Get the total pages of articles. 
-         */
-        function getTotalPages() {
-            return Math.round(vm.count / vm.articlesPerPage);
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Scope Methods
-        |--------------------------------------------------------------------------
-        */
-
-
-        /**
-         * Search the Articles through the service
-         */
-        function searchArticles() {
-            return exploreService.exploreByKeyword(vm.keyword, vm.articlesPerPage).then(function (data) {
-              
-                vm.ArticleList = data.Articles;
-                vm.isSearch = true;
-                vm.pageNumber = 1;
-                vm.count = data.Count;
-                vm.totalPages = getTotalPages();
-                return vm.ArticleList;
-            });
-        }
-
-        /**
-         * Paginate the Search Topics
-         */
-        function paginateSearch() {
-            return exploreService.paginateExploreKeyword(vm.keyword, vm.pageNumber, vm.articlesPerPage).then(function (data) {
-               
-                vm.ArticleList = data.Articles;
-                return vm.ArticleList;
-            });
-        }
-
-        /**
-         * Paginate Articles forward.
-         */
-        function nextPage() {
-            vm.pageNumber++;
-
-            if (vm.isSearch) {
-                paginateSearch();
-            } else {
-                paginateArticles();
-            }
-        }
-
-        /**
-         * Paginate Article backwards
-         */
-        function prevPage() {
-            vm.pageNumber--;
-
-            if (vm.isSearch) {
-                paginateSearch();
-            } else {
-                paginateArticles();
-            }
-        }
-
-
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.api')
+        .module('mcdaniel.api')
         .factory('articleService', articleService);
 
     articleService.$inject = ['$http', '$location', 'flash', 'common', 'errors'];
 
     /* @ngInject */
     function articleService($http, $location, flash, common, errors) {
-        var apiUrl = common.apiUrl + '/Articles';
-        var homepageUrl = common.apiUrl + '/homepage';
+        var apiUrl = common.apiUrl + '/posts';
         var defaultPageSize = 24;
 
         var service = {
             getArticles: getArticles,
             getPaginatedArticles: getPaginatedArticles,
-            getArticlesForHomepage : getArticlesForHomepage
+            getArticlesForBlogPreview: getArticlesForBlogPreview
         };
         
         return service;
@@ -385,77 +204,23 @@ var jq = $.noConflict();
         }
 
 
-        /**
-         * Get Articles for the homepage that include trending and internal articles
-         * @param  {int} articlePerPage   
-         * @param  {int} trendingAmount   
-         * @param  {boolean} includeInternals 
-         * @return {object}                  
-         */
-        function getArticlesForHomepage(articlePerPage, trendingAmount, includeInternals) {
-            return $http.get(homepageUrl +  '/' + articlePerPage + '/' + 2 + '/' + includeInternals)
+       function getArticlesForBlogPreview(number) {
+            return $http.get(apiUrl + '/byNumber/' + number)
                 .then(articleComplete)
                 .catch(function (message) {
-                    errors.catcher('Sorry we we not able to retrieve the articles at this time.')(message);
+                    errors.catcher('Sorry we are not able to retrieve the articles at this time.')(message);
                 });
 
-                function articleComplete(data, status, header, config) {
-                    return data.data;
+                function articleComplete(data, status, headers, config) {
+                    return data.data
                 }
-        }
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Complete Portfolios Service for Portfolio API
-|--------------------------------------------------------------------------
-|
-| Query Options: 
-| 
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.api')
-        .factory('completeService', completeService);
-
-    completeService.$inject = ['$http', '$location', 'flash', 'common', 'errors'];
-
-    /* @ngInject */
-    function completeService($http, $location, flash, common, errors) {
-        var apiUrl = common.apiUrl;
-
-        var service = {
-            getGroupComplete: getGroupComplete
-        };
-        return service;
-
-        ////////////////
-
-        /**
-         * Get the complete information for a group ticker
-         * @param  {string} groupTicker 
-         * @return {object}             
-         */
-        function getGroupComplete(groupTicker) {
-        	return $http.get(apiUrl + 'GroupComplete/' + groupTicker)
-        		.then(groupComplete)
-        		.catch(function (message) {
-        			errors.catcher('Sorry, we are not able to get the complete portfolio information at this time.')(message);
-        		});
-
-        		function groupComplete(data, status, header, config) {
-        			return data.data;
-        		}
-        }
+       }
     }
 })();
 (function() {
     'use strict';
 
-  	var api = angular.module('assetbuilder.api');
+  	var api = angular.module('mcdaniel.api');
 
 
   	var config = {
@@ -533,7 +298,7 @@ var jq = $.noConflict();
     'use strict';
 
     angular
-        .module('assetbuilder.api')
+        .module('mcdaniel.api')
         .factory('exploreService', exploreService);
 
     exploreService.$inject = ['$http', '$location', 'flash', 'common', 'errors', '$cookieStore'];
@@ -745,7 +510,7 @@ var jq = $.noConflict();
     'use strict';
 
     angular
-        .module('assetbuilder.api')
+        .module('mcdaniel.api')
         .factory('faqService', faqService);
 
     faqService.$inject = ['$http', 'common',  'errors']
@@ -779,148 +544,11 @@ var jq = $.noConflict();
         }
     }
 })();
-/*
-|--------------------------------------------------------------------------
-| Service for Fee Calculator
-|--------------------------------------------------------------------------
-|
-| Get the fees for the fee calculator
-| @note in Dev mode and using fake JSON
-| 
-|
-*/
-
 (function() {
     'use strict';
 
     angular
-        .module('assetbuilder.api')
-        .factory('feeService', feeService);
-
-    feeService.$inject = ['$http', '$location', 'common', 'errors', 'flash'];
-
-    /* @ngInject */
-    function feeService($http, $location, common, errors, flash) {
-        var apiUrl = common.apiUrl + 'PricingForPortfolio/'
-        
-        var service = {
-            getFeesForPortfolioAndAmount: getFeesForPortfolioAndAmount
-        };
-        
-        return service;
-
-
-        /**         * Get the fees associated with model portfolio and amount
-         * @param  {string} modelPortfolio  
-         * @param  {int} amountInvesting 
-         * @return {object}                 
-         */
-        function getFeesForPortfolioAndAmount(modelPortfolio, amountInvesting) {
-            return $http.get(apiUrl + amountInvesting + '/' + modelPortfolio)
-        		.then(feesComplete)
-        		.catch(function (message) {
-        		    message.insertedObject = "amount Invested:" + amountInvesting + " model Portfolio: " + modelPortfolio;
-        			errors.catcher('Sorry, but are not able to get our Fees at this time.')(message);
-        		});
-
-        		function feesComplete(data, status, headers, config) {
-        			return data.data;
-        		}
-        }
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.api')
-        .factory('groupService', groupService);
-
-    groupService.$inject = ['$http', 'common', 'errors'];
-
-    /* @ngInject */
-    function groupService($http, common, errors) {
-        var apiUrl = common.apiUrl;
-
-        var service = {
-            getGroupInformation: getGroupInformation
-        };
-        return service;
-
-        ////////////////
-
-        /**
-         * Get the Information for All Groups
-         * @return {object} 
-         */
-        function getGroupInformation() {
-        	return $http.get(apiUrl + "/Groups?showAB=False")
-        		.then(groupInformationComplete)
-        		.catch(function (message) {
-        			errors.catcher('Sorry, we cannot get the group information for the portfolios at this time.')(message);
-        		});
-	
-				function groupInformationComplete(data, status, header, config) {
-					return data.data.Groups;
-				}
-        }
-
-
-        
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Api Helpers 
-|--------------------------------------------------------------------------
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.api')
-        .factory('helperService', helperService);
-
-    helperService.$inject = ['$http', 'common', 'flash', 'errors'];
-
-    /* @ngInject */
-    function helperService($http, common, flash, errors) {
-        var apiUrl = common.apiUrl;
-
-        var service = {
-            getStates: getStates
-        };
-     
-        return service;
-
-        ////////////////
-
-        /**
-         * Get a list of the states and thier abbreviations
-         * @setup {StateCode: TX, StateName: Texas }
-         * @return {object} [description]
-         */
-        function getStates() {
-		  return $http.get(apiUrl + 'States')
-			.then(statesComplete)
-			.catch( function (message) {
-				errors.catcher('Sorry we cannot retrive all of our form.  Please call us to open an account')(message);
-			});
-
-			function statesComplete(data, status, headers, config) {
-				return data.data;
-			}
-            
-        }
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.api')
+        .module('mcdaniel.api')
         .factory('mailChimpService', mailChimpService);
 
     mailChimpService.$inject = ['$http', 'common', 'flash', 'errors'];
@@ -960,7 +588,7 @@ var jq = $.noConflict();
     'use strict';
 
     angular
-        .module('assetbuilder.api')
+        .module('mcdaniel.api')
         .factory('mailService', mailService);
 
     mailService.$inject = ['$http', 'common', 'errors'];
@@ -1019,439 +647,6 @@ var jq = $.noConflict();
        
      }
 })();
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.api')
-        .factory('openAccountService', openAccountService);
-
-    openAccountService.$inject = ['$http', 'errors', 'common'];
-
-    /* @ngInject */
-    function openAccountService($http, errors, common) {
-        var apiUrl = common.apiUrl + 'openAccount';
-        var prospectUrl = common.apiUrl + 'prospectInfo';
-
-        var service = {
-            sendOpenAccountRequest: sendOpenAccountRequest,
-            sendProspectRequest :sendProspectRequest
-        };
-
-        return service;
-
-        ////////////////
-
-        /**
-         * Send Open Account Object to API
-         * @param  {object} data 
-         * @return {object}
-         */
-        function sendOpenAccountRequest(data) {
-        	return $http.post(apiUrl, data)
-        		.then(openAccountComplete)
-        		.catch(function (message) {
-        			errors.catcher("Sorry we are unable to process the account information at this time.  Please contact us at 972.535.4040 to open an account.")(message);
-        		});
-
-        		//Only Return Status.
-        		function openAccountComplete(data, status, headers, config) {
-        			return data;
-        		}
-        }
-
-
-        /**
-         * Send Prospect Information to Open Account Controller
-         * @pararm {object} data
-         * @return {object}
-         */
-        function sendProspectRequest(data) {
-            $http.post(apiUrl, data)
-                .then(prospectComplete)
-                .catch(function (message) {
-                    errors.catcher("Sorry we are unable to save your information at this time.  Please contact us at 972.535.4040 to get on our list.")(message);
-                });
-
-            function prospectComplete(data, status, headers, config) {
-                return data;
-            }
-        }
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.api')
-        .factory('portfolioService', portfolioService);
-
-    portfolioService.$inject = ['$http', '$location', 'common', 'errors', 'flash'];
-
-    /* @ngInject */
-    function portfolioService($http, $location, common, errors, flash) {
-        var apiUrl = common.apiUrl + 'Portfolios/';
-
-
-        var service = {
-        	getPortfolioForGroupTicker: getPortfolioForGroupTicker,
-            getPortfolioCount: getPortfolioCount
-        };
-        
-        return service;
-
-        ////////////////
-
-        
-        /**
-         * Get the Portfolio From the Group Ticker
-         * @param  {string} groupTicker 
-         * @return {Object}             
-         */
-        function getPortfolioForGroupTicker(groupTicker) {
-        	return $http.get(apiUrl + groupTicker)
-        		.then(portfolioComplete)
-        		.catch( function (message) {
-        			errors.catcher('Sorry we are not able to get the Portfolio information right now.')(message);
-        			//Redirect? 
-        		});
-
-        		function portfolioComplete(data, status, headers, config) {
-        			if (!data.data.Portfolios) return false;
-                    return data.data.Portfolios;
-        		}
-        }
-
-        
-        
-        /**
-         * Get the Count of the Portfolios in a Group
-         * @param  {string} groupTicker 
-         * @return {int}             
-         */
-        function getPortfolioCount(groupTicker) {
-            return $http.get(apiUrl + groupTicker)
-                .then(portfolioCountComplete)
-                .catch( function(message) {
-                    errors.catcher('XHR Failed For getPortfolioCount')(messsage);
-                });
-
-                function portfolioCountComplete(data, status, headers, config) {
-                    return data.data.Count;
-                }
-        }
-
-        
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Randon Returns Data Service
-|--------------------------------------------------------------------------
-|
-| Get the random returns json for the application
-| the is built for the newsletter each year. 
-| 
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.api')
-        .factory('randomReturnsService', randomReturnsService);
-
-    randomReturnsService.$inject = ['$http', 'errors'];
-
-    /* @ngInject */
-    function randomReturnsService($http, errors) {
-		var jsonUrl = '/json/random-returns.json'
-
-		var service = {
-            getRandomReturns : getRandomReturns 
-        };
-        
-        return service;
-
-        ////////////////
-
-
-        /**
-         * Get the returns
-         * @return {object} 
-         */
-        function getRandomReturns () {
-        	return $http.get(jsonUrl)
-        		.then(returnsComplete)
-        		.catch(function (message) {
-        			errors.catcher('Sorry we were not able to get the random returns information.')(message);
-        		});
-
-        		function returnsComplete(data, status, headers,config) {
-        		    console.dir(data);
-        		    return data.data;
-        		}
-        }
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Service to connect with the SurveyController in the API
-|--------------------------------------------------------------------------
-| 
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.api')
-        .factory('surveyService', surveyService);
-
-    surveyService.$inject = ['$http', '$location', '$cookies', 'flash', 'common', 'errors'];
-
-    /* @ngInject */
-    function surveyService($http, $location, $cookies, flash, common, errors) {
-        var apiUrl = common.apiUrl + 'FindModels/'
-        var expectedUrl = common.apiUrl + 'ExpectedReturns';
-        var now = new Date();
-
-        var service = {
-            isSurveyComplete : isSurveyComplete,
-            getSurveyCookie : getSurveyCookie,
-            storeSurveyCookie : storeSurveyCookie,
-            removeSurveyCookie : removeSurveyCookie,
-            storeSelectedPortfolio : storeSelectedPortfolio,
-            getSelectedPortfolio : getSelectedPortfolio,
-            removeSelectedPortfolio : removeSelectedPortfolio,
-            getSurveyInformation : getSurveyInformation,
-            getExpectedReturns : getExpectedReturns
-        };
-        
-        return service;
-
-
-
-        ////////////////
- 
- /*
-|--------------------------------------------------------------------------
-| ME WANT COOKIE !!!!!
-|--------------------------------------------------------------------------
-    Survey Cookie Object
-    vd.inputs =  {
-        initialInvestment : null,
-        addMonthly: null,
-        investmentTimeline: 13,
-        investmentRisk: 2,
-        investmentType: vd.investmentType,
-        date: new Date(),
-        expire: setExpire()
-        }
-
-
-*/       
-
-        /**
-         * Check if Survey has been completed
-         * @return {Boolean} 
-         */
-        function isSurveyComplete() {
-            if ($cookies.get('surveyData') != undefined || $cookies.get('surveyData') != null) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-
-        /**
-         * Get the information from the Cookie 
-         * @return {Object} 
-         */
-        function getSurveyCookie() {
-            var data = $cookies.get('surveyData');
-            
-            if (data !== undefined) {
-                return JSON.parse(data);
-            }
-        }
-
-        
-        /**
-         * Store the Survey Information in the Cookie
-         * @param  {object} data 
-         * @return {null}
-         */
-        function storeSurveyCookie(data) {
-           var exp = new Date(now.getFullYear(), now.getMonth()+ 3, now.getDate());
-           var json = JSON.stringify(data);
-           
-           return $cookies.put('surveyData', json, {
-             path: '/',
-             expires: exp
-           });
-        }
-
-        
-        /**
-         * Remove the Survey Information from the Cookie
-         * @return {null} 
-         */
-        function removeSurveyCookie() {
-            var exp = new Date(now.getFullYear(), now.getMonth(), now.getDate()-1);
-            return $cookies.remove('surveyData', {
-                path: '/',
-                expires: exp
-            });
-        }
-
-
-
-        /**
-         * Store the selected Portfolio for Contact/Open account forms
-         * @param  {string} name 
-         * @return {null}      
-         */
-        function storeSelectedPortfolio(name) {
-            var exp = new Date(now.getFullYear(), now.getMonth(), now.getDate()+10);
-            return $cookies.put('selectedPortfolio', name, {
-                path: '/',
-                expires: exp
-            });
-        }
-
-        /**
-         * Get the selected portfolio name from the cookie
-         * @return {string} 
-         */
-        function getSelectedPortfolio() {
-           return $cookies.get('selectedPortfolio');
-        }
-
-        /**
-         * Remove the Selected Portfolio From the Cookie
-         * @return {null}
-         */
-        function removeSelectedPortfolio() {
-            var exp = new Date(now.getFullYear(), now.getMonth(), now.getDate()-1);
-            return $cookies.remove('selectedPortfolio', {
-                path: '/',
-                expires: exp
-            });
-        }
-
-        /**
-
-
-/*
-|--------------------------------------------------------------------------
-| API Data Calls
-|--------------------------------------------------------------------------
-*/
-
-        /**
-         * Get the Survey Information
-         * @param  {Object} surveyInformation [information from Survey Post stored in Cookie]
-         * @return {Object}                
-         */
-        function getSurveyInformation() {
-            if (!isSurveyComplete) { return; }
-            var surveyInformation = getSurveyCookie();
-        
-            return $http.get(apiUrl +  surveyInformation.initialInvestment + '/' + surveyInformation.investmentTimeline + '/' + surveyInformation.investmentRisk)
-        		.then(surveyComplete)
-        		.catch(function (message) {
-        		    message.insertedObject = " Inital Investement: " + surveyInformation.initialInvestment + " survey timeline:" + surveyInformation.investmentTimeline + " survey risk" + surveyInformation.investmentRisk;
-        			errors.catcher('Sorry, we cannot process your survey information at this time.')(message);
-        		});
-
-        		function surveyComplete(data, status, headers, config) {
-        			return data.data;
-        		}
-        }
-
-        
-        /**
-         * Get the Expected Return Data 
-         * @param {Object} surveyInforamtion [information from Survey Post stored in Cookie]
-         * @param {int} portfolioId
-         * @return {object} 
-         * @note - Expecting a Post not a get!
-         */
-        function getExpectedReturns(portfolio_id) {
-            if (!isSurveyComplete) { return; }
-            
-            /** @type {object} Get Survey Information */    
-            var surveyInformation = getSurveyCookie();
-
-            /** @type {Objec} Convert Survey Information for Post */
-            var postData  = {
-                initialInv: surveyInformation.initialInvestment,
-                years: surveyInformation.investmentTimeline,
-                monthlyChange: surveyInformation.addMonthly, 
-                portfolioID: portfolio_id
-            };
-
-            return $http.post(expectedUrl, postData)
-                .then(expectedComplete)
-                .catch(function (message) {
-                    errors.catcher('We could not retrieve your expected Returns.')(message);
-                });
-            
-            function expectedComplete(data, status, headers, config) {
-                data.data.portfolioId = portfolio_id;
-                return data.data;
-            }  
-
-        }
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Service for AssetBuilder Team Members
-|--------------------------------------------------------------------------
-|
-| @note stored in JSON in the /json folder for now.
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.api')
-        .factory('teamService', teamService);
-
-    teamService.$inject = ['$http', 'errors'];
-
-    /* @ngInject */
-    function teamService($http, errors) {
-        var jsonUrl = '/json/team.json';
-
-        var service = {
-            getTeamInformation: getTeamInformation
-        };
-    
-        return service;
-
-        ////////////////
-
-        function getTeamInformation() {
-    			return $http.get(jsonUrl)
-    				.then(teamComplete)
-    				.catch(function (message) {
-    					errors.catcher('Sorry, we cannot get the team information at this time.')(message);
-    				});
-
-    				function teamComplete(data, status, headers, config) {
-    					return data.data;
-    				}
-
-        }
-    }
-})();
 /*
 |--------------------------------------------------------------------------
 | Service to get Topics for Article Sidbar
@@ -1467,7 +662,7 @@ var jq = $.noConflict();
     'use strict';
 
     angular
-        .module('assetbuilder.api')
+        .module('mcdaniel.api')
         .factory('topicService', topicService);
 
    topicService.$inject = ['$http', '$cookieStore', 'errors', 'flash', '$cookies'];
@@ -1608,6 +803,209 @@ var jq = $.noConflict();
 */
 /*
 |--------------------------------------------------------------------------
+| Article List
+|--------------------------------------------------------------------------
+|
+| Controls the homepage of the knowledge center
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .controller('ArticleListController', ArticleListController);
+
+    ArticleListController.$inject = ['articleService'];
+
+    /* @ngInject */
+    function ArticleListController(articleService) {
+        var vm = this;
+        vm.title = 'ArticleListController';
+        vm.Articles = [];
+        vm.Total;
+        vm.isTrending = isTrending;
+        vm.pageNumber = 0;
+        vm.pageSize = 20;
+        vm.pages;
+        vm.ArticlesLoaded = false;
+
+
+        //Methods 
+        vm.nextPage = nextPage;
+        vm.prevPage = previousPage;
+
+        activate();
+
+
+        ////////////////
+
+        function activate() {
+            return getData().then(function () {
+                vm.ArticlesLoaded = true;
+                vm.Articles[0].trending = true;
+                countPages();
+            });
+        }
+
+        /**
+         * Get article data
+         * @return {[type]} [description]
+         */
+        function getData() {
+            return articleService.getPaginatedArticles(vm.pageNumber, vm.pageSize).then(function (data) {
+                vm.Total = data.Count;
+                vm.Articles = data.Articles;
+                return vm.Articles;
+            })
+        }
+
+        /**
+         * If article is trending return featured class
+         * @param  {boolean}  trending 
+         * @return {string}          
+         */
+        function isTrending(trending) {
+            if (trending) return 'trending';
+            return;
+        }
+
+
+        function countPages() {
+            vm.pages = Math.round(vm.Total/vm.pageSize);
+            return vm.pages;
+        }
+
+        function nextPage() {
+
+        }
+
+        function previousPage() {
+
+        }
+    
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .controller('ExploreListController', ExploreListController);
+
+    /* @ngInject */
+    function ExploreListController(exploreService) {
+        var vm = this;
+        vm.title = 'ExploreListController';
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+        }
+    }
+    ExploreListController.$inject = ["exploreService"];
+})();
+/*
+|--------------------------------------------------------------------------
+| Knowledge Center Controller
+|--------------------------------------------------------------------------
+|
+| Controls the homepage of the knowledge center
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .controller('KnowledgeCenterController', KnowledgeCenterController);
+
+    KnowledgeCenterController.$inject = ['$scope', '$rootScope', '$window', 'articleService'];
+
+    /* @ngInject */
+    function KnowledgeCenterController($scope, $rootScope, $window, articleService) {
+        var vm = this;
+        vm.title = 'KnowledgeCenterController';
+        vm.Articles = [];
+        vm.pageNumber = 0;
+        vm.ArticleAmount = 24;
+        vm.TrendingAmount = 8;
+        vm.includeInternal = true;
+        vm.pages;
+        vm.ArticlesLoaded = false;
+        vm.loading = false;
+
+
+        //Methods 
+        vm.ArticlesLoaded = false;
+        vm.goToLink = goToLink;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+        	return getData().then(function () {
+                vm.ArticlesLoaded = true;
+            });
+        }
+
+         /**
+         * Get article data
+         * @return {[type]} [description]
+         */
+        function getData() {
+            return articleService.getArticlesForHomepage(vm.ArticleAmount, vm.TrendingAmount, vm.includeInternal).then(function (data) {
+                vm.Total = data.Count;
+                vm.Articles = data.Articles;
+                return vm.Articles;
+            })
+        }
+
+      
+
+       
+
+        /*
+        |--------------------------------------------------------------------------
+        | $scope listener methods
+        |--------------------------------------------------------------------------
+        |
+        |
+        */
+       
+        $rootScope.$on('articleSearch.loading', function handleLoading(event, keyword) {
+            //TODO Throw loading Directive
+        });
+
+
+        /**
+         * If user is searching in the background 
+         * @param  {event} event 
+         * @param  {object} data)
+         * @return {object}
+         */
+        $rootScope.$on('articleSearch.results', function handleLoading(event, data) {
+            vm.Articles = data.Articles;
+        });
+
+
+        /**
+         *  Go to Link for Touch Devices
+         * @return {page redirect}
+         */
+        function goToLink(link) {
+            $window.location = link;
+        }
+    
+    }
+})();
+/*
+|--------------------------------------------------------------------------
 | FAQ controller.  
 |--------------------------------------------------------------------------
 |
@@ -1619,7 +1017,7 @@ var jq = $.noConflict();
     'use strict';
 
     angular
-        .module('assetbuilder.faq')
+        .module('mcdaniel.faq')
         .controller('FaqController', FaqController);
 
     /* @ngInject */
@@ -1628,7 +1026,7 @@ var jq = $.noConflict();
         vm.title = 'FaqController';
         vm.Faqs =[];
 
-        activate();
+        // activate();
 
         ////////////////
 
@@ -1871,264 +1269,6 @@ var jq = $.noConflict();
 
     }
 })();
-/*
-|--------------------------------------------------------------------------
-| Article List
-|--------------------------------------------------------------------------
-|
-| Controls the homepage of the knowledge center
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.knowledge')
-        .controller('ArticleListController', ArticleListController);
-
-    ArticleListController.$inject = ['articleService'];
-
-    /* @ngInject */
-    function ArticleListController(articleService) {
-        var vm = this;
-        vm.title = 'ArticleListController';
-        vm.Articles = [];
-        vm.Total;
-        vm.isTrending = isTrending;
-        vm.pageNumber = 0;
-        vm.pageSize = 20;
-        vm.pages;
-        vm.ArticlesLoaded = false;
-
-
-        //Methods 
-        vm.nextPage = nextPage;
-        vm.prevPage = previousPage;
-
-        activate();
-
-
-        ////////////////
-
-        function activate() {
-            return getData().then(function () {
-                vm.ArticlesLoaded = true;
-                vm.Articles[0].trending = true;
-                countPages();
-            });
-        }
-
-        /**
-         * Get article data
-         * @return {[type]} [description]
-         */
-        function getData() {
-            return articleService.getPaginatedArticles(vm.pageNumber, vm.pageSize).then(function (data) {
-                vm.Total = data.Count;
-                vm.Articles = data.Articles;
-                return vm.Articles;
-            })
-        }
-
-        /**
-         * If article is trending return featured class
-         * @param  {boolean}  trending 
-         * @return {string}          
-         */
-        function isTrending(trending) {
-            if (trending) return 'trending';
-            return;
-        }
-
-
-        function countPages() {
-            vm.pages = Math.round(vm.Total/vm.pageSize);
-            return vm.pages;
-        }
-
-        function nextPage() {
-
-        }
-
-        function previousPage() {
-
-        }
-    
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.knowledge')
-        .controller('ExploreListController', ExploreListController);
-
-    /* @ngInject */
-    function ExploreListController(exploreService) {
-        var vm = this;
-        vm.title = 'ExploreListController';
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-        }
-    }
-    ExploreListController.$inject = ["exploreService"];
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.knowledge')
-        .controller('HomeKnowledgeCenterController', HomeKnowledgeCenterController);
-
-    HomeKnowledgeCenterController.$inject = ['$scope', '$window', 'articleService'];
-
-    /* @ngInject */
-    function HomeKnowledgeCenterController($scope, $window, articleService) {
-        var vm = this;
-        vm.title = 'HomeKnowledgeCenterController';
-        vm.Articles = [];
-        vm.articleAmount = 6;
-        vm.trendingAmount = 2;
-        vm.internals = false;
-
-        vm.ArticlesLoaded = false;
-        vm.goToLink = goToLink;
-
-        activate();
-
-        ////////////////
-
-        /**
-         * Activate the Controller
-         * @return {object} 
-         */		
-        function activate() {
-        	return getData().then(function () {
-        		vm.ArticlesLoaded = true;
-        	});	
-        }
-
-        /**
-         * Get the data for the articles
-         * @return {object} 
-         */
-        function getData() {
-    	   return articleService.getArticlesForHomepage(vm.articleAmount, vm.trendingAmount, vm.internals).then(function (data) {
-    			vm.Articles = data.Articles;
-    			return vm.Articles;
-    		});
-        }
-
-        /**
-         *  Go to Link for Touch Devices
-         * @return {page redirect}
-         */
-        function goToLink(link) {
-            $window.location = link;
-        }
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Knowledge Center Controller
-|--------------------------------------------------------------------------
-|
-| Controls the homepage of the knowledge center
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.knowledge')
-        .controller('KnowledgeCenterController', KnowledgeCenterController);
-
-    KnowledgeCenterController.$inject = ['$scope', '$rootScope', '$window', 'articleService'];
-
-    /* @ngInject */
-    function KnowledgeCenterController($scope, $rootScope, $window, articleService) {
-        var vm = this;
-        vm.title = 'KnowledgeCenterController';
-        vm.Articles = [];
-        vm.pageNumber = 0;
-        vm.ArticleAmount = 24;
-        vm.TrendingAmount = 8;
-        vm.includeInternal = true;
-        vm.pages;
-        vm.ArticlesLoaded = false;
-        vm.loading = false;
-
-
-        //Methods 
-        vm.ArticlesLoaded = false;
-        vm.goToLink = goToLink;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-        	return getData().then(function () {
-                vm.ArticlesLoaded = true;
-            });
-        }
-
-         /**
-         * Get article data
-         * @return {[type]} [description]
-         */
-        function getData() {
-            return articleService.getArticlesForHomepage(vm.ArticleAmount, vm.TrendingAmount, vm.includeInternal).then(function (data) {
-                vm.Total = data.Count;
-                vm.Articles = data.Articles;
-                return vm.Articles;
-            })
-        }
-
-      
-
-       
-
-        /*
-        |--------------------------------------------------------------------------
-        | $scope listener methods
-        |--------------------------------------------------------------------------
-        |
-        |
-        */
-       
-        $rootScope.$on('articleSearch.loading', function handleLoading(event, keyword) {
-            //TODO Throw loading Directive
-        });
-
-
-        /**
-         * If user is searching in the background 
-         * @param  {event} event 
-         * @param  {object} data)
-         * @return {object}
-         */
-        $rootScope.$on('articleSearch.results', function handleLoading(event, data) {
-            vm.Articles = data.Articles;
-        });
-
-
-        /**
-         *  Go to Link for Touch Devices
-         * @return {page redirect}
-         */
-        function goToLink(link) {
-            $window.location = link;
-        }
-    
-    }
-})();
 (function() {
     'use strict';
 
@@ -2151,10 +1291,13 @@ var jq = $.noConflict();
         return directive;
 
         function link(scope, element, attrs) {
-            var el = document.querySelector('.main-navigation-wrapper'),
-              menuButton = jq('.navigation__menu');
+            
 
-             /**
+          var el = document.getElementById('navigation'),
+              menuButton = jq('.mobile-navigation-button');
+
+          
+          /**
       		 * Fixed Navigation
       		 * Waypoints http://imakewebthings.com/waypoints/ 
       		 */
@@ -2163,20 +1306,12 @@ var jq = $.noConflict();
       			handler: function () {
               jq('body').toggleClass('nav-fixed');
       			},
-      			offset:-10
+      			offset: -100
       		});
 
-      		//var mobileMenu = document.querySelector('navigation__menu');
-
-      		//mobileMenu.addEventListener('touchend', function () {
-      		//    document.querySelector('mobile-navigation-button').classList.toggle('active');
-      		//    document.querySelector('main-navigation').classList.toggle('open');
-            //    document.body.classList.toggle('nav-open')
-      		//});
-
-          menuButton.on('click', function (e) {
+      		menuButton.on('click', function (e) {
             jq('.mobile-navigation-button').toggleClass('active');
-            jq('.main-navigation').toggleClass('open');
+            jq('.navigation').toggleClass('open');
             jq('body').toggleClass('nav-open');
           });
 
@@ -2432,186 +1567,6 @@ var jq = $.noConflict();
     'use strict';
 
     angular
-        .module('assetbuilder.survey')
-        .controller('LineController', LineController);
-
-    LineController.$inject = ['$scope', 'surveyService', 'surveyUtilities'];
-
-    /* @ngInject */
-    function LineController($scope, surveyService, surveyUtilities) {
-        var vm = this;
-        vm.title = 'LineController';
-        vm.Data = [];
-        vm.returnsData = [];
-        vm.portfolioId = [45, 46, 47];
-        vm.End;
-        vm.Add; 
-        vm.Years;
-        vm.primed = true;
-        vm.Plots = false;
-
-        activate();
-
-        ////////////////
-
-        /**
-         * Activate the Controller
-         * @return {} [description]
-         */
-        function activate() {
-        	return getExpectedReturns().then(function () {
-            if (angular.isUndefined(vm.Data.PlotPoints)) { return; }
-        		vm.Plots = Math.ceil(vm.Data.PlotPoints.length/2);
-        		setupPlotData();
-            setupDisplayData();
-        	});
-        }
-
-        /**
-      	 * Get Expected Returns
-      	 * @return {object} 
-      	 */
-      	function getExpectedReturns() {
-      		return surveyService.getExpectedReturns(vm.portfolioId[0]).then(function (data) {
-      			vm.Data = data;
-      			vm.Data.SurveyData = surveyService.getSurveyCookie();
-            return vm.Data;
-          });
-      	}
-
-
-        /**
-         * Setup the Date to go to the line chart directive
-         * @return {object} 
-         */
-      	
-        function setupPlotData() {
-          vm.returnsData = {
-            plotData: vm.Data.PlotPoints, 
-            end: vm.Data.EndAmount,
-            add: vm.Data.SurveyData.addMonthly,
-            years: vm.Data.PlotPoints[vm.Data.PlotPoints.length-1].Year,
-            lastYear: vm.Data.LastYear,
-            performance: vm.Data.Performance
-          };
-        
-          return vm.returnsData;
-      	}
-
-
-        /**
-         * Setup the Display Data above the chart
-         */
-        function setupDisplayData() {
-          var w = (vm.returnsData.add < 0) ? 'withdrawn' : 'added'
-
-          vm.Years = vm.returnsData.years;
-          vm.Add = surveyUtilities.printCurrency(vm.returnsData.add) + ' ' + w;
-          vm.portfolioTitle;
-        }
-
-        
-        /*
-        |--------------------------------------------------------------------------
-        | Scope Methods
-        |--------------------------------------------------------------------------
-        */
-
-        /**
-         * Watch Plots and Make Changes
-         * @param  {vm.Plots ) 
-         */
-      	$scope.$watch('vm.Plots', function () {
-            if (vm.Plots === undefined) return;
-          	vm.returnsData = vm.Data.PlotPoints;    
-        }, true)
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Survey Module Controller
-|--------------------------------------------------------------------------
-|  Controls the Overlay and Click buttons for Survey.
-|  @note Looking for the Form.  Check out the SurveyFormDirective.js 
-|  
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.survey')
-        .controller('SurveyController', SurveyController);
-
-    SurveyController.$inject = ['$scope', '$window', 'surveyService', 'common'];
-
-    /* @ngInject */
-    function SurveyController($scope, $window, surveyService, common) {
-        //Vars
-        var vm = this;
-        vm.title = 'SurveyController';
-        vm.investmentType = 'us';
-        
-        
-
-        //Methods
-        vm.changeInvestmentType = changeInvestmentType;
-        vm.checkInvestmentType = checkInvestmentType;
-        
-        activate();
-
-        ////////////////
-
-        /**
-         * Activate the Controller
-         * @return {Function} 
-         */
-        function activate() {
-            
-        }
-
-        
-        /**
-         * Change the investment type to expat
-         * @return {none} 
-         */
-        function changeInvestmentType() {
-            vm.investmentType = 'expat';
-            vm.expat = true;
-        }
-
-
-        /**
-         * Check the investment type and return the class name
-         * @return {string} 
-         */
-        function checkInvestmentType() {
-            if (vm.expat === true) {
-                return 'expat';
-            } else {
-                return 'c-gray-lightest-background';
-            }
-        }
-
-
-
-/*
-|--------------------------------------------------------------------------
-| Helpers
-|--------------------------------------------------------------------------
-|
-|
-*/
-       
-
-
-        
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
         .module('mcdaniel.shared')
         .factory('common', common);
 
@@ -2671,10 +1626,10 @@ var jq = $.noConflict();
         function apiUrl() {
             if (dev)
                 //return 'https://192.168.0.111:3000/api/v1.0/';
-                return 'https://assetbuilder.com/api/v1.0/';
+                return '/api/v1';
               
         	
-            return '/api/v1.0/';
+            return '/api/v1';
         };
 
 
@@ -2895,6 +1850,1087 @@ var jq = $.noConflict();
 	}
 
 });
+(function() {
+    'use strict';
+
+    angular
+        .module('assetbuilder.survey')
+        .controller('LineController', LineController);
+
+    LineController.$inject = ['$scope', 'surveyService', 'surveyUtilities'];
+
+    /* @ngInject */
+    function LineController($scope, surveyService, surveyUtilities) {
+        var vm = this;
+        vm.title = 'LineController';
+        vm.Data = [];
+        vm.returnsData = [];
+        vm.portfolioId = [45, 46, 47];
+        vm.End;
+        vm.Add; 
+        vm.Years;
+        vm.primed = true;
+        vm.Plots = false;
+
+        activate();
+
+        ////////////////
+
+        /**
+         * Activate the Controller
+         * @return {} [description]
+         */
+        function activate() {
+        	return getExpectedReturns().then(function () {
+            if (angular.isUndefined(vm.Data.PlotPoints)) { return; }
+        		vm.Plots = Math.ceil(vm.Data.PlotPoints.length/2);
+        		setupPlotData();
+            setupDisplayData();
+        	});
+        }
+
+        /**
+      	 * Get Expected Returns
+      	 * @return {object} 
+      	 */
+      	function getExpectedReturns() {
+      		return surveyService.getExpectedReturns(vm.portfolioId[0]).then(function (data) {
+      			vm.Data = data;
+      			vm.Data.SurveyData = surveyService.getSurveyCookie();
+            return vm.Data;
+          });
+      	}
+
+
+        /**
+         * Setup the Date to go to the line chart directive
+         * @return {object} 
+         */
+      	
+        function setupPlotData() {
+          vm.returnsData = {
+            plotData: vm.Data.PlotPoints, 
+            end: vm.Data.EndAmount,
+            add: vm.Data.SurveyData.addMonthly,
+            years: vm.Data.PlotPoints[vm.Data.PlotPoints.length-1].Year,
+            lastYear: vm.Data.LastYear,
+            performance: vm.Data.Performance
+          };
+        
+          return vm.returnsData;
+      	}
+
+
+        /**
+         * Setup the Display Data above the chart
+         */
+        function setupDisplayData() {
+          var w = (vm.returnsData.add < 0) ? 'withdrawn' : 'added'
+
+          vm.Years = vm.returnsData.years;
+          vm.Add = surveyUtilities.printCurrency(vm.returnsData.add) + ' ' + w;
+          vm.portfolioTitle;
+        }
+
+        
+        /*
+        |--------------------------------------------------------------------------
+        | Scope Methods
+        |--------------------------------------------------------------------------
+        */
+
+        /**
+         * Watch Plots and Make Changes
+         * @param  {vm.Plots ) 
+         */
+      	$scope.$watch('vm.Plots', function () {
+            if (vm.Plots === undefined) return;
+          	vm.returnsData = vm.Data.PlotPoints;    
+        }, true)
+    }
+})();
+/*
+|--------------------------------------------------------------------------
+| Survey Module Controller
+|--------------------------------------------------------------------------
+|  Controls the Overlay and Click buttons for Survey.
+|  @note Looking for the Form.  Check out the SurveyFormDirective.js 
+|  
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('assetbuilder.survey')
+        .controller('SurveyController', SurveyController);
+
+    SurveyController.$inject = ['$scope', '$window', 'surveyService', 'common'];
+
+    /* @ngInject */
+    function SurveyController($scope, $window, surveyService, common) {
+        //Vars
+        var vm = this;
+        vm.title = 'SurveyController';
+        vm.investmentType = 'us';
+        
+        
+
+        //Methods
+        vm.changeInvestmentType = changeInvestmentType;
+        vm.checkInvestmentType = checkInvestmentType;
+        
+        activate();
+
+        ////////////////
+
+        /**
+         * Activate the Controller
+         * @return {Function} 
+         */
+        function activate() {
+            
+        }
+
+        
+        /**
+         * Change the investment type to expat
+         * @return {none} 
+         */
+        function changeInvestmentType() {
+            vm.investmentType = 'expat';
+            vm.expat = true;
+        }
+
+
+        /**
+         * Check the investment type and return the class name
+         * @return {string} 
+         */
+        function checkInvestmentType() {
+            if (vm.expat === true) {
+                return 'expat';
+            } else {
+                return 'c-gray-lightest-background';
+            }
+        }
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Helpers
+|--------------------------------------------------------------------------
+|
+|
+*/
+       
+
+
+        
+    }
+})();
+/*
+|--------------------------------------------------------------------------
+| Article Sidebar Directive
+|--------------------------------------------------------------------------
+|
+| Handles the searching of articles and topics
+| dynamic attribute set to 1 to change out 
+| articles in the background of the sidebar.
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .directive('articleSidebar', articleSidebar);
+
+    /* @ngInject */
+    function articleSidebar () {
+        // Usage:
+        // <div article-sidebar dynamic="0||1"></div>
+        var directive = {
+            bindToController: true,
+            controller: articleSidebarController,
+            controllerAs: 'vd',
+            restrict: 'A',
+            templateUrl: '/ngViews/knowledge/article-sidebar.html',
+            replace:true,
+        };
+        
+        return directive;
+    }
+
+    articleSidebarController.$inject = ['$scope', '$attrs', '$rootScope', 'topicService', '$window'];
+
+    /* @ngInject */
+    function articleSidebarController ($scope, $attrs, $rootScope, topicService, $window) {
+    	var vd = $scope.vd;
+			vd.TopicData = [];
+			vd.activeTopics = [];
+			
+			//Methods 
+			vd.sortByTopic = sortByTopic;
+			vd.isActiveTopic = isActiveTopic;
+            vd.applyTopics = applyTopics;
+			
+            activate();
+
+    	/////////
+    	
+    	function activate() {
+            // topicService.removeTopics();
+    		return getTopicalData().then(function () {
+    		    getCookieData();
+    		});
+    	}
+
+/*
+|--------------------------------------------------------------------------
+| Topic Data methods
+|--------------------------------------------------------------------------
+|
+*/
+
+    	/**
+    	 * Grab the topics from the service.
+    	 * @return {object} 
+    	 */
+    	function getTopicalData() {
+    	    return topicService.getSortingData().then(function (data) {
+    	       vd.TopicData = data.Sorting.topics;
+                return vd.TopicData;
+    		})
+    	}
+
+    	/**
+    	 * Get the articleDate Cookie and split into active groups
+    	 * ! TopicServivece.hasTopics is not defined because of TFS re-write. 
+    	 * @return {objects} 
+    	 */
+    	function getCookieData() {
+            //if (topicService.hasTopics()) {
+            //   vd.activeTopics = topicService.getTopics(); 
+            //} else {
+            //   vd.activeTopics = [];
+            //}
+        }
+
+/*
+|--------------------------------------------------------------------------
+| Sorting Methods
+|--------------------------------------------------------------------------
+|
+*/
+
+    	/**
+    	 * Add Topic to the Cookie
+    	 * @param  {string} topicName 
+    	 * @return {null}
+    	 */
+    	function sortByTopic(topicName, event) {
+            vd.activeTopics = checkSortData(topicName, vd.activeTopics, event);
+    		//console.dir(vd.activeTopics);
+            topicService.storeTopics(vd.activeTopics);
+    	}
+
+    	
+
+    	
+    	/**
+		 * Check the Sort Data and make Appropriate actions for array and DOM
+		 * @param  {string|int} sort  
+		 * @param  {array} array 
+		 * @param  {element} event 
+		 * @return {array}       
+		 */
+		function checkSortData(sort, array, event) {
+			var target = event.currentTarget;
+			
+			if (sort === "All") {
+				array = [];
+				clearAllTopicsInSection(target);
+			} else if (checkArray(sort, array)) {
+				array.splice(array.indexOf(sort), 1);
+				makeTopicInactive(target);
+			} else {
+				array.push(sort);
+				makeTopicActive(target);
+			}
+
+			return array;
+		}
+
+
+
+     
+/*
+|--------------------------------------------------------------------------
+| DOM Methods
+|--------------------------------------------------------------------------
+|
+*/
+    	
+    	/**
+    	 * Make the Checkmark Visible
+    	 * @param  {element} target 
+    	 * @return {DOM}
+    	 */
+    	function makeTopicActive(target) {
+    		jq(target).prev('i').addClass('fa-check');
+    	}
+
+
+    	/**
+    	 * Make the Checkmark invisible
+    	 * @param  {element} target 
+    	 * @return {DOM}        
+    	 */
+    	function makeTopicInactive(target) {
+    		jq(target).prev('i').removeClass('fa-check');	
+    	}
+
+    	
+    	/**
+    	 * Clear all the topic checkmarks in one section
+    	 * @return {DOM} 
+    	 */
+    	function clearAllTopicsInSection(target) {
+    		jq(target).parent('li').siblings('li').children('i').removeClass('fa-check');
+    	}
+
+
+    	/**
+    	 * Send the topcis to the root to change the background
+    	 * @return {$rootScope.$emit} 
+    	 * @note only called on dynamic sidebars
+    	 */
+    	function sendToRoot() {
+    		$rootScope.$emit('topics.changed');
+    	}
+
+        /**
+         * Apply the topics by reloading the page
+         * @return {$location}
+         */
+        function applyTopics() {
+            $window.location.reload();
+        }
+
+/*
+|--------------------------------------------------------------------------
+| Helper Methods
+|--------------------------------------------------------------------------
+|
+*/
+
+    	/**
+    	 * Check if the topic is active in the cookie
+    	 * @param  {string} topic 
+    	 * @return {boolean}       
+    	 */
+    	function isActiveTopic(topic) {
+            if (checkArray(topic, vd.activeTopics)) {
+    			return 'fa-check';
+    		} else {
+    			return false;
+    		}
+    	}
+
+    	
+        /**
+    	 * Check if word is in array and return index 	
+    	 * @param  {string|int} needle   
+    	 * @param  {array} haystack 
+    	 * @return {int}          
+    	 */
+    	function checkArray(needle, haystack) {
+    		if (haystack.indexOf(needle) != -1) {
+    			return true;
+    		} else {
+    			return false;
+    		}
+    	} 
+
+
+    }
+})();
+/*
+|--------------------------------------------------------------------------
+| Blog Preview
+|--------------------------------------------------------------------------
+|
+|  Creates a preview of the blog on information based pages.
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .directive('blogPreview', blogPreview);
+
+    /* @ngInject */
+    function blogPreview () {
+        // Usage:
+        // <div blog-preview></div>
+        var directive = {
+            bindToController: true,
+            controller: BlogPreviewController,
+            controllerAs: 'vd',
+            templateUrl: '/templates/blog/blog-preview.html',
+            replace: true,
+            restrict: 'A',
+        };
+        
+        return directive;
+	}
+
+
+    BlogPreviewController.$inject = ['$scope', '$element', '$attrs', 'articleService']
+
+    /* @ngInject */
+    function BlogPreviewController ($scope, $element, $attrs, articleService) {
+    	var vd = $scope.vd;
+    		vd.mainArticle = {};
+    		vd.otherArticles = [];
+
+    	activate();
+
+
+    	//////////////
+
+    	function activate() {
+    		getArticleData();
+        }
+
+
+        //Get the Main Article Data
+    	function getArticleData() {
+    		return articleService.getArticlesForBlogPreview(4).then(function (data) {
+    			vd.mainArticle = data.data[0]
+
+                if (vd.mainArticle.post_image == false) {
+                    var rand = Math.floor(Math.random() * 4) + 1  
+                    vd.mainArticle.post_image = 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/' + rand + '.jpg'
+                }
+            
+                for (var i = 1; i < data.data.length; i++) {
+                    if (data.data[i].post_thumbnail == false) {
+                        var rand = Math.floor(Math.random() * 22) + 1  
+                        data.data[i].post_thumbnail = 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/' + rand + '.jpg'
+                    }
+                    vd.otherArticles.push(data.data[i]);
+                }
+
+                
+    		});
+    	}
+    }
+
+})();
+/*
+|--------------------------------------------------------------------------
+| Clear Search Directive
+|--------------------------------------------------------------------------
+|
+| Sends to rootscope that search service needs to clear;
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .directive('clearSearch', clearSearch);
+
+    clearSearch.$inject = ['searchService'];
+
+    /* @ngInject */
+    function clearSearch (searchService) {
+        // Usage:
+        // <div clear-search></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+   
+        return directive;
+
+        function link(scope, element, attrs) {
+			
+            /** Alert the Rootscope that Search is clearing */
+            jq(element).on('click', function () {
+        		searchService.clearSearchData();
+        	});
+
+        }
+    }
+
+    
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .directive('footerRollup', footerRollup);
+
+    /* @ngInject */
+    function footerRollup () {
+        // Usage:
+        // <div footer-rollup></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            replace:true,
+            templateUrl: '/templates/blog/footer-rollup.html',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var el = jq(element);
+        	
+          
+					
+					/**
+      		 * Fix to bottom of page
+      		 * Waypoints http://imakewebthings.com/waypoints/ 
+      		 */
+      		var sticky = new Waypoint({
+      			element: document.querySelector('body'),
+      			handler: function () {
+      				el.toggleClass('fixed');
+      			},
+      			offset:-200
+      		});
+
+      		/**
+           * Removes when footer comes onto the page.
+           * Waypoints http://imakewebthings.com/waypoints/ 
+           */
+          sticky = new Waypoint({
+      			element: document.querySelector('.site-footer'),
+      			handler: function () {
+      				el.toggleClass('fixed');
+      			},
+      			offset:'100%'
+      		});
+
+
+        }
+    }
+
+    
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .directive('knowledgeCenter', knowledgeCenter);
+
+    /* @ngInject */
+    function knowledgeCenter () {
+        // Usage:
+        //
+        // Creates:
+        //
+        var directive = {
+            bindToController: true,
+            controller: knowledgeCenterController,
+            controllerAs: 'vd',
+            link: link,
+            templateUrl: '/ngViews/knowledge/knowledge-center.html',
+            replace:true,
+            restrict: 'A',
+            scope: {
+            	articles: "="
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var vd = scope;
+        	
+        }
+    }
+
+    /* @ngInject */
+    function knowledgeCenterController (scope) {
+
+    }
+    knowledgeCenterController.$inject = ["scope"];
+})();
+/*
+|--------------------------------------------------------------------------
+| Search Bar Directive
+|--------------------------------------------------------------------------
+|
+| On submit will find results from search service and send to serach results
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .directive('searchBar', searchBar);
+
+    searchBar.$inject = ['$rootScope', 'exploreService', 'searchService'];
+
+    /* @ngInject */
+    function searchBar ($rootScope, exploreService, searchService) {
+        // Usage:
+        // <form search-bar></form>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+       
+        return directive;
+
+        function link(scope, element, attrs) {
+       			var vd = scope;
+       				vd.keyword = null;
+
+       			/** Catch form submit get keyword and send to service */
+            jq(element).on('submit', function (e) {
+       				e.preventDefault();
+       				vd.keyword = jq(this).children('input').val();
+       				if (vd.keyword === undefined) return;
+       				sendToResults(vd.keyword);
+       			});
+
+            /** On search.clear empty input */
+            $rootScope.$on('search.clear', function () {
+              jq(element).children('input').val('')
+            })
+
+       		/**
+             * Send keyword to search service
+             * @param  {string} keyword 
+             * @return {object} 
+             */
+            function sendToResults(keyword) {
+    			return searchService.getKeywords(keyword);
+    		}
+        }
+    }
+
+})();	
+/*
+|--------------------------------------------------------------------------
+| Search Result Directive
+|--------------------------------------------------------------------------
+|
+| Displays search results on sidebar on changes article listing for
+| to show search results based on dynamic attribute
+| @note dynamic = 1 will send it to article-listing 
+| @note dynamic = 0 will send it to sidebar;
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .directive('searchResults', searchResults);
+
+    searchResults.$inject = ['$rootScope', 'exploreService'];
+
+    /* @ngInject */
+    function searchResults ($rootScope, exploreService) {
+        // Usage:
+        // <div search-results dynamic="0||1"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            templateUrl: '/ngViews/knowledge/sidebar-search-results.html',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	scope.loading = null;
+        	scope.results = null;
+        	scope.keyword = null
+
+            sendToSidebar();
+            
+
+        	
+
+            /*
+            |--------------------------------------------------------------------------
+            | Send Methods
+            |--------------------------------------------------------------------------
+            |
+            */
+           
+           /**
+            * Send Results to sidebar 
+            * @return {DOM} 
+            */
+           function sendToSidebar() {
+                /** Setup Loading and Keywords */
+                $rootScope.$on('search.loading', function handleLoading(event, keyword) {
+                    scope.loading = 1;
+                    scope.keyword = keyword
+                    scope.error = false;
+                    scope.$apply(scope.loading);
+
+                    //Fade Out Article Listing
+                    jq('.article-listing').fadeOut(2000);
+                });
+
+                /** Fill In Search Results */
+                $rootScope.$on('search.results', function handleResults(event, data) {
+                    scope.loading = null;
+                    if (data.Errors !== undefined) {
+                        scope.error = true;
+                    } else {
+                        //console.log('good');
+                        scope.results = data.Articles;
+                    }
+                    
+                });
+
+                /** Clear Search Results */
+                $rootScope.$on('search.clear', function handleClear(event) {
+                    scope.keyword = null;
+                    scope.loading = null;
+                    scope.results = null;
+
+                    scope.$apply();
+
+                    jq('.article-listing').fadeIn(100);
+                });
+
+           }
+        }
+    }
+
+
+    
+    
+})();		
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .directive('textTransformer', textTransformer);
+
+    /* @ngInject */
+    function textTransformer () {
+        // Usage:
+        //  @param: id of item you want to transfor
+        //  <div text-transformer selector="@param"></div>
+        
+        var directive = {
+            bindToController: true,
+            controller: textTransformerController,
+            controllerAs: 'vd',
+            templateUrl: '/ngViews/global/text-transformer.html',
+            replace: true,
+            link: link,
+            restrict: 'A',
+            scope: {
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+            var vd = scope.vd;
+                vd.selector = attrs.selector;
+                vd.textSize = 100;
+
+            /**
+             * Increse the Text
+             * @return {DOM} 
+             */
+            vd.increaseText = function () {
+               var kids = parseSelectorChildren(vd.selector);
+               vd.textSize = transformText(vd.selector, kids, "+", vd.textSize);
+            }
+
+            /**
+             * Decrese the Text
+             * @return {DOM}
+             */
+            vd.decreaseText = function () {
+               var kids = parseSelectorChildren(vd.selector);
+               vd.textSize = transformText(vd.selector, kids, "-", vd.textSize);
+            }
+        }
+    }
+
+    textTransformerController.$inject = ['$scope'];
+
+    /* @ngInject */
+    function textTransformerController ($scope) {
+        var vd = $scope.vd;
+    }
+
+
+    /**
+     * Transform the text
+     * @param  {string} selector  
+     * @param  {array} kids      
+     * @param  {string} increment 
+     * @return {int}           
+     */
+    function transformText(selector, kids, increment, textSize) {
+        var textSize = (increment === "+") ? textSize + 10 : textSize -10;
+        var fontSize = textSize+"%",
+            lineHeight = (textSize > 100) ? (textSize*1.7)+"%" : "170%";
+
+
+        for (var i = 0; i < kids.length; i++) {
+            jq('#'+selector+' '+kids[i]).css({fontSize: fontSize, lineHeight: lineHeight});
+        }
+
+        return textSize;
+    }
+
+
+    /**
+     * Parse the children of the selector
+     * @param  {string} selector 
+     * @return {array}          
+     */
+    function parseSelectorChildren(selector) {
+        var kiddos = [];
+        
+        jq('#'+selector).children().each(function () {
+            var el = jq(this);
+            if (kiddos.indexOf(el.context.localName) != -1) { return; }
+            
+            var filter = filterContext(el.context.localName);
+            if (filter) { kiddos.push(filter); }
+        });
+
+        return kiddos;  
+    }
+
+    /**
+     * Filter out namespaces we don't want to transform or change out ones that we need to transform
+     * @param  {string} context 
+     * @return {string} 
+     */
+    function filterContext(context) {
+        //Remove Block Elements
+        if (context === 'div' || context === 'img' || context === 'aside') {
+            return false; 
+        }
+
+
+        
+        //Trade out Table
+        if (context === 'table') {
+            context = 'td';
+        }
+
+        if (context === 'ul') {
+            context = 'li';
+        }
+
+        return context;
+    }
+
+
+
+})();
+/*
+|--------------------------------------------------------------------------
+| Topic Display Directive
+|--------------------------------------------------------------------------
+|
+| Displays the topics from the cookie
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .directive('topicDisplay', topicDisplay);
+
+    topicDisplay.$inject = ['$rootScope',  'topicService'];
+
+    /* @ngInject */
+    function topicDisplay ($rootScope, topicService) {
+        // Usage:
+        //	<div topic-display></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            replace: true,
+            templateUrl: '/ngViews/knowledge/topic-display.html'
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	//Get the Topics
+        	scope.notEmpty = false;
+            //var stringTopics = topicService.getTopics();
+            
+            //if (stringTopics) {
+            //    scope.notEmpty = true;
+            //    scope.topics = JSON.parse(stringTopics);    
+            //}
+
+        	
+            ////If Topics Change get them again
+        	//$rootScope.$on('topics.changed', function handleChange(event) {
+        	//	scope.topicData = topicService.getTopics();
+        	//})
+        }
+    }
+
+    
+})();
+/*
+|--------------------------------------------------------------------------
+| Search Service
+|--------------------------------------------------------------------------
+|
+| Service to pass the search data between parameters
+| 
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .service('searchService', searchService);
+
+
+   searchService.$inject = ['$rootScope', 'exploreService'];
+
+    /* @ngInject */
+    function searchService($rootScope, exploreService) {
+        var data =  {
+        	KeywordData: null
+        };
+
+        var service = {
+        	getKeywords: getKeywords,
+        	clearSearchData: clearSearchData
+        };
+
+        return service;
+
+        ////////////////
+
+        /**
+         * Call Loading Bar and setup results directive while grabbing data
+         * @param  {string} keyword 
+         * @return {object}         
+         */
+        function getKeywords(keyword) {
+        	$rootScope.$emit('search.loading', keyword);
+        	return getData(keyword).then(function (data) {
+        		alertResultsDirective(data);
+        	});
+        }
+
+        /**
+         * Clear the search Results
+         */
+        function clearSearchData() {
+        	$rootScope.$emit('search.clear');
+        }
+
+/*
+|--------------------------------------------------------------------------
+| Private Methods
+|--------------------------------------------------------------------------
+|
+| Description 1
+|  Description 2
+| 
+|
+*/        
+
+        /**
+         * Alert searchResultsDirective when Explore is finished;
+         * @return {object}
+         */
+        function alertResultsDirective(data) {
+            $rootScope.$emit('search.results', data);
+        }
+
+        
+        /**
+         * Get Search Data from Explore API
+         * @param  {string} keyword 
+         * @return {object}         
+         */
+        function getData(keyword) {
+        	return exploreService.exploreByKeyword(keyword).then(function (data) {
+        		return data;
+        	});
+        }
+
+
+       
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqBlock', faqBlock);
+
+    /* @ngInject */
+    function faqBlock () {
+        // Usage:
+        // <div ng-repeat="faq in fc.Faqs" ng-if="faq.featured" faq-block>
+				// 		<h4 >{{ faq.question }} <i class="fa fa-angle-right"></i></h4>
+				// 		<div ng-bind-html="faq.answer" class="faq-answer"></div>
+				// </div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        		
+                var question = jq(element[0]);
+        		var answer = question.children('.faq__answer');
+
+        		question.on('click', function (e) {
+        			if (question.hasClass('open')) {
+        				answer.slideUp(200);
+        				question.toggleClass('open');
+        			} else {
+        				answer.slideDown(200);
+        				question.toggleClass('open');
+        			}
+        		});
+        }
+    }
+
+    /* @ngInject */
+    function Controller () {
+
+    }
+})();
 /*
 |--------------------------------------------------------------------------
 | U.S. CitizenShip Checkbox Directive	
@@ -3570,49 +3606,6 @@ var jq = $.noConflict();
     }
 
     
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.faq')
-        .directive('faqBlock', faqBlock);
-
-    /* @ngInject */
-    function faqBlock () {
-        // Usage:
-        // <div ng-repeat="faq in fc.Faqs" ng-if="faq.featured" faq-block>
-				// 		<h4 >{{ faq.question }} <i class="fa fa-angle-right"></i></h4>
-				// 		<div ng-bind-html="faq.answer" class="faq-answer"></div>
-				// </div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        		var el = jq(element);
-        		var question = el.children('.faq-question');
-        		var answer = el.children('.faq-answer');
-
-        		question.on('click', function (e) {
-        			if (el.hasClass('open')) {
-        				answer.slideUp(200);
-        				el.toggleClass('open');
-        			} else {
-        				answer.slideDown(200);
-        				el.toggleClass('open');
-        			}
-        		});
-        }
-    }
-
-    /* @ngInject */
-    function Controller () {
-
-    }
 })();
 
 /*
@@ -4301,758 +4294,48 @@ var jq = $.noConflict();
 
 })();
 
+/*
+|--------------------------------------------------------------------------
+| Dropdown on click 
+|--------------------------------------------------------------------------
+|
+| Mostly made for mobile but reveals dropdonw on clikc.  
+| Desktop will show on hover;
+*/
+
 (function() {
     'use strict';
 
     angular
-        .module('assetbuilder.knowledge')
-        .directive('articleFlash', articleFlash);
+        .module('mcdaniel.navigation')
+        .directive('dropdown', dropdown);
 
     /* @ngInject */
-    function articleFlash () {
+    function dropdown () {
         // Usage:
-        //
+        // <li data-dropdown></li>
         var directive = {
             link: link,
             restrict: 'A',
-            replace:true,
-            templateUrl: '/ngViews/knowledge/article-flash.html'
         };
         
         return directive;
 
         function link(scope, element, attrs) {
-        	var el = jq(element);
-        	
-					
-					/**
-      		 * Fix to bottom of page
-      		 * Waypoints http://imakewebthings.com/waypoints/ 
-      		 */
-      		var sticky = new Waypoint({
-      			element: document.querySelector('body'),
-      			handler: function () {
-      				el.toggleClass('fixed');
-      			},
-      			offset:-200
-      		});
+        	var trigger = jq(element[0]);
+        	var menu = trigger.children('.dropdown-menu');
 
-      		var sticky = new Waypoint({
-      			element: document.querySelector('.site-footer'),
-      			handler: function () {
-      				el.toggleClass('fixed');
-      			},
-      			offset:'100%'
-      		});
+        	trigger.on('click', function (e) {
+        		
 
-
-        }
-    }
-
-    /* @ngInject */
-    function Controller () {
-
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Article Sidebar Directive
-|--------------------------------------------------------------------------
-|
-| Handles the searching of articles and topics
-| dynamic attribute set to 1 to change out 
-| articles in the background of the sidebar.
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.knowledge')
-        .directive('articleSidebar', articleSidebar);
-
-    /* @ngInject */
-    function articleSidebar () {
-        // Usage:
-        // <div article-sidebar dynamic="0||1"></div>
-        var directive = {
-            bindToController: true,
-            controller: articleSidebarController,
-            controllerAs: 'vd',
-            restrict: 'A',
-            templateUrl: '/ngViews/knowledge/article-sidebar.html',
-            replace:true,
-        };
-        
-        return directive;
-    }
-
-    articleSidebarController.$inject = ['$scope', '$attrs', '$rootScope', 'topicService', '$window'];
-
-    /* @ngInject */
-    function articleSidebarController ($scope, $attrs, $rootScope, topicService, $window) {
-    	var vd = $scope.vd;
-			vd.TopicData = [];
-			vd.activeTopics = [];
-			
-			//Methods 
-			vd.sortByTopic = sortByTopic;
-			vd.isActiveTopic = isActiveTopic;
-            vd.applyTopics = applyTopics;
-			
-            activate();
-
-    	/////////
-    	
-    	function activate() {
-            // topicService.removeTopics();
-    		return getTopicalData().then(function () {
-    		    getCookieData();
-    		});
-    	}
-
-/*
-|--------------------------------------------------------------------------
-| Topic Data methods
-|--------------------------------------------------------------------------
-|
-*/
-
-    	/**
-    	 * Grab the topics from the service.
-    	 * @return {object} 
-    	 */
-    	function getTopicalData() {
-    	    return topicService.getSortingData().then(function (data) {
-    	       vd.TopicData = data.Sorting.topics;
-                return vd.TopicData;
-    		})
-    	}
-
-    	/**
-    	 * Get the articleDate Cookie and split into active groups
-    	 * ! TopicServivece.hasTopics is not defined because of TFS re-write. 
-    	 * @return {objects} 
-    	 */
-    	function getCookieData() {
-            //if (topicService.hasTopics()) {
-            //   vd.activeTopics = topicService.getTopics(); 
-            //} else {
-            //   vd.activeTopics = [];
-            //}
-        }
-
-/*
-|--------------------------------------------------------------------------
-| Sorting Methods
-|--------------------------------------------------------------------------
-|
-*/
-
-    	/**
-    	 * Add Topic to the Cookie
-    	 * @param  {string} topicName 
-    	 * @return {null}
-    	 */
-    	function sortByTopic(topicName, event) {
-            vd.activeTopics = checkSortData(topicName, vd.activeTopics, event);
-    		//console.dir(vd.activeTopics);
-            topicService.storeTopics(vd.activeTopics);
-    	}
-
-    	
-
-    	
-    	/**
-		 * Check the Sort Data and make Appropriate actions for array and DOM
-		 * @param  {string|int} sort  
-		 * @param  {array} array 
-		 * @param  {element} event 
-		 * @return {array}       
-		 */
-		function checkSortData(sort, array, event) {
-			var target = event.currentTarget;
-			
-			if (sort === "All") {
-				array = [];
-				clearAllTopicsInSection(target);
-			} else if (checkArray(sort, array)) {
-				array.splice(array.indexOf(sort), 1);
-				makeTopicInactive(target);
-			} else {
-				array.push(sort);
-				makeTopicActive(target);
-			}
-
-			return array;
-		}
-
-
-
-     
-/*
-|--------------------------------------------------------------------------
-| DOM Methods
-|--------------------------------------------------------------------------
-|
-*/
-    	
-    	/**
-    	 * Make the Checkmark Visible
-    	 * @param  {element} target 
-    	 * @return {DOM}
-    	 */
-    	function makeTopicActive(target) {
-    		jq(target).prev('i').addClass('fa-check');
-    	}
-
-
-    	/**
-    	 * Make the Checkmark invisible
-    	 * @param  {element} target 
-    	 * @return {DOM}        
-    	 */
-    	function makeTopicInactive(target) {
-    		jq(target).prev('i').removeClass('fa-check');	
-    	}
-
-    	
-    	/**
-    	 * Clear all the topic checkmarks in one section
-    	 * @return {DOM} 
-    	 */
-    	function clearAllTopicsInSection(target) {
-    		jq(target).parent('li').siblings('li').children('i').removeClass('fa-check');
-    	}
-
-
-    	/**
-    	 * Send the topcis to the root to change the background
-    	 * @return {$rootScope.$emit} 
-    	 * @note only called on dynamic sidebars
-    	 */
-    	function sendToRoot() {
-    		$rootScope.$emit('topics.changed');
-    	}
-
-        /**
-         * Apply the topics by reloading the page
-         * @return {$location}
-         */
-        function applyTopics() {
-            $window.location.reload();
-        }
-
-/*
-|--------------------------------------------------------------------------
-| Helper Methods
-|--------------------------------------------------------------------------
-|
-*/
-
-    	/**
-    	 * Check if the topic is active in the cookie
-    	 * @param  {string} topic 
-    	 * @return {boolean}       
-    	 */
-    	function isActiveTopic(topic) {
-            if (checkArray(topic, vd.activeTopics)) {
-    			return 'fa-check';
-    		} else {
-    			return false;
-    		}
-    	}
-
-    	
-        /**
-    	 * Check if word is in array and return index 	
-    	 * @param  {string|int} needle   
-    	 * @param  {array} haystack 
-    	 * @return {int}          
-    	 */
-    	function checkArray(needle, haystack) {
-    		if (haystack.indexOf(needle) != -1) {
-    			return true;
-    		} else {
-    			return false;
-    		}
-    	} 
-
-
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Clear Search Directive
-|--------------------------------------------------------------------------
-|
-| Sends to rootscope that search service needs to clear;
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.knowledge')
-        .directive('clearSearch', clearSearch);
-
-    clearSearch.$inject = ['searchService'];
-
-    /* @ngInject */
-    function clearSearch (searchService) {
-        // Usage:
-        // <div clear-search></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-   
-        return directive;
-
-        function link(scope, element, attrs) {
-			
-            /** Alert the Rootscope that Search is clearing */
-            jq(element).on('click', function () {
-        		searchService.clearSearchData();
+        		if (trigger.hasClass('open')) {
+        			menu.slideUp(500);
+        			trigger.removeClass('open');
+        		} else {
+        			menu.slideDown(500);
+        			trigger.addClass('open');
+        		}
         	});
-
-        }
-    }
-
-    
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.knowledge')
-        .directive('footerRollup', footerRollup);
-
-    /* @ngInject */
-    function footerRollup () {
-        // Usage:
-        //
-        var directive = {
-            link: link,
-            restrict: 'A',
-            replace:true,
-            templateUrl: '/ngViews/knowledge/footer-rollup.html',
-            scope: { 
-              text: "@",
-              buttonText: "@",
-              buttonLink: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	var el = jq(element);
-        	
-          
-					
-					/**
-      		 * Fix to bottom of page
-      		 * Waypoints http://imakewebthings.com/waypoints/ 
-      		 */
-      		var sticky = new Waypoint({
-      			element: document.querySelector('body'),
-      			handler: function () {
-      				el.toggleClass('fixed');
-      			},
-      			offset:-200
-      		});
-
-      		/**
-           * Removes when footer comes onto the page.
-           * Waypoints http://imakewebthings.com/waypoints/ 
-           */
-          sticky = new Waypoint({
-      			element: document.querySelector('.site-footer'),
-      			handler: function () {
-      				el.toggleClass('fixed');
-      			},
-      			offset:'100%'
-      		});
-
-
-        }
-    }
-
-    /* @ngInject */
-    function Controller () {
-
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.knowledge')
-        .directive('knowledgeCenter', knowledgeCenter);
-
-    /* @ngInject */
-    function knowledgeCenter () {
-        // Usage:
-        //
-        // Creates:
-        //
-        var directive = {
-            bindToController: true,
-            controller: knowledgeCenterController,
-            controllerAs: 'vd',
-            link: link,
-            templateUrl: '/ngViews/knowledge/knowledge-center.html',
-            replace:true,
-            restrict: 'A',
-            scope: {
-            	articles: "="
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-        	var vd = scope;
-        	
-        }
-    }
-
-    /* @ngInject */
-    function knowledgeCenterController (scope) {
-
-    }
-    knowledgeCenterController.$inject = ["scope"];
-})();
-/*
-|--------------------------------------------------------------------------
-| Search Bar Directive
-|--------------------------------------------------------------------------
-|
-| On submit will find results from search service and send to serach results
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.knowledge')
-        .directive('searchBar', searchBar);
-
-    searchBar.$inject = ['$rootScope', 'exploreService', 'searchService'];
-
-    /* @ngInject */
-    function searchBar ($rootScope, exploreService, searchService) {
-        // Usage:
-        // <form search-bar></form>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-       
-        return directive;
-
-        function link(scope, element, attrs) {
-       			var vd = scope;
-       				vd.keyword = null;
-
-       			/** Catch form submit get keyword and send to service */
-            jq(element).on('submit', function (e) {
-       				e.preventDefault();
-       				vd.keyword = jq(this).children('input').val();
-       				if (vd.keyword === undefined) return;
-       				sendToResults(vd.keyword);
-       			});
-
-            /** On search.clear empty input */
-            $rootScope.$on('search.clear', function () {
-              jq(element).children('input').val('')
-            })
-
-       		/**
-             * Send keyword to search service
-             * @param  {string} keyword 
-             * @return {object} 
-             */
-            function sendToResults(keyword) {
-    			return searchService.getKeywords(keyword);
-    		}
-        }
-    }
-
-})();	
-/*
-|--------------------------------------------------------------------------
-| Search Result Directive
-|--------------------------------------------------------------------------
-|
-| Displays search results on sidebar on changes article listing for
-| to show search results based on dynamic attribute
-| @note dynamic = 1 will send it to article-listing 
-| @note dynamic = 0 will send it to sidebar;
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.knowledge')
-        .directive('searchResults', searchResults);
-
-    searchResults.$inject = ['$rootScope', 'exploreService'];
-
-    /* @ngInject */
-    function searchResults ($rootScope, exploreService) {
-        // Usage:
-        // <div search-results dynamic="0||1"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            templateUrl: '/ngViews/knowledge/sidebar-search-results.html',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	scope.loading = null;
-        	scope.results = null;
-        	scope.keyword = null
-
-            sendToSidebar();
-            
-
-        	
-
-            /*
-            |--------------------------------------------------------------------------
-            | Send Methods
-            |--------------------------------------------------------------------------
-            |
-            */
-           
-           /**
-            * Send Results to sidebar 
-            * @return {DOM} 
-            */
-           function sendToSidebar() {
-                /** Setup Loading and Keywords */
-                $rootScope.$on('search.loading', function handleLoading(event, keyword) {
-                    scope.loading = 1;
-                    scope.keyword = keyword
-                    scope.error = false;
-                    scope.$apply(scope.loading);
-
-                    //Fade Out Article Listing
-                    jq('.article-listing').fadeOut(2000);
-                });
-
-                /** Fill In Search Results */
-                $rootScope.$on('search.results', function handleResults(event, data) {
-                    scope.loading = null;
-                    if (data.Errors !== undefined) {
-                        scope.error = true;
-                    } else {
-                        //console.log('good');
-                        scope.results = data.Articles;
-                    }
-                    
-                });
-
-                /** Clear Search Results */
-                $rootScope.$on('search.clear', function handleClear(event) {
-                    scope.keyword = null;
-                    scope.loading = null;
-                    scope.results = null;
-
-                    scope.$apply();
-
-                    jq('.article-listing').fadeIn(100);
-                });
-
-           }
-        }
-    }
-
-
-    
-    
-})();		
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.knowledge')
-        .directive('textTransformer', textTransformer);
-
-    /* @ngInject */
-    function textTransformer () {
-        // Usage:
-        //  @param: id of item you want to transfor
-        //  <div text-transformer selector="@param"></div>
-        
-        var directive = {
-            bindToController: true,
-            controller: textTransformerController,
-            controllerAs: 'vd',
-            templateUrl: '/ngViews/global/text-transformer.html',
-            replace: true,
-            link: link,
-            restrict: 'A',
-            scope: {
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-            var vd = scope.vd;
-                vd.selector = attrs.selector;
-                vd.textSize = 100;
-
-            /**
-             * Increse the Text
-             * @return {DOM} 
-             */
-            vd.increaseText = function () {
-               var kids = parseSelectorChildren(vd.selector);
-               vd.textSize = transformText(vd.selector, kids, "+", vd.textSize);
-            }
-
-            /**
-             * Decrese the Text
-             * @return {DOM}
-             */
-            vd.decreaseText = function () {
-               var kids = parseSelectorChildren(vd.selector);
-               vd.textSize = transformText(vd.selector, kids, "-", vd.textSize);
-            }
-        }
-    }
-
-    textTransformerController.$inject = ['$scope'];
-
-    /* @ngInject */
-    function textTransformerController ($scope) {
-        var vd = $scope.vd;
-    }
-
-
-    /**
-     * Transform the text
-     * @param  {string} selector  
-     * @param  {array} kids      
-     * @param  {string} increment 
-     * @return {int}           
-     */
-    function transformText(selector, kids, increment, textSize) {
-        var textSize = (increment === "+") ? textSize + 10 : textSize -10;
-        var fontSize = textSize+"%",
-            lineHeight = (textSize > 100) ? (textSize*1.7)+"%" : "170%";
-
-
-        for (var i = 0; i < kids.length; i++) {
-            jq('#'+selector+' '+kids[i]).css({fontSize: fontSize, lineHeight: lineHeight});
-        }
-
-        return textSize;
-    }
-
-
-    /**
-     * Parse the children of the selector
-     * @param  {string} selector 
-     * @return {array}          
-     */
-    function parseSelectorChildren(selector) {
-        var kiddos = [];
-        
-        jq('#'+selector).children().each(function () {
-            var el = jq(this);
-            if (kiddos.indexOf(el.context.localName) != -1) { return; }
-            
-            var filter = filterContext(el.context.localName);
-            if (filter) { kiddos.push(filter); }
-        });
-
-        return kiddos;  
-    }
-
-    /**
-     * Filter out namespaces we don't want to transform or change out ones that we need to transform
-     * @param  {string} context 
-     * @return {string} 
-     */
-    function filterContext(context) {
-        //Remove Block Elements
-        if (context === 'div' || context === 'img' || context === 'aside') {
-            return false; 
-        }
-
-
-        
-        //Trade out Table
-        if (context === 'table') {
-            context = 'td';
-        }
-
-        if (context === 'ul') {
-            context = 'li';
-        }
-
-        return context;
-    }
-
-
-
-})();
-/*
-|--------------------------------------------------------------------------
-| Topic Display Directive
-|--------------------------------------------------------------------------
-|
-| Displays the topics from the cookie
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.knowledge')
-        .directive('topicDisplay', topicDisplay);
-
-    topicDisplay.$inject = ['$rootScope',  'topicService'];
-
-    /* @ngInject */
-    function topicDisplay ($rootScope, topicService) {
-        // Usage:
-        //	<div topic-display></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            replace: true,
-            templateUrl: '/ngViews/knowledge/topic-display.html'
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	//Get the Topics
-        	scope.notEmpty = false;
-            //var stringTopics = topicService.getTopics();
-            
-            //if (stringTopics) {
-            //    scope.notEmpty = true;
-            //    scope.topics = JSON.parse(stringTopics);    
-            //}
-
-        	
-            ////If Topics Change get them again
-        	//$rootScope.$on('topics.changed', function handleChange(event) {
-        	//	scope.topicData = topicService.getTopics();
-        	//})
         }
     }
 
@@ -5060,91 +4343,40 @@ var jq = $.noConflict();
 })();
 /*
 |--------------------------------------------------------------------------
-| Search Service
+| Go Home Directive
 |--------------------------------------------------------------------------
 |
-| Service to pass the search data between parameters
+| When someone clicks this directive it takes you back home.
 | 
 */
-
 (function() {
     'use strict';
 
     angular
-        .module('assetbuilder.knowledge')
-        .service('searchService', searchService);
-
-
-   searchService.$inject = ['$rootScope', 'exploreService'];
+        .module('mcdaniel.navigation')
+        .directive('goHome', goHome);
 
     /* @ngInject */
-    function searchService($rootScope, exploreService) {
-        var data =  {
-        	KeywordData: null
+    function goHome () {
+        // Usage:
+        // <a go-home></a>
+        var directive = {
+            link: link,
+            restrict: 'A',
         };
+        return directive;
 
-        var service = {
-        	getKeywords: getKeywords,
-        	clearSearchData: clearSearchData
-        };
+        function link(scope, element, attrs) {
+        	var home = jq(element[0]);
 
-        return service;
+        	//Go Home
+        	home.on('click', function () {
+        		window.location = '/'
+        	})
 
-        ////////////////
-
-        /**
-         * Call Loading Bar and setup results directive while grabbing data
-         * @param  {string} keyword 
-         * @return {object}         
-         */
-        function getKeywords(keyword) {
-        	$rootScope.$emit('search.loading', keyword);
-        	return getData(keyword).then(function (data) {
-        		alertResultsDirective(data);
-        	});
         }
-
-        /**
-         * Clear the search Results
-         */
-        function clearSearchData() {
-        	$rootScope.$emit('search.clear');
-        }
-
-/*
-|--------------------------------------------------------------------------
-| Private Methods
-|--------------------------------------------------------------------------
-|
-| Description 1
-|  Description 2
-| 
-|
-*/        
-
-        /**
-         * Alert searchResultsDirective when Explore is finished;
-         * @return {object}
-         */
-        function alertResultsDirective(data) {
-            $rootScope.$emit('search.results', data);
-        }
-
-        
-        /**
-         * Get Search Data from Explore API
-         * @param  {string} keyword 
-         * @return {object}         
-         */
-        function getData(keyword) {
-        	return exploreService.exploreByKeyword(keyword).then(function (data) {
-        		return data;
-        	});
-        }
-
-
-       
     }
+
 })();
 /// <reference path="navigationURIWatcherDirective.js" />
 /* 
@@ -5647,6 +4879,318 @@ var jq = $.noConflict();
 
 
     }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('browseHappy', browseHappy);
+
+
+    
+    function browseHappy () {
+        // Usage:
+        //     <div browse-happy></div>
+        // Creates:
+        // 
+        var directive = {
+            link: link,
+            restrict: 'A',
+            replace: true,
+            templateUrl: '/ngViews/global/browse-happy.html'
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+                
+        }
+    }
+
+})();
+/*
+|--------------------------------------------------------------------------
+| Google Analytics Click Events Directive
+|--------------------------------------------------------------------------
+|
+|  Will registerd a click event with Google Analytics
+|  @note universal Analytics variable _ga
+|  @category - category of event
+|  @action = action the user is performing
+|  @name = name of the click event in Google Analytics.
+|  @value = Value you place for click
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('googleClick', googleClick);
+
+    /* @ngInject */
+    function googleClick () {
+        // Usage:
+        // <div google-click category="" action=""  name=""></div>
+        // Example
+        // <div google-click category="survey" action="open-survey" name="homepage-open-survey" value=""></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	category: '@',
+            	action: '@',
+            	name: '@',
+            	value: '@'
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+        	element.on('click', function () {
+        		_ga('send', 'event', scope.category, scope.action, scope.name, scope.value);
+        	});
+        }
+    }
+
+  
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('instaFeed', instaFeed);
+
+    /* @ngInject */
+    function instaFeed () {
+        // Usage:
+        // <div instafeed></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            templateUrl: '/templates/shared/instafeed.html'
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	 console.log('testing');
+
+        	 var feed = new Instafeed({
+        		get: 'user',
+        		userId: 13141599,
+        		sortBy: 'most-recent',
+        		limit: 8,
+        		clientId: '	0d31d74e63da4ef28a15986302562504'
+			});
+    		
+    		feed.run();
+        }
+    }
+
+    
+})();
+/*
+|--------------------------------------------------------------------------
+| Ng Repeat Render Finalizer Driective
+|--------------------------------------------------------------------------
+|
+| Tells the parent scope that the ng-repeat has finialized
+| Wrapped in timeout instead of .ready so the $apply
+| will run in the digest loop. 
+|
+| @note only used with ng-repeat {https://docs.angularjs.org/api/ng/directive/ngRepeat}
+| Example at rangeSliderLabelsDirective.js
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('onFinishRender', onFinishRender);
+
+    /* @ngInject */
+    function onFinishRender () {
+        // Usage:
+        // <div ng-repeat="" on-finish-render="callbackFunction"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+			if (scope.$last === true) {
+                scope.$evalAsync(attrs.onFinishRender);
+			}
+        }
+    }
+
+
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('open', open);
+
+    /* @ngInject */
+    function open () {
+        // Usage:
+        //  <div slide-down target-id="{{ target id attribute }}"></div>
+        
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	targetId: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var target = jq('#' + scope.targetId);
+
+        	jq(element).on('click', function () {
+        		target.toggleClass('open');
+        	});	
+        
+        }
+    }
+
+    
+})();
+/*
+|--------------------------------------------------------------------------
+| Overlay Directive
+|--------------------------------------------------------------------------
+|
+| Creates Overlay of Site for
+| Full screen interaction.
+| 
+|
+*/			
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('overlay', overlay);
+
+    /* @ngInject */
+    function overlay () {
+        // Usage:
+        // <div overlay></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	targetId: "@"
+            }
+        };
+       
+        return directive;
+
+        function link(scope, element, attrs) {
+        	jq(element).on('click', function (e) {
+        		e.preventDefault();
+        		openOverlay(scope.targetId);
+        		jq(this).toggleClass('active');
+                jq('body').toggleClass('nav-open');
+        	})
+        }
+    }
+
+    function openOverlay(target) {
+    	var element = jq('#'+ target);
+
+    	if (element.hasClass('open')) {
+    		element.removeClass('open');
+    	} else {
+    		element.addClass('open');
+    	}
+
+    }
+    
+})();
+/*
+|--------------------------------------------------------------------------
+| Slide Down Directive
+|--------------------------------------------------------------------------
+|
+| Will add the Class open and slide-down to any id on the page listing in the target-id attribute
+| @note to just add the open class use the open directive.
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('slideDown', slideDown);
+
+    /* @ngInject */
+    function slideDown () {
+        // Usage:
+        //  <div slide-down target-id="{{ target id attribute }}"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	targetId: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var target = jq('#' + scope.targetId);
+
+
+            /**
+             * On Click Find the the element and toggle the class
+             * @param  {target}  element
+             * @param  {event} e
+             * @return {DOM} 
+             */
+        	jq(element).on('click', function (e) {
+                e.preventDefault();
+        		if (target.hasClass('open')) {
+        			target.slideUp(500)
+        		} else {
+        			target.slideDown(100, function () {
+                        scrollToTarget(target.offset().top);    
+                    });
+                    
+        		}
+        
+        		target.toggleClass('open');
+                jq(this).toggleClass('active');
+
+                
+        	});	
+
+            
+            /**
+             * Scroll to the Target {mainly for mobile}
+             * @return {DOm}
+             */
+            function scrollToTarget(top) {
+                jq('html, body').animate({
+                    scrollTop: (top-96)
+                }, 200);
+            }
+        
+        }
+    }
+
+    
 })();
 /*
 |--------------------------------------------------------------------------
@@ -7225,318 +6769,6 @@ var jq = $.noConflict();
 
 			
     }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('browseHappy', browseHappy);
-
-
-    
-    function browseHappy () {
-        // Usage:
-        //     <div browse-happy></div>
-        // Creates:
-        // 
-        var directive = {
-            link: link,
-            restrict: 'A',
-            replace: true,
-            templateUrl: '/ngViews/global/browse-happy.html'
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-                
-        }
-    }
-
-})();
-/*
-|--------------------------------------------------------------------------
-| Google Analytics Click Events Directive
-|--------------------------------------------------------------------------
-|
-|  Will registerd a click event with Google Analytics
-|  @note universal Analytics variable _ga
-|  @category - category of event
-|  @action = action the user is performing
-|  @name = name of the click event in Google Analytics.
-|  @value = Value you place for click
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('googleClick', googleClick);
-
-    /* @ngInject */
-    function googleClick () {
-        // Usage:
-        // <div google-click category="" action=""  name=""></div>
-        // Example
-        // <div google-click category="survey" action="open-survey" name="homepage-open-survey" value=""></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	category: '@',
-            	action: '@',
-            	name: '@',
-            	value: '@'
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-        	element.on('click', function () {
-        		_ga('send', 'event', scope.category, scope.action, scope.name, scope.value);
-        	});
-        }
-    }
-
-  
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('instaFeed', instaFeed);
-
-    /* @ngInject */
-    function instaFeed () {
-        // Usage:
-        // <div instafeed></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            templateUrl: '/templates/shared/instafeed.html'
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	 console.log('testing');
-
-        	 var feed = new Instafeed({
-        		get: 'user',
-        		userId: 13141599,
-        		sortBy: 'most-recent',
-        		limit: 8,
-        		clientId: '	0d31d74e63da4ef28a15986302562504'
-			});
-    		
-    		feed.run();
-        }
-    }
-
-    
-})();
-/*
-|--------------------------------------------------------------------------
-| Ng Repeat Render Finalizer Driective
-|--------------------------------------------------------------------------
-|
-| Tells the parent scope that the ng-repeat has finialized
-| Wrapped in timeout instead of .ready so the $apply
-| will run in the digest loop. 
-|
-| @note only used with ng-repeat {https://docs.angularjs.org/api/ng/directive/ngRepeat}
-| Example at rangeSliderLabelsDirective.js
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('onFinishRender', onFinishRender);
-
-    /* @ngInject */
-    function onFinishRender () {
-        // Usage:
-        // <div ng-repeat="" on-finish-render="callbackFunction"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-			if (scope.$last === true) {
-                scope.$evalAsync(attrs.onFinishRender);
-			}
-        }
-    }
-
-
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('open', open);
-
-    /* @ngInject */
-    function open () {
-        // Usage:
-        //  <div slide-down target-id="{{ target id attribute }}"></div>
-        
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	targetId: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	var target = jq('#' + scope.targetId);
-
-        	jq(element).on('click', function () {
-        		target.toggleClass('open');
-        	});	
-        
-        }
-    }
-
-    
-})();
-/*
-|--------------------------------------------------------------------------
-| Overlay Directive
-|--------------------------------------------------------------------------
-|
-| Creates Overlay of Site for
-| Full screen interaction.
-| 
-|
-*/			
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('overlay', overlay);
-
-    /* @ngInject */
-    function overlay () {
-        // Usage:
-        // <div overlay></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	targetId: "@"
-            }
-        };
-       
-        return directive;
-
-        function link(scope, element, attrs) {
-        	jq(element).on('click', function (e) {
-        		e.preventDefault();
-        		openOverlay(scope.targetId);
-        		jq(this).toggleClass('active');
-                jq('body').toggleClass('nav-open');
-        	})
-        }
-    }
-
-    function openOverlay(target) {
-    	var element = jq('#'+ target);
-
-    	if (element.hasClass('open')) {
-    		element.removeClass('open');
-    	} else {
-    		element.addClass('open');
-    	}
-
-    }
-    
-})();
-/*
-|--------------------------------------------------------------------------
-| Slide Down Directive
-|--------------------------------------------------------------------------
-|
-| Will add the Class open and slide-down to any id on the page listing in the target-id attribute
-| @note to just add the open class use the open directive.
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('slideDown', slideDown);
-
-    /* @ngInject */
-    function slideDown () {
-        // Usage:
-        //  <div slide-down target-id="{{ target id attribute }}"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	targetId: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	var target = jq('#' + scope.targetId);
-
-
-            /**
-             * On Click Find the the element and toggle the class
-             * @param  {target}  element
-             * @param  {event} e
-             * @return {DOM} 
-             */
-        	jq(element).on('click', function (e) {
-                e.preventDefault();
-        		if (target.hasClass('open')) {
-        			target.slideUp(500)
-        		} else {
-        			target.slideDown(100, function () {
-                        scrollToTarget(target.offset().top);    
-                    });
-                    
-        		}
-        
-        		target.toggleClass('open');
-                jq(this).toggleClass('active');
-
-                
-        	});	
-
-            
-            /**
-             * Scroll to the Target {mainly for mobile}
-             * @return {DOm}
-             */
-            function scrollToTarget(top) {
-                jq('html, body').animate({
-                    scrollTop: (top-96)
-                }, 200);
-            }
-        
-        }
-    }
-
-    
 })();
 (function() {
     'use strict';

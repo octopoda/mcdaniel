@@ -59,17 +59,17 @@ $header = [
 	<div>
 		
 		<div class="weight-loss__package-image">
-			<div class="weight-loss__package-image--left square-small__wrapper">	
-				<div class="square-small"></div>
-				<div class="square-small__text">
+			<div class="weight-loss__package-image--left m-square-small__wrapper">	
+				<div class="m-square-small"></div>
+				<div class="m-square-small__text">
 					<h3>Sustain</h3>
 					<h5>Getting Started</h5>
 				</div>
 			</div>
 
-			<div class="weight-loss__package-image--right square-small__wrapper">	
-				<div class="square-small"></div>
-				<div class="square-small__text">
+			<div class="weight-loss__package-image--right m-square-small__wrapper">	
+				<div class="m-square-small"></div>
+				<div class="m-square-small__text">
 					<h3>Sustain Premium</h3>
 					<h5>Weight Loss Package</h5>
 				</div>

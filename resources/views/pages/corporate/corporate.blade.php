@@ -173,9 +173,9 @@ $header = [
 
 
 		
-		@include('layouts.frontend.partials.about')
+	@include('layouts.frontend.partials.about')
 
-		
+	
 
 
 	

@@ -13,7 +13,7 @@
     'use strict';
 
     angular
-        .module('assetbuilder.knowledge')
+        .module('mcdaniel.blog')
         .directive('searchResults', searchResults);
 
     searchResults.$inject = ['$rootScope', 'exploreService'];
