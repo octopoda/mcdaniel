@@ -1,0 +1,177 @@
+/*
+|--------------------------------------------------------------------------
+| Site Typography
+|--------------------------------------------------------------------------
+|
+| All Element Typography is handled below
+|
+*/
+
+h1 {
+	font-size:rem-calc(50);
+	line-height:1.2;
+	@extend %font-medium;
+
+	@include breakpoint('tablet') {
+		line-height:1.61;
+	}
+}
+
+h2 {
+	font-size:rem-calc(38);
+	line-height:1.61;
+	@extend %font-light;
+	color:$gray;
+
+
+	@include breakpoint('laptop') {
+		font-size:rem-calc(42);
+		line-height:rem-calc(54);
+	}
+}
+
+h3 {
+	font-size:rem-calc(30);
+	line-height:1.61;
+	@extend %font-medium;
+
+}
+
+h4 {
+	font-size:rem-calc(24);
+	line-height:1.61;
+	@extend %font-light;
+
+
+}
+
+h5 {
+	font-size:rem-calc(20);
+	line-height:1.61;
+	@extend %font-light;
+}
+
+blockquote {
+	font-size:rem-calc(18);
+	line-height:1.81;
+	@extend %font-light;
+}
+
+p {
+	font-size:rem-calc(22);
+	line-height:1.61;
+	@extend %font-light;
+
+	&.large {
+		font-size:rem-calc(22);
+	}
+
+	&.small {
+		font-size:rem-calc(16);
+	}
+
+	@include breakpoint('laptop') {
+		font-size:rem-calc(18);;
+	}
+}
+
+strong, b {
+	@extend %font-medium;
+	font-weight:bold;
+}
+
+li {
+	font-size:rem-calc(22);
+	line-height:1.61;
+	@extend %font-light;
+
+	.large &{
+		font-size:rem-calc(26);
+		line-height: rem-calc(48);
+	}
+
+	@include breakpoint('laptop') {
+		font-size:rem-calc(18);
+		line-height:rem-calc(40);
+
+		.large &{
+			font-size:rem-calc(20);
+			line-height: rem-calc(40);
+		}
+	}
+}
+
+
+
+
+/**
+ * Navigation
+ */
+nav {
+	@include displayList(block);
+
+	ul {
+		text-align: center;
+	}
+
+	li {
+		list-style:none;
+	}
+
+	a {text-decoration:none;}
+
+	@include breakpoint('tablet') {
+		li {
+			display: inline-block;
+		}
+	}	
+}
+
+
+
+/**
+ * Links
+ */
+
+a {
+	color:$green;
+	
+	&:hover {
+		color:$black;
+	}
+
+	&.expat {
+		color:$blue;
+
+		&:hover {
+			color:$blue-dark
+		}
+	}
+}
+
+
+
+
+
+
+/** Placement Styles */
+.text-center {
+	text-align: center;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.text-right {
+	text-align: right;
+}
+
+
+/**Other Styles */
+.legal {
+	font-size:$font-size-small;
+	color:$gray;
+}
+
+

@@ -38,6 +38,5 @@
 			return  $this->imagePath . '/' .  env('S3_BUCKET') . '/' . $folder . '/' . $filename;
 			
 		}
-		
 
 	}

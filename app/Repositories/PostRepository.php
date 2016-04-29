@@ -25,9 +25,9 @@ class PostRepository extends Repository {
 	 * @param  \App\Http\Request  $request 
 	 * @return string - image path
 	 */
-	public function saveImageForPost($request) {
+	public function saveImageForPost($request, $name) {
 		$image = new ImageRepository();
-		return $image->storeImage($request, 'posts', 'post_image');
+		return $image->storeImage($request, 'posts', $name);
 	}
 
 

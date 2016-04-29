@@ -1,4 +1,4 @@
-<section id="siteFooter">
+<section id="siteFooter" class="site-footer">
 	<div class="footer__social-icon-row">
 		<ul class="row">
 			<li><a href=""><i class="fa fa-twitter"></i></a></li>

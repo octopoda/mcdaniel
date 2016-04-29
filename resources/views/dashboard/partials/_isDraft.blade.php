@@ -1,3 +1,4 @@
 @if (Entrust::can($permission))
-	  <div class="dashboard__content--draft {{ ($model->isPublished()) ? '' : 'unpublished' }}"></div>
+		{{ $model->isPublished() }}
+		<div class="dashboard__content--draft {{ ($model->isPublished()) ? '' : 'unpublished' }}"></div>
 @endif

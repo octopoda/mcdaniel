@@ -1,0 +1,320 @@
+@mixin buttonColors($background, $border, $color, $hover-bg, $hover-color) {
+	background-color:$background;
+	border:1px solid $border;
+	color:$color;
+
+	a {color:$color;}
+
+	&:hover, &:focus, &.active {
+		background:$hover-bg;
+		color:$hover-color;
+		a {color:$hover-color}
+	}
+}
+
+
+@mixin dropdownColor($background, $border, $dropdown, $block-hover, $link-hover) {
+	background:transparent;
+	border: 1px solid $white;
+	
+	.dropdown {
+		background:$gray-light;
+		
+		li:hover {background:$gray-lightest;
+			color:$link-hover;
+			a {color:$link-hover;}
+		}
+	}
+}
+
+
+/**
+ *
+ * Include styles of success, error, info, warning
+ */
+button, .button, input[type="submit"] {
+		@include clearMP();
+		@include transition(background-color ease-in 0.5s);
+		@include buttonColors($button-background, $button-background, $button-color, $button-hover, $button-color);
+
+		display: inline-block;
+		cursor: pointer;
+		margin-bottom:rem-calc(20);
+		padding:0;
+		outline:none;
+		line-height:normal;
+		font-family: $button-font-family;
+		font-size:$button-font-size;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+
+		//Firefox 2px fuckup
+		&::-moz-focus-inner {border:0; padding:0;}
+
+
+		a {
+			display:block;
+			padding:rem-calc(10) rem-calc(20);
+			text-decoration: none;
+			@include transition(color ease-in-out 0.2s);
+		}
+
+
+
+		/** State Color */
+		&.error {
+			@include buttonColors($error, $error, $white, darken($error, 20%), $white);
+		}
+
+		&.success {
+			@include buttonColors($success, $success, $white, darken($success, 10%), $white);
+		}
+
+
+		&.info {
+			@include buttonColors($standard, $standard, $white, darken($standard, 5%), $white);
+		}
+
+		&.bw {
+			@include buttonColors($white, $black, $black, $black, $white);
+		}
+
+		&.bw_open {
+			@include buttonColors(transparent, $black, $black, $black, $white);
+		}
+
+		&.open {
+			@include buttonColors(transparent, $button-background, $button-background, $button-background, $button-color);
+		}
+
+		&.reverse {
+			@include buttonColors(transparent, $white, $white, $white, $green);
+		}
+
+		&.reverse__green {
+			@include buttonColors(transparent, $green, $green, $green, $white);
+		}
+
+		&.reverse__filled {
+			@include buttonColors($white, $green, $green, $white, $green);
+		}
+
+		&.reverse__white {
+			@include buttonColors($white, $white, $green, $white, $green);
+		}
+
+		&.large {
+			font-size: $button-large-font-size;
+		}
+
+		&.small {
+			font-size: $button-small-font-size;
+		}
+
+		&.search-icon {
+			@include buttonColors(transparent, none, $button-background, transparent, $button-hover);
+		}
+
+
+		&.disabled, &:disabled {
+				@include buttonColors(transparent, $gray-light,  $gray-light,  transparent, $gray-light);
+				cursor: default;
+
+				a { cursor: default; }
+		}
+
+		&.no-background {
+			background:none !important;
+			border:none;
+		}
+
+		&.delete {
+			color:$error;
+			font-size:rem-calc(24);
+		}
+}
+
+button, input[type="submit"] {
+	padding:rem-calc(10) rem-calc(20);	
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Drop Downs
+|--------------------------------------------------------------------------
+|  <li class="drop-down-button">
+|		<ul class="dropdown">
+|			<li><a></a></li>
+|		</ul>		
+|	</li>
+|
+*/
+
+.drop-down-button {
+		@include clearMP();
+		@include transition(background-color ease-in 0.5s);
+		@include buttonColors($button-background, $button-background, $button-color, $button-hover, $button-color);
+
+		display: inline-block;
+		cursor: pointer;
+		margin-bottom:rem-calc(20);
+		padding:0;
+		outline:none;
+		line-height:normal;
+		font-family: $button-font-family;
+		font-size:$button-font-size;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+
+		//Firefox 2px fuckup
+		&::-moz-focus-inner {border:0; padding:0;}
+	
+		.dropdown {
+			position: absolute;
+			top:-10000px;
+			left:-10000px;
+		}
+
+		//Show Dropdown 
+		&:hover .dropdown {
+			top:auto;
+			left:auto;
+		}
+		
+
+		.dropdown li {
+			@include transition(background-color ease-in-out 0.4s);
+		}
+
+		a {
+			display:block;
+			padding:rem-calc(10) rem-calc(20);
+			text-decoration: none;
+			@include transition(color ease-in-out 0.2s);
+		}
+
+		&.reverse__gray {
+			@include dropdownColor(transparent, $white, $gray-light, $gray-lightest, $gray-light); 
+		}
+
+		&.small {
+			font-size:$button-small-font-size;
+		}
+}
+
+/*
+|--------------------------------------------------------------------------
+| Progress Buttons
+|--------------------------------------------------------------------------
+|
+| Buttons that will show a progress rotation circle on submit
+|
+*/
+
+.progress-spinner {
+  border-bottom: $spinner-size solid rgba(255, 255, 255, .4);
+  border-left: $spinner-size solid rgba(255, 255, 255, .4);
+  border-right: $spinner-size solid rgba(255, 255, 255, .4);
+  border-top: $spinner-size solid rgba(255, 255, 255, .8);
+  border-radius: 100%;
+  height: $spinner;
+  width: $spinner;
+  @include animation(rotation $spinner-speed infinite linear);
+
+  &.white {
+    border-bottom: $spinner-size solid rgba($white, .6);
+    border-left: $spinner-size solid rgba($white, .6);
+    border-right: $spinner-size solid rgba($white, .6);
+    border-top: $spinner-size solid rgba($white, .8);
+    @include animation(rotation $spinner-speed infinite linear);
+  }
+
+  &.green {
+    border-bottom: $spinner-size solid rgba($green, .6);
+    border-left: $spinner-size solid rgba($green, .6);
+    border-right: $spinner-size solid rgba($green, .6);
+    border-top: $spinner-size solid rgba($green, .8);
+    @include animation(rotation $spinner-speed infinite linear); 
+  }
+
+  &.ivory {
+    border-bottom: $spinner-size solid rgba($ivory, .6);
+    border-left: $spinner-size solid rgba($ivory, .6);
+    border-right: $spinner-size solid rgba($ivory, .6);
+    border-top: $spinner-size solid rgba($ivory, .8);
+    @include animation(rotation $spinner-speed infinite linear);
+  }
+}
+
+
+
+@keyframes rotation {
+  from {@include rotate(0deg);}
+  to {@include rotate(359deg);}
+}
+
+@-webkit-keyframes rotation {
+  from {@include rotate(0deg);}
+  to {@include rotate(359deg);}
+}
+
+
+.button__loading {
+	
+	@extend %clearfix;
+	text-align: center;
+	
+	.progress-spinner, .button-text {
+		@include transition(opacity ease-in 0.4s);
+	}
+
+	.progress-spinner {
+		position: absolute;
+		display: inline-block;
+		margin-left:rem-calc(-10);
+		opacity:0;
+	}
+
+	.button-text {
+		opacity:1;
+	}
+
+
+	&.loading {
+		.progress-spinner {
+			opacity:1;
+		}
+
+		.button-text {
+			opacity:0;
+		}
+	}
+}
+
+
+
+.button__next, .button__prev {
+		i {
+			font-size:$font-size-xxlarge;
+			color:$green;
+			padding:10px 20px;
+			border-radius: 50%;
+			cursor: pointer;
+			@include transition(color 0.4s, background-color 0.4s);
+		}
+
+		i:hover {
+			color:$white;
+			background:$green;
+		}
+	}
+
+.button__next{
+	float:right;
+}
+
+
+
+
+

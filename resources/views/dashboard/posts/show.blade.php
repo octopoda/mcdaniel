@@ -12,15 +12,64 @@
 <section class="dashboard__show">
 	
 	<div class="dashboard__content--show-wrapper">
-		<div style="background:url({{ $post->post_image }}) center center cover no-repeat;" class="dashboard__content--post-background"></div>
-		<div>
-			<h3>{{ $post->title }}</h3>
-			<h5>{{ $post->blog->user->name }} : {{  $post->publish_date }}</h5>
-		</div>
-		<hr>
-		<article>
+		
+		@if ($post->post_image) 
+		<header class="article__header hero" style="background-image:url({{ $post->post_image }})">	
+			<h1>{{ $post->title }}</h1>
+			<h4 class="article__author">
+				<a href="#">{{ $post->blog->user->name }}</a>
+				<small>{{ $post->publish_date }}</small>
+			</h4>
+		</header>
+		@else 
+			<header class="article__header--no-image">
+				<h1>{{ $post->title }}</h1>
+					<h4 class="article__author">
+						<a href="#">{{ $post->blog->user->name }}</a>
+						<small>{{ $post->publish_date }}</small>
+					</h4>
+			</header>
+		@endif
+		
+		<article class="dashboard__content--content">
 			{!! $post->content !!}
 		</article>
+
+		
+		@if ($post->post_thumbnail)
+		
+		<div class="dashboard__content--thumbnails">
+			 <div class="dashboard__content--thumbnails--large">
+			 	<figure class="m-article large">
+					<div class="m-article__image" style="background-image:url('{{ $post->post_thumbnail }}')"></div>
+					<figcaption class="m-article__text">
+						<h2><a href="#">{{ $post->title }}</a></h2>
+						<div class="button reverse">
+							<a href="#">Read</a>
+						</div>
+					</figcaption>
+				</figure>
+			 </div>
+		
+
+			<div class="dashboard__content--thumbnails--small">
+				<figure class="m-article">
+					<div class="m-article__image" style="background-image:url('{{ $post->post_thumbnail }}')"></div>
+					<figcaption class="m-article__text">
+						<h2><a href="#">{{ $post->title }}</a></h2>
+						<div class="button reverse">
+							<a href="#">Read</a>
+						</div>
+					</figcaption>
+				</figure>
+			</div>
+		</div>
+		@else 
+			<article class="dashboard__content--content">
+				<h5>No Images Loaded</h5>
+			</article>
+		@endif
+
 	</div>
 </section>
 

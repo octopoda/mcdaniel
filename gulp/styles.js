@@ -54,6 +54,35 @@ gulp.task('build-css', ['sass'], function() {
 });
 
 
+/*
+|--------------------------------------------------------------------------
+| Dashboard
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+gulp.task('dashboard-sass', function () {
+      //Set Options
+  var sassOptions = {
+      style: 'expanded'
+    };
+
+    return gulp.src([
+       path.join(conf.paths.dashboard, '/sass/dashboard.scss')
+    ])
+      .pipe(plugins.chmod(755))
+      .pipe(plugins.sourcemaps.init())
+      .pipe(plugins.sass({
+        errLogToConsole:true
+      }).on('error', conf.errorHandler('SASS')))
+      .pipe(plugins.autoprefixer(['last 4 versions', '> 1%', 'ie 8'], { cascade: true }))
+      .pipe(plugins.sourcemaps.write())
+      .pipe(plugins.rename('dashboard.min.css'))
+      .pipe(gulp.dest(path.join(conf.paths.min, '/assets/css')))
+      .pipe(browserSync.reload({stream : true}));
+});
+
 
 
 

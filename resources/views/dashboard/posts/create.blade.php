@@ -1,6 +1,8 @@
 @extends('layouts.admin.app')
 
 @section('content')
+	@include('dashboard.partials.redactorScripts')
+
 
 	@include('errors.errors')
 
@@ -17,5 +19,5 @@
 
 
 @section('extra-scripts')
-	@include('dashboard.partials.redactorScripts')
+	
 @endsection

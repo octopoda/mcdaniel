@@ -1,0 +1,40 @@
+/*
+|--------------------------------------------------------------------------
+| Style for Tooltip Module
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+.m-tooltip {
+	display:inline-block;
+	position: relative;
+	padding:rem-calc(2);
+
+	/** Actual Tooltip */
+	&:after {
+		opacity: 0;
+		visibility: hidden;
+		
+		position: absolute;
+		content: attr(data-tooltip);
+		padding:rem-calc(8) rem-calc(10);
+		@include center(x);
+		top:0%;
+		
+		
+		background:rgba($green-gray, 0.8);
+		box-shadow: 0 0 1px rgba($black, 0.8);
+		color:$white;
+		white-space: nowrap;
+		z-index: $z-layer-range-2;
+		@include transition(transform $cubic 1s, opacity $cubic 1s, width $cubic 1s);
+	}
+
+	&:hover:after {
+		display: block;
+		opacity: 1;
+		visibility: visible;
+		@include translate(-50%, -120%);
+	}
+}

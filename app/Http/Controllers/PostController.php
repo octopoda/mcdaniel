@@ -81,7 +81,9 @@ class PostController extends Controller
      */
     public function create() 
     {
-        return View('dashboard.posts.create');
+        $post = $this->post;
+        $post->postTypes = $this->post->getPostTypes();
+        return View('dashboard.posts.create', compact('post'));
     }
 
 
@@ -111,13 +113,30 @@ class PostController extends Controller
        $request['blog_id'] = $blog->id;
        $post = $this->post->create($request->all());
 
+
        if ($request->hasfile('post_image')) {
-            $filePath = $this->post->saveImageForPost($request);
+            $filePath = $this->post->saveImageForPost($request, 'post_image');
 
             $post->post_image = $filePath;
             $post->update();
        }
 
+       if ($request->hasfile('post_thumbnail')) {
+            $filePath = $this->post->saveImageForPost($request, 'post_thumbnail');
+
+            $post->post_thumbnail = $filePath;
+            $post->update();
+       }
+
+
+       if ($request->hasfile('post_facebook')) {
+            $filePath = $this->post->saveImageForPost($request, 'post_facebook');
+
+            $post->post_facebook = $filePath;
+            $post->update();
+       }
+
+       
        //Show Flash
        flash()->success("", "The Post was Created");
        return view('dashboard.posts.show', compact('post'));
@@ -144,6 +163,7 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = $this->post->find($id);
+        $post->postTypes = $this->post->getPostTypes();
         $post->publish_date = date('F d, Y h:m A', strtotime($post->publish_date));
         return view('dashboard.posts.edit', compact('post'));
     }
@@ -161,10 +181,27 @@ class PostController extends Controller
         $post->update($request->all());
         
         if ($request->hasfile('post_image')) {
-            $filePath = $this->post->saveImageForPost($request);
+            $filePath = $this->post->saveImageForPost($request, 'post_image');
             $post->post_image = $filePath;
             $post->update();
         }
+
+           if ($request->hasfile('post_thumbnail')) {
+            $filePath = $this->post->saveImageForPost($request, 'post_thumbnail');
+
+            $post->post_thumbnail = $filePath;
+            $post->update();
+       }
+
+
+       if ($request->hasfile('post_facebook')) {
+            $filePath = $this->post->saveImageForPost($request, 'post_facebook');
+
+            $post->post_facebook = $filePath;
+            $post->update();
+       }
+
+       
         flash()->success("", "Your Post is Updated");
         return view('dashboard.posts.show', compact('post'));
     }
@@ -230,6 +267,17 @@ class PostController extends Controller
             $post->author = $post->blog->user->name;
         }
         return $posts;
+    }
+
+    /**
+     * Upload Image for Post
+     * @param  Request $request 
+     * @return JSON           
+     */
+    public function imageUpload(Request $request) {
+        $filePath = $this->post->saveImageForPost($request, 'file');
+
+        return ['filelink'=> $filePath ];
     }
 
 

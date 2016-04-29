@@ -19,8 +19,8 @@
         return directive;
 
         function link(scope, element, attrs) {
-        	var el = jq(element);
         	
+        	var el = jq('.article__footer')
           
 					
 					/**
@@ -30,7 +30,7 @@
       		var sticky = new Waypoint({
       			element: document.querySelector('body'),
       			handler: function () {
-      				el.toggleClass('fixed');
+      				el.toggleClass('open');
       			},
       			offset:-200
       		});
@@ -42,7 +42,7 @@
           sticky = new Waypoint({
       			element: document.querySelector('.site-footer'),
       			handler: function () {
-      				el.toggleClass('fixed');
+      				el.toggleClass('open');
       			},
       			offset:'100%'
       		});

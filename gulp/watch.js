@@ -49,6 +49,18 @@ gulp.task('watch', function () {
     }
   });
 
+
+  gulp.watch([
+    path.join(conf.paths.dashboard, '/**/*.css'),
+    path.join(conf.paths.dashboard, '/**/*.scss')
+  ], function (event) {
+    if(isOnlyChange(event)) {
+      gulp.start('dashboard-sass');
+    }
+  });
+
+
+
  //JS
   gulp.watch(path.join(conf.paths.js, '**/*.js'), function(event) {
     if(isOnlyChange(event)) {
@@ -56,6 +68,15 @@ gulp.task('watch', function () {
       browserSync.reload(event.path);
     } 
   });
+
+
+  gulp.watch(path.join(conf.paths.dashboard, '**/*.js'), function(event) {
+    if(isOnlyChange(event)) {
+      gulp.start('dashboard-scripts');
+      browserSync.reload(event.path);
+    } 
+  });
+
 
 
   //Templates

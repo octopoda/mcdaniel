@@ -1,0 +1,68 @@
+/*
+|--------------------------------------------------------------------------
+| Tables on the site
+|--------------------------------------------------------------------------
+|
+| Description 1
+|  Description 2
+| 
+|
+*/
+
+table {
+	width:100%;
+}
+
+thead {
+	background:$green-gray;
+}
+
+tr {
+	border-top:1px solid $black;
+	&:first-child {
+		border:0;
+	}
+}
+
+td {
+	padding:rem-calc(10) rem-calc(15);
+}
+
+
+tfoot {
+	font-size:$font-size-legal;
+	background:$gray-lightest;
+	color:$black;
+}
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Article Table
+|--------------------------------------------------------------------------
+|
+| Built for pre-existing tables in the database;
+|
+*/
+
+
+.greenBackground {
+	background:$green;
+	border:0;
+	td {
+		color:$white;
+	}
+}
+
+.highlight {
+	background:$ivory;	
+}
+
+
+
+
+
+
+

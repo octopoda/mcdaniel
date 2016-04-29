@@ -1,0 +1,95 @@
+.flash__message {
+	position: fixed;
+	width:100%;
+	height:rem-calc(80);
+	box-shadow: 0 0 5px rgba($black, 0.6);
+	padding:rem-calc(20);
+	z-index:$z-layer-range-10;
+	@include translateY(-100%);
+
+	&.active {
+		@include translateY(0);
+	}
+	
+	&.remove {
+		
+	}
+
+	h4 {
+		@include clearMP;
+		small {
+			margin-left:rem-calc(10);
+		}
+	}
+
+	&--icon {
+		float:left;
+		margin-right:rem-calc(15);
+		font-size:rem-calc(30) !important;
+		margin-top:rem-calc(5);
+		animation:scale 0.4s 1 $cubic;
+		animation-delay: 0.4s;
+	}
+
+	&--text {
+		@include span(10 of 12);
+	}
+
+	&--close {
+		@include span(1 of 12 last);
+
+	}
+
+	&.success {
+		background:rgba($green, 0.8);
+		color:$white;
+
+		a {
+			color:$success;
+		}
+}
+
+	&.error {
+		background:rgba($error, 0.8);
+		color:$white;	
+
+		a {
+			color:$error;
+		}
+	}
+
+	&.info {
+		background:rgba($info, 0.8);
+		color:$white;
+
+		a {
+			color:$info;
+		}	
+	}
+
+	&.warning {
+		background:rgba($warning, 0.8);
+		color:$white;
+
+		a {
+			color:$warning;
+		}	
+	}
+}
+
+
+@keyframes flashIn {
+	0% { @include translateY(-100%); }
+	100% { @include translateY(0); }
+}
+
+@keyframes flashOut {
+	0% { @include translateY(0); }
+	100% { @include translateY(-100%); }	
+}
+
+
+@keyframes scale-up {
+	0% { @include scale(0); }
+	100% { @include scale(1); }
+}

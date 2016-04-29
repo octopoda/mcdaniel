@@ -32,8 +32,9 @@
 
 		<div class="article-list__articles">
 			<div class="article-list__articles-second row">
+				<?php $secondImage = (empty($second->post_image)) ? 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/2.jpg' : $second->post_image; ?>
 				<figure class="m-article large">
-					<?php $secondImage = (empty($second->post_image)) ? 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/2.jpg' : $second->post_image; ?>
+					
 					<div class="m-article__image" style="background-image:url('{{ $secondImage }}')"></div>
 					<figcaption class="m-article__text">
 						<h2><a href="/posts/{{ $second->direct_link }}">{{ $second->title }}</a></h2>
@@ -47,15 +48,7 @@
 				<?php $nTimes = 3; ?>
 				@foreach ($posts as $post)
 					<?php  $image = (empty($post->post_image)) ? 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/'. $nTimes. '.jpg' : $post->post_image; ?>
-					<figure class="m-article">
-						<div class="m-article__image" style="background-image:url('{{ $image }}')"></div>
-						<figcaption class="m-article__text">
-							<h2><a href="/posts/{{ $post->direct_link }}">{{ $post->title }}</a></h2>
-							<div class="button reverse">
-								<a href="/posts/{{ $post->direct_link }}">Read</a>
-							</div>
-						</figcaption>
-					</figure>
+						<div data-article-small data-title="{{ $post->title }}" data-image="{{ $image }}" data-link="{{ $post->direct_link }}" data-ng-cloak></div>
 					<?php $nTimes++ ?>
 				@endforeach
 			</section> 

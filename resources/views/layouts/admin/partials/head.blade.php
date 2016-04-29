@@ -11,8 +11,9 @@
 
 
 	<!-- Fonts -->
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" href="/css/dashboard.min.css">	
+	<link href='https://fonts.googleapis.com/css?family=Roboto|Source+Serif+Pro|Material+Icons' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="/assets/css/dashboard.min.css">	
+	
 
 	
 </head>

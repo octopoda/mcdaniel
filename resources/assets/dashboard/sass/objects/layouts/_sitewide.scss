@@ -1,0 +1,42 @@
+
+
+.logo {
+	margin:auto;
+	background:url('#{$icon}logo.png') center center no-repeat;
+	background-size:contain;
+	height:rem-calc(55);
+	width:rem-calc(190);
+	text-indent: -9999px;
+	
+	@include breakpoint('retina') {
+		background-image: url('#{$icon}logo@2x.png');
+	}
+}
+
+
+.button-group {
+	
+	div {
+		float:left;
+		.btn-flat, .btn {
+			padding:rem-calc(8);
+		}
+	}
+}
+
+
+.video-container {
+  height: 0;
+  padding-bottom: 56.25%;
+  position: relative;
+  margin-bottom: 16px;
+}
+.video-container iframe,
+.video-container object,
+.video-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+}

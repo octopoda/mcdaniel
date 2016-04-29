@@ -64,6 +64,11 @@ Route::group(["prefix" => "api/v1"], function () {
 		"uses" => 'AjaxController@publish'
 	]);
 
+	Route::post('/imageUpload', [
+		"as" => 'imageUpload',
+		"uses" => 'PostController@imageUpload'
+	]);
+
 
 	//FAQ Routes
 	Route::post('/faqs/search', [

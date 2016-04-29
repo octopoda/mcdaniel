@@ -1,0 +1,186 @@
+/*
+|--------------------------------------------------------------------------
+| Post Content for the Blog
+|--------------------------------------------------------------------------
+|
+| Description 1
+|  Description 2
+| 
+|
+*/
+
+.m-post-content__callout  {
+	margin:rem-calc(40) rem-calc(20);
+	text-align: center;
+	font-size:rem-calc(24);
+	color:#333;
+	color:$green;
+	font-style:italic;
+	cursor:pointer;
+
+	&--logo {
+		margin-top:rem-calc(20);
+		font-size:rem-calc(18);
+	}
+
+	
+}
+
+.m-post-content__image-right  {
+	@include clearMP;
+
+	img {
+		width:100%;
+	}	
+
+	figcaption {
+		text-align: center;
+		font-style:italic;
+		font-size:rem-calc(12);
+		color:$gray;
+	}
+	
+	@include breakpoint('tablet') {
+		width:45%;
+		float:right;
+		margin:rem-calc(10) rem-calc(0) rem-calc(10) rem-calc(20);
+
+		figcaption {
+			text-align: right;
+		}
+	}
+
+
+	@include breakpoint('laptop') {
+		margin:rem-calc(10) rem-calc(-40) rem-calc(10) rem-calc(30);
+	}
+}
+
+
+.m-post-content__image-left {
+	@include clearMP;
+
+	img {
+		width:100%;
+	}
+	
+
+	figcaption {
+		text-align: center;
+		font-style:italic;
+		font-size:rem-calc(12);
+		color:$gray;
+	}
+
+	@include breakpoint('tablet') {
+		width:45%;
+		float:left;
+		margin:rem-calc(10) rem-calc(20) rem-calc(10) rem-calc(0);
+	
+		figcaption {
+			text-align: left;
+		}
+	}
+
+
+	@include breakpoint('laptop') {
+		margin:rem-calc(10) rem-calc(30) rem-calc(10) rem-calc(-40);
+	}
+}
+
+.m-post-content__image-full {
+	overflow:hidden;
+	@include clearMP;
+	margin-top:rem-calc(20);
+	margin-bottom:rem-calc(20);
+
+	img {
+		width:100%;
+		margin:auto;
+	}
+
+	figcaption {
+		text-align: center;
+		font-style:italic;
+		font-size:rem-calc(12);
+		color:$gray;
+	}
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Recipes
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+
+.m-post-content__recipe {
+	border:2px solid $gray;
+	padding:rem-calc(20);
+
+	h3 {
+		color:$gray;
+	}
+}
+
+
+.m-post-content__recipe--image {
+	@include clearMP;
+	overflow:hidden;
+	
+	img {
+		@include clearMP;
+		width:100%;
+	}
+}
+
+.m-post-content__recipe--time {
+	clear:both;
+	@include clearMP;
+	border-top:1px solid $gray-lightest;
+	
+	
+	@extend %clearfix;
+
+	li {
+		@include clearMP;
+		text-align: left;
+		list-style:none;
+		color:$gray;
+
+		strong {
+			color:$black;
+		}
+	}
+
+	@include breakpoint('tablet') {
+		li {
+			@include gallery(2 of 4);
+		}
+	}
+
+}
+
+.m-post-content__recipe--ingredients {
+	h4 {
+		border-bottom:1px solid $gray-lightest;
+	}
+
+	ul {
+		@include clearMP;
+	}
+
+	li {
+		list-style:none;
+	}
+}
+
+
+.m-post-content__recipe--directions {
+	h4 {
+		border-bottom:1px solid $gray-lightest;
+	}
+}

@@ -1,0 +1,31 @@
+.m-login {
+	padding:rem-calc(20);
+
+	@include breakpoint('tablet') {
+		width:span(8 of 12);
+		margin:auto;
+	}
+
+
+	@include breakpoint('laptop') {
+		width:span(6 of 12);
+		magrin:auto;
+	}
+}
+
+.m-login__errors {
+	.errors {
+		color:$error;
+
+		ul {
+			@include clearMP;
+		}
+
+		li {
+			list-style:none;
+			background:rgba($error, 0.6);
+			color:$white;
+			padding:rem-calc(8) rem-calc(12);
+		}
+	}
+}

@@ -28,8 +28,8 @@
 
  	<div class="row">
 		<div class="input-field col s12 m6">
-			{!! Form::select('post_type', $post->postTypes, ['class'=>'validate',]) !!}
-			{!! Form::label('post_type', 'Post Title') !!}
+			{!! Form::select('post_type', $post->postTypes, ['class'=>'validate']) !!}
+			{!! Form::label('post_type', 'Post Types') !!}
 		</div>
 
 
@@ -58,12 +58,13 @@
  	</div> 	
 	
 	
+	<h4>Images for Post</h4>
 	
 
 	<div class="row">
 		<div class="file-field input-field">
 	      	<div class="btn blue">
-	        	<span><i class="material-icons right">cloud</i> Upload Post Image</span>
+	        	<span><i class="material-icons right">cloud</i> Upload Post Header Image (w: 1920px X h:600px) </span>
 	        	<input type="file" name="post_image" id="post_image">
 	      	</div>
 	      	<div class="file-path-wrapper">
@@ -71,6 +72,35 @@
 	    	</div>
     	</div>
 	</div>
+	
+
+	<div class="row">
+		<div class="file-field input-field">
+	      	<div class="btn blue">
+	        	<span><i class="material-icons right">cloud</i> Upload Post Thumbnail Image (w: 800px X h: 400px) </span>
+	        	<input type="file" name="post_thumbnail" id="post_thumbnail">
+	      	</div>
+	      	<div class="file-path-wrapper">
+		        <input class="file-path validate" type="text" value="{{ (isset($post->post_thumbnail)) ? $post->post_thumbnail  : null }}">
+	    	</div>
+    	</div>
+	</div>
+
+	<div class="row">
+		<div class="file-field input-field">
+	      	<div class="btn blue">
+	        	<span><i class="material-icons right">cloud</i> Upload Post Facebook Image (w: 1200px X h: 630px) </span>
+	        	<input type="file" name="post_facebook" id="post_facebook">
+	      	</div>
+	      	<div class="file-path-wrapper">
+		        <input class="file-path validate" type="text" value="{{ (isset($post->post_facebook)) ? $post->post_facebook  : null }}">
+	    	</div>
+    	</div>
+	</div>
+
+
+	
+
 
 	<div class="row center-align">
 		@if (isset($post->blog->id))

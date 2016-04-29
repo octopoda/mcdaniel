@@ -21,6 +21,26 @@ var plugins = require('gulp-load-plugins')({
 });
 
 
+/*
+|--------------------------------------------------------------------------
+| Dashboard Scripts
+|--------------------------------------------------------------------------
+|
+|
+*/
+  gulp.task('dashboard-scripts', function () {
+    return gulp.src(path.join(conf.paths.dashboard, '/app/**/*.js'))
+        .pipe(plugins.chmod(755))
+        .pipe(plugins.flatten())
+        .pipe(plugins.uglify({
+          mangleNames: false
+        })).on('error',  conf.errorHandler('Uglify Vendor'))
+        .pipe(plugins.concat('dashboard.min.js'))
+        .pipe(gulp.dest(path.join(conf.paths.min, '/assets/scripts/dashboard')));
+  });
+
+
+
 
 /*
 |--------------------------------------------------------------------------

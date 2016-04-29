@@ -12,7 +12,7 @@
 @section('content')
 
 	<article class="article">
-		<?php $mainImage = (empty($main->post_image)) ? 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/' . rand(1, 25) . '.jpg' : $main->post_image; ?>
+		<?php $mainImage = (empty($post->post_image)) ? 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/' . rand(1, 25) . '.jpg' : $post->post_image; ?>
 		<header class="article__header hero" style="background-image:url({{ $mainImage }})">	
 			<h1>{{ $post->title }}</h1>
 			<h4 class="article__author">
@@ -36,15 +36,7 @@
 				<?php $nTimes = 17; ?>
 				@foreach ($random as $p)
 					<?php  $image = (empty($p->post_image)) ? 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/'. $nTimes. '.jpg' : $p->post_image; ?>
-					<figure class="m-article">
-						<div class="m-article__image" style="background-image:url('{{ $image }}')"></div>
-						<figcaption class="m-article__text">
-							<h2><a href="/posts/{{ $p->direct_link }}">{{ $p->title }}</a></h2>
-							<div class="button reverse">
-								<a href="/posts/{{ $p->direct_link }}">Read</a>
-							</div>
-						</figcaption>
-					</figure>
+					<div data-article-small data-title="{{ $p->title }}" data-image="{{ $image }}" data-link="{{ $p->direct_link }}" data-ng-cloak></div>
 					<?php $nTimes++ ?>
 				@endforeach
 			</div>
@@ -57,5 +49,5 @@
 @endsection
 
 @section('extra-scripts')
-
+	
 @endsection

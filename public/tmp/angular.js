@@ -1816,6 +1816,137 @@ var jq = $.noConflict();
         
     }
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqBlock', faqBlock);
+
+    /* @ngInject */
+    function faqBlock () {
+        // Usage:
+        // <div ng-repeat="faq in fc.Faqs" ng-if="faq.featured" faq-block>
+				// 		<h4 >{{ faq.question }} <i class="fa fa-angle-right"></i></h4>
+				// 		<div ng-bind-html="faq.answer" class="faq-answer"></div>
+				// </div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        		
+                var question = jq(element[0]);
+        		var answer = question.children('.faq__answer');
+
+        		question.on('click', function (e) {
+        			if (question.hasClass('open')) {
+        				answer.slideUp(200);
+        				question.toggleClass('open');
+        			} else {
+        				answer.slideDown(200);
+        				question.toggleClass('open');
+        			}
+        		});
+        }
+    }
+
+    /* @ngInject */
+    function Controller () {
+
+    }
+})();
+/*
+|--------------------------------------------------------------------------
+| Search Service
+|--------------------------------------------------------------------------
+|
+| Service to pass the search data between parameters
+| 
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .service('searchService', searchService);
+
+
+   searchService.$inject = ['$rootScope', 'exploreService'];
+
+    /* @ngInject */
+    function searchService($rootScope, exploreService) {
+        var data =  {
+        	KeywordData: null
+        };
+
+        var service = {
+        	getKeywords: getKeywords,
+        	clearSearchData: clearSearchData
+        };
+
+        return service;
+
+        ////////////////
+
+        /**
+         * Call Loading Bar and setup results directive while grabbing data
+         * @param  {string} keyword 
+         * @return {object}         
+         */
+        function getKeywords(keyword) {
+        	$rootScope.$emit('search.loading', keyword);
+        	return getData(keyword).then(function (data) {
+        		alertResultsDirective(data);
+        	});
+        }
+
+        /**
+         * Clear the search Results
+         */
+        function clearSearchData() {
+        	$rootScope.$emit('search.clear');
+        }
+
+/*
+|--------------------------------------------------------------------------
+| Private Methods
+|--------------------------------------------------------------------------
+|
+| Description 1
+|  Description 2
+| 
+|
+*/        
+
+        /**
+         * Alert searchResultsDirective when Explore is finished;
+         * @return {object}
+         */
+        function alertResultsDirective(data) {
+            $rootScope.$emit('search.results', data);
+        }
+
+        
+        /**
+         * Get Search Data from Explore API
+         * @param  {string} keyword 
+         * @return {object}         
+         */
+        function getData(keyword) {
+        	return exploreService.exploreByKeyword(keyword).then(function (data) {
+        		return data;
+        	});
+        }
+
+
+       
+    }
+})();
 /*
 |--------------------------------------------------------------------------
 | Article Sidebar Directive
@@ -2044,6 +2175,43 @@ var jq = $.noConflict();
 
     }
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .directive('articleSmall', articleSmall);
+
+    /* @ngInject */
+    function articleSmall () {
+        // Usage:
+        // <div article-small></div>
+        
+        var directive = {
+            bindToController: true,
+            controller: ArticleSmallController,
+            controllerAs: 'vd',
+            templateUrl: '/templates/blog/article-small.html',
+            replace:true,
+            restrict: 'A',
+            scope: {
+     			title: "@",
+     			image: "@",
+     			link: "@"
+            }
+        };
+        
+        return directive;
+	}
+
+    ArticleSmallController.$inject = ['$scope', '$element', '$attrs'];
+
+    /* @ngInject */
+    function ArticleSmallController ($scope, $element, $attrs) {
+    	var vd = $scope.vd;
+
+    }
+})();
 /*
 |--------------------------------------------------------------------------
 | Blog Preview
@@ -2180,8 +2348,8 @@ var jq = $.noConflict();
         return directive;
 
         function link(scope, element, attrs) {
-        	var el = jq(element);
         	
+        	var el = jq('.article__footer')
           
 					
 					/**
@@ -2191,7 +2359,7 @@ var jq = $.noConflict();
       		var sticky = new Waypoint({
       			element: document.querySelector('body'),
       			handler: function () {
-      				el.toggleClass('fixed');
+      				el.toggleClass('open');
       			},
       			offset:-200
       		});
@@ -2203,7 +2371,7 @@ var jq = $.noConflict();
           sticky = new Waypoint({
       			element: document.querySelector('.site-footer'),
       			handler: function () {
-      				el.toggleClass('fixed');
+      				el.toggleClass('open');
       			},
       			offset:'100%'
       		});
@@ -2213,6 +2381,41 @@ var jq = $.noConflict();
     }
 
     
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .directive('goBlog', goBlog);
+
+    /* @ngInject */
+    function goBlog () {
+        // Usage:
+        // <div go-blog></div>
+        
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        		
+        	var el = jq(element[0]);
+
+        	el.on('click', function () {
+        		console.log('message');
+        		window.location = '/posts';
+        	});
+        }
+    }
+
+    /* @ngInject */
+    function Controller () {
+
+    }
 })();
 (function() {
     'use strict';
@@ -2586,108 +2789,19 @@ var jq = $.noConflict();
 
     
 })();
-/*
-|--------------------------------------------------------------------------
-| Search Service
-|--------------------------------------------------------------------------
-|
-| Service to pass the search data between parameters
-| 
-*/
-
 (function() {
     'use strict';
 
     angular
         .module('mcdaniel.blog')
-        .service('searchService', searchService);
+        .directive('twitterCallout', twitterCallout);
 
-
-   searchService.$inject = ['$rootScope', 'exploreService'];
-
-    /* @ngInject */
-    function searchService($rootScope, exploreService) {
-        var data =  {
-        	KeywordData: null
-        };
-
-        var service = {
-        	getKeywords: getKeywords,
-        	clearSearchData: clearSearchData
-        };
-
-        return service;
-
-        ////////////////
-
-        /**
-         * Call Loading Bar and setup results directive while grabbing data
-         * @param  {string} keyword 
-         * @return {object}         
-         */
-        function getKeywords(keyword) {
-        	$rootScope.$emit('search.loading', keyword);
-        	return getData(keyword).then(function (data) {
-        		alertResultsDirective(data);
-        	});
-        }
-
-        /**
-         * Clear the search Results
-         */
-        function clearSearchData() {
-        	$rootScope.$emit('search.clear');
-        }
-
-/*
-|--------------------------------------------------------------------------
-| Private Methods
-|--------------------------------------------------------------------------
-|
-| Description 1
-|  Description 2
-| 
-|
-*/        
-
-        /**
-         * Alert searchResultsDirective when Explore is finished;
-         * @return {object}
-         */
-        function alertResultsDirective(data) {
-            $rootScope.$emit('search.results', data);
-        }
-
-        
-        /**
-         * Get Search Data from Explore API
-         * @param  {string} keyword 
-         * @return {object}         
-         */
-        function getData(keyword) {
-        	return exploreService.exploreByKeyword(keyword).then(function (data) {
-        		return data;
-        	});
-        }
-
-
-       
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqBlock', faqBlock);
+    twitterCallout.$inject = ['$location'];
 
     /* @ngInject */
-    function faqBlock () {
+    function twitterCallout ($location) {
         // Usage:
-        // <div ng-repeat="faq in fc.Faqs" ng-if="faq.featured" faq-block>
-				// 		<h4 >{{ faq.question }} <i class="fa fa-angle-right"></i></h4>
-				// 		<div ng-bind-html="faq.answer" class="faq-answer"></div>
-				// </div>
+        // <div twitter-callout></div>
         var directive = {
             link: link,
             restrict: 'A',
@@ -2696,26 +2810,61 @@ var jq = $.noConflict();
         return directive;
 
         function link(scope, element, attrs) {
-        		
-                var question = jq(element[0]);
-        		var answer = question.children('.faq__answer');
+        	var el = jq(element[0]),
+				html = el.html(),
+				url = $location.absUrl(),
+				via = '- @mcdanielrdn',
+				twitterLink = buildLink(url, via, html);
 
-        		question.on('click', function (e) {
-        			if (question.hasClass('open')) {
-        				answer.slideUp(200);
-        				question.toggleClass('open');
-        			} else {
-        				answer.slideDown(200);
-        				question.toggleClass('open');
-        			}
-        		});
+			el.append('<div class="m-post-content__callout--logo"><i class="fa fa-twitter"></i></div>')
+
+        	el.on('click', function () {
+        		popup(twitterLink, 700, 500);
+        	})
+        
         }
     }
 
-    /* @ngInject */
-    function Controller () {
 
+
+     /**
+     * Build Twitter Sharer Link
+     * @param  {string} url 
+     * @return {string}     
+     */
+    function buildLink(url, via, html) {
+    	var text = truncateHTML(url, via, html);
+    	console.log(text);
+    	//TODO: add social card; and description  &text=
+    	return 'http://twitter.com/intent/tweet?url='+ url + '&text=' + text + via;
     }
+
+
+    /**
+     * Trucate the String to Match
+     * @param  {string} url  
+     * @param  {string} via  
+     * @param  {string} html 
+     * @return {string}
+     */
+    function truncateHTML(url, via, html) {
+    	var full = url.length + via.length + 4;
+    	var text = html.substr(0, (140-full));
+    	return text + '...'
+    }
+
+     /**
+     * Make the Popup Window
+     * @param  {string} url    
+     * @param  {int} width  
+     * @param  {int} height 
+     * @return {window.open}        
+     */
+    function popup(url, width, height) {
+        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    }
+
+    
 })();
 (function() {
     'use strict';
@@ -5869,127 +6018,6 @@ var jq = $.noConflict();
 
     angular
         .module('global.modal')
-        .controller('AlertModalController', AlertModalController);
-
-    AlertModalController.$inject = ['$scope', 'modalService'];
-
-    /* @ngInject */
-    function AlertModalController($scope, modalService) {
-        var vm = this;
-        vm.title = 'AlertModalController';
-
-        // Modal Prameters
-        vm.title = ( modalService.params().title || "Whoa!" );
-       	vm.message = ( modalService.params().message || "Whoa!" );
-        vm.action = ( modalService.params().action || "Whoa!" );
-
-        //Close the Modal
-        vm.close = modalService.resolve;
-    }
-
-
-})();
-
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
-        .controller('ConfirmModalController', ConfirmModalController);
-
-    ConfirmModalController.$inject = ['$scope', 'modalService'];
-
-    /* @ngInject */
-    function ConfirmModalController($scope, modalService) {
-        var vm = this;
-        var params = modalService.params();
-        
-    	vm.title = ( params.title || "" );
-        vm.message = ( params.message || "" );
-    	vm.confirmButton = ( params.confirmButton || "Confirm" );
-    	vm.denyButton = ( params.denyButton || "Deny" );
-
-    	vm.confirm = modalService.resolve;
-    	vm.deny = modalService.reject;
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| HTML Modal Controller
-|--------------------------------------------------------------------------
-|
-| Controller to Insert HTML into a Modal
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
-        .controller('HTMLModalController', HTMLModalController);
-
-    HTMLModalController.$inject = ['$scope', 'modalService'];
-
-    /* @ngInject */
-    function HTMLModalController($scope, modalService) {
-        var vm = this;
-        vm.title = 'HTMLModalController';
-
-        vm.code;
-        vm.close = modalService.resolve;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-            return modalService.getTemplate(modalService.params().htmlTemplate)
-                .then(function (data) {
-                    vm.code = data;
-                    return vm.code;
-                })
-        }
-
-        
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
-        .controller('PromptModalController', PromptModalController);
-
-    PromptModalController.$inject = ['$scope', 'modalService'];
-
-    /* @ngInject */
-    function PromptModalController($scope, modalService) {
-        var vm = this;
-        vm.title = 'PromptModalController';
-
-				vm.message = ( modalService.params().message || "Give me." );
-				vm.form = {
-					input: ( modalService.params().placeholder || "" )
-				};
-
-				vm.errorMessage = null;
-				vm.cancel = modalService.reject;
-
-				$scope.submit = function() {
-					if (!vm.form.input) { 
-						return $scope.errorMessage = "Please provide something!"; 
-					}
-					modalService.resolve($scope.form.input);
-				};
-
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
         .directive('alertModal', alertModal);
 
     alertModal.$inject = ['$rootScope', 'modalService'];
@@ -6167,6 +6195,127 @@ var jq = $.noConflict();
 
 
 
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .controller('AlertModalController', AlertModalController);
+
+    AlertModalController.$inject = ['$scope', 'modalService'];
+
+    /* @ngInject */
+    function AlertModalController($scope, modalService) {
+        var vm = this;
+        vm.title = 'AlertModalController';
+
+        // Modal Prameters
+        vm.title = ( modalService.params().title || "Whoa!" );
+       	vm.message = ( modalService.params().message || "Whoa!" );
+        vm.action = ( modalService.params().action || "Whoa!" );
+
+        //Close the Modal
+        vm.close = modalService.resolve;
+    }
+
+
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .controller('ConfirmModalController', ConfirmModalController);
+
+    ConfirmModalController.$inject = ['$scope', 'modalService'];
+
+    /* @ngInject */
+    function ConfirmModalController($scope, modalService) {
+        var vm = this;
+        var params = modalService.params();
+        
+    	vm.title = ( params.title || "" );
+        vm.message = ( params.message || "" );
+    	vm.confirmButton = ( params.confirmButton || "Confirm" );
+    	vm.denyButton = ( params.denyButton || "Deny" );
+
+    	vm.confirm = modalService.resolve;
+    	vm.deny = modalService.reject;
+    }
+})();
+/*
+|--------------------------------------------------------------------------
+| HTML Modal Controller
+|--------------------------------------------------------------------------
+|
+| Controller to Insert HTML into a Modal
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .controller('HTMLModalController', HTMLModalController);
+
+    HTMLModalController.$inject = ['$scope', 'modalService'];
+
+    /* @ngInject */
+    function HTMLModalController($scope, modalService) {
+        var vm = this;
+        vm.title = 'HTMLModalController';
+
+        vm.code;
+        vm.close = modalService.resolve;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+            return modalService.getTemplate(modalService.params().htmlTemplate)
+                .then(function (data) {
+                    vm.code = data;
+                    return vm.code;
+                })
+        }
+
+        
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .controller('PromptModalController', PromptModalController);
+
+    PromptModalController.$inject = ['$scope', 'modalService'];
+
+    /* @ngInject */
+    function PromptModalController($scope, modalService) {
+        var vm = this;
+        vm.title = 'PromptModalController';
+
+				vm.message = ( modalService.params().message || "Give me." );
+				vm.form = {
+					input: ( modalService.params().placeholder || "" )
+				};
+
+				vm.errorMessage = null;
+				vm.cancel = modalService.reject;
+
+				$scope.submit = function() {
+					if (!vm.form.input) { 
+						return $scope.errorMessage = "Please provide something!"; 
+					}
+					modalService.resolve($scope.form.input);
+				};
+
+    }
+})();
 /*
 |--------------------------------------------------------------------------
 | Loading Directive
@@ -7255,6 +7404,50 @@ var jq = $.noConflict();
 }(angular));
 /*
 |--------------------------------------------------------------------------
+| Range Slider Template
+|--------------------------------------------------------------------------
+|
+| The template to inject in the rangeslider
+| Not included in regular templates because it 
+| needs be injected into sliderDirective
+*/
+
+(function() {
+  'use strict';
+
+  angular
+    .module('global.rangeslider')
+    .run(rangeSliderTemplate);
+
+    rangeSliderTemplate.$inject = ['$templateCache'];
+
+    function rangeSliderTemplate ($templateCache) {
+       $templateCache.put('range-slider/range-slider.html',
+        '<span ng-class="mainSliderClass" id="{{sliderTmplId}}">' +
+          '<table><tr><td>' +
+            '<div class="jslider-bg">' +
+              '<i class="left"></i>'+
+              '<i class="right"></i>'+
+              '<i class="range"></i>'+
+              '<i class="before"></i>'+
+              '<i class="default"></i>'+
+              '<i class="default"></i>'+
+              '<i class="after"></i>'+          
+            '</div>' +
+            '<div class="jslider-pointer"></div>' +
+            '<div class="jslider-pointer jslider-pointer-to"></div>' +
+            '<div class="jslider-label" ng-show="options.limits"><span ng-bind="limitValue(options.from)"></span>{{options.dimension}}</div>' +
+            '<div class="jslider-label jslider-label-to" ng-show="options.limits"><span ng-bind="limitValue(options.to)"></span>{{options.dimension}}</div>' +
+            '<div class="jslider-value"><span></span>{{options.dimension}}</div>' +
+            '<div class="jslider-value jslider-value-to"><span></span>{{options.dimension}}</div>' +
+            '<div class="jslider-scale" id="{{sliderScaleDivTmplId}}"></div>' +
+          '</td></tr></table>' +
+        '</span>');
+    }  
+})();
+
+/*
+|--------------------------------------------------------------------------
 | Utility Factory for Range Slider
 |--------------------------------------------------------------------------
 |
@@ -7316,47 +7509,4 @@ var jq = $.noConflict();
           return 'unknown';
         }
     }
-})();
-/*
-|--------------------------------------------------------------------------
-| Range Slider Template
-|--------------------------------------------------------------------------
-|
-| The template to inject in the rangeslider
-| Not included in regular templates because it 
-| needs be injected into sliderDirective
-*/
-
-(function() {
-  'use strict';
-
-  angular
-    .module('global.rangeslider')
-    .run(rangeSliderTemplate);
-
-    rangeSliderTemplate.$inject = ['$templateCache'];
-
-    function rangeSliderTemplate ($templateCache) {
-       $templateCache.put('range-slider/range-slider.html',
-        '<span ng-class="mainSliderClass" id="{{sliderTmplId}}">' +
-          '<table><tr><td>' +
-            '<div class="jslider-bg">' +
-              '<i class="left"></i>'+
-              '<i class="right"></i>'+
-              '<i class="range"></i>'+
-              '<i class="before"></i>'+
-              '<i class="default"></i>'+
-              '<i class="default"></i>'+
-              '<i class="after"></i>'+          
-            '</div>' +
-            '<div class="jslider-pointer"></div>' +
-            '<div class="jslider-pointer jslider-pointer-to"></div>' +
-            '<div class="jslider-label" ng-show="options.limits"><span ng-bind="limitValue(options.from)"></span>{{options.dimension}}</div>' +
-            '<div class="jslider-label jslider-label-to" ng-show="options.limits"><span ng-bind="limitValue(options.to)"></span>{{options.dimension}}</div>' +
-            '<div class="jslider-value"><span></span>{{options.dimension}}</div>' +
-            '<div class="jslider-value jslider-value-to"><span></span>{{options.dimension}}</div>' +
-            '<div class="jslider-scale" id="{{sliderScaleDivTmplId}}"></div>' +
-          '</td></tr></table>' +
-        '</span>');
-    }  
 })();

@@ -81,6 +81,12 @@
 	position: relative;
 	z-index:2;
 
+	h1, h2, h3, h4, h5, h6 {
+		clear:both;
+		margin-top:rem-calc(40);
+		color:$gray;
+	}
+
 	&--content {
 		padding-top:rem-calc(20);
 	}

@@ -12,8 +12,8 @@ exports.paths = {
   min: 'public',
   templates: './resources/assets/templates',
   videos: './resources/assets/videos',
-  views: './resources/views'
-
+  views: './resources/views',
+  dashboard: './resources/assets/dashboard'
 };
 
 
