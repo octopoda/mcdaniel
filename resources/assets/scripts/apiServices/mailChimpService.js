@@ -9,7 +9,7 @@
 
     /* @ngInject */
     function mailChimpService($http, common, flash, errors) {
-        var apiUrl = common.apiUrl + 'MailChimp';
+        var apiUrl = common.apiUrl + '/mailchimp/subscribe';
 
         var service = {
             sendToMailChimp: sendToMailChimp
@@ -25,15 +25,16 @@
          * @param  {string} email 
          * @return {string}       
          */
-        function sendToMailChimp(email) {
-        	return $http.get(apiUrl + '/' +email)
+        function sendToMailChimp(data) {
+        	return $http.post(apiUrl, data)
         		.then(mailChimpComplete)
         		.catch(function (message) {
         			errors.catcher('Sorry, we cannot connect to MailChimp')(message);
         		});
 
         		function mailChimpComplete(data, status, headers, config) {
-        			return data.data;
+        			console.dir(data);
+                    return data.data;
         		}
         }
     }

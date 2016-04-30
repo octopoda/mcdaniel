@@ -26,6 +26,7 @@
 
 
 		$httpProvider.defaults.headers.post['Content-Type'] = config.header;
+    $httpProvider.deafaults.headers.post['X-CSRF-TOKEN'] = jq('meta[name="csrf-token"]').attr('content')
     $httpProvider.defaults.transformRequest = [function(data) {
       return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
     }];

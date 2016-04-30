@@ -56,6 +56,21 @@ var jq = $.noConflict();
 
     angular.module('mcdaniel.pages', []);
 })();
+/*
+|--------------------------------------------------------------------------
+| Module for Survey 
+|--------------------------------------------------------------------------
+|
+| Module for all survey partials.  
+| Injection in main assetbuilder module
+| 
+|
+*/
+(function() {
+    'use strict';
+
+    angular.module('assetbuilder.survey', []);
+})();
 /**
  * All Shared Modules inserted here. 
  *   
@@ -82,26 +97,11 @@ var jq = $.noConflict();
             'ngMessages',  'ngCookies', 'ngAnimate', 'ngTouch',
 
             /** Globals */
-            'global.flash', 'global.errors', 'global.modal', 'global.share', 'global.sidemenu', 'global.rangeslider', 'global.loading',
+            'global.flash', 'global.errors', 'global.modal', 'global.share', 'global.sidemenu',  'global.loading',
 
             /** Third Party */
             'angular-loading-bar'
         ]);
-})();
-/*
-|--------------------------------------------------------------------------
-| Module for Survey 
-|--------------------------------------------------------------------------
-|
-| Module for all survey partials.  
-| Injection in main assetbuilder module
-| 
-|
-*/
-(function() {
-    'use strict';
-
-    angular.module('assetbuilder.survey', []);
 })();
 (function() {
     'use strict';
@@ -134,11 +134,6 @@ var jq = $.noConflict();
     'use strict';
 
     angular.module('global.loading', []);
-})();
-(function() {
-    'use strict';
-
-    angular.module('global.rangeslider', []);
 })();
 (function() {
     'use strict';
@@ -555,7 +550,7 @@ var jq = $.noConflict();
 
     /* @ngInject */
     function mailChimpService($http, common, flash, errors) {
-        var apiUrl = common.apiUrl + 'MailChimp';
+        var apiUrl = common.apiUrl + '/mailchimp/subscribe';
 
         var service = {
             sendToMailChimp: sendToMailChimp
@@ -571,15 +566,16 @@ var jq = $.noConflict();
          * @param  {string} email 
          * @return {string}       
          */
-        function sendToMailChimp(email) {
-        	return $http.get(apiUrl + '/' +email)
+        function sendToMailChimp(data) {
+        	return $http.post(apiUrl, data)
         		.then(mailChimpComplete)
         		.catch(function (message) {
         			errors.catcher('Sorry, we cannot connect to MailChimp')(message);
         		});
 
         		function mailChimpComplete(data, status, headers, config) {
-        			return data.data;
+        			console.dir(data);
+                    return data.data;
         		}
         }
     }
@@ -1353,6 +1349,186 @@ var jq = $.noConflict();
     'use strict';
 
     angular
+        .module('assetbuilder.survey')
+        .controller('LineController', LineController);
+
+    LineController.$inject = ['$scope', 'surveyService', 'surveyUtilities'];
+
+    /* @ngInject */
+    function LineController($scope, surveyService, surveyUtilities) {
+        var vm = this;
+        vm.title = 'LineController';
+        vm.Data = [];
+        vm.returnsData = [];
+        vm.portfolioId = [45, 46, 47];
+        vm.End;
+        vm.Add; 
+        vm.Years;
+        vm.primed = true;
+        vm.Plots = false;
+
+        activate();
+
+        ////////////////
+
+        /**
+         * Activate the Controller
+         * @return {} [description]
+         */
+        function activate() {
+        	return getExpectedReturns().then(function () {
+            if (angular.isUndefined(vm.Data.PlotPoints)) { return; }
+        		vm.Plots = Math.ceil(vm.Data.PlotPoints.length/2);
+        		setupPlotData();
+            setupDisplayData();
+        	});
+        }
+
+        /**
+      	 * Get Expected Returns
+      	 * @return {object} 
+      	 */
+      	function getExpectedReturns() {
+      		return surveyService.getExpectedReturns(vm.portfolioId[0]).then(function (data) {
+      			vm.Data = data;
+      			vm.Data.SurveyData = surveyService.getSurveyCookie();
+            return vm.Data;
+          });
+      	}
+
+
+        /**
+         * Setup the Date to go to the line chart directive
+         * @return {object} 
+         */
+      	
+        function setupPlotData() {
+          vm.returnsData = {
+            plotData: vm.Data.PlotPoints, 
+            end: vm.Data.EndAmount,
+            add: vm.Data.SurveyData.addMonthly,
+            years: vm.Data.PlotPoints[vm.Data.PlotPoints.length-1].Year,
+            lastYear: vm.Data.LastYear,
+            performance: vm.Data.Performance
+          };
+        
+          return vm.returnsData;
+      	}
+
+
+        /**
+         * Setup the Display Data above the chart
+         */
+        function setupDisplayData() {
+          var w = (vm.returnsData.add < 0) ? 'withdrawn' : 'added'
+
+          vm.Years = vm.returnsData.years;
+          vm.Add = surveyUtilities.printCurrency(vm.returnsData.add) + ' ' + w;
+          vm.portfolioTitle;
+        }
+
+        
+        /*
+        |--------------------------------------------------------------------------
+        | Scope Methods
+        |--------------------------------------------------------------------------
+        */
+
+        /**
+         * Watch Plots and Make Changes
+         * @param  {vm.Plots ) 
+         */
+      	$scope.$watch('vm.Plots', function () {
+            if (vm.Plots === undefined) return;
+          	vm.returnsData = vm.Data.PlotPoints;    
+        }, true)
+    }
+})();
+/*
+|--------------------------------------------------------------------------
+| Survey Module Controller
+|--------------------------------------------------------------------------
+|  Controls the Overlay and Click buttons for Survey.
+|  @note Looking for the Form.  Check out the SurveyFormDirective.js 
+|  
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('assetbuilder.survey')
+        .controller('SurveyController', SurveyController);
+
+    SurveyController.$inject = ['$scope', '$window', 'surveyService', 'common'];
+
+    /* @ngInject */
+    function SurveyController($scope, $window, surveyService, common) {
+        //Vars
+        var vm = this;
+        vm.title = 'SurveyController';
+        vm.investmentType = 'us';
+        
+        
+
+        //Methods
+        vm.changeInvestmentType = changeInvestmentType;
+        vm.checkInvestmentType = checkInvestmentType;
+        
+        activate();
+
+        ////////////////
+
+        /**
+         * Activate the Controller
+         * @return {Function} 
+         */
+        function activate() {
+            
+        }
+
+        
+        /**
+         * Change the investment type to expat
+         * @return {none} 
+         */
+        function changeInvestmentType() {
+            vm.investmentType = 'expat';
+            vm.expat = true;
+        }
+
+
+        /**
+         * Check the investment type and return the class name
+         * @return {string} 
+         */
+        function checkInvestmentType() {
+            if (vm.expat === true) {
+                return 'expat';
+            } else {
+                return 'c-gray-lightest-background';
+            }
+        }
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Helpers
+|--------------------------------------------------------------------------
+|
+|
+*/
+       
+
+
+        
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('mcdaniel.shared')
         .factory('common', common);
 
@@ -1597,6 +1773,7 @@ var jq = $.noConflict();
 
 
 		$httpProvider.defaults.headers.post['Content-Type'] = config.header;
+    $httpProvider.deafaults.headers.post['X-CSRF-TOKEN'] = jq('meta[name="csrf-token"]').attr('content')
     $httpProvider.defaults.transformRequest = [function(data) {
       return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
     }];
@@ -1636,317 +1813,6 @@ var jq = $.noConflict();
 	}
 
 });
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.survey')
-        .controller('LineController', LineController);
-
-    LineController.$inject = ['$scope', 'surveyService', 'surveyUtilities'];
-
-    /* @ngInject */
-    function LineController($scope, surveyService, surveyUtilities) {
-        var vm = this;
-        vm.title = 'LineController';
-        vm.Data = [];
-        vm.returnsData = [];
-        vm.portfolioId = [45, 46, 47];
-        vm.End;
-        vm.Add; 
-        vm.Years;
-        vm.primed = true;
-        vm.Plots = false;
-
-        activate();
-
-        ////////////////
-
-        /**
-         * Activate the Controller
-         * @return {} [description]
-         */
-        function activate() {
-        	return getExpectedReturns().then(function () {
-            if (angular.isUndefined(vm.Data.PlotPoints)) { return; }
-        		vm.Plots = Math.ceil(vm.Data.PlotPoints.length/2);
-        		setupPlotData();
-            setupDisplayData();
-        	});
-        }
-
-        /**
-      	 * Get Expected Returns
-      	 * @return {object} 
-      	 */
-      	function getExpectedReturns() {
-      		return surveyService.getExpectedReturns(vm.portfolioId[0]).then(function (data) {
-      			vm.Data = data;
-      			vm.Data.SurveyData = surveyService.getSurveyCookie();
-            return vm.Data;
-          });
-      	}
-
-
-        /**
-         * Setup the Date to go to the line chart directive
-         * @return {object} 
-         */
-      	
-        function setupPlotData() {
-          vm.returnsData = {
-            plotData: vm.Data.PlotPoints, 
-            end: vm.Data.EndAmount,
-            add: vm.Data.SurveyData.addMonthly,
-            years: vm.Data.PlotPoints[vm.Data.PlotPoints.length-1].Year,
-            lastYear: vm.Data.LastYear,
-            performance: vm.Data.Performance
-          };
-        
-          return vm.returnsData;
-      	}
-
-
-        /**
-         * Setup the Display Data above the chart
-         */
-        function setupDisplayData() {
-          var w = (vm.returnsData.add < 0) ? 'withdrawn' : 'added'
-
-          vm.Years = vm.returnsData.years;
-          vm.Add = surveyUtilities.printCurrency(vm.returnsData.add) + ' ' + w;
-          vm.portfolioTitle;
-        }
-
-        
-        /*
-        |--------------------------------------------------------------------------
-        | Scope Methods
-        |--------------------------------------------------------------------------
-        */
-
-        /**
-         * Watch Plots and Make Changes
-         * @param  {vm.Plots ) 
-         */
-      	$scope.$watch('vm.Plots', function () {
-            if (vm.Plots === undefined) return;
-          	vm.returnsData = vm.Data.PlotPoints;    
-        }, true)
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Survey Module Controller
-|--------------------------------------------------------------------------
-|  Controls the Overlay and Click buttons for Survey.
-|  @note Looking for the Form.  Check out the SurveyFormDirective.js 
-|  
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.survey')
-        .controller('SurveyController', SurveyController);
-
-    SurveyController.$inject = ['$scope', '$window', 'surveyService', 'common'];
-
-    /* @ngInject */
-    function SurveyController($scope, $window, surveyService, common) {
-        //Vars
-        var vm = this;
-        vm.title = 'SurveyController';
-        vm.investmentType = 'us';
-        
-        
-
-        //Methods
-        vm.changeInvestmentType = changeInvestmentType;
-        vm.checkInvestmentType = checkInvestmentType;
-        
-        activate();
-
-        ////////////////
-
-        /**
-         * Activate the Controller
-         * @return {Function} 
-         */
-        function activate() {
-            
-        }
-
-        
-        /**
-         * Change the investment type to expat
-         * @return {none} 
-         */
-        function changeInvestmentType() {
-            vm.investmentType = 'expat';
-            vm.expat = true;
-        }
-
-
-        /**
-         * Check the investment type and return the class name
-         * @return {string} 
-         */
-        function checkInvestmentType() {
-            if (vm.expat === true) {
-                return 'expat';
-            } else {
-                return 'c-gray-lightest-background';
-            }
-        }
-
-
-
-/*
-|--------------------------------------------------------------------------
-| Helpers
-|--------------------------------------------------------------------------
-|
-|
-*/
-       
-
-
-        
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqBlock', faqBlock);
-
-    /* @ngInject */
-    function faqBlock () {
-        // Usage:
-        // <div ng-repeat="faq in fc.Faqs" ng-if="faq.featured" faq-block>
-				// 		<h4 >{{ faq.question }} <i class="fa fa-angle-right"></i></h4>
-				// 		<div ng-bind-html="faq.answer" class="faq-answer"></div>
-				// </div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        		
-                var question = jq(element[0]);
-        		var answer = question.children('.faq__answer');
-
-        		question.on('click', function (e) {
-        			if (question.hasClass('open')) {
-        				answer.slideUp(200);
-        				question.toggleClass('open');
-        			} else {
-        				answer.slideDown(200);
-        				question.toggleClass('open');
-        			}
-        		});
-        }
-    }
-
-    /* @ngInject */
-    function Controller () {
-
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Search Service
-|--------------------------------------------------------------------------
-|
-| Service to pass the search data between parameters
-| 
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.blog')
-        .service('searchService', searchService);
-
-
-   searchService.$inject = ['$rootScope', 'exploreService'];
-
-    /* @ngInject */
-    function searchService($rootScope, exploreService) {
-        var data =  {
-        	KeywordData: null
-        };
-
-        var service = {
-        	getKeywords: getKeywords,
-        	clearSearchData: clearSearchData
-        };
-
-        return service;
-
-        ////////////////
-
-        /**
-         * Call Loading Bar and setup results directive while grabbing data
-         * @param  {string} keyword 
-         * @return {object}         
-         */
-        function getKeywords(keyword) {
-        	$rootScope.$emit('search.loading', keyword);
-        	return getData(keyword).then(function (data) {
-        		alertResultsDirective(data);
-        	});
-        }
-
-        /**
-         * Clear the search Results
-         */
-        function clearSearchData() {
-        	$rootScope.$emit('search.clear');
-        }
-
-/*
-|--------------------------------------------------------------------------
-| Private Methods
-|--------------------------------------------------------------------------
-|
-| Description 1
-|  Description 2
-| 
-|
-*/        
-
-        /**
-         * Alert searchResultsDirective when Explore is finished;
-         * @return {object}
-         */
-        function alertResultsDirective(data) {
-            $rootScope.$emit('search.results', data);
-        }
-
-        
-        /**
-         * Get Search Data from Explore API
-         * @param  {string} keyword 
-         * @return {object}         
-         */
-        function getData(keyword) {
-        	return exploreService.exploreByKeyword(keyword).then(function (data) {
-        		return data;
-        	});
-        }
-
-
-       
-    }
-})();
 /*
 |--------------------------------------------------------------------------
 | Article Sidebar Directive
@@ -2339,6 +2205,9 @@ var jq = $.noConflict();
         // Usage:
         // <div footer-rollup></div>
         var directive = {
+            bindToController: true,
+            controller: FooterRollupController,
+            controllerAs: 'vd',
             link: link,
             restrict: 'A',
             replace:true,
@@ -2359,6 +2228,7 @@ var jq = $.noConflict();
       		var sticky = new Waypoint({
       			element: document.querySelector('body'),
       			handler: function () {
+              if (el.hasClass('off')) return;
       				el.toggleClass('open');
       			},
       			offset:-200
@@ -2371,13 +2241,62 @@ var jq = $.noConflict();
           sticky = new Waypoint({
       			element: document.querySelector('.site-footer'),
       			handler: function () {
+              if (el.hasClass('off')) return;
       				el.toggleClass('open');
       			},
       			offset:'100%'
       		});
 
 
+          jq('.article__footer--close').on('click', function (e) {
+            e.preventDefault();
+            el.removeClass('open').addClass('off');
+          });
+
+
         }
+    }
+
+    FooterRollupController.$inject = ['$scope', '$element', '$attrs', 'mailChimpService'];
+
+    function FooterRollupController($scope, $element, $attrs, mailChimpService) {
+        var vd = $scope.vd;
+
+        vd.formData = {
+          email : '',
+        }
+
+        vd.loading = false;
+        vd.success = false;
+        vd.message = false;
+
+        vd.submitMailChimp = submitMailChimp;
+
+
+        ///////
+        
+
+        function submitMailChimp() {
+          vd.loading = 'sending',
+
+          mailChimpService.sendToMailChimp(vd.formData)
+            .then(function (data) {
+              vd.loading = false;
+              vd.success = true;
+              vd.message = data;
+
+              setTimeout(function () {
+                jq('.article__footer').removeClass('open');
+              }, 3000)
+              
+            })
+        }
+
+
+        function subscribed(data) {
+          //Add to 3 month cookie and leave them alone
+        }
+        
     }
 
     
@@ -2834,8 +2753,6 @@ var jq = $.noConflict();
      */
     function buildLink(url, via, html) {
     	var text = truncateHTML(url, via, html);
-    	console.log(text);
-    	//TODO: add social card; and description  &text=
     	return 'http://twitter.com/intent/tweet?url='+ url + '&text=' + text + via;
     }
 
@@ -2865,6 +2782,137 @@ var jq = $.noConflict();
     }
 
     
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqBlock', faqBlock);
+
+    /* @ngInject */
+    function faqBlock () {
+        // Usage:
+        // <div ng-repeat="faq in fc.Faqs" ng-if="faq.featured" faq-block>
+				// 		<h4 >{{ faq.question }} <i class="fa fa-angle-right"></i></h4>
+				// 		<div ng-bind-html="faq.answer" class="faq-answer"></div>
+				// </div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        		
+                var question = jq(element[0]);
+        		var answer = question.children('.faq__answer');
+
+        		question.on('click', function (e) {
+        			if (question.hasClass('open')) {
+        				answer.slideUp(200);
+        				question.toggleClass('open');
+        			} else {
+        				answer.slideDown(200);
+        				question.toggleClass('open');
+        			}
+        		});
+        }
+    }
+
+    /* @ngInject */
+    function Controller () {
+
+    }
+})();
+/*
+|--------------------------------------------------------------------------
+| Search Service
+|--------------------------------------------------------------------------
+|
+| Service to pass the search data between parameters
+| 
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .service('searchService', searchService);
+
+
+   searchService.$inject = ['$rootScope', 'exploreService'];
+
+    /* @ngInject */
+    function searchService($rootScope, exploreService) {
+        var data =  {
+        	KeywordData: null
+        };
+
+        var service = {
+        	getKeywords: getKeywords,
+        	clearSearchData: clearSearchData
+        };
+
+        return service;
+
+        ////////////////
+
+        /**
+         * Call Loading Bar and setup results directive while grabbing data
+         * @param  {string} keyword 
+         * @return {object}         
+         */
+        function getKeywords(keyword) {
+        	$rootScope.$emit('search.loading', keyword);
+        	return getData(keyword).then(function (data) {
+        		alertResultsDirective(data);
+        	});
+        }
+
+        /**
+         * Clear the search Results
+         */
+        function clearSearchData() {
+        	$rootScope.$emit('search.clear');
+        }
+
+/*
+|--------------------------------------------------------------------------
+| Private Methods
+|--------------------------------------------------------------------------
+|
+| Description 1
+|  Description 2
+| 
+|
+*/        
+
+        /**
+         * Alert searchResultsDirective when Explore is finished;
+         * @return {object}
+         */
+        function alertResultsDirective(data) {
+            $rootScope.$emit('search.results', data);
+        }
+
+        
+        /**
+         * Get Search Data from Explore API
+         * @param  {string} keyword 
+         * @return {object}         
+         */
+        function getData(keyword) {
+        	return exploreService.exploreByKeyword(keyword).then(function (data) {
+        		return data;
+        	});
+        }
+
+
+       
+    }
 })();
 (function() {
     'use strict';
@@ -3047,14 +3095,16 @@ var jq = $.noConflict();
         var directive = {
             link: link,
             restrict: 'A',
-            template: '<a href="#"><i class="fa fa-facebook"></i></a>'
+            scope: {
+                title: "@"
+            }
         };
         
         return directive;
 
         function link(scope, element, attrs) {
-        	var url = $location.absUrl(),
-                fbLink = buildLink(url);
+            var url = $location.absUrl(),
+                fbLink = buildLink(url, scope.title);
                 
             jq(element[0]).on('click', function (e) {
                 popup(fbLink, 700, 500);
@@ -3070,10 +3120,19 @@ var jq = $.noConflict();
      * @param  {string} url 
      * @return {string}     
      */
-    function buildLink(url) {
-    	//TODO: add description 
-    	return 'https://www.facebook.com/sharer/sharer.php?u=' + url + '&display=popup';
-	}
+    function buildLink(url, title) {
+        //TODO: add description 
+        // return 'http://www.facebook.com/dialog/feed?app_id=556572864519365&caption=' + title + '&display=popup&link=' + url;
+
+        var url = 'https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2F';
+        var uri = 'https%3A%2F%2Fdevelopers.facebook.com%2Ftools%2Fexplorer';
+
+        return 'https://www.facebook.com/dialog/share?' +
+                  'app_id=145634995501895' +
+                  '&display=popup' +
+                  '&href=' + url + 
+                  '&redirect_uri=' + uri;
+    }
 
     
     /**
@@ -3088,58 +3147,67 @@ var jq = $.noConflict();
     }
 
 
-})();	
+})();   
 
 
-/*
-|--------------------------------------------------------------------------
-| Twitter Share Directive
-|--------------------------------------------------------------------------
-|
-| Builds twitter share button and URL to shre the article on twitter
-|
-*/
 (function() {
     'use strict';
 
     angular
         .module('global.share')
-        .directive('twitterShare', twitterShare);
-
-    twitterShare.$inject = ['$location'];
+        .directive('googleShare', googleShare);
 
     /* @ngInject */
-    function twitterShare ($location) {
+    function googleShare ($location) {
         // Usage:
-        // <li twitter-share tweet=""></li>
+        //
         // Creates:
         //
         var directive = {
             link: link,
-            template: '<a href="{{ vd.twitterLink }}"><i class="fa fa-twitter"></i></a>',
             restrict: 'A',
+            scope: {
+            	
+            }
         };
         return directive;
 
         function link(scope, element, attrs) {
-        	var url = $location.absUrl(),
-                twitterLink = buildLink(url);
+        	var el = jq(element[0]),
+        		url = $location.absUrl(),
+        		googleLink = buildLink(url);
 
-            jq(element).on('click', function (e) {
-                popup(twitterLink, 700, 500);
-                _ga('send', 'event', 'knowledge-center', 'share', 'facebook', 0);
-            });    
+        	el.on('click', function () {
+        		popup(googleLink, 700, 500);
+        	})
+
         }
     }
+    googleShare.$inject = ["$location"];
 
-    /**
-     * Build Twitter Sharer Link
+    
+     /**
+     * Build Pinterst Sharer Link
      * @param  {string} url 
      * @return {string}     
      */
     function buildLink(url) {
-    	//TODO: add social card; and description  &text=
-    	return 'http://twitter.com/share?url='+ url + ' - @assetbuilder';
+        //return 'http://www.linkedin.com/shareArticle?mini=true&url='+ url +'&title='+ title +'&summary='+ summary +'&source=http://mcndanielnutrition.com';
+        return 'https://plus.google.com/share?url=' + url;
+    }
+
+
+    /**
+     * Trucate the String to Match
+     * @param  {string} url  
+     * @param  {string} via  
+     * @param  {string} html 
+     * @return {string}
+     */
+    function truncateHTML(url, via, html) {
+        var full = url.length + via.length + 4;
+        var text = html.substr(0, (140-full));
+        return text + '...'
     }
 
      /**
@@ -3153,8 +3221,230 @@ var jq = $.noConflict();
         window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
     }
 
-})();	
+})();
+(function() {
+    'use strict';
 
+    angular
+        .module('global.share')
+        .directive('linkedinShare', linkedinShare);
+
+    linkedinShare.$inject = ['$location'];
+    
+    /* @ngInject */
+    function linkedinShare ($location) {
+        // Usage:
+        // <div data-linked-share>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	title:  "@",
+            	summary: "@"
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+    		var el = jq(element[0]),
+    			url = $location.absUrl(),
+    			title = scope.title,
+    			summary = scope.summary,
+    			linkedInLink = buildLink(url, title, summary);
+
+    		el.on('click', function () {
+    			popup(linkedInLink, 700, 500);
+    		})
+
+        }
+    }
+
+
+     /**
+     * Build Pinterst Sharer Link
+     * @param  {string} url 
+     * @return {string}     
+     */
+    function buildLink(url, title, summary) {
+        //return 'http://pinterest.com/pin/create/button/?url='+ url +'&description='+ title +'&media=' +  media;
+        return 'http://www.linkedin.com/shareArticle?mini=true&url='+ url +'&title='+ title +'&summary='+ summary +'&source=http://mcndanielnutrition.com';
+    }
+
+
+    /**
+     * Trucate the String to Match
+     * @param  {string} url  
+     * @param  {string} via  
+     * @param  {string} html 
+     * @return {string}
+     */
+    function truncateHTML(url, via, html) {
+        var full = url.length + via.length + 4;
+        var text = html.substr(0, (140-full));
+        return text + '...'
+    }
+
+     /**
+     * Make the Popup Window
+     * @param  {string} url    
+     * @param  {int} width  
+     * @param  {int} height 
+     * @return {window.open}        
+     */
+    function popup(url, width, height) {
+        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    }
+
+    
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.share')
+        .directive('pinterestShare', pinterestShare);
+
+    pinterestShare.$inject = ['$location']
+
+    /* @ngInject */
+    function pinterestShare ($location) {
+        // Usage:
+        // <li pinterest-share><li>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	title: '@',
+            	media: '@'
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var el = jq(element[0]),
+        		url = $location.absUrl(),
+        		title = scope.title,
+        		media = scope.media,
+        		pinterstLink = buildLink(url, title, media)
+
+        		el.on('click', function () {
+        			popup(pinterstLink, 700, 500);
+        		});
+        }
+    }
+
+
+     /**
+     * Build Pinterst Sharer Link
+     * @param  {string} url 
+     * @return {string}     
+     */
+    function buildLink(url, title, media) {
+        return 'http://pinterest.com/pin/create/button/?url='+ url +'&description='+ title +'&media=' +  media;
+    }
+
+
+    /**
+     * Trucate the String to Match
+     * @param  {string} url  
+     * @param  {string} via  
+     * @param  {string} html 
+     * @return {string}
+     */
+    function truncateHTML(url, via, html) {
+        var full = url.length + via.length + 4;
+        var text = html.substr(0, (140-full));
+        return text + '...'
+    }
+
+     /**
+     * Make the Popup Window
+     * @param  {string} url    
+     * @param  {int} width  
+     * @param  {int} height 
+     * @return {window.open}        
+     */
+    function popup(url, width, height) {
+        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    }
+    
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.share')
+        .directive('twitterShare', twitterShare);
+
+    twitterShare.$inject = ['$location'];
+
+    /* @ngInject */
+    function twitterShare ($location) {
+        // Usage:
+        // <div twitter-share></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+                title: '@'
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+            var el = jq(element[0]),
+                title = scope.title,
+                url = $location.absUrl(),
+                via = '- @mcdanielrdn',
+                twitterLink = buildLink(url, via, title);
+
+            el.on('click', function () {
+                popup(twitterLink, 700, 500);
+            })
+        
+        }
+    }
+
+
+
+     /**
+     * Build Twitter Sharer Link
+     * @param  {string} url 
+     * @return {string}     
+     */
+    function buildLink(url, via, html) {
+        var text = truncateHTML(url, via, html);
+        return 'http://twitter.com/intent/tweet?url='+ url + '&text=' + text + via;
+    }
+
+
+    /**
+     * Trucate the String to Match
+     * @param  {string} url  
+     * @param  {string} via  
+     * @param  {string} html 
+     * @return {string}
+     */
+    function truncateHTML(url, via, html) {
+        var full = url.length + via.length + 4;
+        var text = html.substr(0, (140-full));
+        return text + '...'
+    }
+
+     /**
+     * Make the Popup Window
+     * @param  {string} url    
+     * @param  {int} width  
+     * @param  {int} height 
+     * @return {window.open}        
+     */
+    function popup(url, width, height) {
+        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    }
+
+    
+})();
 /*
 |--------------------------------------------------------------------------
 | Menu Toggle Directive
@@ -3503,212 +3793,6 @@ var jq = $.noConflict();
         }
     }
 })();
-(function () {
-  'use strict';
-
-  angular
-    .module('global.rangeslider')
-    .directive('rangeSlider', rangeSlider);
-
-    rangeSlider.$inject = ['$compile', '$templateCache', '$timeout', '$window', 'sliderObject']    
-
-    /** @ngInject */
-    function rangeSlider($compile, $templateCache, $timeout, $window, sliderObject) {    
-      // Usage: 
-      // <input range-slider type="text" ng-model="" options="">
-      var directive = {
-          restrict : 'A',
-          require: '?ngModel',
-          scope: { 
-            options:'=', 
-          },
-          priority: 1,
-          link: link
-        }
-       
-      return directive;    
-
-      function link (scope, element, attrs, ngModel) {
-
-        /** No Ng Model */
-        if(!ngModel) return;
-
-        /** No Options */
-        if (!scope.options)
-          throw new Error('You must provide a value for "options" attribute.');
-
-        /** Options in String from */
-        if (angular.isString(scope.options)) {
-          scope.options = angular.toJson(scope.options);
-        }
-
-        /** @type {String} Set up the Class  !! Lets Remove this shit !! */
-        scope.mainSliderClass = 'jslider';
-        
-        /** @type {object} Handle Limits and visibilty */
-        scope.options.limits = angular.isDefined(scope.options.limits) ? scope.options.limits : true;
-
-        /** Get the template and compile it. */
-        element.after($compile($templateCache.get('range-slider/range-slider.html'))(scope, function(clonedElement, scope) {
-          scope.tmplElt = clonedElement;
-        }));
-
-        
-        /** @type {Boolean} Flag to initialize only once */
-        var initialized = false;
-
-        /**
-         * Initialize the Directive
-         * @return {[type]} [description]
-         */
-        var init = function() {
-          /** @type {Object} Setup Options */
-          scope.from = ''+scope.options.from;
-          scope.to = ''+scope.options.to;
-          
-          if (scope.options.calculate && typeof scope.options.calculate === 'function') {
-            scope.from = scope.options.calculate(scope.from);
-            scope.to = scope.options.calculate(scope.to);
-          }            
-
-          /** @type {Object} !! Remove a lot of these */
-          var OPTIONS = {
-            from: !scope.options.round ? parseInt(scope.options.from, 10) : parseFloat(scope.options.from),
-            to: !scope.options.round ? parseInt(scope.options.to, 10) : parseFloat(scope.options.to),
-            step: scope.options.step,
-            smooth: scope.options.smooth,
-            limits: scope.options.limits,
-            round: scope.options.round || false,
-            value: ngModel.$viewValue,
-            dimension: "",
-            scale: scope.options.scale,
-            modelLabels: scope.options.modelLabels,              
-            vertical: scope.options.vertical,
-            css: scope.options.css,
-            className: scope.options.className,
-            realtime: scope.options.realtime,
-            cb: forceApply,
-            threshold: scope.options.threshold
-          };
-
-          OPTIONS.calculate = scope.options.calculate || undefined;
-          OPTIONS.onstatechange = scope.options.onstatechange || undefined;
-
-          /** @type {Slider} Setup the Slider Object */
-          scope.slider = !scope.slider ? slidering(element, scope.tmplElt, OPTIONS) : scope.slider.init(element, scope.tmplElt, OPTIONS);
-
-          /** Setup window listener */
-          if (!initialized) {
-            initListener();
-          }
-
-          /**  Setup Scale */
-          var scaleDiv = scope.tmplElt.find('div')[7];
-          angular.element(scaleDiv).html(scope.slider.generateScale());
-          scope.slider.drawScale(scaleDiv);
-
-          initialized = true;
-       
-        };
-
-        
-        /**
-         * Listen for Window Reszie
-         * @return {EventListener} 
-         */
-        function initListener() {
-          angular.element($window).bind('resize', function(event) {
-            scope.slider.onresize();
-          });
-        }
-
-        // model -> view
-        ngModel.$render = function () {
-          //elm.html(ctrl.$viewValue);
-          var singleValue = false;
-
-          if (!ngModel.$viewValue && ngModel.$viewValue !== 0) {
-            return;
-          }
-
-          if (typeof(ngModel.$viewValue) === 'number') {
-            ngModel.$viewValue = ''+ngModel.$viewValue;
-          }
-
-          if( !ngModel.$viewValue.split(";")[1]) {
-            scope.mainSliderClass += ' jslider-single';
-          }
-
-          if (scope.slider) {
-            scope.slider.getPointers()[0].set(ngModel.$viewValue.split(";")[0], true);
-            if (ngModel.$viewValue.split(";")[1]) {
-              scope.slider.getPointers()[1].set(ngModel.$viewValue.split(";")[1], true);
-            }
-          }
-        };
-
-        /**
-         * Forcefully run the digest loop on the callback in Options
-         * @param  {ngModel} value    
-         * @param  {function} released
-         * @return {callabck}          
-         */
-        var forceApply = function(value, released) {
-          if (scope.disabled) return;
-          
-          scope.$apply(function() {
-            ngModel.$setViewValue(value);
-          });
-          
-          if (scope.options.callback){
-            scope.options.callback(value, released);
-          }
-        };
-
-        /** Watch Options for Changes then rerun init.   
-         * @note -Timeout set to 0 to help changes Load. 
-        **/
-        scope.$watch('options', function(value) {
-          $timeout(function(){
-            init();
-          });
-        }, true);
-
-       
-        
-        /**
-         * Setup the Model Label Array
-         * @note this will change the value of a label to a string
-         * @param  {array} value 
-         * @return {string}       
-         */
-        scope.limitValue = function(value) {
-          if (scope.options.modelLabels) {
-            if (angular.isFunction(scope.options.modelLabels)) {
-              return scope.options.modelLabels(value);
-            }              
-            return scope.options.modelLabels[value] !== undefined ? scope.options.modelLabels[value] : value;              
-          }
-          return value;
-        };
-
-        
-        /**
-         * Setup the Slider
-         * @param  {dom} inputElement 
-         * @param  {templatecache} element
-         * @param  {object} settings     [OPTIONS]
-         * @return {object}              
-         */
-        var slidering = function( inputElement, element, settings) {
-          return new sliderObject(inputElement, element, settings);
-        };
-      }
-      
-    } //End RangeSlider Function
-
-})();
-
 /*
 |--------------------------------------------------------------------------
 | Dropdown on click 
@@ -4118,318 +4202,6 @@ var jq = $.noConflict();
 				target.addClass('open').siblings('.m-tabbed-info').removeClass('open');
         		el.addClass('active').siblings('.active').removeClass('active');
         	});
-        }
-    }
-
-    
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('browseHappy', browseHappy);
-
-
-    
-    function browseHappy () {
-        // Usage:
-        //     <div browse-happy></div>
-        // Creates:
-        // 
-        var directive = {
-            link: link,
-            restrict: 'A',
-            replace: true,
-            templateUrl: '/ngViews/global/browse-happy.html'
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-                
-        }
-    }
-
-})();
-/*
-|--------------------------------------------------------------------------
-| Google Analytics Click Events Directive
-|--------------------------------------------------------------------------
-|
-|  Will registerd a click event with Google Analytics
-|  @note universal Analytics variable _ga
-|  @category - category of event
-|  @action = action the user is performing
-|  @name = name of the click event in Google Analytics.
-|  @value = Value you place for click
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('googleClick', googleClick);
-
-    /* @ngInject */
-    function googleClick () {
-        // Usage:
-        // <div google-click category="" action=""  name=""></div>
-        // Example
-        // <div google-click category="survey" action="open-survey" name="homepage-open-survey" value=""></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	category: '@',
-            	action: '@',
-            	name: '@',
-            	value: '@'
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-        	element.on('click', function () {
-        		_ga('send', 'event', scope.category, scope.action, scope.name, scope.value);
-        	});
-        }
-    }
-
-  
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('instaFeed', instaFeed);
-
-    /* @ngInject */
-    function instaFeed () {
-        // Usage:
-        // <div instafeed></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            templateUrl: '/templates/shared/instafeed.html'
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	 console.log('testing');
-
-        	 var feed = new Instafeed({
-        		get: 'user',
-        		userId: 13141599,
-        		sortBy: 'most-recent',
-        		limit: 8,
-        		clientId: 'b867a55a04494dd7a0a013ca52d35188'
-			});
-    		
-    		feed.run();
-        }
-    }
-
-    
-})();
-/*
-|--------------------------------------------------------------------------
-| Ng Repeat Render Finalizer Driective
-|--------------------------------------------------------------------------
-|
-| Tells the parent scope that the ng-repeat has finialized
-| Wrapped in timeout instead of .ready so the $apply
-| will run in the digest loop. 
-|
-| @note only used with ng-repeat {https://docs.angularjs.org/api/ng/directive/ngRepeat}
-| Example at rangeSliderLabelsDirective.js
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('onFinishRender', onFinishRender);
-
-    /* @ngInject */
-    function onFinishRender () {
-        // Usage:
-        // <div ng-repeat="" on-finish-render="callbackFunction"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-			if (scope.$last === true) {
-                scope.$evalAsync(attrs.onFinishRender);
-			}
-        }
-    }
-
-
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('open', open);
-
-    /* @ngInject */
-    function open () {
-        // Usage:
-        //  <div slide-down target-id="{{ target id attribute }}"></div>
-        
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	targetId: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	var target = jq('#' + scope.targetId);
-
-        	jq(element).on('click', function () {
-        		target.toggleClass('open');
-            });	
-        
-        }
-    }
-
-    
-})();
-/*
-|--------------------------------------------------------------------------
-| Overlay Directive
-|--------------------------------------------------------------------------
-|
-| Creates Overlay of Site for
-| Full screen interaction.
-| 
-|
-*/			
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('overlay', overlay);
-
-    /* @ngInject */
-    function overlay () {
-        // Usage:
-        // <div overlay></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	targetId: "@"
-            }
-        };
-       
-        return directive;
-
-        function link(scope, element, attrs) {
-        	jq(element).on('click', function (e) {
-        		e.preventDefault();
-        		openOverlay(scope.targetId);
-        		jq(this).toggleClass('active');
-                jq('body').toggleClass('nav-open');
-        	})
-        }
-    }
-
-    function openOverlay(target) {
-    	var element = jq('#'+ target);
-
-    	if (element.hasClass('open')) {
-    		element.removeClass('open');
-    	} else {
-    		element.addClass('open');
-    	}
-
-    }
-    
-})();
-/*
-|--------------------------------------------------------------------------
-| Slide Down Directive
-|--------------------------------------------------------------------------
-|
-| Will add the Class open and slide-down to any id on the page listing in the target-id attribute
-| @note to just add the open class use the open directive.
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('slideDown', slideDown);
-
-    /* @ngInject */
-    function slideDown () {
-        // Usage:
-        //  <div slide-down target-id="{{ target id attribute }}"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	targetId: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	var target = jq('#' + scope.targetId);
-
-
-            /**
-             * On Click Find the the element and toggle the class
-             * @param  {target}  element
-             * @param  {event} e
-             * @return {DOM} 
-             */
-        	jq(element).on('click', function (e) {
-                e.preventDefault();
-        		if (target.hasClass('open')) {
-        			target.slideUp(500)
-        		} else {
-        			target.slideDown(100, function () {
-                        scrollToTarget(target.offset().top);    
-                    });
-                    
-        		}
-        
-        		target.toggleClass('open');
-                jq(this).toggleClass('active');
-
-                
-        	});	
-
-            
-            /**
-             * Scroll to the Target {mainly for mobile}
-             * @return {DOm}
-             */
-            function scrollToTarget(top) {
-                jq('html, body').animate({
-                    scrollTop: (top-96)
-                }, 200);
-            }
-        
         }
     }
 
@@ -6017,6 +5789,439 @@ var jq = $.noConflict();
     'use strict';
 
     angular
+        .module('mcdaniel.shared')
+        .directive('browseHappy', browseHappy);
+
+
+    
+    function browseHappy () {
+        // Usage:
+        //     <div browse-happy></div>
+        // Creates:
+        // 
+        var directive = {
+            link: link,
+            restrict: 'A',
+            replace: true,
+            templateUrl: '/ngViews/global/browse-happy.html'
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+                
+        }
+    }
+
+})();
+/*
+|--------------------------------------------------------------------------
+| Google Analytics Click Events Directive
+|--------------------------------------------------------------------------
+|
+|  Will registerd a click event with Google Analytics
+|  @note universal Analytics variable _ga
+|  @category - category of event
+|  @action = action the user is performing
+|  @name = name of the click event in Google Analytics.
+|  @value = Value you place for click
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('googleClick', googleClick);
+
+    /* @ngInject */
+    function googleClick () {
+        // Usage:
+        // <div google-click category="" action=""  name=""></div>
+        // Example
+        // <div google-click category="survey" action="open-survey" name="homepage-open-survey" value=""></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	category: '@',
+            	action: '@',
+            	name: '@',
+            	value: '@'
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+        	element.on('click', function () {
+        		_ga('send', 'event', scope.category, scope.action, scope.name, scope.value);
+        	});
+        }
+    }
+
+  
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('instaFeed', instaFeed);
+
+    /* @ngInject */
+    function instaFeed () {
+        // Usage:
+        // <div instafeed></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            templateUrl: '/templates/shared/instafeed.html'
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	 console.log('testing');
+
+        	 var feed = new Instafeed({
+        		get: 'user',
+        		userId: 13141599,
+        		sortBy: 'most-recent',
+        		limit: 8,
+        		clientId: 'b867a55a04494dd7a0a013ca52d35188'
+			});
+    		
+    		feed.run();
+        }
+    }
+
+    
+})();
+/*
+|--------------------------------------------------------------------------
+| Ng Repeat Render Finalizer Driective
+|--------------------------------------------------------------------------
+|
+| Tells the parent scope that the ng-repeat has finialized
+| Wrapped in timeout instead of .ready so the $apply
+| will run in the digest loop. 
+|
+| @note only used with ng-repeat {https://docs.angularjs.org/api/ng/directive/ngRepeat}
+| Example at rangeSliderLabelsDirective.js
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('onFinishRender', onFinishRender);
+
+    /* @ngInject */
+    function onFinishRender () {
+        // Usage:
+        // <div ng-repeat="" on-finish-render="callbackFunction"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+			if (scope.$last === true) {
+                scope.$evalAsync(attrs.onFinishRender);
+			}
+        }
+    }
+
+
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('open', open);
+
+    /* @ngInject */
+    function open () {
+        // Usage:
+        //  <div slide-down target-id="{{ target id attribute }}"></div>
+        
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	targetId: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var target = jq('#' + scope.targetId);
+
+        	jq(element).on('click', function () {
+        		target.toggleClass('open');
+            });	
+        
+        }
+    }
+
+    
+})();
+/*
+|--------------------------------------------------------------------------
+| Overlay Directive
+|--------------------------------------------------------------------------
+|
+| Creates Overlay of Site for
+| Full screen interaction.
+| 
+|
+*/			
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('overlay', overlay);
+
+    /* @ngInject */
+    function overlay () {
+        // Usage:
+        // <div overlay></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	targetId: "@"
+            }
+        };
+       
+        return directive;
+
+        function link(scope, element, attrs) {
+        	jq(element).on('click', function (e) {
+        		e.preventDefault();
+        		openOverlay(scope.targetId);
+        		jq(this).toggleClass('active');
+                jq('body').toggleClass('nav-open');
+        	})
+        }
+    }
+
+    function openOverlay(target) {
+    	var element = jq('#'+ target);
+
+    	if (element.hasClass('open')) {
+    		element.removeClass('open');
+    	} else {
+    		element.addClass('open');
+    	}
+
+    }
+    
+})();
+/*
+|--------------------------------------------------------------------------
+| Slide Down Directive
+|--------------------------------------------------------------------------
+|
+| Will add the Class open and slide-down to any id on the page listing in the target-id attribute
+| @note to just add the open class use the open directive.
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('slideDown', slideDown);
+
+    /* @ngInject */
+    function slideDown () {
+        // Usage:
+        //  <div slide-down target-id="{{ target id attribute }}"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	targetId: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var target = jq('#' + scope.targetId);
+
+
+            /**
+             * On Click Find the the element and toggle the class
+             * @param  {target}  element
+             * @param  {event} e
+             * @return {DOM} 
+             */
+        	jq(element).on('click', function (e) {
+                e.preventDefault();
+        		if (target.hasClass('open')) {
+        			target.slideUp(500)
+        		} else {
+        			target.slideDown(100, function () {
+                        scrollToTarget(target.offset().top);    
+                    });
+                    
+        		}
+        
+        		target.toggleClass('open');
+                jq(this).toggleClass('active');
+
+                
+        	});	
+
+            
+            /**
+             * Scroll to the Target {mainly for mobile}
+             * @return {DOm}
+             */
+            function scrollToTarget(top) {
+                jq('html, body').animate({
+                    scrollTop: (top-96)
+                }, 200);
+            }
+        
+        }
+    }
+
+    
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .controller('AlertModalController', AlertModalController);
+
+    AlertModalController.$inject = ['$scope', 'modalService'];
+
+    /* @ngInject */
+    function AlertModalController($scope, modalService) {
+        var vm = this;
+        vm.title = 'AlertModalController';
+
+        // Modal Prameters
+        vm.title = ( modalService.params().title || "Whoa!" );
+       	vm.message = ( modalService.params().message || "Whoa!" );
+        vm.action = ( modalService.params().action || "Whoa!" );
+
+        //Close the Modal
+        vm.close = modalService.resolve;
+    }
+
+
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .controller('ConfirmModalController', ConfirmModalController);
+
+    ConfirmModalController.$inject = ['$scope', 'modalService'];
+
+    /* @ngInject */
+    function ConfirmModalController($scope, modalService) {
+        var vm = this;
+        var params = modalService.params();
+        
+    	vm.title = ( params.title || "" );
+        vm.message = ( params.message || "" );
+    	vm.confirmButton = ( params.confirmButton || "Confirm" );
+    	vm.denyButton = ( params.denyButton || "Deny" );
+
+    	vm.confirm = modalService.resolve;
+    	vm.deny = modalService.reject;
+    }
+})();
+/*
+|--------------------------------------------------------------------------
+| HTML Modal Controller
+|--------------------------------------------------------------------------
+|
+| Controller to Insert HTML into a Modal
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .controller('HTMLModalController', HTMLModalController);
+
+    HTMLModalController.$inject = ['$scope', 'modalService'];
+
+    /* @ngInject */
+    function HTMLModalController($scope, modalService) {
+        var vm = this;
+        vm.title = 'HTMLModalController';
+
+        vm.code;
+        vm.close = modalService.resolve;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+            return modalService.getTemplate(modalService.params().htmlTemplate)
+                .then(function (data) {
+                    vm.code = data;
+                    return vm.code;
+                })
+        }
+
+        
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .controller('PromptModalController', PromptModalController);
+
+    PromptModalController.$inject = ['$scope', 'modalService'];
+
+    /* @ngInject */
+    function PromptModalController($scope, modalService) {
+        var vm = this;
+        vm.title = 'PromptModalController';
+
+				vm.message = ( modalService.params().message || "Give me." );
+				vm.form = {
+					input: ( modalService.params().placeholder || "" )
+				};
+
+				vm.errorMessage = null;
+				vm.cancel = modalService.reject;
+
+				$scope.submit = function() {
+					if (!vm.form.input) { 
+						return $scope.errorMessage = "Please provide something!"; 
+					}
+					modalService.resolve($scope.form.input);
+				};
+
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('global.modal')
         .directive('alertModal', alertModal);
 
@@ -6195,127 +6400,6 @@ var jq = $.noConflict();
 
 
 
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
-        .controller('AlertModalController', AlertModalController);
-
-    AlertModalController.$inject = ['$scope', 'modalService'];
-
-    /* @ngInject */
-    function AlertModalController($scope, modalService) {
-        var vm = this;
-        vm.title = 'AlertModalController';
-
-        // Modal Prameters
-        vm.title = ( modalService.params().title || "Whoa!" );
-       	vm.message = ( modalService.params().message || "Whoa!" );
-        vm.action = ( modalService.params().action || "Whoa!" );
-
-        //Close the Modal
-        vm.close = modalService.resolve;
-    }
-
-
-})();
-
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
-        .controller('ConfirmModalController', ConfirmModalController);
-
-    ConfirmModalController.$inject = ['$scope', 'modalService'];
-
-    /* @ngInject */
-    function ConfirmModalController($scope, modalService) {
-        var vm = this;
-        var params = modalService.params();
-        
-    	vm.title = ( params.title || "" );
-        vm.message = ( params.message || "" );
-    	vm.confirmButton = ( params.confirmButton || "Confirm" );
-    	vm.denyButton = ( params.denyButton || "Deny" );
-
-    	vm.confirm = modalService.resolve;
-    	vm.deny = modalService.reject;
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| HTML Modal Controller
-|--------------------------------------------------------------------------
-|
-| Controller to Insert HTML into a Modal
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
-        .controller('HTMLModalController', HTMLModalController);
-
-    HTMLModalController.$inject = ['$scope', 'modalService'];
-
-    /* @ngInject */
-    function HTMLModalController($scope, modalService) {
-        var vm = this;
-        vm.title = 'HTMLModalController';
-
-        vm.code;
-        vm.close = modalService.resolve;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-            return modalService.getTemplate(modalService.params().htmlTemplate)
-                .then(function (data) {
-                    vm.code = data;
-                    return vm.code;
-                })
-        }
-
-        
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
-        .controller('PromptModalController', PromptModalController);
-
-    PromptModalController.$inject = ['$scope', 'modalService'];
-
-    /* @ngInject */
-    function PromptModalController($scope, modalService) {
-        var vm = this;
-        vm.title = 'PromptModalController';
-
-				vm.message = ( modalService.params().message || "Give me." );
-				vm.form = {
-					input: ( modalService.params().placeholder || "" )
-				};
-
-				vm.errorMessage = null;
-				vm.cancel = modalService.reject;
-
-				$scope.submit = function() {
-					if (!vm.form.input) { 
-						return $scope.errorMessage = "Please provide something!"; 
-					}
-					modalService.resolve($scope.form.input);
-				};
-
-    }
-})();
 /*
 |--------------------------------------------------------------------------
 | Loading Directive
@@ -6373,1140 +6457,4 @@ var jq = $.noConflict();
         }
     }
 
-})();
-/*
-|--------------------------------------------------------------------------
-| Range Slider Constants 
-|--------------------------------------------------------------------------
-|
-| Replaces Scope options and sets default when options are null
-|
-*/
-(function(){
-  'use strict';
-  angular
-    .module('global.rangeslider')
-    .constant('sliderConstants', {
-      SLIDER: {
-        settings: {
-          from: 1,
-          to: 40,
-          step: 1,
-          smooth: true,
-          limits: false,
-          round: false,	
-          value: "3",
-          dimension: "",
-          vertical: false,
-          calculate: false,
-          onstatechange: false,
-          callback: false,
-          realtime: false
-        },
-        className: "jslider",
-        selector: ".jslider-",
-        css: {
-          visible : { visibility: "visible" },
-          hidden : { visibility: "hidden" }
-        }
-      },
-      EVENTS: {
-        
-      }
-  });
-
-}());
-(function(angular){
-  'use strict';
-
-  angular.module('global.rangeslider')
-    .factory('sliderDraggable', ['sliderUtils', function(sliderUtils) {
-
-    function Draggable(){
-      this._init.apply( this, arguments );
-    }
-
-    Draggable.prototype.oninit = function(){
-    };
-
-    Draggable.prototype.events = function(){
-    };
-
-    Draggable.prototype.onmousedown = function(){
-      this.pointer.css({ position: "absolute" });
-    };
-
-    Draggable.prototype.onmousemove = function( evt, x, y ){
-      this.pointer.css({ left: x, top: y });
-    };
-
-    Draggable.prototype.onmouseup = function(){};
-
-    Draggable.prototype.isDefault = {
-      drag: false,
-      clicked: false,
-      toclick: true,
-      mouseup: false
-    };
-
-    Draggable.prototype._init = function() {
-      if( arguments.length > 0 ){
-        this.pointer = arguments[0];
-        this.parent = arguments[2];
-
-        if (!this.pointer)
-          return;
-        //this.outer = $(".draggable-outer");
-
-        this.is = {};
-        angular.extend( this.is, this.isDefault );
-        var offset = sliderUtils.offset(this.pointer);
-
-        this.d = {
-          left: offset.left,
-          top: offset.top,
-          width: this.pointer[0].clientWidth,
-          height: this.pointer[0].clientHeight 
-        };
-
-        this.oninit.apply( this, arguments );
-
-        this._events();
-      }
-    };
-
-    Draggable.prototype._getPageCoords = function( event ){
-      if( event.targetTouches && event.targetTouches[0] ){
-        return { x: event.targetTouches[0].pageX, y: event.targetTouches[0].pageY };
-      } else
-      return { x: event.pageX, y: event.pageY };
-    };
-
-    Draggable.prototype._bindEvent = function( ptr, eventType, handler ){
-      var self = this;
-
-      if( this.supportTouches_ )
-        ptr[0].addEventListener( this.events_[ eventType ], handler, false );
-
-      else
-        ptr.bind( this.events_[ eventType ], handler );
-    };
-
-    Draggable.prototype._events = function(){
-      var self = this;
-
-      this.supportTouches_ = 'ontouchend' in document;
-      this.events_ = {
-        "click": this.supportTouches_ ? "touchstart" : "click",
-        "down": this.supportTouches_ ? "touchstart" : "mousedown",
-        "move": this.supportTouches_ ? "touchmove" : "mousemove",
-        "up"  : this.supportTouches_ ? "touchend" : "mouseup",
-        "mousedown"  : this.supportTouches_ ? "mousedown" : "mousedown"
-      };
-
-      var documentElt = angular.element(window.document);
-
-      this._bindEvent(documentElt, "move", function(event) {        
-        if(self.is.drag) {
-          event.stopPropagation();
-          event.preventDefault();
-          if (!self.parent.disabled) {
-            self._mousemove(event);            
-          }  
-        }
-      });
-      this._bindEvent(documentElt, "down", function(event) {
-        if(self.is.drag) {
-          event.stopPropagation();
-          event.preventDefault();
-        }
-      });
-      this._bindEvent(documentElt, "up", function(event) {        
-        self._mouseup(event);        
-      });
-
-      this._bindEvent( this.pointer, "down", function(event) {
-        self._mousedown( event );
-        return false;
-      });
-      this._bindEvent( this.pointer, "up", function(event) {
-        self._mouseup( event );
-      });      
-     
-      // TODO see if needed
-      this.events();
-    };
-
-    Draggable.prototype._mousedown = function( evt ){
-      this.is.drag = true;
-      this.is.clicked = false;
-      this.is.mouseup = false;   
-
-      var coords = this._getPageCoords( evt );
-      this.cx = coords.x - this.pointer[0].offsetLeft;
-      this.cy = coords.y - this.pointer[0].offsetTop;
-
-      angular.extend(this.d, {        
-        left: coords.x,
-        top: coords.y,
-        width: this.pointer[0].clientWidth,
-        height: this.pointer[0].clientHeight
-      });
-
-      if( this.outer && this.outer.get(0) ){
-        this.outer.css({ height: Math.max(this.outer.height(), $(document.body).height()), overflow: "hidden" });
-      }
-
-      this.onmousedown( evt );
-    };
-
-    Draggable.prototype._mousemove = function( evt ){
-      this.is.toclick = false;
-      var coords = this._getPageCoords( evt );
-      this.onmousemove( evt, coords.x - this.cx, coords.y - this.cy );
-    };    
-
-    Draggable.prototype._mouseup = function( evt ){
-      var oThis = this;
-
-      if( this.is.drag ){
-        this.is.drag = false;
-
-        var browser = sliderUtils.browser();
-
-        if( this.outer && this.outer.get(0) ) {
-
-          if( browser === 'mozilla' ){
-            this.outer.css({ overflow: "hidden" });
-          } else {
-            this.outer.css({ overflow: "visible" });
-          }
-
-          // TODO finish browser detection and this case, remove following line
-          this.outer.css({ height: "auto" });
-          // if( browser === 'ie' && $.browser.version == '6.0' ){
-          //   this.outer.css({ height: "100%" });
-          // } else {
-          //   this.outer.css({ height: "auto" });
-          // }
-          
-        }
-
-        this.onmouseup( evt );
-      }
-    };
-
-    return Draggable;
-  }]);
-}(angular));
-(function(angular){
-  'use strict';
-
-  angular.module('global.rangeslider')
-          .factory('SliderPointer', ['sliderDraggable', 'sliderUtils', function(sliderDraggable, sliderUtils) {
-
-    function SliderPointer() {
-      sliderDraggable.apply(this, arguments);
-    }
-
-    SliderPointer.prototype = new sliderDraggable();
-
-    SliderPointer.prototype.oninit = function( ptr, id, vertical, _constructor ) {
-      this.uid = id;
-      this.parent = _constructor;
-      this.value = {};
-      this.vertical = vertical;
-      this.settings = angular.copy(_constructor.settings);   
-      this.normalOrder = this.parent.settings.from < this.parent.settings.to;
-      this.threshold = this.parent.settings.threshold;   
-    };
-
-    SliderPointer.prototype.onmousedown = function( evt ) {
-      var off = sliderUtils.offset(this.parent.domNode);
-
-      var offset = {
-        left: off.left,
-        top: off.top,
-        width: this.parent.domNode[0].clientWidth,
-        height: this.parent.domNode[0].clientHeight
-      };
-
-      this._parent = {
-        offset: offset,
-        width: offset.width,
-        height: offset.height
-      };      
-
-      this.pointer.addClass("jslider-pointer-hover"); 
-      
-    };
-
-    SliderPointer.prototype.onmousemove = function( evt, x, y ){
-      var coords = this._getPageCoords( evt );      
-      this._set(!this.vertical ? this.calc( coords.x ) : this.calc( coords.y ));
-      if( this.settings.realtime && this.settings.cb && angular.isFunction(this.settings.cb) && this.allowed)
-        this.settings.cb.call( this.parent, this.parent.getValue(), !this.is.drag  );
-      
-    };
-
-    SliderPointer.prototype.onmouseup = function(evt){
-      if( this.settings.cb && angular.isFunction(this.settings.cb) && this.allowed)
-        this.settings.cb.call( this.parent, this.parent.getValue(), !this.is.drag );
-
-      if (!this.is.drag)
-        this.pointer.removeClass("jslider-pointer-hover");
-      
-    };
-
-    SliderPointer.prototype.limits = function( x ){
-      return this.parent.limits(x, this);
-    };
-
-    SliderPointer.prototype.calc = function( coords ){
-      return !this.vertical ? 
-        this.limits(((coords-this._parent.offset.left)*100)/this._parent.width)
-        :
-        this.limits(((coords-this._parent.offset.top)*100)/this._parent.height);
-    };
-
-    SliderPointer.prototype.set = function( value, opt_origin ){
-      this.value.origin = this.parent.round(value);
-      this._set(this.parent.valueToPrc(value,this), opt_origin);
-    };
-
-    SliderPointer.prototype._set = function( prc, opt_origin ){
-      this.allowed = true;      
-      this.value.origin = this.parent.prcToValue(prc);      
-      // check threshold      
-      if (this.threshold && this.parent.o.pointers[1]) {        
-        var v1 = this.parent.o.pointers[0].value.origin,
-            v2 = this.parent.o.pointers[1].value.origin;
-        this.allowed =  (this.normalOrder ? v2 - v1 : v1 - v2) >= this.threshold;              
-      }
-      // if(!opt_origin)
-              
-      if (!this.allowed){        
-        var otherPtr = this.parent.o.pointers[this.uid === 0 ? 1:0];
-        if (this.uid === 0)        
-          this.value.origin = this.normalOrder ? otherPtr.value.origin - this.threshold : otherPtr.value.origin + this.threshold;
-        else
-          this.value.origin = this.normalOrder ? otherPtr.value.origin + this.threshold : otherPtr.value.origin - this.threshold;
-        return;
-      }
-      this.value.prc = prc;
-
-      if (!this.vertical)
-        //Set the Placement of the Pointer
-        this.pointer.css({left:prc+"%"});
-      else
-        this.pointer.css({top:prc+"%", marginTop: -5});
-      this.parent.redraw(this);
-    };
-
-    return SliderPointer;
-  }]);
-}(angular));
-(function(angular){
-  'use strict';
-
-  angular.module('global.rangeslider')
-          .factory('sliderObject', ['SliderPointer', 'sliderConstants', 'sliderUtils', function(SliderPointer, sliderConstants, sliderUtils) {
-
-    function Slider(){
-      return this.init.apply(this, arguments);
-    }
-
-    Slider.prototype.init = function( inputNode, templateNode, settings ){   
-      this.settings = settings;            
-      this.inputNode = inputNode;
-      this.inputNode.addClass("ng-hide");
-
-      this.settings.interval = this.settings.to-this.settings.from;
-      
-      if(this.settings.calculate && angular.isFunction(this.settings.calculate))
-        this.nice = this.settings.calculate;
-
-      if(this.settings.onstatechange && angular.isFunction(this.settings.onstatechange))
-        this.onstatechange = this.settings.onstatechange;
-
-      this.css = sliderConstants.SLIDER.css;
-      this.is = {init: false};
-      this.o = {};
-      this.initValue = {};
-      this.isAsc = settings.from < settings.to;
-
-      this.create(templateNode);
-      
-      return this;
-    };
-
-    Slider.prototype.create = function( templateNode ){
-      // set skin class
-      //   if( this.settings.skin && this.settings.skin.length > 0 )
-      //     this.setSkin( this.settings.skin );
-
-      var self = this;
-
-      this.domNode = templateNode;
-
-      var divs = this.domNode.find('div'),
-          is = this.domNode.find('i'),
-          
-          angElt = angular.element,
-          angExt = angular.extend,
-          angForEach = angular.forEach,
-          
-          pointer1 = angElt(divs[1]),
-          pointer2 = angElt(divs[2]),
-          pointerLabel1 = angElt(divs[5]),
-          pointerLabel2 = angElt(divs[6]),
-          
-          indicatorLeft = angElt(is[0]),
-          indicatorRight = angElt(is[1]),
-          
-          range = angElt(is[2]),
-          
-          indicator1 = angElt(is[3]),
-          indicator2 = angElt(is[4]),
-          indicator3 = angElt(is[5]),
-          indicator4 = angElt(is[6]),
-          
-          pointers = [pointer1, pointer2],          
-          
-          off = sliderUtils.offset(this.domNode),
-          offset = {
-            left: off.left,
-            top: off.top,
-            width: this.domNode[0].clientWidth,
-            height: this.domNode[0].clientHeight
-          },          
-          
-          values = self.settings.value.split(';');
-
-      this.sizes = { 
-        domWidth: this.domNode[0].clientWidth,
-        domHeight: this.domNode[0].clientHeight,
-        domOffset: offset 
-      };
-
-      // find some objects
-      angExt(this.o, {
-        pointers: {},
-        labels: { 0: { o : pointerLabel1 }, 1: { o : pointerLabel2 } },
-        limits: { 0: angular.element(divs[3]), 1: angular.element(divs[4]) },
-        indicators: { 0: indicator1, 1: indicator2, 2: indicator3, 3: indicator4 }
-      });
-
-      angExt(this.o.labels[0], {
-        value: this.o.labels[0].o.find("span")
-      });
-
-      angExt(this.o.labels[1], {
-        value: this.o.labels[1].o.find("span")
-      });
-      
-      // single pointer
-      this.settings.single = !self.settings.value.split(";")[1];       
-
-      if (this.settings.single) {
-        range.addClass('ng-hide');
-      }
-
-      angForEach(pointers, function(pointer, key) {
-        self.settings = angular.copy(self.settings);
-
-        var value = values[key],
-            prev,
-            prevValue,
-            test,
-            value1,
-            offset;
-
-        if(value) {
-          self.o.pointers[key] = new SliderPointer(pointer, key, self.settings.vertical, self);
-
-          prev = values[key-1];
-          prevValue = prev ? parseInt(prev, 10 ) : undefined;
-
-          value = self.settings.round ? parseFloat(value) : parseInt(value, 10);
-
-          if( prev && self.isAsc ? value < prevValue : value > prevValue ) {
-            value = prev;
-          }
-
-          // limit threshold adjust
-/*          test = self.isAsc ? value < self.settings.from : value > self.settings.from,
-          value1 = test ? self.settings.from : value;              */
-
-          test = self.isAsc ? value > self.settings.to : value < self.settings.to;        
-          value1 = test ? self.settings.to : value;
-
-          self.o.pointers[key].set( value1, true );
-          
-          // reinit position d
-          offset = sliderUtils.offset(self.o.pointers[key].pointer);
-
-          self.o.pointers[key].d = {
-            left: offset.left,
-            top: offset.top
-          };          
-        }        
-      });
-
-      self.domNode.bind('mousedown', self.clickHandler.apply(self));
-
-      this.o.value = angElt(this.domNode.find("i")[2]);      
-      this.is.init = true;
-
-      // CSS SKIN
-      if (this.settings.css) {        
-        indicatorLeft.css(this.settings.css.background ? this.settings.css.background : {});
-        indicatorRight.css(this.settings.css.background ? this.settings.css.background : {});
-        if (!this.o.pointers[1]) {
-          indicator1.css(this.settings.css.before ? this.settings.css.before : {});          
-          indicator4.css(this.settings.css.after ? this.settings.css.after : {});
-        }
-
-        indicator2.css(this.settings.css.default ? this.settings.css.default : {});  
-        indicator3.css(this.settings.css.default ? this.settings.css.default : {});
-        
-        range.css(this.settings.css.range ? this.settings.css.range : {});
-        pointer1.css(this.settings.css.pointer ? this.settings.css.pointer : {});
-        pointer2.css(this.settings.css.pointer ? this.settings.css.pointer : {});
-      }
-
-      angForEach(this.o.pointers, function(pointer, key){
-        self.redraw(pointer);
-      });
-
-    };
-
-    Slider.prototype.clickHandler = function() {
-      var self = this;      
-
-      // in case of showing/hiding
-      var resetPtrSize = function( ptr ) {
-        var ptr1 = self.o.pointers[0].ptr,
-            ptr2 = self.o.pointers[1].ptr,
-            offset1 = sliderUtils.offset(ptr1),
-            offset2 = sliderUtils.offset(ptr2);
-
-        self.o.pointers[0].d = {
-          left: offset1.left,
-          top: offset1.top,
-          width: ptr1[0].clientWidth,
-          height: ptr1[0].clientHeight
-        };
-
-        self.o.pointers[1].d = {
-          left: offset2.left,
-          top: offset2.top,
-          width: ptr2[0].clientWidth,
-          height: ptr2[0].clientHeight
-        };
-      };
-
-      return function(evt) {
-        if (self.disabled)
-          return;        
-        var vertical = self.settings.vertical,
-            targetIdx = 0,
-            _off = sliderUtils.offset(self.domNode),
-            firstPtr = self.o.pointers[0],
-            secondPtr = self.o.pointers[1] ? self.o.pointers[1] : null,
-            tmpPtr,
-            targetPtr,
-            evtPosition = evt.originalEvent ? evt.originalEvent: evt,
-            mouse = vertical ? evtPosition.pageY : evtPosition.pageX,
-            offset,
-            css = vertical ? 'top' : 'left';
-
-        if (!self.isAsc && secondPtr) {
-          tmpPtr = secondPtr;
-          secondPtr = firstPtr;
-          firstPtr = tmpPtr;
-        }        
-
-        offset = { left: _off.left, top: _off.top, width: self.domNode[0].clientWidth, height: self.domNode[0].clientHeight };              
-        targetPtr = self.o.pointers[targetIdx];
-        
-        if (secondPtr) {
-          if (!secondPtr.d.width) {
-            resetPtrSize();
-          }         
-          var middleGap = (secondPtr.d[css] - firstPtr.d[css]) / 2,
-              ptr = firstPtr.d[css],
-              mousePosBetween = mouse - ptr,
-              test = mousePosBetween > middleGap;
-
-          if (test) {
-            targetPtr = self.isAsc ? secondPtr : firstPtr;
-          }
-        }
-        targetPtr._parent = {offset: offset, width: offset.width, height: offset.height};
-        var coords = firstPtr._getPageCoords( evt );          
-        targetPtr.cx = coords.x - targetPtr.d.left;
-        targetPtr.cy = coords.y - targetPtr.d.top;      
-        targetPtr.onmousemove( evt, coords.x, coords.y);
-        targetPtr.onmouseup();        
-        angular.extend(targetPtr.d, {
-           left: coords.x,
-           top: coords.y          
-        });        
-        
-        self.redraw(targetPtr);
-        return false;
-      };
-    };
-
-
-    Slider.prototype.disable = function( bool ) {   
-      this.disabled = bool;
-    };    
-
-    Slider.prototype.nice = function( value ){
-      return value;
-    };
-
-    Slider.prototype.onstatechange = function(){};
-
-    Slider.prototype.limits = function( x, pointer ){
-      // smooth
-      if(!this.settings.smooth){
-        var step = this.settings.step*100 / ( this.settings.interval );
-        x = Math.round( x/step ) * step;
-      }
-
-      if (pointer) {
-        var another = this.o.pointers[1-pointer.uid];
-        if(another && pointer.uid && x < another.value.prc) x = another.value.prc;
-        if(another && !pointer.uid && x > another.value.prc) x = another.value.prc;
-      }
-      // base limit
-      if(x < 0) x = 0;
-      if(x > 100) x = 100;
-
-      return Math.round(x*10) / 10;
-    };    
-
-    Slider.prototype.getPointers = function(){
-      return this.o.pointers;
-    };
-
-    Slider.prototype.generateScale = function(){
-      if (this.settings.scale && this.settings.scale.length > 0){
-        var str = "",
-            s = this.settings.scale,
-        // FIX Big Scale Failure #34
-        // var prc = Math.round((100/(s.length-1))*10)/10;
-            prc,
-            label,
-            duplicate = {},
-            position = this.settings.vertical ? 'top' : 'left',
-            i=0;
-        for(; i < s.length; i++) {
-          if (!s[i].val) {
-             prc = (100/(s.length-1)).toFixed(2);
-             str += '<span style="'+ position + ': ' + i*prc + '%">' + ( s[i] != '|' ? '<ins>' + s[i] + '</ins>' : '' ) + '</span>';
-          }
-
-          if (s[i].val <= this.settings.to && s[i].val >= this.settings.from &&  ! duplicate[s[i].val]) {            
-            duplicate[s[i].val] = true;
-            prc = this.valueToPrc(s[i].val);
-            label = s[i].label ? s[i].label : s[i].val;
-            str += '<span style="'+ position + ': ' + prc + '%">' + '<ins>' + label + '</ins>' + '</span>';
-          }
-        }
-        return str;
-      }
-
-      return "";
-    };
-
-    Slider.prototype.onresize = function(){
-      var self = this;
-
-      this.sizes = {
-        domWidth: this.domNode[0].clientWidth,
-        domHeight: this.domNode[0].clientHeight,
-        domOffset: {
-          left: this.domNode[0].offsetLeft,
-          top: this.domNode[0].offsetTop,
-          width: this.domNode[0].clientWidth,
-          height: this.domNode[0].clientHeight
-        }
-      };
-
-      angular.forEach(this.o.pointers, function(ptr, key) {
-        self.redraw(ptr);
-      });
-    };
-
-    Slider.prototype.update = function(){
-      this.onresize();
-      this.drawScale();
-    };    
-
-    Slider.prototype.drawScale = function( scaleDiv ){
-      angular.forEach(angular.element(scaleDiv).find('ins'), function(scaleLabel, key) {
-        scaleLabel.style.marginLeft = - scaleLabel.clientWidth / 2;
-      });
-    };    
-
-    Slider.prototype.redraw = function( pointer ){      
-      if(!this.is.init) {
-        // this.settings.single
-        if(this.o.pointers[0] && !this.o.pointers[1]) {
-          this.originValue = this.o.pointers[0].value.prc;
-          this.o.indicators[0].css(!this.settings.vertical ? {left:0, width:this.o.pointers[0].value.prc + "%"} : {top:0, height:this.o.pointers[0].value.prc + "%"});
-          this.o.indicators[1].css(!this.settings.vertical ? {left:this.o.pointers[0].value.prc + "%"} : {top:this.o.pointers[0].value.prc + "%"});
-          this.o.indicators[3].css(!this.settings.vertical ? {left:this.o.pointers[0].value.prc + "%"} : {top:this.o.pointers[0].value.prc + "%"});
-        } else {
-          this.o.indicators[2].css(!this.settings.vertical ? {left:this.o.pointers[1].value.prc + "%"} : {top:this.o.pointers[1].value.prc + "%"});
-          this.o.indicators[0].css(!this.settings.vertical ? {left:0, width:"0"} : {top:0, height:"0"});
-          this.o.indicators[3].css(!this.settings.vertical ? {left:"0", width:"0"} : {top:"0", height:"0"});
-        }
-
-        return false;
-      }
-
-      this.setValue();
-
-      var newPos,
-          newWidth;
-
-      // redraw range line      
-      if(this.o.pointers[0] && this.o.pointers[1]) {
-        newPos = !this.settings.vertical ? 
-          { left: this.o.pointers[0].value.prc + "%", width: ( this.o.pointers[1].value.prc - this.o.pointers[0].value.prc ) + "%" }
-          :
-          { top: this.o.pointers[0].value.prc + "%", height: ( this.o.pointers[1].value.prc - this.o.pointers[0].value.prc ) + "%" };
-        
-        this.o.value.css(newPos);
-
-        // both pointer overlap on limits
-        if (this.o.pointers[0].value.prc === this.o.pointers[1].value.prc) {
-          this.o.pointers[1].ptr.css("z-index", this.o.pointers[0].value.prc === 0 ? '3' : '1');
-        }
-
-      }
-      
-      if(this.o.pointers[0] && !this.o.pointers[1]) {
-        newWidth = this.o.pointers[0].value.prc - this.originValue;
-        if (newWidth >= 0) {
-          this.o.indicators[3].css(!this.settings.vertical ? {width: newWidth + "%"} : {height: newWidth + "%"});
-        }
-        else {
-          this.o.indicators[3].css(!this.settings.vertical ? {width: 0} : {height: 0});
-        }
-
-        if (this.o.pointers[0].value.prc < this.originValue) {
-         this.o.indicators[0].css(!this.settings.vertical ? {width: this.o.pointers[0].value.prc + "%"} : {height: this.o.pointers[0].value.prc + "%"});
-        }
-        else {
-          this.o.indicators[0].css(!this.settings.vertical ? {width: this.originValue + "%"} : {height: this.originValue + "%"});
-        }        
-
-      }      
-
-      var value = this.nice(pointer.value.origin);
-      if (this.settings.modelLabels) {
-        if (angular.isFunction(this.settings.modelLabels)) {
-          value = this.settings.modelLabels(value);
-        }
-        else {
-          value = this.settings.modelLabels[value] !== undefined ? this.settings.modelLabels[value] : value;
-        }
-      }
-      
-      this.o.labels[pointer.uid].value.html(value);            
-
-      // redraw position of labels
-      this.redrawLabels( pointer );
-    };
-
-    
-
-    Slider.prototype.redrawLabels = function( pointer ) {
-
-      /** Set the position of the value Label */
-      function setPosition( label, sizes, prc ) {
-        sizes.margin = -sizes.label/2;
-        var domSize = !self.settings.vertical ? self.sizes.domWidth : self.sizes.domHeight;
-
-        if (self.sizes.domWidth) {
-          // left limit
-          var label_left = sizes.border + sizes.margin;
-          if(label_left < -100)
-            sizes.margin -= label_left;
-
-          // right limit
-          if(self.sizes.domWidth > 0 && sizes.border+sizes.label / 2 > domSize+100){
-            sizes.margin = 0;
-            sizes.right = true;
-          } else
-          sizes.right = false;  
-        }        
-
-        if (!self.settings.vertical)        
-          label.o.css({ left: prc + "%", marginLeft: sizes.margin+"px", right: "auto"});
-        else
-          label.o.css({ top: prc + "%", marginLeft: "20px", marginTop: sizes.margin, bottom: "auto" });
-        if(sizes.right && self.sizes.domWidth > 0) {
-          if (!self.settings.vertical)
-            label.o.css({ left: "auto", right: 0 });
-          else
-            label.o.css({ top: "auto", bottom: 0 });
-        }
-        return sizes;
-      }
-
-      var self = this,
-          label = this.o.labels[pointer.uid],
-          prc = pointer.value.prc,
-          // case hidden
-          labelWidthSize = label.o[0].offsetWidth === 0 ? (label.o[0].textContent.length)*7 : label.o[0].offsetWidth;
-      
-      this.sizes.domWidth = this.domNode[0].clientWidth;
-      this.sizes.domHeight = this.domNode[0].clientHeight;      
-
-      var sizes = {
-        label: !self.settings.vertical ? labelWidthSize : label.o[0].offsetHeight,
-        right: false,
-        border: (prc * (!self.settings.vertical ? this.sizes.domWidth: this.sizes.domHeight)) / 100
-      };
-
-      var anotherIdx = pointer.uid === 0 ? 1:0,
-          anotherLabel,
-          anotherPtr;          
-
-      if (!this.settings.single && !this.settings.vertical){
-        // glue if near;        
-        anotherLabel = this.o.labels[anotherIdx];
-        anotherPtr = this.o.pointers[anotherIdx];          
-        
-
-        var label1 = this.o.labels[0],
-            label2 = this.o.labels[1],
-            ptr1 = this.o.pointers[0],
-            ptr2 = this.o.pointers[1],
-            gapBetweenLabel = ptr2.ptr[0].offsetLeft - ptr1.ptr[0].offsetLeft,
-            value = this.nice(anotherPtr.value.origin);
-
-        label1.o.css(this.css.visible);
-        label2.o.css(this.css.visible);
-
-        value = this.getLabelValue(value);
-        
-        if (gapBetweenLabel + 10 < label1.o[0].offsetWidth+label2.o[0].offsetWidth) {
-          anotherLabel.o.css(this.css.hidden);
-          
-          anotherLabel.value.html(value);
-          prc = (anotherPtr.value.prc - prc) / 2 + prc;
-          if(anotherPtr.value.prc != pointer.value.prc){
-            value = this.nice(this.o.pointers[0].value.origin);
-            var value1 = this.nice(this.o.pointers[1].value.origin);
-            value = this.getLabelValue(value);
-            value1 = this.getLabelValue(value1);             
-            
-            label.value.html(value + "&nbsp;&ndash;&nbsp;" + value1);
-            sizes.label = label.o[0].offsetWidth;
-            sizes.border = (prc * domSize) / 100;
-          }
-        }
-        else {          
-          anotherLabel.value.html(value);
-          anotherLabel.o.css(this.css.visible);
-        }              
-      }
-
-      //Let the Label Position
-      sizes = setPosition(label, sizes, prc);
-
-      var domSize = !self.settings.vertical ? self.sizes.domWidth : self.sizes.domHeight;
-
-      /* draw second label */
-      if(anotherLabel){
-        // case hidden
-        var labelWidthSize2 = label.o[0].offsetWidth === 0 ? (label.o[0].textContent.length/2)*7 : label.o[0].offsetWidth,
-            sizes2 = {
-          label: !self.settings.vertical ? labelWidthSize2: anotherLabel.o[0].offsetHeight,
-          right: false,
-          border: (anotherPtr.value.prc * this.sizes.domWidth) / 100
-        };
-        sizes = setPosition(anotherLabel, sizes2, anotherPtr.value.prc);
-      }
-      
-      this.redrawLimits();
-    };    
-
-    Slider.prototype.redrawLimits = function() {
-      if (this.settings.limits) {
-
-        var limits = [true, true],
-            i = 0;
-
-        for(var key in this.o.pointers){
-
-          if(!this.settings.single || key === 0){
-
-            var pointer = this.o.pointers[key],
-                label = this.o.labels[pointer.uid],
-                label_left = label.o[0].offsetLeft - this.sizes.domOffset.left,
-                limit = this.o.limits[0];
-
-            if(label_left < limit[0].clientWidth) {
-              limits[0] = false;
-            }
-
-            limit = this.o.limits[1];
-            if(label_left + label.o[0].clientWidth > this.sizes.domWidth - limit[0].clientWidth){
-              limits[1] = false;  
-            }
-              
-          }
-        }
-
-        for(; i < limits.length; i++){
-          if(limits[i]){ // TODO animate
-            angular.element(this.o.limits[i]).addClass("animate-show");          
-          }
-          else{
-            angular.element(this.o.limits[i]).addClass("animate-hidden");
-          }  
-        }
-      }
-    };
-
-    Slider.prototype.setValue = function(){
-      var value = this.getValue();
-      this.inputNode.attr("value", value);
-      this.onstatechange.call(this, value, this.inputNode);
-    };
-
-    Slider.prototype.getValue = function(){
-      if(!this.is.init) return false;
-      var $this = this;
-
-      var value = "";
-      angular.forEach(this.o.pointers, function(pointer, key){
-        if(pointer.value.prc !== undefined && !isNaN(pointer.value.prc)) 
-          value += (key > 0 ? ";" : "") + $this.prcToValue(pointer.value.prc);
-      });
-      return value;
-    };
-
-    Slider.prototype.getLabelValue = function(value){
-      if (this.settings.modelLabels) {
-        if (angular.isFunction(this.settings.modelLabels)) {                
-          return this.settings.modelLabels(value);
-        }
-        else {
-          return this.settings.modelLabels[value] !== undefined ? this.settings.modelLabels[value] : value;
-        }
-      }  
-      
-      return value;
-    };
-
-    Slider.prototype.getPrcValue = function(){
-      if(!this.is.init) return false;
-      var $this = this;
-
-      var value = "";
-      // TODO remove jquery and see if % value is nice feature
-      /*$.each(this.o.pointers, function(i){
-        if(this.value.prc !== undefined && !isNaN(this.value.prc)) value += (i > 0 ? ";" : "") + this.value.prc;
-      });*/
-      return value;
-    };
-
-    Slider.prototype.prcToValue = function( prc ){
-      var value;
-      if (this.settings.heterogeneity && this.settings.heterogeneity.length > 0){
-        var h = this.settings.heterogeneity,
-            _start = 0,
-            _from = this.settings.from,
-            i = 0;
-
-        for (; i <= h.length; i++){
-          var v;
-          if( h[i]) 
-            v = h[i].split("/");
-          else
-            v = [100, this.settings.to];        
-
-          if (prc >= _start && prc <= v[0]) {
-            value = _from + ((prc-_start) * (v[1]-_from)) / (v[0]-_start);
-          }
-
-          _start = v[0];
-          _from = v[1];
-        }
-      } 
-      else {
-        value = this.settings.from + (prc * this.settings.interval) / 100;
-      }   
-
-      return this.round(value);
-    };
-
-    Slider.prototype.valueToPrc = function( value, pointer ){
-      var prc;
-      if (this.settings.heterogeneity && this.settings.heterogeneity.length > 0){
-        var h = this.settings.heterogeneity,
-            _start = 0,
-            _from = this.settings.from,
-            i = 0;
-
-        for (; i <= h.length; i++) {
-          var v;
-          if(h[i])
-            v = h[i].split("/");
-          else
-            v = [100, this.settings.to];        
-
-          if(value >= _from && value <= v[1]){
-            if (pointer) {
-              prc = pointer.limits(_start + (value-_from)*(v[0]-_start)/(v[1]-_from));
-            } else {
-              prc = this.limits(_start + (value-_from)*(v[0]-_start)/(v[1]-_from));
-            }
-          }
-
-          _start = v[0]; _from = v[1];
-        }
-
-      } else {
-        if (pointer) {
-          prc = pointer.limits((value-this.settings.from)*100/this.settings.interval);
-        } else {
-          prc = this.limits((value-this.settings.from)*100/this.settings.interval);
-        }
-      }
-
-      return prc;
-    };
-
-    Slider.prototype.round = function( value ){
-      value = Math.round(value / this.settings.step) * this.settings.step;
-
-      if(this.settings.round) 
-        value = Math.round(value * Math.pow(10, this.settings.round)) / Math.pow(10, this.settings.round);
-      else 
-        value = Math.round(value);
-      return value;      
-    };
-
-    return Slider;
-
-  }]);
-}(angular));
-/*
-|--------------------------------------------------------------------------
-| Range Slider Template
-|--------------------------------------------------------------------------
-|
-| The template to inject in the rangeslider
-| Not included in regular templates because it 
-| needs be injected into sliderDirective
-*/
-
-(function() {
-  'use strict';
-
-  angular
-    .module('global.rangeslider')
-    .run(rangeSliderTemplate);
-
-    rangeSliderTemplate.$inject = ['$templateCache'];
-
-    function rangeSliderTemplate ($templateCache) {
-       $templateCache.put('range-slider/range-slider.html',
-        '<span ng-class="mainSliderClass" id="{{sliderTmplId}}">' +
-          '<table><tr><td>' +
-            '<div class="jslider-bg">' +
-              '<i class="left"></i>'+
-              '<i class="right"></i>'+
-              '<i class="range"></i>'+
-              '<i class="before"></i>'+
-              '<i class="default"></i>'+
-              '<i class="default"></i>'+
-              '<i class="after"></i>'+          
-            '</div>' +
-            '<div class="jslider-pointer"></div>' +
-            '<div class="jslider-pointer jslider-pointer-to"></div>' +
-            '<div class="jslider-label" ng-show="options.limits"><span ng-bind="limitValue(options.from)"></span>{{options.dimension}}</div>' +
-            '<div class="jslider-label jslider-label-to" ng-show="options.limits"><span ng-bind="limitValue(options.to)"></span>{{options.dimension}}</div>' +
-            '<div class="jslider-value"><span></span>{{options.dimension}}</div>' +
-            '<div class="jslider-value jslider-value-to"><span></span>{{options.dimension}}</div>' +
-            '<div class="jslider-scale" id="{{sliderScaleDivTmplId}}"></div>' +
-          '</td></tr></table>' +
-        '</span>');
-    }  
-})();
-
-/*
-|--------------------------------------------------------------------------
-| Utility Factory for Range Slider
-|--------------------------------------------------------------------------
-|
-| Needs to be moved into shared/common.hs
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('global.rangeslider')
-        .factory('sliderUtils', sliderUtils);
-
-    sliderUtils.$inject = ['$window'];
-
-    /* @ngInject */
-    function sliderUtils($window) {
-        var service = {
-            offset: offset,
-            browser : browser
-        };
-        
-        return service;
-
-        ////////////////
-
-        /**
-         * Return offset of element
-         * @note should be replaced with JQuery
-         * @param  {dom} element 
-         * @return {offset.left, offset.top}         
-         */
-        function offset(element) {
-          var rawDom = element[0]; 
-          var _x = 0; 
-          var _y = 0; 
-          var body = document.documentElement || document.body; 
-          var scrollX = window.pageXOffset || body.scrollLeft; 
-          var scrollY = window.pageYOffset || body.scrollTop; 
-          _x = rawDom.getBoundingClientRect().left + scrollX; 
-          _y = rawDom.getBoundingClientRect().top + scrollY; 
-          return { left: _x, top:_y };
-        }
-
-        /**
-         * Browser Detection
-         * @note angularAwesomeSlider author daul not finished yet
-         * @return {string} 
-         */
-        function browser() {
-          var userAgent = $window.navigator.userAgent;        
-          var browsers = {mozilla: /mozilla/i, chrome: /chrome/i, safari: /safari/i, firefox: /firefox/i, ie: /internet explorer/i};
-          for(var key in browsers) {
-            if (browsers[key].test(userAgent)) {
-              return key;
-            }
-          }
-          return 'unknown';
-        }
-    }
 })();

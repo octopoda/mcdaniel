@@ -23,14 +23,16 @@
         var directive = {
             link: link,
             restrict: 'A',
-            template: '<a href="#"><i class="fa fa-facebook"></i></a>'
+            scope: {
+                title: "@"
+            }
         };
         
         return directive;
 
         function link(scope, element, attrs) {
-        	var url = $location.absUrl(),
-                fbLink = buildLink(url);
+            var url = $location.absUrl(),
+                fbLink = buildLink(url, scope.title);
                 
             jq(element[0]).on('click', function (e) {
                 popup(fbLink, 700, 500);
@@ -46,10 +48,19 @@
      * @param  {string} url 
      * @return {string}     
      */
-    function buildLink(url) {
-    	//TODO: add description 
-    	return 'https://www.facebook.com/sharer/sharer.php?u=' + url + '&display=popup';
-	}
+    function buildLink(url, title) {
+        //TODO: add description 
+        // return 'http://www.facebook.com/dialog/feed?app_id=556572864519365&caption=' + title + '&display=popup&link=' + url;
+
+        var url = 'https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2F';
+        var uri = 'https%3A%2F%2Fdevelopers.facebook.com%2Ftools%2Fexplorer';
+
+        return 'https://www.facebook.com/dialog/share?' +
+                  'app_id=145634995501895' +
+                  '&display=popup' +
+                  '&href=' + url + 
+                  '&redirect_uri=' + uri;
+    }
 
     
     /**
@@ -64,5 +75,5 @@
     }
 
 
-})();	
+})();   
 

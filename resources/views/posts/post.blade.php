@@ -19,6 +19,13 @@
 				<a href="{{ route('postForAuthors', strtolower(str_replace(' ', '-', $post->blog->user->name))) }}">{{ $post->blog->user->name }}</a>
 				<small>{{ $post->publish_date }}</small>
 			</h4>
+
+			<ul class="article__share-links">
+				<li data-facebook-share data-title="{{ $post->title }}"><i class="fa fa-facebook"></i></li>
+				<li data-twitter-share data-title="{{ $post->title }}"><i class="fa fa-twitter"></i></li>
+				<li data-pinterest-share data-title="{{ $post->title }}" data-media="{{ $post->post_facebook }}"><i class="fa fa-pinterest"></i></li>
+				<li data-linkedin-share data-title="{{ $post->title }}" data-summary="{{ $post->summary }}"><i class="fa fa-linkedin"></i></li>
+			</ul>
 			
 		</header>
 

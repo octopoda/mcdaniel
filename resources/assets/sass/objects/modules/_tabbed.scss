@@ -1,11 +1,16 @@
 .m-tabbed {
 	position: relative;
+	@include container;
+
 }
 
 
 .m-tabbed-info {
+	width:100%;
 	position: absolute;
 	opacity:0;
+	// border: 1px solid #000;
+	margin:auto;
 	@include transition(opacity ease-in 0.4s);
 
 	&.open {

@@ -85,51 +85,53 @@ $header = [
 		</div>
 
 
-		<div class="sports__packages green-gradient m-tabbed">
-			<div class="row g-two-columns m-tabbed-info open" id="sustain">
-				<section class="sports-description__right">
-					<h2>Sustain</h2>
-					<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past and what allows us to give you the most personally tailored consultations.</p>
-				</section>
-				<section class="sports-description__left">
-					<h4>How We Help Empower You</h4>
-							<ul>
-								<li>Detailed evaluation of your food journal</li>
-								<li>(Optional computerized nutritional analysis)</li>
-								<li>Personalized eating strategies and meal plans for optimal results and health</li>
-								<li>Development of your foundational action plan</li>
-								<li>Tailored follow-up plan</li>
-							</ul>
+		<div class="sports__packages green-gradient">
+			<div class="m-tabbed">
+				<div class="row g-two-columns m-tabbed-info open" id="sustain">
+					<section class="sports-description__right">
+						<h2>Sustain</h2>
+						<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past and what allows us to give you the most personally tailored consultations.</p>
+					</section>
+					<section class="sports-description__left">
+						<h4>How We Help Empower You</h4>
+								<ul>
+									<li>Detailed evaluation of your food journal</li>
+									<li>(Optional computerized nutritional analysis)</li>
+									<li>Personalized eating strategies and meal plans for optimal results and health</li>
+									<li>Development of your foundational action plan</li>
+									<li>Tailored follow-up plan</li>
+								</ul>
 
-							<p class="legal">Prior to consultation, you will need to complete a client contract and comprehensive nutritional assessment, found here. Please bring the completed paperwork to your initial consultation. If you desire a computerized nutritional analysis of your 3-day food journal, we will complete this prior to the consult for an additional fee of $30. During our initial consult, we will review your information to glean insights into your unique eating habits, lifestyle needs, experience with weight loss, and areas of focus.</p>
-							<p class="legal">Follow-up visits are highly recommended. These sessions support your success and allow us to answer any questions you might have after implementing initial recommendations. These sessions can be completed by phone or in-person. </p>
-				</section>
-			</div>
+								<p class="legal">Prior to consultation, you will need to complete a client contract and comprehensive nutritional assessment, found here. Please bring the completed paperwork to your initial consultation. If you desire a computerized nutritional analysis of your 3-day food journal, we will complete this prior to the consult for an additional fee of $30. During our initial consult, we will review your information to glean insights into your unique eating habits, lifestyle needs, experience with weight loss, and areas of focus.</p>
+								<p class="legal">Follow-up visits are highly recommended. These sessions support your success and allow us to answer any questions you might have after implementing initial recommendations. These sessions can be completed by phone or in-person. </p>
+					</section>
+				</div>
 			
 
-			<div class="row g-two-columns m-tabbed-info" id="premium">
-				<section class="sports-description__right">
-					<h2>Sustain Premium</h2>
-					<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past and what allows us to give you the most personally tailored consultations.</p>
-				</section>
-				<section class="sports-description__left">
-					<h4>Setting you up for Success</h4>
-							<ul>
-								<li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, praesentium.</li>
-								<li>Nobis, voluptates odio eaque provident harum cupiditate a ullam quas?</li>
-								<li>In consequuntur maiores nihil nemo soluta distinctio, cum quibusdam quos?</li>
-								<li>Sed quam ea illo placeat ipsum mollitia veritatis necessitatibus qui.</li>
-								<li>Omnis sequi eveniet ratione ipsam quas dolorem quod, obcaecati iste!</li>
-							</ul>
+				<div class="row g-two-columns m-tabbed-info" id="premium">
+					<section class="sports-description__right">
+						<h2>Sustain Premium</h2>
+						<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past and what allows us to give you the most personally tailored consultations.</p>
+					</section>
+					<section class="sports-description__left">
+						<h4>Setting you up for Success</h4>
+								<ul>
+									<li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, praesentium.</li>
+									<li>Nobis, voluptates odio eaque provident harum cupiditate a ullam quas?</li>
+									<li>In consequuntur maiores nihil nemo soluta distinctio, cum quibusdam quos?</li>
+									<li>Sed quam ea illo placeat ipsum mollitia veritatis necessitatibus qui.</li>
+									<li>Omnis sequi eveniet ratione ipsam quas dolorem quod, obcaecati iste!</li>
+								</ul>
 
-							<p class="legal">Prior to consultation, you will need to complete a client contract and comprehensive nutritional assessment, found here. Please bring the completed paperwork to your initial consultation. If you desire a computerized nutritional analysis of your 3-day food journal, we will complete this prior to the consult for an additional fee of $30. During our initial consult, we will review your information to glean insights into your unique eating habits, lifestyle needs, experience with weight loss, and areas of focus.</p>
-							
-				</section>
-			</div>
+								<p class="legal">Prior to consultation, you will need to complete a client contract and comprehensive nutritional assessment, found here. Please bring the completed paperwork to your initial consultation. If you desire a computerized nutritional analysis of your 3-day food journal, we will complete this prior to the consult for an additional fee of $30. During our initial consult, we will review your information to glean insights into your unique eating habits, lifestyle needs, experience with weight loss, and areas of focus.</p>
+								
+					</section>
+				</div>
 			
-			<div class="row sales-button">
-				<div class="button">
-					<a href="">Setup a Individual Consultation</a>
+				<div class="row sales-button">
+					<div class="button">
+						<a href="">Setup a Individual Consultation</a>
+					</div>
 				</div>
 			</div>
 		</div>

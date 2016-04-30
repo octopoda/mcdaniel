@@ -1,14 +1,24 @@
 <footer class="article__footer" id="articleFooter">
-	<div class="article__footer--close phone-only"><i class="material-icons">close</i></div>
+	<div class="article__footer--close"><i class="material-icons">close</i></div>
 	<div class="row">
-		<h4 class="article__footer--title"> Get Fresh Nutrition Articles<small> Delivered to Your Inbox</small> </h4>
+		<h4 class="article__footer--title"> Get Fresh <span>Nutrition Articles</span><small> Delivered to Your Inbox</small> </h4>
 		<div class="article__footer--mailchimp">
-			 <form id="mailChimpSubscribe">
-			 	<div class="input-field">
-					<input type="email" name="email" required placeholder="Enter Your Email Address" class="m8 col">
-			 		<button type="submit" class="btn waves-effect waves-light z-depth-1" class="col m4">Subscribe</button>
+			 <form id="mailChimpSubscribe" data-ng-submit="vd.submitMailChimp()" data-ng-if="!vd.success">
+			 	<div class="form-group">
+			 		<input type="email" name="email" id="email" placeholder="Enter Your Email Address" data-ng-model="vd.formData.email" required >
+					<div class="input-errors" ng-messages="mailChimpSubscribe.email.$error" ng-if="mailChimpSubscribe.email.$dirty">
+						<small class="error" ng-message="required">Please provide a valid email</small>
+					</div>	
+			 		<button class="button__loading {! vd.loading !}" ng-disabled="mailChimpSubscribe.$invalid">
+						<div class="progress-spinner"></div>
+						<div class="button-text">Subscribe</div> 
+					</button>	
 			 	</div>
 			 </form>
+
+			 <div class="article__footer--success" data-ng-if="vd.success">
+			 	<h4>{{ vd.message }}</h4>
+			 </div>
 		</div>
 	</div>
 </footer>

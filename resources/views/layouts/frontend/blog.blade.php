@@ -20,11 +20,11 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 
   <!-- Facebook Metadata /-->
-  <meta property="fb:page_id" content=""> <!-- TODO -->
   <meta property="og:image" content="images/icons/facebook.jpg">
   <meta property="og:description" content="{{ $pageDescription }}">
   <meta property="og:title" content="{{ $pageTitle }}">
-
+  <meta property="og:url" content="http://example.com/my_article.html" />
+  
   <!-- Google+ Metadata /-->
   <meta itemprop="name" content="">
   <meta itemprop="description" content="{{ $pageDescription }}">
@@ -64,6 +64,24 @@
   <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '556572864519365',
+          xfbml      : true,
+          version    : 'v2.5'
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
 
 </head>
 

@@ -43,8 +43,6 @@
      */
     function buildLink(url, via, html) {
     	var text = truncateHTML(url, via, html);
-    	console.log(text);
-    	//TODO: add social card; and description  &text=
     	return 'http://twitter.com/intent/tweet?url='+ url + '&text=' + text + via;
     }
 

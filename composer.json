@@ -10,7 +10,8 @@
         "illuminate/html": "~5.0",
         "league/flysystem-aws-s3-v3": "~1.0",
         "zizaco/entrust": "dev-laravel-5",
-        "bosnadev/repositories": " 0.*"
+        "bosnadev/repositories": " 0.*",
+        "hugofirth/mailchimp": "2.0.*",
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

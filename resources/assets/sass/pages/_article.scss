@@ -75,6 +75,55 @@
 	}
 }
 
+/*
+|--------------------------------------------------------------------------
+| Share
+|--------------------------------------------------------------------------
+|
+| 
+|
+*/
+
+
+.article__share-links {
+	position: relative;
+	@include clearMP;
+	text-align: center;
+	
+	li {
+		list-style:none;
+		display: inline-block;
+		margin-right:rem-calc(15);
+		cursor:pointer;
+	}
+
+	i {
+		font-size:rem-calc(30);
+		color:$white;
+	}
+	
+	@include breakpoint('phone-only') {
+		@extend %clearfix;
+		
+		li{
+			@include span(3 of 12);
+			&:last-child { @include last; }
+		}
+
+
+	}
+
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Content
+|--------------------------------------------------------------------------
+|
+*/
+
 
 .article__content {
 	background:$off-white;
@@ -198,6 +247,13 @@
 		}
 	}
 
+	&--success {
+		h4 {
+			color:$white;
+			text-align: right;
+		}
+	}
+
 	&.open {
 		@include translateY(0);
 	}
@@ -205,20 +261,26 @@
 
 	@include breakpoint('tablet') {
 		&--title {
-			@include span(5 of 12);
+			@include span(4 of 12);
+
+			span {
+				display: block;
+			}
 		}
 
 		&--mailchimp {
-			@include span(7 of 12 last);
+			@include span(8 of 12 last);
 
 			input {
-				@include span(3 of 6 no-gutter wide)
-				margin-top:rem-calc(33);
+				width:76%;
+				border:none;
 			}
 			
 			button {
-				@include span(3 of 6 no-gutter wide last);
+				width:23%;
 				margin-top:rem-calc(33);
+				padding-bottom:rem-calc(17);
+				padding-top:rem-calc(17);
 			}
 		}
 	}
@@ -227,18 +289,35 @@
 	@include breakpoint('laptop') {
 		&--title {
 			@include span(4 of 12);
+
+			span {
+				display: inline-block;
+			}
 		}
 
+		&--close {
+			display: none;
+		}
+
+
 		&--mailchimp {
+			margin-bottom:0;
+			
 			@include span(8 of 12 last);
+
+			.form-group {
+				@include clearMP;
+			}
 			
 			input {
+				margin-top:rem-calc(33);
 				@include span(5 of 6 no-gutter wide)
 			}
 			
 			button {
 				@include span(1 of 6 no-gutter wide last);
-
+				padding-bottom:rem-calc(13);
+				padding-top:rem-calc(13);
 			}
 		}
 	}

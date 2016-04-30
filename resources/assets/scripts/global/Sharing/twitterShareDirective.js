@@ -1,11 +1,3 @@
-/*
-|--------------------------------------------------------------------------
-| Twitter Share Directive
-|--------------------------------------------------------------------------
-|
-| Builds twitter share button and URL to shre the article on twitter
-|
-*/
 (function() {
     'use strict';
 
@@ -18,35 +10,55 @@
     /* @ngInject */
     function twitterShare ($location) {
         // Usage:
-        // <li twitter-share tweet=""></li>
-        // Creates:
-        //
+        // <div twitter-share></div>
         var directive = {
             link: link,
-            template: '<a href="{{ vd.twitterLink }}"><i class="fa fa-twitter"></i></a>',
             restrict: 'A',
+            scope: {
+                title: '@'
+            }
         };
+        
         return directive;
 
         function link(scope, element, attrs) {
-        	var url = $location.absUrl(),
-                twitterLink = buildLink(url);
+            var el = jq(element[0]),
+                title = scope.title,
+                url = $location.absUrl(),
+                via = '- @mcdanielrdn',
+                twitterLink = buildLink(url, via, title);
 
-            jq(element).on('click', function (e) {
+            el.on('click', function () {
                 popup(twitterLink, 700, 500);
-                _ga('send', 'event', 'knowledge-center', 'share', 'facebook', 0);
-            });    
+            })
+        
         }
     }
 
-    /**
+
+
+     /**
      * Build Twitter Sharer Link
      * @param  {string} url 
      * @return {string}     
      */
-    function buildLink(url) {
-    	//TODO: add social card; and description  &text=
-    	return 'http://twitter.com/share?url='+ url + ' - @assetbuilder';
+    function buildLink(url, via, html) {
+        var text = truncateHTML(url, via, html);
+        return 'http://twitter.com/intent/tweet?url='+ url + '&text=' + text + via;
+    }
+
+
+    /**
+     * Trucate the String to Match
+     * @param  {string} url  
+     * @param  {string} via  
+     * @param  {string} html 
+     * @return {string}
+     */
+    function truncateHTML(url, via, html) {
+        var full = url.length + via.length + 4;
+        var text = html.substr(0, (140-full));
+        return text + '...'
     }
 
      /**
@@ -60,4 +72,5 @@
         window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
     }
 
-})();	
+    
+})();
