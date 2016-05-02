@@ -40,6 +40,10 @@
 
 }
 
+.article-list__none {
+	padding:rem-calc(20) rem-calc(60);
+}
+
 
 .article-list__search {
 	width:100%;
@@ -98,6 +102,15 @@
 				color:$green;
 			}
 		}
+	}
+
+	padding-bottom:rem-calc(30);
+}
+
+.article-list__articles-remaining  {
+
+	&.category {
+		margin-top:rem-calc(20);
 	}
 }
 

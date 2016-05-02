@@ -5,8 +5,10 @@
         .module('mcdaniel.blog')
         .directive('footerRollup', footerRollup);
 
+    footerRollup.$inject = ['cookieService'];
+
     /* @ngInject */
-    function footerRollup () {
+    function footerRollup (cookieService) {
         // Usage:
         // <div footer-rollup></div>
         var directive = {
@@ -25,6 +27,18 @@
         	
         	var el = jq('.article__footer')
           
+          /**
+           * Aleready Subscribed so turn them off.
+           * @param  {boolesn} cookieService.haveCookie 
+           * @return {DOM}                          
+           */
+          if (cookieService.haveCookie) {
+            var cookie = cookieService.getCookie();
+            console.dir(cookie);
+            if (cookie.subscribedToMailChimp) {
+              el.addClass('off');
+            }
+          }
 					
 					/**
       		 * Fix to bottom of page
@@ -62,9 +76,9 @@
         }
     }
 
-    FooterRollupController.$inject = ['$scope', '$element', '$attrs', 'mailChimpService'];
+    FooterRollupController.$inject = ['$scope', '$element', '$attrs', 'mailChimpService', 'cookieService'];
 
-    function FooterRollupController($scope, $element, $attrs, mailChimpService) {
+    function FooterRollupController($scope, $element, $attrs, mailChimpService, cookieService) {
         var vd = $scope.vd;
 
         vd.formData = {
@@ -90,8 +104,12 @@
               vd.success = true;
               vd.message = data;
 
+              cookieService.storeCookie({
+                subscribedToMailChimp : true
+              })
+
               setTimeout(function () {
-                jq('.article__footer').removeClass('open');
+                jq('.article__footer').removeClass('open').addClass('off');
               }, 3000)
               
             })

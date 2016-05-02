@@ -30,16 +30,16 @@ var jq = $.noConflict();
     angular.module('mcdaniel.api', []);
 })();
 (function() {
-    'use strict';
-
-    angular.module('mcdaniel.blog', []);
-})();
-(function() {
    'use strict';
 
     angular.module('mcdaniel.faq', []); 
 
  })();
+(function() {
+    'use strict';
+
+    angular.module('mcdaniel.blog', []);
+})();
 (function() {
     'use strict';
 
@@ -55,21 +55,6 @@ var jq = $.noConflict();
     'use strict';
 
     angular.module('mcdaniel.pages', []);
-})();
-/*
-|--------------------------------------------------------------------------
-| Module for Survey 
-|--------------------------------------------------------------------------
-|
-| Module for all survey partials.  
-| Injection in main assetbuilder module
-| 
-|
-*/
-(function() {
-    'use strict';
-
-    angular.module('assetbuilder.survey', []);
 })();
 /**
  * All Shared Modules inserted here. 
@@ -103,6 +88,21 @@ var jq = $.noConflict();
             'angular-loading-bar'
         ]);
 })();
+/*
+|--------------------------------------------------------------------------
+| Module for Survey 
+|--------------------------------------------------------------------------
+|
+| Module for all survey partials.  
+| Injection in main assetbuilder module
+| 
+|
+*/
+(function() {
+    'use strict';
+
+    angular.module('assetbuilder.survey', []);
+})();
 (function() {
     'use strict';
 
@@ -122,13 +122,13 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular
-        .module('global.errors', []);
+    angular.module('global.flash', []);
 })();
 (function() {
     'use strict';
 
-    angular.module('global.flash', []);
+    angular
+        .module('global.errors', []);
 })();
 (function() {
     'use strict';
@@ -276,6 +276,87 @@ var jq = $.noConflict();
     }
 
 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.api')
+        .factory('cookieService', cookieService);
+
+    /* @ngInject */
+    function cookieService($http, $location, $cookies) {
+        var cookieName = 'mcdaniel-nutrition';
+        var now = new Date();
+
+        var service = {
+        	haveCookie : haveCookie,
+            getCookie: getCookie,
+            storeCookie : storeCookie,
+            removeCookie : removeCookie
+        };
+        
+        return service;
+
+        ////////////////
+
+        /**
+         * Check to see if there is a cookie. 
+         * @return {boolean} 
+         */
+        function haveCookie() {
+        	if ($cookies.get(cookieName) != undefined || $cookie.get(cookieName) != null) {
+        		return true;
+        	} else {
+        		return false;
+        	}	
+        }
+
+
+        /**
+         * Get the Cookie
+         * @return {object}
+         */
+        function getCookie() {
+        	var data = $cookies.get(cookieName);
+
+        	if (data !== undefined) {
+        		return JSON.parse(data);
+        	} else {
+        		return false;
+        	}
+        }
+
+
+        /**
+         * Store the Cookie Information
+         * @param  {object} data
+         * @return {object} 
+         */
+        function storeCookie(data) {
+           var exp = new Date(now.getFullYear(), now.getMonth()+ 12, now.getDate());
+           var json = JSON.stringify(data);
+           
+           return $cookies.put(cookieName, json, {
+             path: '/',
+             expires: exp
+           });
+        }
+
+
+        /**
+         * [removeCookie description]
+         * @return {[type]} [description]
+         */
+        function removeCookie() {
+        	 var exp = new Date(now.getFullYear(), now.getMonth(), now.getDate()-1);
+            return $cookies.remove(cookieName, {
+                path: '/',
+                expires: exp
+            });
+        }
+    }
+    cookieService.$inject = ["$http", "$location", "$cookies"];
 })();
 /*
 |--------------------------------------------------------------------------
@@ -799,6 +880,59 @@ var jq = $.noConflict();
 */
 /*
 |--------------------------------------------------------------------------
+| FAQ controller.  
+|--------------------------------------------------------------------------
+|
+| Grabs FAQs from API and presents them on the page. 
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .controller('FaqController', FaqController);
+
+    /* @ngInject */
+    function FaqController(faqService) {
+        var vm = this;
+        vm.title = 'FaqController';
+        vm.Faqs =[];
+
+        // activate();
+
+        ////////////////
+
+        /**
+         * Activate the Controller and wait for Promise
+         * @return {object} 
+         */
+        function activate() {
+        	return getFaqData().then(function () {
+               
+        	});
+        }
+
+
+        /**
+         * Get FAQ Data 
+         * @return {oibject} 
+         */
+        function getFaqData () {
+        	return faqService.getFaqs().then(function (data) {
+        		vm.Faqs = data;
+                return vm.Faqs;
+        	});
+        }
+
+
+
+    }
+    FaqController.$inject = ["faqService"];
+})();
+/*
+|--------------------------------------------------------------------------
 | Article List
 |--------------------------------------------------------------------------
 |
@@ -999,59 +1133,6 @@ var jq = $.noConflict();
         }
     
     }
-})();
-/*
-|--------------------------------------------------------------------------
-| FAQ controller.  
-|--------------------------------------------------------------------------
-|
-| Grabs FAQs from API and presents them on the page. 
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .controller('FaqController', FaqController);
-
-    /* @ngInject */
-    function FaqController(faqService) {
-        var vm = this;
-        vm.title = 'FaqController';
-        vm.Faqs =[];
-
-        // activate();
-
-        ////////////////
-
-        /**
-         * Activate the Controller and wait for Promise
-         * @return {object} 
-         */
-        function activate() {
-        	return getFaqData().then(function () {
-               
-        	});
-        }
-
-
-        /**
-         * Get FAQ Data 
-         * @return {oibject} 
-         */
-        function getFaqData () {
-        	return faqService.getFaqs().then(function (data) {
-        		vm.Faqs = data;
-                return vm.Faqs;
-        	});
-        }
-
-
-
-    }
-    FaqController.$inject = ["faqService"];
 })();
 /*
 |--------------------------------------------------------------------------
@@ -1349,186 +1430,6 @@ var jq = $.noConflict();
     'use strict';
 
     angular
-        .module('assetbuilder.survey')
-        .controller('LineController', LineController);
-
-    LineController.$inject = ['$scope', 'surveyService', 'surveyUtilities'];
-
-    /* @ngInject */
-    function LineController($scope, surveyService, surveyUtilities) {
-        var vm = this;
-        vm.title = 'LineController';
-        vm.Data = [];
-        vm.returnsData = [];
-        vm.portfolioId = [45, 46, 47];
-        vm.End;
-        vm.Add; 
-        vm.Years;
-        vm.primed = true;
-        vm.Plots = false;
-
-        activate();
-
-        ////////////////
-
-        /**
-         * Activate the Controller
-         * @return {} [description]
-         */
-        function activate() {
-        	return getExpectedReturns().then(function () {
-            if (angular.isUndefined(vm.Data.PlotPoints)) { return; }
-        		vm.Plots = Math.ceil(vm.Data.PlotPoints.length/2);
-        		setupPlotData();
-            setupDisplayData();
-        	});
-        }
-
-        /**
-      	 * Get Expected Returns
-      	 * @return {object} 
-      	 */
-      	function getExpectedReturns() {
-      		return surveyService.getExpectedReturns(vm.portfolioId[0]).then(function (data) {
-      			vm.Data = data;
-      			vm.Data.SurveyData = surveyService.getSurveyCookie();
-            return vm.Data;
-          });
-      	}
-
-
-        /**
-         * Setup the Date to go to the line chart directive
-         * @return {object} 
-         */
-      	
-        function setupPlotData() {
-          vm.returnsData = {
-            plotData: vm.Data.PlotPoints, 
-            end: vm.Data.EndAmount,
-            add: vm.Data.SurveyData.addMonthly,
-            years: vm.Data.PlotPoints[vm.Data.PlotPoints.length-1].Year,
-            lastYear: vm.Data.LastYear,
-            performance: vm.Data.Performance
-          };
-        
-          return vm.returnsData;
-      	}
-
-
-        /**
-         * Setup the Display Data above the chart
-         */
-        function setupDisplayData() {
-          var w = (vm.returnsData.add < 0) ? 'withdrawn' : 'added'
-
-          vm.Years = vm.returnsData.years;
-          vm.Add = surveyUtilities.printCurrency(vm.returnsData.add) + ' ' + w;
-          vm.portfolioTitle;
-        }
-
-        
-        /*
-        |--------------------------------------------------------------------------
-        | Scope Methods
-        |--------------------------------------------------------------------------
-        */
-
-        /**
-         * Watch Plots and Make Changes
-         * @param  {vm.Plots ) 
-         */
-      	$scope.$watch('vm.Plots', function () {
-            if (vm.Plots === undefined) return;
-          	vm.returnsData = vm.Data.PlotPoints;    
-        }, true)
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Survey Module Controller
-|--------------------------------------------------------------------------
-|  Controls the Overlay and Click buttons for Survey.
-|  @note Looking for the Form.  Check out the SurveyFormDirective.js 
-|  
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.survey')
-        .controller('SurveyController', SurveyController);
-
-    SurveyController.$inject = ['$scope', '$window', 'surveyService', 'common'];
-
-    /* @ngInject */
-    function SurveyController($scope, $window, surveyService, common) {
-        //Vars
-        var vm = this;
-        vm.title = 'SurveyController';
-        vm.investmentType = 'us';
-        
-        
-
-        //Methods
-        vm.changeInvestmentType = changeInvestmentType;
-        vm.checkInvestmentType = checkInvestmentType;
-        
-        activate();
-
-        ////////////////
-
-        /**
-         * Activate the Controller
-         * @return {Function} 
-         */
-        function activate() {
-            
-        }
-
-        
-        /**
-         * Change the investment type to expat
-         * @return {none} 
-         */
-        function changeInvestmentType() {
-            vm.investmentType = 'expat';
-            vm.expat = true;
-        }
-
-
-        /**
-         * Check the investment type and return the class name
-         * @return {string} 
-         */
-        function checkInvestmentType() {
-            if (vm.expat === true) {
-                return 'expat';
-            } else {
-                return 'c-gray-lightest-background';
-            }
-        }
-
-
-
-/*
-|--------------------------------------------------------------------------
-| Helpers
-|--------------------------------------------------------------------------
-|
-|
-*/
-       
-
-
-        
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
         .module('mcdaniel.shared')
         .factory('common', common);
 
@@ -1813,6 +1714,229 @@ var jq = $.noConflict();
 	}
 
 });
+(function() {
+    'use strict';
+
+    angular
+        .module('assetbuilder.survey')
+        .controller('LineController', LineController);
+
+    LineController.$inject = ['$scope', 'surveyService', 'surveyUtilities'];
+
+    /* @ngInject */
+    function LineController($scope, surveyService, surveyUtilities) {
+        var vm = this;
+        vm.title = 'LineController';
+        vm.Data = [];
+        vm.returnsData = [];
+        vm.portfolioId = [45, 46, 47];
+        vm.End;
+        vm.Add; 
+        vm.Years;
+        vm.primed = true;
+        vm.Plots = false;
+
+        activate();
+
+        ////////////////
+
+        /**
+         * Activate the Controller
+         * @return {} [description]
+         */
+        function activate() {
+        	return getExpectedReturns().then(function () {
+            if (angular.isUndefined(vm.Data.PlotPoints)) { return; }
+        		vm.Plots = Math.ceil(vm.Data.PlotPoints.length/2);
+        		setupPlotData();
+            setupDisplayData();
+        	});
+        }
+
+        /**
+      	 * Get Expected Returns
+      	 * @return {object} 
+      	 */
+      	function getExpectedReturns() {
+      		return surveyService.getExpectedReturns(vm.portfolioId[0]).then(function (data) {
+      			vm.Data = data;
+      			vm.Data.SurveyData = surveyService.getSurveyCookie();
+            return vm.Data;
+          });
+      	}
+
+
+        /**
+         * Setup the Date to go to the line chart directive
+         * @return {object} 
+         */
+      	
+        function setupPlotData() {
+          vm.returnsData = {
+            plotData: vm.Data.PlotPoints, 
+            end: vm.Data.EndAmount,
+            add: vm.Data.SurveyData.addMonthly,
+            years: vm.Data.PlotPoints[vm.Data.PlotPoints.length-1].Year,
+            lastYear: vm.Data.LastYear,
+            performance: vm.Data.Performance
+          };
+        
+          return vm.returnsData;
+      	}
+
+
+        /**
+         * Setup the Display Data above the chart
+         */
+        function setupDisplayData() {
+          var w = (vm.returnsData.add < 0) ? 'withdrawn' : 'added'
+
+          vm.Years = vm.returnsData.years;
+          vm.Add = surveyUtilities.printCurrency(vm.returnsData.add) + ' ' + w;
+          vm.portfolioTitle;
+        }
+
+        
+        /*
+        |--------------------------------------------------------------------------
+        | Scope Methods
+        |--------------------------------------------------------------------------
+        */
+
+        /**
+         * Watch Plots and Make Changes
+         * @param  {vm.Plots ) 
+         */
+      	$scope.$watch('vm.Plots', function () {
+            if (vm.Plots === undefined) return;
+          	vm.returnsData = vm.Data.PlotPoints;    
+        }, true)
+    }
+})();
+/*
+|--------------------------------------------------------------------------
+| Survey Module Controller
+|--------------------------------------------------------------------------
+|  Controls the Overlay and Click buttons for Survey.
+|  @note Looking for the Form.  Check out the SurveyFormDirective.js 
+|  
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('assetbuilder.survey')
+        .controller('SurveyController', SurveyController);
+
+    SurveyController.$inject = ['$scope', '$window', 'surveyService', 'common'];
+
+    /* @ngInject */
+    function SurveyController($scope, $window, surveyService, common) {
+        //Vars
+        var vm = this;
+        vm.title = 'SurveyController';
+        vm.investmentType = 'us';
+        
+        
+
+        //Methods
+        vm.changeInvestmentType = changeInvestmentType;
+        vm.checkInvestmentType = checkInvestmentType;
+        
+        activate();
+
+        ////////////////
+
+        /**
+         * Activate the Controller
+         * @return {Function} 
+         */
+        function activate() {
+            
+        }
+
+        
+        /**
+         * Change the investment type to expat
+         * @return {none} 
+         */
+        function changeInvestmentType() {
+            vm.investmentType = 'expat';
+            vm.expat = true;
+        }
+
+
+        /**
+         * Check the investment type and return the class name
+         * @return {string} 
+         */
+        function checkInvestmentType() {
+            if (vm.expat === true) {
+                return 'expat';
+            } else {
+                return 'c-gray-lightest-background';
+            }
+        }
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Helpers
+|--------------------------------------------------------------------------
+|
+|
+*/
+       
+
+
+        
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqBlock', faqBlock);
+
+    /* @ngInject */
+    function faqBlock () {
+        // Usage:
+        // <div ng-repeat="faq in fc.Faqs" ng-if="faq.featured" faq-block>
+				// 		<h4 >{{ faq.question }} <i class="fa fa-angle-right"></i></h4>
+				// 		<div ng-bind-html="faq.answer" class="faq-answer"></div>
+				// </div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        		
+                var question = jq(element[0]);
+        		var answer = question.children('.faq__answer');
+
+        		question.on('click', function (e) {
+        			if (question.hasClass('open')) {
+        				answer.slideUp(200);
+        				question.toggleClass('open');
+        			} else {
+        				answer.slideDown(200);
+        				question.toggleClass('open');
+        			}
+        		});
+        }
+    }
+
+    /* @ngInject */
+    function Controller () {
+
+    }
+})();
 /*
 |--------------------------------------------------------------------------
 | Article Sidebar Directive
@@ -2200,8 +2324,10 @@ var jq = $.noConflict();
         .module('mcdaniel.blog')
         .directive('footerRollup', footerRollup);
 
+    footerRollup.$inject = ['cookieService'];
+
     /* @ngInject */
-    function footerRollup () {
+    function footerRollup (cookieService) {
         // Usage:
         // <div footer-rollup></div>
         var directive = {
@@ -2220,6 +2346,18 @@ var jq = $.noConflict();
         	
         	var el = jq('.article__footer')
           
+          /**
+           * Aleready Subscribed so turn them off.
+           * @param  {boolesn} cookieService.haveCookie 
+           * @return {DOM}                          
+           */
+          if (cookieService.haveCookie) {
+            var cookie = cookieService.getCookie();
+            console.dir(cookie);
+            if (cookie.subscribedToMailChimp) {
+              el.addClass('off');
+            }
+          }
 					
 					/**
       		 * Fix to bottom of page
@@ -2257,9 +2395,9 @@ var jq = $.noConflict();
         }
     }
 
-    FooterRollupController.$inject = ['$scope', '$element', '$attrs', 'mailChimpService'];
+    FooterRollupController.$inject = ['$scope', '$element', '$attrs', 'mailChimpService', 'cookieService'];
 
-    function FooterRollupController($scope, $element, $attrs, mailChimpService) {
+    function FooterRollupController($scope, $element, $attrs, mailChimpService, cookieService) {
         var vd = $scope.vd;
 
         vd.formData = {
@@ -2285,8 +2423,12 @@ var jq = $.noConflict();
               vd.success = true;
               vd.message = data;
 
+              cookieService.storeCookie({
+                subscribedToMailChimp : true
+              })
+
               setTimeout(function () {
-                jq('.article__footer').removeClass('open');
+                jq('.article__footer').removeClass('open').addClass('off');
               }, 3000)
               
             })
@@ -2782,49 +2924,6 @@ var jq = $.noConflict();
     }
 
     
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqBlock', faqBlock);
-
-    /* @ngInject */
-    function faqBlock () {
-        // Usage:
-        // <div ng-repeat="faq in fc.Faqs" ng-if="faq.featured" faq-block>
-				// 		<h4 >{{ faq.question }} <i class="fa fa-angle-right"></i></h4>
-				// 		<div ng-bind-html="faq.answer" class="faq-answer"></div>
-				// </div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        		
-                var question = jq(element[0]);
-        		var answer = question.children('.faq__answer');
-
-        		question.on('click', function (e) {
-        			if (question.hasClass('open')) {
-        				answer.slideUp(200);
-        				question.toggleClass('open');
-        			} else {
-        				answer.slideDown(200);
-        				question.toggleClass('open');
-        			}
-        		});
-        }
-    }
-
-    /* @ngInject */
-    function Controller () {
-
-    }
 })();
 /*
 |--------------------------------------------------------------------------
@@ -3513,110 +3612,6 @@ var jq = $.noConflict();
     'use strict';
 
     angular
-        .module('global.errors')
-        .factory('errors', errors);
-
-    errors.$inject = ['flash'];
-
-    /* @ngInject */
-    function errors(flash) {
-        var errorReason = null;
-
-        var service = {
-            catcher: catcher,
-            getReason: getReason
-        };
-        
-        return service;
-
-        ////////////////
-
-        /**
-         * Catch the Error and Display a Error Flash
-         * @param {string} Message to display
-         * @param {string} reason for Console.
-         */
-        function catcher(message) {
-           return function (reason) {
-                reason.insertedObject = (reason.insertedObject == null) ? 'none' : reason.insertedObject;
-                errorReason = reason;
-        		flash.error(message, reason);
-        	}
-        }
-
-        /**
-         * Get reason for mailing
-         * @return {string} 
-         */
-        function getReason() {
-            return errorReason;
-        }
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.errors')
-        .provider('errorHandler', exceptionHandlerProvider)
-        .config(config);
-
-    
-    /**
-     * Must Configure the exception handling
-     */
-     function exceptionHandlerProvider() {
-        /* jshint validthis:true */
-        this.config = {
-            appErrorPrefix: undefined
-        };
-
-        this.configure = function (appErrorPrefix) {
-            this.config.appErrorPrefix = appErrorPrefix;
-        };
-
-        this.$get = function() {
-            return {config: this.config};
-        };
-    }
-
-    config.$inject = ['$provide'];
-
-	/**
-     * Configure by setting an optional string value for appErrorPrefix
-     * @param  {object} $provide 
-     * @ngInject
-     */
-    function config($provide) {
-        $provide.decorator('$exceptionHandler', extendExceptionHandler);
-    }
-
-
-    extendExceptionHandler.$inject = ['$delegate', 'errorHandler'];
-
-    /**
-     * Extend the $exceptionHandler servie to also display our Flash
-     * @param  {Object} $delegate        
-     * @param  {Object} exceptionHandler 
-     * @param  {Object} flash            
-     * @return {function} the decorated $exceptionHandler service
-     */
-     function extendExceptionHandler($delegate, errorHandler) {
-        return function(exception, cause) {
-            var appErrorPrefix = errorHandler.config.appErrorPrefix || '';
-            var errorData = {exception: exception, cause: cause};
-            exception.message = appErrorPrefix + exception.message;
-            $delegate(exception, cause);
-           // flash.error(exception.message, errorData);
-        };
-    }
-
-   
-})();
-(function() {
-    'use strict';
-
-    angular
         .module('global.flash')
         .directive('abFlash', abFlash);
 
@@ -3792,6 +3787,110 @@ var jq = $.noConflict();
             $rootScope.$emit('flash.warning', message);
         }
     }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.errors')
+        .factory('errors', errors);
+
+    errors.$inject = ['flash'];
+
+    /* @ngInject */
+    function errors(flash) {
+        var errorReason = null;
+
+        var service = {
+            catcher: catcher,
+            getReason: getReason
+        };
+        
+        return service;
+
+        ////////////////
+
+        /**
+         * Catch the Error and Display a Error Flash
+         * @param {string} Message to display
+         * @param {string} reason for Console.
+         */
+        function catcher(message) {
+           return function (reason) {
+                reason.insertedObject = (reason.insertedObject == null) ? 'none' : reason.insertedObject;
+                errorReason = reason;
+        		flash.error(message, reason);
+        	}
+        }
+
+        /**
+         * Get reason for mailing
+         * @return {string} 
+         */
+        function getReason() {
+            return errorReason;
+        }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.errors')
+        .provider('errorHandler', exceptionHandlerProvider)
+        .config(config);
+
+    
+    /**
+     * Must Configure the exception handling
+     */
+     function exceptionHandlerProvider() {
+        /* jshint validthis:true */
+        this.config = {
+            appErrorPrefix: undefined
+        };
+
+        this.configure = function (appErrorPrefix) {
+            this.config.appErrorPrefix = appErrorPrefix;
+        };
+
+        this.$get = function() {
+            return {config: this.config};
+        };
+    }
+
+    config.$inject = ['$provide'];
+
+	/**
+     * Configure by setting an optional string value for appErrorPrefix
+     * @param  {object} $provide 
+     * @ngInject
+     */
+    function config($provide) {
+        $provide.decorator('$exceptionHandler', extendExceptionHandler);
+    }
+
+
+    extendExceptionHandler.$inject = ['$delegate', 'errorHandler'];
+
+    /**
+     * Extend the $exceptionHandler servie to also display our Flash
+     * @param  {Object} $delegate        
+     * @param  {Object} exceptionHandler 
+     * @param  {Object} flash            
+     * @return {function} the decorated $exceptionHandler service
+     */
+     function extendExceptionHandler($delegate, errorHandler) {
+        return function(exception, cause) {
+            var appErrorPrefix = errorHandler.config.appErrorPrefix || '';
+            var errorData = {exception: exception, cause: cause};
+            exception.message = appErrorPrefix + exception.message;
+            $delegate(exception, cause);
+           // flash.error(exception.message, errorData);
+        };
+    }
+
+   
 })();
 /*
 |--------------------------------------------------------------------------
@@ -4202,6 +4301,318 @@ var jq = $.noConflict();
 				target.addClass('open').siblings('.m-tabbed-info').removeClass('open');
         		el.addClass('active').siblings('.active').removeClass('active');
         	});
+        }
+    }
+
+    
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('browseHappy', browseHappy);
+
+
+    
+    function browseHappy () {
+        // Usage:
+        //     <div browse-happy></div>
+        // Creates:
+        // 
+        var directive = {
+            link: link,
+            restrict: 'A',
+            replace: true,
+            templateUrl: '/ngViews/global/browse-happy.html'
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+                
+        }
+    }
+
+})();
+/*
+|--------------------------------------------------------------------------
+| Google Analytics Click Events Directive
+|--------------------------------------------------------------------------
+|
+|  Will registerd a click event with Google Analytics
+|  @note universal Analytics variable _ga
+|  @category - category of event
+|  @action = action the user is performing
+|  @name = name of the click event in Google Analytics.
+|  @value = Value you place for click
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('googleClick', googleClick);
+
+    /* @ngInject */
+    function googleClick () {
+        // Usage:
+        // <div google-click category="" action=""  name=""></div>
+        // Example
+        // <div google-click category="survey" action="open-survey" name="homepage-open-survey" value=""></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	category: '@',
+            	action: '@',
+            	name: '@',
+            	value: '@'
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+        	element.on('click', function () {
+        		_ga('send', 'event', scope.category, scope.action, scope.name, scope.value);
+        	});
+        }
+    }
+
+  
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('instaFeed', instaFeed);
+
+    /* @ngInject */
+    function instaFeed () {
+        // Usage:
+        // <div instafeed></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            templateUrl: '/templates/shared/instafeed.html'
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	 console.log('testing');
+
+        	 var feed = new Instafeed({
+        		get: 'user',
+        		userId: 13141599,
+        		sortBy: 'most-recent',
+        		limit: 8,
+        		clientId: 'b867a55a04494dd7a0a013ca52d35188'
+			});
+    		
+    		feed.run();
+        }
+    }
+
+    
+})();
+/*
+|--------------------------------------------------------------------------
+| Ng Repeat Render Finalizer Driective
+|--------------------------------------------------------------------------
+|
+| Tells the parent scope that the ng-repeat has finialized
+| Wrapped in timeout instead of .ready so the $apply
+| will run in the digest loop. 
+|
+| @note only used with ng-repeat {https://docs.angularjs.org/api/ng/directive/ngRepeat}
+| Example at rangeSliderLabelsDirective.js
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('onFinishRender', onFinishRender);
+
+    /* @ngInject */
+    function onFinishRender () {
+        // Usage:
+        // <div ng-repeat="" on-finish-render="callbackFunction"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+			if (scope.$last === true) {
+                scope.$evalAsync(attrs.onFinishRender);
+			}
+        }
+    }
+
+
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('open', open);
+
+    /* @ngInject */
+    function open () {
+        // Usage:
+        //  <div slide-down target-id="{{ target id attribute }}"></div>
+        
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	targetId: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var target = jq('#' + scope.targetId);
+
+        	jq(element).on('click', function () {
+        		target.toggleClass('open');
+            });	
+        
+        }
+    }
+
+    
+})();
+/*
+|--------------------------------------------------------------------------
+| Overlay Directive
+|--------------------------------------------------------------------------
+|
+| Creates Overlay of Site for
+| Full screen interaction.
+| 
+|
+*/			
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('overlay', overlay);
+
+    /* @ngInject */
+    function overlay () {
+        // Usage:
+        // <div overlay></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	targetId: "@"
+            }
+        };
+       
+        return directive;
+
+        function link(scope, element, attrs) {
+        	jq(element).on('click', function (e) {
+        		e.preventDefault();
+        		openOverlay(scope.targetId);
+        		jq(this).toggleClass('active');
+                jq('body').toggleClass('nav-open');
+        	})
+        }
+    }
+
+    function openOverlay(target) {
+    	var element = jq('#'+ target);
+
+    	if (element.hasClass('open')) {
+    		element.removeClass('open');
+    	} else {
+    		element.addClass('open');
+    	}
+
+    }
+    
+})();
+/*
+|--------------------------------------------------------------------------
+| Slide Down Directive
+|--------------------------------------------------------------------------
+|
+| Will add the Class open and slide-down to any id on the page listing in the target-id attribute
+| @note to just add the open class use the open directive.
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('slideDown', slideDown);
+
+    /* @ngInject */
+    function slideDown () {
+        // Usage:
+        //  <div slide-down target-id="{{ target id attribute }}"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	targetId: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var target = jq('#' + scope.targetId);
+
+
+            /**
+             * On Click Find the the element and toggle the class
+             * @param  {target}  element
+             * @param  {event} e
+             * @return {DOM} 
+             */
+        	jq(element).on('click', function (e) {
+                e.preventDefault();
+        		if (target.hasClass('open')) {
+        			target.slideUp(500)
+        		} else {
+        			target.slideDown(100, function () {
+                        scrollToTarget(target.offset().top);    
+                    });
+                    
+        		}
+        
+        		target.toggleClass('open');
+                jq(this).toggleClass('active');
+
+                
+        	});	
+
+            
+            /**
+             * Scroll to the Target {mainly for mobile}
+             * @return {DOm}
+             */
+            function scrollToTarget(top) {
+                jq('html, body').animate({
+                    scrollTop: (top-96)
+                }, 200);
+            }
+        
         }
     }
 
@@ -5784,318 +6195,6 @@ var jq = $.noConflict();
 
 			
     }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('browseHappy', browseHappy);
-
-
-    
-    function browseHappy () {
-        // Usage:
-        //     <div browse-happy></div>
-        // Creates:
-        // 
-        var directive = {
-            link: link,
-            restrict: 'A',
-            replace: true,
-            templateUrl: '/ngViews/global/browse-happy.html'
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-                
-        }
-    }
-
-})();
-/*
-|--------------------------------------------------------------------------
-| Google Analytics Click Events Directive
-|--------------------------------------------------------------------------
-|
-|  Will registerd a click event with Google Analytics
-|  @note universal Analytics variable _ga
-|  @category - category of event
-|  @action = action the user is performing
-|  @name = name of the click event in Google Analytics.
-|  @value = Value you place for click
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('googleClick', googleClick);
-
-    /* @ngInject */
-    function googleClick () {
-        // Usage:
-        // <div google-click category="" action=""  name=""></div>
-        // Example
-        // <div google-click category="survey" action="open-survey" name="homepage-open-survey" value=""></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	category: '@',
-            	action: '@',
-            	name: '@',
-            	value: '@'
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-        	element.on('click', function () {
-        		_ga('send', 'event', scope.category, scope.action, scope.name, scope.value);
-        	});
-        }
-    }
-
-  
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('instaFeed', instaFeed);
-
-    /* @ngInject */
-    function instaFeed () {
-        // Usage:
-        // <div instafeed></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            templateUrl: '/templates/shared/instafeed.html'
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	 console.log('testing');
-
-        	 var feed = new Instafeed({
-        		get: 'user',
-        		userId: 13141599,
-        		sortBy: 'most-recent',
-        		limit: 8,
-        		clientId: 'b867a55a04494dd7a0a013ca52d35188'
-			});
-    		
-    		feed.run();
-        }
-    }
-
-    
-})();
-/*
-|--------------------------------------------------------------------------
-| Ng Repeat Render Finalizer Driective
-|--------------------------------------------------------------------------
-|
-| Tells the parent scope that the ng-repeat has finialized
-| Wrapped in timeout instead of .ready so the $apply
-| will run in the digest loop. 
-|
-| @note only used with ng-repeat {https://docs.angularjs.org/api/ng/directive/ngRepeat}
-| Example at rangeSliderLabelsDirective.js
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('onFinishRender', onFinishRender);
-
-    /* @ngInject */
-    function onFinishRender () {
-        // Usage:
-        // <div ng-repeat="" on-finish-render="callbackFunction"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-			if (scope.$last === true) {
-                scope.$evalAsync(attrs.onFinishRender);
-			}
-        }
-    }
-
-
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('open', open);
-
-    /* @ngInject */
-    function open () {
-        // Usage:
-        //  <div slide-down target-id="{{ target id attribute }}"></div>
-        
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	targetId: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	var target = jq('#' + scope.targetId);
-
-        	jq(element).on('click', function () {
-        		target.toggleClass('open');
-            });	
-        
-        }
-    }
-
-    
-})();
-/*
-|--------------------------------------------------------------------------
-| Overlay Directive
-|--------------------------------------------------------------------------
-|
-| Creates Overlay of Site for
-| Full screen interaction.
-| 
-|
-*/			
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('overlay', overlay);
-
-    /* @ngInject */
-    function overlay () {
-        // Usage:
-        // <div overlay></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	targetId: "@"
-            }
-        };
-       
-        return directive;
-
-        function link(scope, element, attrs) {
-        	jq(element).on('click', function (e) {
-        		e.preventDefault();
-        		openOverlay(scope.targetId);
-        		jq(this).toggleClass('active');
-                jq('body').toggleClass('nav-open');
-        	})
-        }
-    }
-
-    function openOverlay(target) {
-    	var element = jq('#'+ target);
-
-    	if (element.hasClass('open')) {
-    		element.removeClass('open');
-    	} else {
-    		element.addClass('open');
-    	}
-
-    }
-    
-})();
-/*
-|--------------------------------------------------------------------------
-| Slide Down Directive
-|--------------------------------------------------------------------------
-|
-| Will add the Class open and slide-down to any id on the page listing in the target-id attribute
-| @note to just add the open class use the open directive.
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.shared')
-        .directive('slideDown', slideDown);
-
-    /* @ngInject */
-    function slideDown () {
-        // Usage:
-        //  <div slide-down target-id="{{ target id attribute }}"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	targetId: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	var target = jq('#' + scope.targetId);
-
-
-            /**
-             * On Click Find the the element and toggle the class
-             * @param  {target}  element
-             * @param  {event} e
-             * @return {DOM} 
-             */
-        	jq(element).on('click', function (e) {
-                e.preventDefault();
-        		if (target.hasClass('open')) {
-        			target.slideUp(500)
-        		} else {
-        			target.slideDown(100, function () {
-                        scrollToTarget(target.offset().top);    
-                    });
-                    
-        		}
-        
-        		target.toggleClass('open');
-                jq(this).toggleClass('active');
-
-                
-        	});	
-
-            
-            /**
-             * Scroll to the Target {mainly for mobile}
-             * @return {DOm}
-             */
-            function scrollToTarget(top) {
-                jq('html, body').animate({
-                    scrollTop: (top-96)
-                }, 200);
-            }
-        
-        }
-    }
-
-    
 })();
 (function() {
     'use strict';

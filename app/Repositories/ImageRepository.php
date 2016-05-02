@@ -33,8 +33,6 @@
 
 			Storage::disk('s3')->put($folder. '/' . $filename, file_get_contents($file), 'public');
 
-			
-
 			return  $this->imagePath . '/' .  env('S3_BUCKET') . '/' . $folder . '/' . $filename;
 			
 		}

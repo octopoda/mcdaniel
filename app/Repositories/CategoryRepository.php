@@ -19,6 +19,16 @@ class CategoryRepository extends Repository {
 	}
 
 	
+	/**
+	 * Store an image on s3 for Post
+	 * @param  ImageRepository $image   
+	 * @param  \App\Http\Request  $request 
+	 * @return string - image path
+	 */
+	public function saveImageForPost($request, $name) {
+		$image = new ImageRepository();
+		return $image->storeImage($request, 'categories', $name);
+	}
 	
 
 }

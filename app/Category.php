@@ -15,7 +15,7 @@ class Category extends Model
      * Set Mass Assignable
      * @var array
      */
-	protected $fillable = ['title', 'direct_link', 'published', 'search_terms'];
+	protected $fillable = ['title', 'direct_link', 'published', 'search_terms', 'category_image'];
 
 
 	/**

@@ -31,6 +31,18 @@
 		</div>
 	</div>
 
+	<div class="row">
+		<div class="file-field input-field">
+	      	<div class="btn blue">
+	        	<span><i class="material-icons right">cloud</i> Upload Category Header Image (w: 1920px X h:600px) </span>
+	        	<input type="file" name="category_image" id="category_image">
+	      	</div>
+	      	<div class="file-path-wrapper">
+		        <input class="file-path validate" type="text" value="{{ (isset($category->category_image)) ? $category->category_image  : null }}">
+	    	</div>
+    	</div>
+	</div>
+
 	<div class="row center-align">
 		{!! Form::submit($submitButtonText , ['class'=>'btn waves-effect dashboard__form--submit']) !!}
 	</div>

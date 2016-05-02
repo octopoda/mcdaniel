@@ -23,7 +23,7 @@
 				<ul>
 					@foreach($categories as $category)
 						<li>
-							<a href="/category/{{ $category->direct_link }}">{{ $category->title }}</a>
+							<a href="/posts/category/{{ $category->direct_link }}">{{ $category->title }}</a>
 						</li>
 					@endforeach
 				</ul>

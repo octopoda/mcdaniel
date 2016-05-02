@@ -23,11 +23,24 @@
 	}
 
 
+
+
 	h1 {
 		text-align: center;
 		font-size:rem-calc(40);
 		width:100%;
 		line-height:rem-calc(46);
+	}
+
+
+	&.category {
+		h1 {
+			padding-top:0;
+		}
+		h5 {
+			margin-bottom:rem-calc(4);
+			text-transform: uppercase;
+		}
 	}
 
 	
@@ -45,6 +58,8 @@
 		h1 {
 			width:60%;
 		}
+
+
 	}
 }
 

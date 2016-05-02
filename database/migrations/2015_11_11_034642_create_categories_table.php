@@ -18,6 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('direct_link')->unique();
             $table->tinyInteger('published')->index()->unsigned();
             $table->text('search_terms');
+            $table->string('category_image');
             $table->timestamps();
         });
     }

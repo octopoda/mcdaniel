@@ -30,8 +30,9 @@ class CreatePostsTable extends Migration
             $table->foreign('blog_id')->references('id')->on('blogs')->onDelete('cascade');
             $table->integer('post_type')->unsigned()->index();
             $table->timestamps();
-
         });
+
+        DB::statement('ALTER TABLE posts ADD FULLTEXT full(title, content)');
     }
 
     /**

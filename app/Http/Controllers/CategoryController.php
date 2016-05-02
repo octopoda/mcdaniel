@@ -57,6 +57,14 @@ class CategoryController extends Controller {
     {
         
         $category = $this->category->create($request->all());
+
+        if ($request->hasfile('category_image')) {
+            $filePath = $this->category->saveImageForPost($request, 'category_image');
+
+            $category->category_image = $filePath;
+            $category->update();
+       }
+
         flash()->success('', 'The category was created');
         return redirect('dashboard/categories');
     }
@@ -84,6 +92,12 @@ class CategoryController extends Controller {
     {
         $category = $this->category->find($id);
         $category->update($request->all());
+
+        if ($request->hasfile('category_image')) {
+            $filePath = $this->category->saveImageForPost($request, 'category_image');
+            $category->category_image = $filePath;
+            $category->update();
+       }
         
         flash()->success('', 'The category was updated');
         return redirect('dashboard/categories');

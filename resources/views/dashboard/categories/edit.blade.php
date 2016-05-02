@@ -11,7 +11,7 @@
 	@include('errors.errors')
 
 	<section class="dashboard__form">
-		  {!! Form::model($category, ['method'=>'PATCH', 'route'=>['dashboard.categories.update', $category->id]]) !!}
+		  {!! Form::model($category, ['method'=>'PATCH', 'route'=>['dashboard.categories.update', $category->id], "enctype"=>"multipart/form-data"]) !!}
 		 	@include('dashboard.categories._form', ['submitButtonText' => 'Edit Category'])
 		  {!! Form::close() !!}
 	</section>

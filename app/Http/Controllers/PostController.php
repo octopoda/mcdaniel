@@ -328,8 +328,17 @@ class PostController extends Controller
      * @return /Illuminate/Html/Response 
      */
     public function postsFromCategory($category) {
-        $posts = $this->post->pushCriteria(new SearchPosts($category))->paginate(25);
-        return view('posts.list', compact('posts'));
+        $category = $this->category->findBy('direct_link', $category);
+        
+        if ($category->search_terms == null) {
+            $posts = $this->post->pushCriteria(new SearchPosts($category->title))->paginate(24);
+        } else {
+            $posts = $this->post->pushCriteria(new SearchPosts($category->search_terms))->paginate(24);    
+        }
+        
+        $categories = $this->category->all();
+
+        return view('posts.list', compact('posts', 'category', 'categories'));
     }
 
 
