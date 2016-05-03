@@ -25,7 +25,7 @@
 
 }
 
-.m-post-content__image-right  {
+.image-right  {
 	@include clearMP;
 
 	img {
@@ -56,7 +56,7 @@
 }
 
 
-.m-post-content__image-left {
+.image-left {
 	@include clearMP;
 
 	img {
@@ -87,7 +87,7 @@
 	}
 }
 
-.m-post-content__image-full {
+.image-full {
 	overflow:hidden;
 	@include clearMP;
 	margin-top:rem-calc(20);
@@ -122,6 +122,16 @@
 
 	h3 {
 		color:$gray;
+	}
+	
+	img {
+		width:100%;
+		padding-left:rem-calc(-20);
+		padding-right:rem-calc(-20);
+	}
+
+	ul li {
+		list-style:none
 	}
 }
 
@@ -164,11 +174,13 @@
 }
 
 .m-post-content__recipe--ingredients {
+	margin-top:rem-calc(30);
+
 	h4 {
 		border-bottom:1px solid $gray-lightest;
 	}
 
-	ul {
+	ul, ol {
 		@include clearMP;
 	}
 
@@ -179,7 +191,40 @@
 
 
 .m-post-content__recipe--directions {
+	margin-top:rem-calc(30);
+
 	h4 {
 		border-bottom:1px solid $gray-lightest;
+	}
+
+
+
+	
+}
+
+.m-post-content__recipe--nutrition {
+	margin-top:rem-calc(30);
+	
+	h4 {
+		border-bottom:1px solid $gray-lightest;
+	}
+
+	@extend %clearfix;
+
+	ul, ol {
+		@include clearMP;
+	}
+
+	@include breakpoint('tablet') {
+		li {
+			em {
+				font-weight:700;
+				font-style:normal;
+				display: inline-block;
+			}
+
+			list-style:none;
+			@include gallery(4 of 12);
+		}
 	}
 }

@@ -20,6 +20,7 @@ use App\Repositories\Criteria\Post\AscendingOrder;
 use App\Repositories\Criteria\Post\SearchPosts;
 use App\Repositories\Criteria\Post\PostsFromDate;
 use App\Repositories\Criteria\Post\RandomPosts;
+use App\Repositories\Criteria\Post\PostTypes;
 
 class PostController extends Controller
 {
@@ -48,6 +49,12 @@ class PostController extends Controller
      * @var \App\Category
      */
     protected $category;
+
+    /**
+     * Post Types 
+     * @var array
+     */
+    protected $post_types = ['articles', 'recipes', 'videos'];
 
 
     /**
@@ -81,8 +88,8 @@ class PostController extends Controller
      */
     public function create() 
     {
-        $post = $this->post;
-        $post->postTypes = $this->post->getPostTypes();
+        $post = new \App\Post();
+        $post->publish_date = date('F d, Y h:m A', strtotime(date('Y-m-d')));
         return View('dashboard.posts.create', compact('post'));
     }
 
@@ -99,7 +106,7 @@ class PostController extends Controller
 
         $date = date('Y-m-d H:i:s', strtotime($date));
         
-
+     
        //Look for Blog from User
        $blog = $this->blog->findBy('user_id', $auth->user()->id);
        
@@ -163,7 +170,6 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = $this->post->find($id);
-        $post->postTypes = $this->post->getPostTypes();
         $post->publish_date = date('F d, Y h:m A', strtotime($post->publish_date));
         return view('dashboard.posts.edit', compact('post'));
     }
@@ -177,7 +183,13 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, $id)
     {
+        
         $post = $this->post->find($id);
+        
+        if ($request->get('published') == null) {
+            $post->published = 0;
+        } 
+
         $post->update($request->all());
         
         if ($request->hasfile('post_image')) {
@@ -251,7 +263,7 @@ class PostController extends Controller
      * @param  string $query 
      * @return JSON
      */
-    public function searchPosts($query) {
+    public function searchPosts() {
         $posts = $this->post->pushCriteria(new SearchPosts($query))->paginate(25);
         return compact('posts');
     }
@@ -276,8 +288,7 @@ class PostController extends Controller
      */
     public function imageUpload(Request $request) {
         $filePath = $this->post->saveImageForPost($request, 'file');
-
-        return ['filelink'=> $filePath ];
+        return ['url'=> $filePath ];
     }
 
 
@@ -343,6 +354,18 @@ class PostController extends Controller
 
 
     /**
+     * Get post from Type
+     * @param  string $type 
+     * @return /Illuminate/Html/Response 
+     */
+    public function postFromType($type) {
+        $posts = $this->post->pushCriteria(new PostTypes($type))->paginate(24);
+        $categories = $this->category->all();
+        return view('posts.list', compact('posts', 'type', 'categories'));
+    }
+
+
+    /**
      * Get Post For Author and Return through View
      * @param  string $author 
      * @return /Illuminate/Html/Response
@@ -363,6 +386,17 @@ class PostController extends Controller
     public function postByDate($year) {
         $posts = $this->post->pushCriteria(new PostsFromDate($year))->paginate(25);
         return view('posts.list', compact('posts'));
+    }
+
+    /**
+     * Search Post with View
+     * @return /Illuminate/Html/Response 
+     */
+    public function searchPostWithView(Request $request) {
+        $query = $request->get('q');
+        $posts = $this->post->pushCriteria(new SearchPosts($query))->paginate(25);
+        $categories = $this->category->all();
+        return view('posts.search', compact('posts', 'query', 'categories'));
     }
 
 

@@ -11,10 +11,11 @@
 	</section>
 
 
-
 @endsection
 
 
 @section('extra-scripts')
 	@include('dashboard.partials.redactorScripts')
 @endsection
+
+

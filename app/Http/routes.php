@@ -186,9 +186,10 @@ Route::group(['prefix'=>'posts'], function () {
 		"uses" => "PostController@postByDate"
 	]);
 
-	Route::get('/explore/{query}', [
-		"as" => "searchPost",
-		"uses" => "PostController@searchPosts"
+	
+	Route::get('/types/{type}', [
+		"as" => "postTypes",
+		"uses" => "PostController@postFromType"
 	]);
 	
 });
@@ -418,6 +419,12 @@ Route::get('/get-started', [
 	"as" => "getStarted",
 	"uses" => "PageController@getStarted"
 ]);
+
+Route::get('/search', [
+	"as" => "search",
+	"uses" => "PostController@searchPostWithView"
+]);
+
 
 Route::get('/', [
 	"as" => "homeRoute",

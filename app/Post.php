@@ -18,7 +18,10 @@ class Post extends Model
      */
     protected $fillable = ['title', 'content', 'searchable', 'summary', 'publish_date', 'published', 'post_image', 'post_thumbnail', 'post_facebook', 'video', 'video_url', 'blog_id', 'direct_link', 'post_type'];
 
+    protected $appends = ['post_types'];
     
+
+
     /**
      * Define One to One relationship with Blog
      * @return
@@ -76,24 +79,28 @@ class Post extends Model
         return date('F d, Y', strtotime($value));
    }
 
-
    /**
-    * Set custom attribute for Post Types
+    * Get the Post Types Attribute
     * @return array 
     */
    protected function getPostTypesAttribute() {
-        return ['recipe', 'nutritional information', 'nutrition 101'];
+        return ['Article', 'Recipes', 'Video'];
    }
 
+    
    
    /**
     * Get the Post Type value in USer readable format
     * @param  int $value 
     * @return string        
     */
-   protected function getPostTypeAttribute($value) {
-        
-        return  ucwords($this->postTypes[$value]);
+   // protected function getPostTypeAttribute($value) {
+   //      return  ucwords($this->post_types[$value]);
+   // }
+
+
+   protected function setPostTypeAttibute($value) {
+        // $this->attribute['post_type'] = array_search($value, $this->post_types);
    }
 
    

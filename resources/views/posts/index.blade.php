@@ -14,21 +14,7 @@
 
 
 	<div class="article-list row">
-		<div class="article-list__categories">
-			<div class="article-list__search">
-				<a href="#">Search Posts <i class="material-icons">search</i></a>
-			</div>
-			<div class="article-list__topics">
-				<h3>Topics</h3>
-				<ul>
-					@foreach($categories as $category)
-						<li>
-							<a href="/posts/category/{{ $category->direct_link }}">{{ $category->title }}</a>
-						</li>
-					@endforeach
-				</ul>
-			</div>
-		</div>
+		@include('layouts.frontend.partials.blog-sidebar', ['categories' => $categories])
 
 		<div class="article-list__articles">
 			<div class="article-list__articles-second row">

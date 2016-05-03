@@ -5,6 +5,8 @@
         .module('mcdaniel.api')
         .factory('cookieService', cookieService);
 
+    cookieService.$inject = ['$http', '$location', '$cookies'];
+
     /* @ngInject */
     function cookieService($http, $location, $cookies) {
         var cookieName = 'mcdaniel-nutrition';

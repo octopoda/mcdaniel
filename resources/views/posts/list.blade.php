@@ -5,31 +5,24 @@
 
 	
 
-
-	<!-- Header -->
-	<?php $mainImage = (empty($category->category_image)) ? 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/'. rand(1, 23) .'.jpg' : $category->category_image; ?>
-	<header class="article__header hero category" style="background-image:url('{{ $mainImage }}')">	
+	@if (isset($category))
+		<!-- Header -->
+		<?php $mainImage = (empty($category->category_image)) ? 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/'. rand(1, 23) .'.jpg' : $category->category_image; ?>
+		<header class="article__header hero category" style="background-image:url('{{ $mainImage }}')">	
 			<h5>Topic</h5>
 			<h1>{{ $category->title }}</h1>
-	</header>
-
+		</header>
+	@else 
+		<!-- Header -->
+		<?php $mainImage = 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/'. rand(1, 23) .'.jpg'; ?>
+		<header class="article__header hero category" style="background-image:url('{{ $mainImage }}')">	
+			<h5>Topic</h5>
+			<h1>{{ ucwords($type) }}</h1>
+		</header>
+	@endif
 
 	<div class="article-list row">
-		<div class="article-list__categories">
-			<div class="article-list__search">
-				<a href="#"><i class="material-icons">search</i></a>
-			</div>
-			<div class="article-list__topics">
-				<h3>Topics</h3>
-				<ul>
-					@foreach($categories as $category)
-						<li>
-							<a href="/posts/category/{{ $category->direct_link }}">{{ $category->title }}</a>
-						</li>
-					@endforeach
-				</ul>
-			</div>
-		</div>
+		@include('layouts.frontend.partials.blog-sidebar', ['categories' => $categories])
 
 		<div class="article-list__articles">
 			<section class="article-list__articles-remaining category row">

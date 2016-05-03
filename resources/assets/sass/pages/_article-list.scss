@@ -70,6 +70,33 @@
 }
 
 
+.article-search {
+	padding-top:rem-calc(80);
+
+	input {
+		font-size:rem-calc(60);
+		border:none !important;
+		background:none;
+		font-family:$body-font-family;
+		color:$green;
+	}
+
+	@include breakpoint('tablet') {
+		&__wrapper {
+			h5 {
+				margin-bottom:0;
+				color:$gray;
+				text-transform: uppercase;
+			}
+	
+
+			@include span(8 of 12 last);
+			@include push(4 of 12);
+		}
+	}
+}
+
+
 .article-list__topics {
 	h3 {
 		font-size:rem-calc(24);

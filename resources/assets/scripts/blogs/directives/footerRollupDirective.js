@@ -34,7 +34,7 @@
            */
           if (cookieService.haveCookie) {
             var cookie = cookieService.getCookie();
-            console.dir(cookie);
+            
             if (cookie.subscribedToMailChimp) {
               el.addClass('off');
             }

@@ -17,7 +17,7 @@ $dev: true !default;
 @import 'utilities/placeholders';
 @import 'utilities/animation';
 @import 'utilities/helpers';
-
+@import 'vendor/codemirror';
 
 //Elements
 @import 'objects/layouts/sitewide';
@@ -27,6 +27,7 @@ $dev: true !default;
 @import 'dashboard/dashboard-subnav';
 @import 'dashboard/dashboard-content';
 @import 'dashboard/dashboard-form';
+
 
 // @import 'dashboard/dashboard-navigation';
 // @import 'dashboard/dashboard-table';

@@ -4,6 +4,7 @@
 		<h3>{{ $submitButtonText }}</h3>
 	</div>
 	
+
 	<div class="col s4 dashboard__form--publish-switch">
 			<div class="switch">
 			<label>
@@ -27,8 +28,9 @@
  	</div>
 
  	<div class="row">
-		<div class="input-field col s12 m6">
-			{!! Form::select('post_type', $post->postTypes, ['class'=>'validate']) !!}
+		
+		<div class="input-field col s12 l6">
+			{!! Form::select('post_type', $post->post_types, (isset($post)) ? $post->post_type : null, ['class'=>'dashboard-select']) !!} 
 			{!! Form::label('post_type', 'Post Types') !!}
 		</div>
 
@@ -46,8 +48,8 @@
  	<div class="row">
  		{!! Form::label('content', 'Post Content') !!}
  		<div class="input-field col s12">
- 			{!! Form::textarea('content', null, ['class'=>'redactor validate',]) !!}
- 		</div>		
+ 			{!! Form::textarea('content', null, ['class'=>'redactor validate', 'rows' => '20']) !!}
+ 		</div>	
  	</div>
 
 	<div class="row">

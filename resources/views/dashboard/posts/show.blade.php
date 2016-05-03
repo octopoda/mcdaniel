@@ -13,7 +13,7 @@
 	
 	<div class="dashboard__content--show-wrapper">
 		
-		@if ($post->post_image) 
+		@if ($post->post_image != null) 
 		<header class="article__header hero" style="background-image:url({{ $post->post_image }})">	
 			<h1>{{ $post->title }}</h1>
 			<h4 class="article__author">
@@ -36,8 +36,7 @@
 		</article>
 
 		
-		@if ($post->post_thumbnail)
-		
+		@if ($post->post_thumbnail != null)
 		<div class="dashboard__content--thumbnails">
 			 <div class="dashboard__content--thumbnails--large">
 			 	<figure class="m-article large">

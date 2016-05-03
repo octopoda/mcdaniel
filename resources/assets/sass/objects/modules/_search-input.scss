@@ -1,0 +1,44 @@
+/*
+|--------------------------------------------------------------------------
+| Search Input for Posts
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+.m-search-input {
+	overflow:hidden;
+	position: relative;
+	width:100%;
+
+	
+	@extend %clearfix;
+	
+	i {
+		@include span(2 of 12);
+		margin-top:rem-calc(15);
+		cursor: pointer;
+	}
+
+	form {
+		@include span(10 of 12 last);
+	}
+}
+
+
+.m-search-input__slider {
+	@include translateX(82%);
+	@include transition(transform ease-in 0.4s);
+
+	.open & {
+		@include translateX(0);
+	}
+}
+
+
+.m-search-input__input {
+	border:none !important;
+	border-bottom:1px solid $gray !important;
+	background:$off-white;
+	padding:rem-calc(10) rem-calc(12) !important;
+}

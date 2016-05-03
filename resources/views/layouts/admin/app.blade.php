@@ -40,8 +40,9 @@
 	
 	<!-- Scripts -->
 	<script src="/assets/scripts/dashboard/vendor.min.js"></script>
+  	<script src="/assets/scripts/dashboard/redactor.min.js"></script>
   	<script src="/assets/scripts/dashboard/dashboard.min.js"></script>
-	<script src="/assets/scripts/dashboard/redactor.min.js"></script>
+	
 	
 	@include('layouts.admin.partials.flash')
 	

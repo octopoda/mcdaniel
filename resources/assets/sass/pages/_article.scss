@@ -155,6 +155,48 @@
 		padding-top:rem-calc(20);
 	}
 
+	&--video {
+		margin-top:rem-calc(30);
+
+		@include breakpoint('tablet') {
+			@include container;
+			text-align: center;
+		}
+
+		@include breakpoint('tablet') {
+			width:span(8 of 12);
+			margin:auto;
+			margin-top:rem-calc(30);
+		}
+
+		@include breakpoint('laptop') {
+			width:span(10 of 12);
+		}
+
+		.video-container {
+			height: 0;
+	  		padding-bottom: 56.25%; /* 16:9 */
+	  		position: relative;
+	  		pading-top:rem-calc(25);
+	  		// border: 1px solid #000;	
+
+	  		video {
+				max-width: 100%;
+				height: auto !important;
+			}
+
+			iframe {
+				position: absolute;
+	  		  	@include center(xy);
+	  		  	width:100%;
+	  		  	height:100%;
+			}
+		}
+	}
+
+
+	
+
 	@include breakpoint('tablet') {
 		&--content {
 			width:span(10 of 12);

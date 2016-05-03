@@ -29,13 +29,19 @@
 			
 		</header>
 
-		
-		<main class="article__content container" id="articleContent">	
-			<div class="article__content--content row">
-				{!!  $post->content !!}
-			</div>
-		</main>
-
+		@if ($post->video == 1)
+			<main class="article__content--video container" id="articleContent">	
+				<div class="video-container">
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/{{ $post->video_url }}" frameborder="0" allowfullscreen></iframe>
+				</div>
+			</main>
+		@else
+			<main class="article__content container" id="articleContent">	
+				<div class="article__content--content row">
+					{!!  $post->content !!}
+				</div>
+			</main>
+		@endif
 
 		<section class="article__also row">
 			<h3>You Might Also Like</h3>

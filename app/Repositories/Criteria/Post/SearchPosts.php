@@ -15,7 +15,7 @@ class SearchPosts extends Criteria {
 	}
 
 	public function apply($model, Repository $repository) {
-		$q = explode(',', $this->query);
+		// $q = explode(',', $this->query);
 
 		// $sql = "MATCH (title, content) AGAINST (";
 		// $nTimes = 1;
@@ -33,12 +33,3 @@ class SearchPosts extends Criteria {
 }
 
 
-// $posts = $this->post->whereRaw(
-// 06
-//         "MATCH(title,body) AGAINST(? IN BOOLEAN MODE)", 
-// 07
-//         array($q)
-// 08
-//     )->get();
-
- 
