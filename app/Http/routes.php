@@ -37,7 +37,6 @@ Route::group(["prefix" => "api/v1"], function () {
 		"uses" => "BlogController@searchPosts"
 	]);
 
-
 	//Post Routes
 	Route::get('posts/byTitle/{title}', [
 		"as" => "postByTitle",
@@ -49,7 +48,7 @@ Route::group(["prefix" => "api/v1"], function () {
 		"uses" => "PostController@postByNumber"
 	]);
 
-	Route::get('posts/search/{query}', [
+	Route::post('posts/search', [
 		"as" => "searchAllPosts",
 		"uses" => "Postcontroller@searchPosts"
 	]);
@@ -197,6 +196,14 @@ Route::group(['prefix'=>'posts'], function () {
 		"uses" => "PostController@postFromType"
 	]);
 	
+});
+
+
+Route::group(['prefix' => 'p'], function () {
+	Route::get('/{tiny}', [
+		"as" => "tinyUrl",
+		"uses" => "PostController@tinyUrl"
+	]);
 });
 
 

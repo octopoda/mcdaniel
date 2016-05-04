@@ -12,12 +12,26 @@
 			<h5>Topic</h5>
 			<h1>{{ $category->title }}</h1>
 		</header>
-	@else 
+	@elseif (isset($type)) 
 		<!-- Header -->
 		<?php $mainImage = 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/'. rand(1, 23) .'.jpg'; ?>
 		<header class="article__header hero category" style="background-image:url('{{ $mainImage }}')">	
 			<h5>Topic</h5>
 			<h1>{{ ucwords($type) }}</h1>
+		</header>
+	@elseif (isset($user)) 
+		<!-- Header -->
+		<?php $mainImage = 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/'. rand(1, 23) .'.jpg'; ?>
+		<header class="article__header hero category" style="background-image:url('{{ $mainImage }}')">	
+			<h5>Author</h5>
+			<h1>{{ ucwords($user->name) }}</h1>
+		</header>
+	@elseif (isset($year)) 
+		<!-- Header -->
+		<?php $mainImage = 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/'. rand(1, 23) .'.jpg'; ?>
+		<header class="article__header hero category" style="background-image:url('{{ $mainImage }}')">	
+			<h5>Archives</h5>
+			<h1>{{ $year }}</h1>
 		</header>
 	@endif
 

@@ -29,6 +29,7 @@ class CreatePostsTable extends Migration
             $table->integer('blog_id')->unsigned();
             $table->foreign('blog_id')->references('id')->on('blogs')->onDelete('cascade');
             $table->integer('post_type')->unsigned()->index();
+            $table->string('tiny_url')->index()->unique();
             $table->timestamps();
         });
 

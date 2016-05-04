@@ -1,11 +1,22 @@
-@extends('layouts.frontend.blog')
+<?php
+$header = [
+	"title" => "Searching for $query - McDaniel Nutrition Therapy",
+	"Keywords" => "$query, Nutrition, St. Louis, Missouri, corporate wellness, weight loss management, sports nutrition, maternal nutrition",
+	"navigation_style" => "black"
+	];
+?>
+
+@extends('layouts.frontend.blog', ['navigation_style' => 'black'])
 
 @section('content')
-
+	<article data-ng-controller="SearchController as vm">
 	<div class="article-search row">
-		<div class"article-search__wrapper">
-			<h5>Searching For</h5>
-			<input type="text" value="{{ $query }}" class="article-search-">
+		<div class="article-search__wrapper">
+			<h5>Searching For:</h5>
+			<form action="/search" method="GET" id="searchForm">
+				<input type="text" value="{{ $query }}" name="q" id="q">
+				<button> <i class="material-icons">search</i> </button>
+			</form>
 		</div>
 	</div>
 		
@@ -28,8 +39,9 @@
 			<div class="article-list__topics">
 				<h3>Authors</h3>
 				<ul>
-					<li><a href="/posts/types/recipes">Jennifer McDaniel</a></li>
-					<li><a href="/post/types/videos">Kaylie Dice</a></li>
+					@foreach ($authors as $author)
+						<li><a href="{{ route("postForAuthors", str_replace(' ', '-', $author->user->name)) }}">{{ $author->user->name }}</a></li> 
+					@endforeach
 				</ul>
 			</div>
 
@@ -37,12 +49,9 @@
 			<div class="article-list__topics">
 				<h3>Dates</h3>
 				<ul>
-					<li><a href="/posts/types/recipes">2011</a></li>
-					<li><a href="/post/types/videos">2012</a></li>
-					<li><a href="/post/types/videos">2013</a></li>
-					<li><a href="/post/types/videos">2014</a></li>
-					<li><a href="/post/types/videos">2015</a></li>
-					<li><a href="/post/types/videos">2016</a></li>
+					@foreach ($dates as $date)
+						<li><a href="{{ route('postByDate', $date) }}">{{ $date }}</a></li>
+					@endforeach
 				</ul>
 			</div>
 
@@ -71,10 +80,10 @@
 				{!! $posts->render() !!}
 			</div>
 		</div>
-
+	
 
 	</div>
-
+	</article>
 
 	@include('layouts.frontend.partials.blog-ad')
 	

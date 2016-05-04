@@ -17,10 +17,13 @@ use App\Repositories\CategoryRepository as Category;
 
 use App\Repositories\Criteria\Post\PostsWithAuthor;
 use App\Repositories\Criteria\Post\AscendingOrder;
+use App\Repositories\Criteria\Post\AscendingOrderNoPublish;
 use App\Repositories\Criteria\Post\SearchPosts;
 use App\Repositories\Criteria\Post\PostsFromDate;
 use App\Repositories\Criteria\Post\RandomPosts;
 use App\Repositories\Criteria\Post\PostTypes;
+
+use App\Repositories\Criteria\Blog\BlogWithAuthor;
 
 class PostController extends Controller
 {
@@ -118,8 +121,8 @@ class PostController extends Controller
        
        //Save the Image
        $request['blog_id'] = $blog->id;
+       $request['tiny_url'] = str_random(5);   
        $post = $this->post->create($request->all());
-
 
        if ($request->hasfile('post_image')) {
             $filePath = $this->post->saveImageForPost($request, 'post_image');
@@ -332,6 +335,19 @@ class PostController extends Controller
         return view('posts.post', compact('post', 'random'));
     }
 
+
+    /**
+     * Get the Post By a Tiny URL
+     * @param  string $tiny 
+     * @return /Illuminate/Html/Response
+     */
+    public function tinyUrl($tiny) {
+        $post = $this->post->findBy('tiny_url', $tiny);
+        $posts = $this->post->all();
+        $random = $posts->random(3);
+        return view('posts.post', compact('post', 'random'));   
+    }
+
     
     /**
      * Get Post By Category and Return through View
@@ -374,7 +390,8 @@ class PostController extends Controller
         $user = $this->user->findBy('name', str_replace("-", " ", $author));
         $blog = $this->blog->find($user->blog->id);
         $posts = $blog->posts()->paginate(25);
-        return view('posts.list', compact('posts'));
+        $categories = $this->category->all();
+        return view('posts.list', compact('posts', 'categories', 'user'));
     }
 
 
@@ -385,7 +402,8 @@ class PostController extends Controller
      */
     public function postByDate($year) {
         $posts = $this->post->pushCriteria(new PostsFromDate($year))->paginate(25);
-        return view('posts.list', compact('posts'));
+        $categories = $this->category->all();
+        return view('posts.list', compact('posts', 'categories', 'year'));
     }
 
     /**
@@ -395,8 +413,32 @@ class PostController extends Controller
     public function searchPostWithView(Request $request) {
         $query = $request->get('q');
         $posts = $this->post->pushCriteria(new SearchPosts($query))->paginate(25);
+        $authors = $this->blog->pushCriteria(new BlogWithAuthor())->all();
+        $dates = $this->getDates();
         $categories = $this->category->all();
-        return view('posts.search', compact('posts', 'query', 'categories'));
+        return view('posts.search', compact('posts', 'query', 'categories', 'authors', 'dates'));
+    }
+
+
+    /**
+     * Go through all post and get dates
+     * @return Array 
+     */
+    private function getDates() {
+        $y = '';
+        $years = [];
+        $posts = \App\Post::orderBy('publish_date', 'desc')->get();
+        
+        
+        foreach ($posts as $post) {
+            $year = date('Y', strtotime($post->publish_date));
+            if ($y != $year) {
+                $years[] = $year;
+            } 
+            $y = $year;
+        }
+
+        return $years;
     }
 
 

@@ -198,7 +198,11 @@ var jq = $.noConflict();
         		}
         }
 
-
+        /**
+         * Get the Preview Articles
+         * @param  {int} number 
+         * @return {object}        
+         */
        function getArticlesForBlogPreview(number) {
             return $http.get(apiUrl + '/byNumber/' + number)
                 .then(articleComplete)
@@ -209,6 +213,25 @@ var jq = $.noConflict();
                 function articleComplete(data, status, headers, config) {
                     return data.data
                 }
+       }
+
+
+       /**
+        * Seach the Posts
+        * @param  {object} data 
+        * @return {object}      
+        */
+       function searchArticles(data) {
+            return $http.post(apiUrl + '/search', data)
+                .then(articlesComplete)
+                .catch(function (message) {
+                    errors.catcher('Sorry we were not able to search the articles at this time')(message);
+                });
+
+                function articlesComplete(data, status, headers, config) {
+                    console.dir(data.data);
+                    return data.data;
+                }   
        }
     }
 })();
@@ -915,207 +938,52 @@ var jq = $.noConflict();
   	expires: exp
 	});
 */
-/*
-|--------------------------------------------------------------------------
-| Article List
-|--------------------------------------------------------------------------
-|
-| Controls the homepage of the knowledge center
-|
-*/
-
 (function() {
     'use strict';
 
     angular
         .module('mcdaniel.blog')
-        .controller('ArticleListController', ArticleListController);
+        .controller('SearchController', SearchController);
 
-    ArticleListController.$inject = ['articleService'];
-
-    /* @ngInject */
-    function ArticleListController(articleService) {
-        var vm = this;
-        vm.title = 'ArticleListController';
-        vm.Articles = [];
-        vm.Total;
-        vm.isTrending = isTrending;
-        vm.pageNumber = 0;
-        vm.pageSize = 20;
-        vm.pages;
-        vm.ArticlesLoaded = false;
-
-
-        //Methods 
-        vm.nextPage = nextPage;
-        vm.prevPage = previousPage;
-
-        activate();
-
-
-        ////////////////
-
-        function activate() {
-            return getData().then(function () {
-                vm.ArticlesLoaded = true;
-                vm.Articles[0].trending = true;
-                countPages();
-            });
-        }
-
-        /**
-         * Get article data
-         * @return {[type]} [description]
-         */
-        function getData() {
-            return articleService.getPaginatedArticles(vm.pageNumber, vm.pageSize).then(function (data) {
-                vm.Total = data.Count;
-                vm.Articles = data.Articles;
-                return vm.Articles;
-            })
-        }
-
-        /**
-         * If article is trending return featured class
-         * @param  {boolean}  trending 
-         * @return {string}          
-         */
-        function isTrending(trending) {
-            if (trending) return 'trending';
-            return;
-        }
-
-
-        function countPages() {
-            vm.pages = Math.round(vm.Total/vm.pageSize);
-            return vm.pages;
-        }
-
-        function nextPage() {
-
-        }
-
-        function previousPage() {
-
-        }
-    
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.blog')
-        .controller('ExploreListController', ExploreListController);
+    SearchController.$inject = ['$rootScope', 'articleService'];
 
     /* @ngInject */
-    function ExploreListController(exploreService) {
+    function SearchController($rootScope, articleService) {
         var vm = this;
-        vm.title = 'ExploreListController';
+        vm.title = 'SearchController';
+        vm.formData =  {
+        	query: null,
+        }
 
         activate();
 
         ////////////////
 
         function activate() {
-        }
-    }
-    ExploreListController.$inject = ["exploreService"];
-})();
-/*
-|--------------------------------------------------------------------------
-| Knowledge Center Controller
-|--------------------------------------------------------------------------
-|
-| Controls the homepage of the knowledge center
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.blog')
-        .controller('KnowledgeCenterController', KnowledgeCenterController);
-
-    KnowledgeCenterController.$inject = ['$scope', '$rootScope', '$window', 'articleService'];
-
-    /* @ngInject */
-    function KnowledgeCenterController($scope, $rootScope, $window, articleService) {
-        var vm = this;
-        vm.title = 'KnowledgeCenterController';
-        vm.Articles = [];
-        vm.pageNumber = 0;
-        vm.ArticleAmount = 24;
-        vm.TrendingAmount = 8;
-        vm.includeInternal = true;
-        vm.pages;
-        vm.ArticlesLoaded = false;
-        vm.loading = false;
-
-
-        //Methods 
-        vm.ArticlesLoaded = false;
-        vm.goToLink = goToLink;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-        	return getData().then(function () {
-                vm.ArticlesLoaded = true;
-            });
+        	
         }
 
-         /**
-         * Get article data
-         * @return {[type]} [description]
-         */
-        function getData() {
-            return articleService.getArticlesForHomepage(vm.ArticleAmount, vm.TrendingAmount, vm.includeInternal).then(function (data) {
-                vm.Total = data.Count;
-                vm.Articles = data.Articles;
-                return vm.Articles;
-            })
+        function searchArticles() {
+        	articleService.searchArticles(vm.formData).then(function (data) {
+
+        	});
         }
 
-      
 
-       
-
-        /*
-        |--------------------------------------------------------------------------
-        | $scope listener methods
-        |--------------------------------------------------------------------------
-        |
-        |
-        */
-       
-        $rootScope.$on('articleSearch.loading', function handleLoading(event, keyword) {
-            //TODO Throw loading Directive
-        });
-
-
-        /**
-         * If user is searching in the background 
-         * @param  {event} event 
-         * @param  {object} data)
-         * @return {object}
-         */
-        $rootScope.$on('articleSearch.results', function handleLoading(event, data) {
-            vm.Articles = data.Articles;
-        });
-
-
-        /**
-         *  Go to Link for Touch Devices
-         * @return {page redirect}
-         */
-        function goToLink(link) {
-            $window.location = link;
+        function clearSpaceAndReplace() {
+        	
         }
-    
+
+
+        $rootScope.$on('article.search', function (event, query) {
+        	//if (query === 'null') 
+        	vm.formData.query = query;
+        	searchArticles();
+
+        })
+
+
+
     }
 })();
 /*
@@ -2250,6 +2118,54 @@ var jq = $.noConflict();
     'use strict';
 
     angular
+        .module('mcdaniel.faq')
+        .directive('keyupSearchInput', keyupSearchInput);
+
+    keyupSearchInput.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function keyupSearchInput ($rootScope) {
+        // Usage:
+        // <input type="text" name="search" faq-search-input>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	/** @type {DOM} element  */
+        	var el = jq(element[0]);
+
+            
+        	/**
+        	 * On Key up search
+        	 * @param  {event}
+        	 * @return {function} 
+        	 */
+        	el.on('keyup', function (e) {
+        		if (timer) clearTimeout(timer);
+        		var timer = setTimeout(broadcastSearch, 400);
+        	});
+
+
+        	/**
+        	 * Broadcast to the Root
+        	 * @param  {string} query 
+        	 * @return {null}       
+        	 */
+        	function broadcastSearch() {
+        		var query = el.val();
+        		$rootScope.$emit('article.search', query)
+        	}
+        }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('mcdaniel.blog')
         .directive('searchInput', searchInput);
 
@@ -2514,7 +2430,8 @@ var jq = $.noConflict();
         function link(scope, element, attrs) {
         	var el = jq(element[0]),
 				html = el.html(),
-				url = $location.absUrl(),
+				tiny = jq('meta[name="tiny"]').attr('content'),
+                url = 'http://mcdanielnutrition.com/p/' + tiny,
 				via = '- @mcdanielrdn',
 				twitterLink = buildLink(url, via, html);
 
@@ -2565,94 +2482,6 @@ var jq = $.noConflict();
     }
 
     
-})();
-/*
-|--------------------------------------------------------------------------
-| Search Service
-|--------------------------------------------------------------------------
-|
-| Service to pass the search data between parameters
-| 
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.blog')
-        .service('searchService', searchService);
-
-
-   searchService.$inject = ['$rootScope', 'exploreService'];
-
-    /* @ngInject */
-    function searchService($rootScope, exploreService) {
-        var data =  {
-        	KeywordData: null
-        };
-
-        var service = {
-        	getKeywords: getKeywords,
-        	clearSearchData: clearSearchData
-        };
-
-        return service;
-
-        ////////////////
-
-        /**
-         * Call Loading Bar and setup results directive while grabbing data
-         * @param  {string} keyword 
-         * @return {object}         
-         */
-        function getKeywords(keyword) {
-        	$rootScope.$emit('search.loading', keyword);
-        	return getData(keyword).then(function (data) {
-        		alertResultsDirective(data);
-        	});
-        }
-
-        /**
-         * Clear the search Results
-         */
-        function clearSearchData() {
-        	$rootScope.$emit('search.clear');
-        }
-
-/*
-|--------------------------------------------------------------------------
-| Private Methods
-|--------------------------------------------------------------------------
-|
-| Description 1
-|  Description 2
-| 
-|
-*/        
-
-        /**
-         * Alert searchResultsDirective when Explore is finished;
-         * @return {object}
-         */
-        function alertResultsDirective(data) {
-            $rootScope.$emit('search.results', data);
-        }
-
-        
-        /**
-         * Get Search Data from Explore API
-         * @param  {string} keyword 
-         * @return {object}         
-         */
-        function getData(keyword) {
-        	return exploreService.exploreByKeyword(keyword).then(function (data) {
-        		return data;
-        	});
-        }
-
-
-       
-    }
 })();
 (function() {
     'use strict';
@@ -3166,7 +2995,8 @@ var jq = $.noConflict();
         function link(scope, element, attrs) {
             var el = jq(element[0]),
                 title = scope.title,
-                url = $location.absUrl(),
+                tiny = jq('meta[name="tiny"]').attr('content'),
+                url = 'http://mcdanielnutrition.com/p/' + tiny,
                 via = '- @mcdanielrdn',
                 twitterLink = buildLink(url, via, title);
 
@@ -5994,86 +5824,6 @@ var jq = $.noConflict();
 
     angular
         .module('global.modal')
-        .service('modalService', modalService);
-
-    modalService.$inject = ['$rootScope', '$q'];
-
-    /* @ngInject */
-    function modalService($rootScope, $q) {
-        var modal = {
-					deferred: null,
-					params: null
-				};
-
-				this.open = open;
-				this.params = params;
-				this.proceedTo = proceedTo;
-				this.reject = reject;
-				this.resolve = resolve;
-
-        ////////////////
-
-        function open( type, params, pipeResponse ) {
-					var previousDeferred = modal.deferred;
-					
-					modal.deferred = $q.defer();
-					modal.params = params;
-
-					if ( previousDeferred && pipeResponse ) {
-						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
-					} else if ( previousDeferred ) {
-						previousDeferred.reject();
-					}
-
-					$rootScope.$emit( "modalService.open", type );
-					return modal.deferred.promise;
-				}
-
-
-				
-				function params() {
-					return ( modal.params || {} );
-				}
-
-
-				function proceedTo( type, params ) {
-					return open(type, params, true) ;
-				}
-
-
-				
-				function reject( reason ) {
-					if ( ! modal.deferred ) {return; }
-					modal.deferred.reject( reason );
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-
-				
-				function resolve( response ) {
-					if (!modal.deferred) {return; }
-					
-					modal.deferred.resolve(response);
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-    }
-})();
-
-
-
-
-
-
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
         .directive('alertModal', alertModal);
 
     alertModal.$inject = ['$rootScope', 'modalService'];
@@ -6171,6 +5921,86 @@ var jq = $.noConflict();
     }
 
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .service('modalService', modalService);
+
+    modalService.$inject = ['$rootScope', '$q'];
+
+    /* @ngInject */
+    function modalService($rootScope, $q) {
+        var modal = {
+					deferred: null,
+					params: null
+				};
+
+				this.open = open;
+				this.params = params;
+				this.proceedTo = proceedTo;
+				this.reject = reject;
+				this.resolve = resolve;
+
+        ////////////////
+
+        function open( type, params, pipeResponse ) {
+					var previousDeferred = modal.deferred;
+					
+					modal.deferred = $q.defer();
+					modal.params = params;
+
+					if ( previousDeferred && pipeResponse ) {
+						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
+					} else if ( previousDeferred ) {
+						previousDeferred.reject();
+					}
+
+					$rootScope.$emit( "modalService.open", type );
+					return modal.deferred.promise;
+				}
+
+
+				
+				function params() {
+					return ( modal.params || {} );
+				}
+
+
+				function proceedTo( type, params ) {
+					return open(type, params, true) ;
+				}
+
+
+				
+				function reject( reason ) {
+					if ( ! modal.deferred ) {return; }
+					modal.deferred.reject( reason );
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+
+				
+				function resolve( response ) {
+					if (!modal.deferred) {return; }
+					
+					modal.deferred.resolve(response);
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+    }
+})();
+
+
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Loading Directive

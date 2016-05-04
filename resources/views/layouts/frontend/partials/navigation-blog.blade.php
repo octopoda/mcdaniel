@@ -1,6 +1,6 @@
 <li class="phone-only"><a class="mobile-navigation-button"><span class="navigation__menu"></span></a></li>
 
-<nav id="navigation" class="navigation">
+<nav id="navigation" class="navigation {{ $navigation_style }}">
   <div class="navigation__row">
       <div class="site-branding blog" data-go-blog>
         <a href="\">McDaniel Nutrition</a>

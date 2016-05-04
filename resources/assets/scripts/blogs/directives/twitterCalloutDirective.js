@@ -21,7 +21,8 @@
         function link(scope, element, attrs) {
         	var el = jq(element[0]),
 				html = el.html(),
-				url = $location.absUrl(),
+				tiny = jq('meta[name="tiny"]').attr('content'),
+                url = 'http://mcdanielnutrition.com/p/' + tiny,
 				via = '- @mcdanielrdn',
 				twitterLink = buildLink(url, via, html);
 

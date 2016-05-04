@@ -85,6 +85,14 @@
 		
 		@include breakpoint('retina') {
 			background-image:url('#{$icon}blog-logo-white@2x.png')			
+		}
+
+		.black & {
+			background-image:url('#{$icon}blog-logo-color.png') !important;
+
+			@include breakpoint('retina') {
+				background-image:url('#{$icon}blog-logo-color@2x.png') !important;			
+			}				
 		}			
 	}
 
@@ -219,6 +227,10 @@
 		  font-size:rem-calc(14);
 		  margin-right:rem-calc(10);
 		  a { color:$white; }
+
+		  .black & {
+		  	a { color:$black; }
+		  }
 		}
 	}
 

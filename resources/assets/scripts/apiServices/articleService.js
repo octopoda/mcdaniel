@@ -61,7 +61,11 @@
         		}
         }
 
-
+        /**
+         * Get the Preview Articles
+         * @param  {int} number 
+         * @return {object}        
+         */
        function getArticlesForBlogPreview(number) {
             return $http.get(apiUrl + '/byNumber/' + number)
                 .then(articleComplete)
@@ -72,6 +76,25 @@
                 function articleComplete(data, status, headers, config) {
                     return data.data
                 }
+       }
+
+
+       /**
+        * Seach the Posts
+        * @param  {object} data 
+        * @return {object}      
+        */
+       function searchArticles(data) {
+            return $http.post(apiUrl + '/search', data)
+                .then(articlesComplete)
+                .catch(function (message) {
+                    errors.catcher('Sorry we were not able to search the articles at this time')(message);
+                });
+
+                function articlesComplete(data, status, headers, config) {
+                    console.dir(data.data);
+                    return data.data;
+                }   
        }
     }
 })();

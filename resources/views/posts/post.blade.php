@@ -1,11 +1,14 @@
 <?php 
 	$header = [
 		"title" => $post->title,
-		"description" => $post->summary,
-		"fixed" => true
+		"description" => strip_tags($post->summary),
+		"Keywords" => "Nutrition, St. Louis, Missouri, corporate wellness, weight loss management, sports nutrition, maternal nutrition",
+		"tiny" => $post->tiny_url,
+		"shareImage" => $post->post_facebook
 	];
-
 ?>
+
+
 
 @extends('layouts.frontend.blog', compact('header'))
 

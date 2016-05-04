@@ -72,6 +72,11 @@
 
 .article-search {
 	padding-top:rem-calc(80);
+	
+
+	&__wrapper {
+		position: relative;	
+	}
 
 	input {
 		font-size:rem-calc(60);
@@ -79,19 +84,39 @@
 		background:none;
 		font-family:$body-font-family;
 		color:$green;
+		border-bottom:1px solid $gray !important;
+	}
+
+	button {
+		position: absolute;
+		bottom:rem-calc(0);
+		right:rem-calc(10);
+		border:none;
+		font-size:rem-calc(30);
 	}
 
 	@include breakpoint('tablet') {
+		input {
+			padding-left:0;
+		}
+
 		&__wrapper {
+			@include span(9 of 12 last);
+			@include push(3 of 12);
+			
+			padding-left:rem-calc(30);
+
 			h5 {
 				margin-bottom:0;
 				color:$gray;
-				text-transform: uppercase;
+				margin-bottom:rem-calc(-20);
 			}
-	
+		}
+	}
 
-			@include span(8 of 12 last);
-			@include push(4 of 12);
+	@include breakpoint('laptop') {
+		&__wrapper {
+			padding-left:0;
 		}
 	}
 }
