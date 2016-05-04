@@ -1,0 +1,9 @@
+<ul class="collapsible faq__wrapper" id="faqQuestions">
+	<li class="faq__question" data-ng-repeat="faq in vd.faqs" data-ng-click="vd.openAnswer($event)" class="repeat-animation" data-ng-cloak>
+		<i class="material-icons">chevron_right</i>
+		{{ faq.question }}
+		<div class="faq__answer" data-ng-bind-html="faq.answer">
+			
+		</div>
+	</li>
+</ul>

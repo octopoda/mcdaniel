@@ -20,6 +20,7 @@
 				<tr>
 					<th data-field="Question">Question</th>
 					<th data-field="Status">Status</th>
+					<th data-field="featured">Featured</th>
 					<th data-field="Edit">Edit</th>
 				</tr>
 			</thead>
@@ -35,6 +36,19 @@
 							@endif
 						</td>
 						<td>{{ $faq->published }}</td>
+						<td>
+							<a 
+								class="faq-star {{ ($faq->stared) ? '' : 'disabled' }}"
+								id="faqStarButton"
+								data-method="put"
+								data-remote="true"
+								rel="nofollow"
+								href="{{ route('faqStar', ['id' => $faq->id]) }}"
+							>
+								<i class="material-icons">star</i>
+							</a>
+						</td>
+						
 						<td class="button-group">
 							@include('dashboard.partials._delete-table', [
                         		'model' => $faq,

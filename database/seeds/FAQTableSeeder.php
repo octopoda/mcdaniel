@@ -12,12 +12,7 @@ class FAQTableSeeder extends Seeder
      */
     public function run()
     {
-
-		// /DB::table('faqs')->truncate();
-
-        // $faqs = factory(App\Faq::class, 10)->create();
-        // dd($faqs);
-
-        // DB::table('faqs')->insert($faqs);
+    	// DB::table('faqs')->truncate();
+        // $faqs = factory(App\Faq::class, 20)->create();
     }
 }

@@ -8,36 +8,48 @@
     /* @ngInject */
     function faqBlock () {
         // Usage:
-        // <div ng-repeat="faq in fc.Faqs" ng-if="faq.featured" faq-block>
-				// 		<h4 >{{ faq.question }} <i class="fa fa-angle-right"></i></h4>
-				// 		<div ng-bind-html="faq.answer" class="faq-answer"></div>
-				// </div>
+        // <div faq-block></div>
         var directive = {
+            bindToController: true,
+            controller: FaqBlockController,
+            controllerAs: 'vd',
             link: link,
             restrict: 'A',
+            templateUrl: '/templates/faqs/faq-block.html',
+            scope: {
+                faqs: "="
+            }
         };
-        
         return directive;
 
         function link(scope, element, attrs) {
-        		
-                var question = jq(element[0]);
-        		var answer = question.children('.faq__answer');
-
-        		question.on('click', function (e) {
-        			if (question.hasClass('open')) {
-        				answer.slideUp(200);
-        				question.toggleClass('open');
-        			} else {
-        				answer.slideDown(200);
-        				question.toggleClass('open');
-        			}
-        		});
+            
         }
     }
 
-    /* @ngInject */
-    function Controller () {
+    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
 
+    /* @ngInject */
+    function FaqBlockController ($scope, $element, $attrs) {
+        var vd = $scope.vd;
+
+        vd.openAnswer = openAnswer;
+
+
+
+        //Open the Answers
+        function openAnswer($event) {
+            var self = jq($event.currentTarget),
+                answer = self.children('.faq__answer');
+
+            if (self.hasClass('open')) {
+                answer.slideUp(200);
+                self.toggleClass('open');
+            } else {
+                answer.slideDown(200);
+                self.toggleClass('open');
+            }
+        }
     }
+
 })();

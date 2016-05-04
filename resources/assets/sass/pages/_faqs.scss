@@ -28,12 +28,22 @@
 	.search-icon {
 		position: absolute;
 		top:rem-calc(10);
-		right:20px;
+		right:rem-calc(20);
 	}
 
 	input {
 		background:none;
 		border:none;
+		font-size:rem-calc(24);
+	}
+
+	@include breakpoint('laptop') {
+		.search-icon {
+			position: absolute;
+			right:auto;
+			margin-left:rem-calc(-10);
+			margin-top:rem-calc(5);
+		}
 	}
 }
 

@@ -19,10 +19,12 @@
 
     /* @ngInject */
     function faqService($http, common,  errors) {
-        var apiUrl = common.apiUrl + 'faq';
+        var apiUrl = common.apiUrl + '/faqs';
 
         var service = {
-            getFaqs: getFaqs
+            getFaqs: getFaqs,
+            getStaredFaqs : getStaredFaqs,
+            searchFaqs : searchFaqs 
         };
         
         return service;
@@ -43,6 +45,40 @@
         		function faqComplete(data, status, headers, config) {
         			return data.data;
         		}
+        }
+
+
+        /**
+         * Get the stared FAQS
+         * @return {object} 
+         */
+        function getStaredFaqs() {
+            return $http.get(apiUrl + '/stared')
+                .then(faqComplete)
+                .catch(function (message) {
+                    errors.catcher('Sorry but we cannot connect to the FAQ servics')(message);
+                });
+
+                function faqComplete(data, status, headers, config) {
+                    return data.data;
+                }
+        }
+
+        
+        /**
+         * Seach the FAQS
+         * @return {object} 
+         */
+        function searchFaqs(data) {
+            return $http.post(apiUrl + '/search', data)
+                .then(faqComplete)
+                .catch(function (message) {
+                    errors.catcher('Sorry but we cannot connect to the FAQ service')(message);
+                });
+
+                function faqComplete(data, status, headers, config) {
+                    return data.data;
+                } 
         }
     }
 })();

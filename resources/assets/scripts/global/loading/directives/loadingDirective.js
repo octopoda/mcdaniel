@@ -24,7 +24,7 @@
             link: link,
             restrict: 'A',
             replace:true,
-            templateUrl: '/ngViews/global/loading.html',
+            templateUrl: '/templates/global/loading.html',
         };
         
         return directive;

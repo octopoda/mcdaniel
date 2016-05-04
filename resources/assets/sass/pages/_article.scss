@@ -90,6 +90,8 @@
 	}
 }
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Share
@@ -138,6 +140,18 @@
 |--------------------------------------------------------------------------
 |
 */
+
+.article__edit-button {
+	display:none;
+
+	@include breakpoint('tablet') {
+		display: block;
+		position: relative;
+		float:right;
+		margin-top:rem-calc(-60);
+		z-index:$z-layer-range-4;
+	}
+}
 
 
 .article__content {

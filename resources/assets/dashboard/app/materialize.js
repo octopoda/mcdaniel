@@ -12,17 +12,13 @@ $(function () {
     	$(e.target).closest('tr').slideUp(500);
     	var name = $(e.target).attr('data-title');
     	
-    	console.dir(data);
-
     	Materialize.toast("Your " + name + " has been deleted", 1400, 'success');
     });
 
 
-	
 
 	$('.publish-button').bind('ajax:success', function (e, data, status, xhr) {
 		console.dir(data);
-
 		if (data.published) {
 			$('.dashboard__content--draft').animate({
 				width: 0
@@ -39,9 +35,7 @@ $(function () {
 			$(e.target).children('i').html('publish');	
 		}
 		
-		
 		Materialize.toast(data.message, 1400, 'success');
-		
 	});
 
 
@@ -52,7 +46,17 @@ $(function () {
 		} else {
 			$('#embedVideoField').slideUp(500);
 		}
-	})
+	});
+
+	console.log('message');
+
+	$('.faq-star').bind('ajax:success', function (e, data, status, xhr) {
+		console.dir(data);
+
+		(data.featured) ? $(this).removeClass('disabled') : $(this).addClass('disabled');
+		
+		Materialize.toast(data.message, 1400, 'success');
+	});
 
 	
 });

@@ -11,14 +11,17 @@
 
 @section('content')
 
-	<article class="article">
+	<article class="article" itemprop="http://schema.org/Article">
 		<?php $mainImage = (empty($post->post_image)) ? 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/' . rand(1, 25) . '.jpg' : $post->post_image; ?>
 		<header class="article__header hero" style="background-image:url({{ $mainImage }})">	
-			<h1>{{ $post->title }}</h1>
-			<h4 class="article__author">
+			<h1 itemprop="headline">{{ $post->title }}</h1>
+			<h4 class="article__author" itemprop="author">
 				<a href="{{ route('postForAuthors', strtolower(str_replace(' ', '-', $post->blog->user->name))) }}">{{ $post->blog->user->name }}</a>
-				<small>{{ $post->publish_date }}</small>
+				<small   itemprop="datePublished">{{ $post->publish_date }}</small>
 			</h4>
+	
+
+
 
 			<ul class="article__share-links">
 				<li data-facebook-share data-title="{{ $post->title }}"><i class="fa fa-facebook"></i></li>
@@ -29,15 +32,25 @@
 			
 		</header>
 
+		@if (Entrust::can('manage_posts'))
+			<div class="row">
+				<div class="button reverse article__edit-button">
+					<a href="{{ route('dashboard.posts.edit', $post->id) }}">Edit Post</a>
+				</div>
+			</div>
+		@endif
+		
+
+
 		@if ($post->video == 1)
-			<main class="article__content--video container" id="articleContent">	
+			<main class="article__content--video container" id="articleContent"  itemprop="about">	
 				<div class="video-container">
 					<iframe width="560" height="315" src="https://www.youtube.com/embed/{{ $post->video_url }}" frameborder="0" allowfullscreen></iframe>
 				</div>
 			</main>
 		@else
 			<main class="article__content container" id="articleContent">	
-				<div class="article__content--content row">
+				<div class="article__content--content row"  itemprop="about">
 					{!!  $post->content !!}
 				</div>
 			</main>

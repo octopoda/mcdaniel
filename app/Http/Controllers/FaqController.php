@@ -60,7 +60,8 @@ class FaqController extends Controller
     {
         //Show Flash
         flash()->success("", "The faq was created");
-        $this->faq->create($request->all());
+        $faq = $this->faq->create($request->all());
+        return view('dashboard.faqs.show', compact('faq'));
     }
 
     /**
@@ -138,14 +139,23 @@ class FaqController extends Controller
      * @param  int $id 
      * @return boolean
      */
-    public function starFAQ($id) {
-        $faq = $this->faq->find(id);
-        $faq->stared = 1;
-        if ($faq->update())  {
-            return true;
+    public function toggleStar($id) {
+        $faq = $this->faq->find($id);
+        
+        
+        if ($faq->stared != null) {
+            $faq->stared = 0;    
+            $message = "The FAQ is unfeatured";
+            $featured = false;
         } else {
-            return false;
+            $faq->stared = 1;    
+            $message = "The FAQ is featured";
+            $featured = true;
         }
+        
+        $faq->update();
+
+        return compact('message', 'featured');
     }
 
 
@@ -156,7 +166,17 @@ class FaqController extends Controller
      */
     public function searchFaqs(Request $request) {
         $faqs = $this->faq->pushCriteria(new SearchFAQs($request->get('query')))->all();
-        return $faqs;
+        return compact('faqs');
+    }
+
+
+    /**
+     * Get the Stared Faqs
+     * @return [type] [description]
+     */
+    public function staredFaqs() {
+        $faqs = $this->faq->pushCriteria(new StaredFAQs())->all();
+        return compact('faqs');
     }
 
 
@@ -172,7 +192,7 @@ class FaqController extends Controller
      * Get the stared FAQs fror a view.
      * @return \Illuminate\Http\Response
      */
-    public function staredFAQs() {
+    public function staredFAQsWithView() {
         $faqs = $this->faq->pushCriteria(new StaredFAQs())->all();
         return view('faqs.index', compact('faqs'));
     }

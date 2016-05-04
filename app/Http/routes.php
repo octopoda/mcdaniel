@@ -81,6 +81,11 @@ Route::group(["prefix" => "api/v1"], function () {
 		'uses' => 'FaqController@staredFAQs'
 	]);
 
+	Route::put('/faqs/star/{id}', [
+		'as' => 'faqStar',
+		'uses' => 'FaqController@toggleStar'
+	]);
+
 	
 	//Form Routes
 	Route::post('/contact/formSubmit', [
@@ -249,7 +254,7 @@ Route::group(['prefix' => 'appearances'], function () {
 Route::group(['prefix' => 'faqs'], function () {
 	Route::get('/', [
 		'as' => 'allFAQs',
-		'uses' => 'FaqController@staredFAQs'
+		'uses' => 'FaqController@staredFAQsWithView'
 	]);
 
 	Route::get('/{title}', [
