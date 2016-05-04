@@ -78,7 +78,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = $this->post->pushCriteria(new AscendingOrder())->paginate(10);
+        $posts = $this->post->pushCriteria(new AscendingOrderNoPublish())->paginate(10);
         return View('dashboard.posts.index', compact('posts'));
     }  
 
@@ -313,7 +313,12 @@ class PostController extends Controller
      * @return /Illuminate/Html/Response
      */
     public function paginatePost() {
-        $posts = $this->post->pushCriteria(new AscendingOrder())->paginate(20);
+        if (\Entrust::can('manage_posts'))  {
+            $posts = $this->post->pushCriteria(new AscendingOrderNoPublish())->paginate(20);    
+        } else {
+            $posts = $this->post->pushCriteria(new AscendingOrder())->paginate(20);    
+        }
+        
         $types = $this->post->getPostTypes();
         $categories = $this->category->all();
         $main = $posts->pull(0);

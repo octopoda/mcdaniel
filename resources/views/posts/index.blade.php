@@ -2,7 +2,6 @@
 $header = [
 	"title" => "Articles for McDaniel Nutrition Therapy",
 	"Keywords" => "Nutrition, St. Louis, Missouri, corporate wellness, weight loss management, sports nutrition, maternal nutrition",
-	
 	];
 ?>
 
