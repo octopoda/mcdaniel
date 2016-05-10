@@ -257,6 +257,7 @@ class PostController extends Controller
      */
     public function postByTitle($title) {
         $post = $this->post->findBy('direct_link', $title);
+        $post->increment('reads');
         return compact('post');
     }
 
@@ -336,6 +337,7 @@ class PostController extends Controller
     public function postByTitleView($title) {
         $post = $this->post->findBy('direct_link', $title);
         $posts = $this->post->all();
+        $post->increment('reads');
         $random = $posts->random(3);
         return view('posts.post', compact('post', 'random'));
     }

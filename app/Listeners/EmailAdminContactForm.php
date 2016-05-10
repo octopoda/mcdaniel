@@ -29,7 +29,7 @@ class EmailAdminContactForm
     public function handle(ContactFormSubmitted $event)
     {
         Mail::send('mail.contactForm', ['mailRequest' => $event->mailRequest], function ($message) use ($event) {
-            $message->to(env('MAIL_USERNAME'))
+            $message->to(env('MAIL_SEND'))
                     ->from('no-reply@mcdanielnutrition.com')
                     ->subject($event->mailRequest['subject']);
         });
