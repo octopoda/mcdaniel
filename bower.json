@@ -28,7 +28,8 @@
     "susy": "~2.2.7",
     "waypoints": "~3.1.1",
     "instafeed.js": "~1.4.1",
-    "angular-sanitize": "~1.5.5"
+    "angular-sanitize": "~1.5.5",
+    "angular-local-storage": "~0.2.7"
   },
   "devDependencies": {
     "instafeed.js": "~1.4.1"

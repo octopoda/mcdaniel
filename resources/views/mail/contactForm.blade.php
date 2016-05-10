@@ -1,14 +1,14 @@
 
 <p>Jennifer, </p>
 
-<p>The contact form on your site has been submitted.  </p>
+<p>You have a new customer.</p>
 
 @foreach($mailRequest as $key=>$value)
-		<h4> {{ ucwords(str_replace("_", " ", $key)) }}: </h4> 
-		<p> {{ $value }}</p>
+		@if (is_array($value)) 
+			<h4> {{ ucwords(str_replace("-", " ", $key)) }}: </h4> 
+			<p> {{ implode(", ", array_keys($value)) }}</p>
+		@else 
+			<h4> {{ ucwords(str_replace("-", " ", $key)) }}: </h4> 
+			<p> {{ $value }}</p>
+		@endif
 @endforeach
-</ul>
-
-<p>Thanks,</p>
-
-<p>Black Ink</p>

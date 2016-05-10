@@ -27,12 +27,12 @@
                   <li><a href="{{ route('allFAQs') }}">FAQs</a></li>
                 </ul>
             </li>
-        		<li><a href="#" title="Store" >Store</a></li>
+        		<!-- <li><a href="#" title="Store" >Store</a></li> -->
       	 </ul>
 
 
         	<ul class="main-navigation__cta">
-            <li class="button"> <a href="{{ route('contact') }}">Get Started</a> </li> 
+            <li class="button"> <a href="{{ route('get-started') }}">Get Started</a> </li> 
           </ul>
     </div>
   </div>

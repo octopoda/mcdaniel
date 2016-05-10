@@ -38,7 +38,7 @@
 
   <!-- Twitter Card Metadata /-->
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:site" content="@mcdanielrdn" /> <!-- Add Site Social Media Profile -->
+  <meta name="twitter:site" content="{{ '@mcdaniel' }}" /> <!-- Add Site Social Media Profile -->
   <meta name="twitter:title" content="{{ $pageTitle }}" />
   <meta name="twitter:description" content="{{ $pageDescription }}" />
   <meta name="twitter:image" content="{{ $shareImage }}" /> <!-- TODO -->
@@ -70,27 +70,27 @@
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
     <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId      : '556572864519365',
-          xfbml      : true,
-          version    : 'v2.5'
-        });
-      };
+      // window.fbAsyncInit = function() {
+      //   FB.init({
+      //     appId      : '556572864519365',
+      //     xfbml      : true,
+      //     version    : 'v2.5'
+      //   });
+      // };
 
-      (function(d, s, id){
-         var js, fjs = d.getElementsByTagName(s)[0];
-         if (d.getElementById(id)) {return;}
-         js = d.createElement(s); js.id = id;
-         js.src = "//connect.facebook.net/en_US/sdk.js";
-         fjs.parentNode.insertBefore(js, fjs);
-       }(document, 'script', 'facebook-jssdk'));
+      // (function(d, s, id){
+      //    var js, fjs = d.getElementsByTagName(s)[0];
+      //    if (d.getElementById(id)) {return;}
+      //    js = d.createElement(s); js.id = id;
+      //    js.src = "//connect.facebook.net/en_US/sdk.js";
+      //    fjs.parentNode.insertBefore(js, fjs);
+      //  }(document, 'script', 'facebook-jssdk'));
     </script>
 
 </head>
 
 <body data-ng-app="mcdaniel">
-  {{-- @yield('modal') --}}
+  <div data-mcdaniel-flash class="m-flash" role="alert"></div>
   
   <section>
       <header>

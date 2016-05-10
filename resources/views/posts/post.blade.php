@@ -48,7 +48,7 @@
 		@if ($post->video == 1)
 			<main class="article__content--video container" id="articleContent"  itemprop="about">	
 				<div class="video-container">
-					{{ $post->video_url }}
+					{!! $post->video_url !!}
 				</div>
 			</main>
 		@else

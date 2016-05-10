@@ -9,13 +9,15 @@
 
     /* @ngInject */
     function cookieService($http, $location, $cookies) {
-        var cookieName = 'mcdaniel-nutrition';
+        var cookieName = 'mcdanielNutrition';
         var now = new Date();
 
         var service = {
         	haveCookie : haveCookie,
             getCookie: getCookie,
             storeCookie : storeCookie,
+            storeMailChimp : storeMailChimp,
+            storeService : storeService,
             removeCookie : removeCookie
         };
         
@@ -28,7 +30,7 @@
          * @return {boolean} 
          */
         function haveCookie() {
-        	if ($cookies.get(cookieName) != undefined || $cookie.get(cookieName) != null) {
+        	if ($cookies.get(cookieName) != undefined || $cookies.get(cookieName) != null) {
         		return true;
         	} else {
         		return false;
@@ -50,7 +52,6 @@
         	}
         }
 
-
         /**
          * Store the Cookie Information
          * @param  {object} data
@@ -64,6 +65,42 @@
              path: '/',
              expires: exp
            });
+        }
+
+        /**
+         * Store the Mail Chimp
+         * @return {null}
+         */
+        function storeMailChimp() {
+            var data = getCookie();
+            data.subscribedToMailChimp = true;
+            var json = JSON.stringify(data);
+            return $cookies.put(cookieName, json);
+        }
+
+        /**
+         * Store the Services
+         * @param  {string} service 
+         * @return {null}         
+         */
+        function storeService(service) {
+            var data = getCookie();
+            data.lastInterestedService = service;
+            var json = JSON.stringify(data);
+            return $cookies.put(cookieName, json);
+        }
+
+
+        /**
+         * Store the last read article
+         * @param  {string} articleTitle 
+         * @return {null}
+         */
+        function storeLastArticle(articleTitle) {
+            var data = getCookie();
+            data.lastReadArticle = true;
+            var json = JSON.stringify(data);
+            return $cookies.put(cookieName, json);
         }
 
 

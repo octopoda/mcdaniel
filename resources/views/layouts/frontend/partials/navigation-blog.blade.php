@@ -1,6 +1,6 @@
 <li class="phone-only"><a class="mobile-navigation-button"><span class="navigation__menu"></span></a></li>
 
-<nav id="navigation" class="navigation {{ $navigation_style }}">
+<nav id="navigation" class="navigation blog {{ $navigation_style }}" data-blog-navigation>
   <div class="navigation__row">
       <div class="site-branding blog" data-go-blog>
         <a href="\">McDaniel Nutrition</a>
@@ -31,8 +31,9 @@
          </ul>
 
 
-          <ul class="main-navigation__cta">
-            <li class="button"> <a href="{{ route('contact') }}">Get Started</a> </li> 
+          <ul class="main-navigation__cta blog">
+            <li class="navigation_search"><div data-search-input data-always-open="true"></div></li>
+            <li class="button get_started"> <a href="{{ route('get-started') }}">Get Started</a> </li> 
           </ul>
     </div>
   </div>

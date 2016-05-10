@@ -3,12 +3,12 @@
 
     angular
         .module('global.flash')
-        .directive('abFlash', abFlash);
+        .directive('mcdanielFlash', mcdanielFlash);
 
-    abFlash.$inject = ['$rootScope', '$timeout', 'mailService', 'flash', 'errors'];
+    mcdanielFlash.$inject = ['$rootScope', '$timeout', 'mailService', 'flash', 'errors'];
 
     /* @ngInject */
-    function abFlash ($rootScope, $timeout, mailService, flash, errors) {
+    function mcdanielFlash ($rootScope, $timeout, mailService, flash, errors) {
         // Usage:
         // <div ab-flash></div>
         var directive = {
@@ -16,7 +16,7 @@
             controller: Controller,
             controllerAs: 'vd',
             link: link,
-            templateUrl: '/ngViews/global/flash.html',
+            templateUrl: '/templates/global/flash.html',
             restrict: 'A',
             scope: {
             }
@@ -93,7 +93,7 @@
 					 function actionSubmit() {
 					    
 					     var AlertData = {
-					       name: 'hack master',
+					       name: 'Zack Davis',
 					       email: 'zackd@assetbuilder.com',
 					       phone: null,
 					       bestContactTime: null,

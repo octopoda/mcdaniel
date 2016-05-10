@@ -15,12 +15,11 @@ var jq = $.noConflict();
             //Larger AB Specific Modules
             'mcdaniel.api', 
             'mcdaniel.navigation',
-            // 'mcdaniel.survey',
             'mcdaniel.blog',
             'mcdaniel.pages',
             'mcdaniel.faq',
             'mcdaniel.forms',
-            // 'mcdaniel.admin',
+            'mcdaniel.getstarted',
             'mcdaniel.templates'
         ]);
 })();

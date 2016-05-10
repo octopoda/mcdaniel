@@ -33,6 +33,10 @@
 	.open & {
 		@include translateX(0);
 	}
+
+	.always-open & {
+		@include translateX(0);	
+	}
 }
 
 

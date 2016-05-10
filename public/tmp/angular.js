@@ -15,12 +15,11 @@ var jq = $.noConflict();
             //Larger AB Specific Modules
             'mcdaniel.api', 
             'mcdaniel.navigation',
-            // 'mcdaniel.survey',
             'mcdaniel.blog',
             'mcdaniel.pages',
             'mcdaniel.faq',
             'mcdaniel.forms',
-            // 'mcdaniel.admin',
+            'mcdaniel.getstarted',
             'mcdaniel.templates'
         ]);
 })();
@@ -28,11 +27,6 @@ var jq = $.noConflict();
     'use strict';
 
     angular.module('mcdaniel.api', []);
-})();
-(function() {
-    'use strict';
-
-    angular.module('mcdaniel.blog', []);
 })();
 (function() {
    'use strict';
@@ -43,9 +37,19 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
+    angular.module('mcdaniel.blog', []);
+})();
+(function() {
+    'use strict';
+
     angular .module('mcdaniel.forms', []); 
 
   })();
+(function() {
+    'use strict';
+
+    angular.module('mcdaniel.getstarted', []);
+})();
 (function() {
     'use strict';
 
@@ -85,7 +89,7 @@ var jq = $.noConflict();
             'global.flash', 'global.errors', 'global.modal', 'global.share', 'global.sidemenu',  'global.loading',
 
             /** Third Party */
-            'angular-loading-bar'
+            'angular-loading-bar', 'LocalStorageModule'
         ]);
 })();
 /*
@@ -311,13 +315,15 @@ var jq = $.noConflict();
 
     /* @ngInject */
     function cookieService($http, $location, $cookies) {
-        var cookieName = 'mcdaniel-nutrition';
+        var cookieName = 'mcdanielNutrition';
         var now = new Date();
 
         var service = {
         	haveCookie : haveCookie,
             getCookie: getCookie,
             storeCookie : storeCookie,
+            storeMailChimp : storeMailChimp,
+            storeService : storeService,
             removeCookie : removeCookie
         };
         
@@ -330,7 +336,7 @@ var jq = $.noConflict();
          * @return {boolean} 
          */
         function haveCookie() {
-        	if ($cookies.get(cookieName) != undefined || $cookie.get(cookieName) != null) {
+        	if ($cookies.get(cookieName) != undefined || $cookies.get(cookieName) != null) {
         		return true;
         	} else {
         		return false;
@@ -352,7 +358,6 @@ var jq = $.noConflict();
         	}
         }
 
-
         /**
          * Store the Cookie Information
          * @param  {object} data
@@ -366,6 +371,42 @@ var jq = $.noConflict();
              path: '/',
              expires: exp
            });
+        }
+
+        /**
+         * Store the Mail Chimp
+         * @return {null}
+         */
+        function storeMailChimp() {
+            var data = getCookie();
+            data.subscribedToMailChimp = true;
+            var json = JSON.stringify(data);
+            return $cookies.put(cookieName, json);
+        }
+
+        /**
+         * Store the Services
+         * @param  {string} service 
+         * @return {null}         
+         */
+        function storeService(service) {
+            var data = getCookie();
+            data.lastInterestedService = service;
+            var json = JSON.stringify(data);
+            return $cookies.put(cookieName, json);
+        }
+
+
+        /**
+         * Store the last read article
+         * @param  {string} articleTitle 
+         * @return {null}
+         */
+        function storeLastArticle(articleTitle) {
+            var data = getCookie();
+            data.lastReadArticle = true;
+            var json = JSON.stringify(data);
+            return $cookies.put(cookieName, json);
         }
 
 
@@ -715,8 +756,7 @@ var jq = $.noConflict();
         		});
 
         		function mailChimpComplete(data, status, headers, config) {
-        			console.dir(data);
-                    return data.data;
+        			return data.data;
         		}
         }
     }
@@ -732,7 +772,7 @@ var jq = $.noConflict();
 
     /* @ngInject */
     function mailService($http, common,  errors) {
-        var apiUrl = common.apiUrl + "Mail";
+        var apiUrl = common.apiUrl + "/contact/formSubmit";
         
         var service = {
             sendToMailer: sendToMailer,
@@ -752,10 +792,9 @@ var jq = $.noConflict();
         	return $http.post(apiUrl, data)
                 .then(mailSent)
                 .catch(function (message) {
-                    errors.catcher('Mail cannot be sent at this time.  Please contact us at 972.535.4040')(message);
+                    errors.catcher('Mail cannot be sent at this time.')(message);
                 });
 
-                //Mark hides the status inside the data.
                 function mailSent(data, status, headers, config) {
                     return data;
                 }
@@ -938,54 +977,6 @@ var jq = $.noConflict();
   	expires: exp
 	});
 */
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.blog')
-        .controller('SearchController', SearchController);
-
-    SearchController.$inject = ['$rootScope', 'articleService'];
-
-    /* @ngInject */
-    function SearchController($rootScope, articleService) {
-        var vm = this;
-        vm.title = 'SearchController';
-        vm.formData =  {
-        	query: null,
-        }
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-        	
-        }
-
-        function searchArticles() {
-        	articleService.searchArticles(vm.formData).then(function (data) {
-
-        	});
-        }
-
-
-        function clearSpaceAndReplace() {
-        	
-        }
-
-
-        $rootScope.$on('article.search', function (event, query) {
-        	//if (query === 'null') 
-        	vm.formData.query = query;
-        	searchArticles();
-
-        })
-
-
-
-    }
-})();
 /*
 |--------------------------------------------------------------------------
 | FAQ controller.  
@@ -1082,6 +1073,54 @@ var jq = $.noConflict();
 
     }
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .controller('SearchController', SearchController);
+
+    SearchController.$inject = ['$rootScope', 'articleService'];
+
+    /* @ngInject */
+    function SearchController($rootScope, articleService) {
+        var vm = this;
+        vm.title = 'SearchController';
+        vm.formData =  {
+        	query: null,
+        }
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+        	
+        }
+
+        function searchArticles() {
+        	articleService.searchArticles(vm.formData).then(function (data) {
+
+        	});
+        }
+
+
+        function clearSpaceAndReplace() {
+        	
+        }
+
+
+        $rootScope.$on('article.search', function (event, query) {
+        	//if (query === 'null') 
+        	vm.formData.query = query;
+        	searchArticles();
+
+        })
+
+
+
+    }
+})();
 /*
 |--------------------------------------------------------------------------
 | Contact Form Controller
@@ -1100,37 +1139,39 @@ var jq = $.noConflict();
         .module('mcdaniel.forms')
         .controller('ContactFormController', ContactFormController);
 
-    ContactFormController.$inject = ['$scope', 'mailService', 'flash', 'common'];
+    ContactFormController.$inject = ['$scope', 'mailService', 'flash', 'common', 'localStorageService'];
 
     /* @ngInject */
-    function ContactFormController($scope, mailService, flash, common) {
+    function ContactFormController($scope, mailService, flash, common, localStorageService) {
         var vm = this;
         vm.title = 'ContactFormController';
         
         /** @type {Vars} Scope Vars */
         vm.loading = false;
+        vm.success = false;
+        vm.service = 'all'
 
         /** @type {Methods} Scope Methods */
         vm.submitForm = submitForm;
 
-        vm.successMessage = "Thanks for Contacting Us. Your email is important to us and one of our team members will get back to you in 1 to 2 business days.";
+        /** @type {String} Success Message */
+        vm.successMessage = "Thanks for Contacting Us. Your email is important to us and we will get back to you in 1 to 2 business days.";
+
 
         /**
          * Data for All contact Forms.  Just add to here if not in form already. 
          * @type {Object}
          */
         vm.formData = {
-        	first: null,
-            last: null,
+        	customerName: null,
         	email: null, 
         	phone: null,
         	bestContactTime: null,
         	subject: null,
-        	message: null,
+        	contactMessage: null,
             formType: null,
             question: null,
-            lastViewedPortfolio: null,
-            alertMessage: null,
+            interestedService: null,
         }
 
         /**
@@ -1157,7 +1198,13 @@ var jq = $.noConflict();
          * @return {[type]} [description]
          */
         function activate() {
-        
+            vm.formData.interestedService = localStorageService.get('interestedService');
+            vm.service = localStorageService.get('interestedService');
+
+            if (vm.formData.interestedService == null) vm.service = 'all';
+            if (vm.formData.interestedService == 'weight-loss') vm.formData.interestedService = 'sustain';
+            if (vm.formData.interestedService == null) vm.formData.interestedService = 'sustain';
+            
         }
 
         
@@ -1175,13 +1222,14 @@ var jq = $.noConflict();
          * @param PortfolioNAme  name of last viewed portfolio.  Set null for most forms. 
          * @return {[type]} [description]
          */
-        function submitForm(portfolioName) {
+        function submitForm() {
             
             vm.loading = 'loading'
 
             vm.formData.subject = setupEmailSubject();
-            vm.formData.lastViewedPortfolio = portfolioName;
-
+            vm.formData.interestedService = vm.formData.interestedService.replace("-", " ");
+            
+            
             
             mailService.sendToMailer(vm.formData)
                 .then(function (data) {
@@ -1189,10 +1237,9 @@ var jq = $.noConflict();
                 });
 
             function mailSent(data) {
-                console.dir(data);
                 if (data.status == 200) {
-                    flash.success(vm.successMessage);
                     clearForm();
+                    vm.success = true;
                 }
             }
         }
@@ -1204,20 +1251,14 @@ var jq = $.noConflict();
          */
         function setupEmailSubject() {
             switch (vm.formData.formType) {
-                case "expatsForm":
-                    return 'Expats Contact Form';
+                case "get-started-page":
+                    return 'The Get Started Contact Page was submitted';
                     break;
                 case "faqForm":
                     return 'A Question has been submitted';
                     break;
-                case "portfolioForm":
-                    return 'A customer has submitted a request from the Portfolio Page';
-                    break;
                 case "contactForm":
                     return 'A customer has submitted a Contact Request';
-                    break;
-                case "expatsPortfolioForm":
-                    return 'An expat customer has submitted a request from the Portfolio Page';
                     break;
                 default: 
                     return 'A form was submitted on the site';
@@ -1235,15 +1276,15 @@ var jq = $.noConflict();
             vm.loading = false
 
             vm.formData =  {
-                name: null,
+                customerName: null,
                 email: null, 
                 phone: null,
                 bestContactTime: null,
                 subject: null,
-                message: null,
+                contactMessage: null,
                 formType: null,
                 question: null,
-                alertMessage: null,
+
             }
         }
 
@@ -1257,19 +1298,18 @@ var jq = $.noConflict();
 
         function fillForm() {
            vm.formData = { 
-                name: 'Bob Dole',
-                email: 'bobd@assetbuilder.com', 
+                customerName: 'Bob Dole',
+                email: 'bobd@2721west.com', 
                 phone: '972.535.4040',
                 bestContactTime: {
                     'afternoon' : true,
                     'morning' : true
                 },
                 subject: "Big Gulp Huh?",
-                message: 'alright\' ... we\'ll see you later',
+                contactMessage: 'alright\' ... we\'ll see you later',
                 formType: null,
                 question: 'Big Gulps Huh?',
-                alertMessage: null,
-                lastViewedPortfolio: 'portfolio 10',
+                interestedService: 'teach-and-taste'
             }
         }
 
@@ -1280,53 +1320,22 @@ var jq = $.noConflict();
     'use strict';
 
     angular
-        .module('mcdaniel.navigation')
-        .directive('mainNavigation', mainNavigation);
-
-    mainNavigation.$inject = ['$document'];
+        .module('mcdaniel.getstarted')
+        .controller('GetStartedController', GetStartedController);
 
     /* @ngInject */
-    function mainNavigation ($document) {
-        // Usage:
-        // <div class="navigation" main-navigation></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            }
-        };
-        return directive;
+    function GetStartedController() {
+        var vm = this;
+        vm.title = 'GetStartedController';
 
-        function link(scope, element, attrs) {
-            
+        activate();
 
-          var el = document.getElementById('navigation'),
-              menuButton = jq('.mobile-navigation-button');
+        ////////////////
 
-          
-          /**
-      		 * Fixed Navigation
-      		 * Waypoints http://imakewebthings.com/waypoints/ 
-      		 */
-      		var sticky = new Waypoint({
-      			element: el,
-      			handler: function () {
-              jq('body').toggleClass('nav-fixed');
-      			},
-      			offset: -100
-      		});
-
-      		menuButton.on('click', function (e) {
-            jq('.mobile-navigation-button').toggleClass('active');
-            jq('.navigation').toggleClass('open');
-            jq('body').toggleClass('nav-open');
-          });
-
-  			}
+        function activate() {
+        
+        }
     }
-
-
-   
 })();
 (function() {
     'use strict';
@@ -1385,8 +1394,8 @@ var jq = $.noConflict();
 
     /* @ngInject */
     function common($location, $q, $rootScope, $timeout, flash) {
-        var dev = true;
-        var testing = true;
+        var dev = false;
+        var testing = false;
 
 
         var service = {
@@ -1606,26 +1615,34 @@ var jq = $.noConflict();
 	}
 
 	shared.value('config', config);
-	share.config(configure)
+	shared.config(configure)
 
-  configure.$inject = ['$logProvider', 'exceptionHandlerProvider', '$httpProvider'];
+  configure.$inject = ['$logProvider', '$httpProvider', '$interpolateProvider', 'localStorageServiceProvider', '$compileProvider'];
 
 	/** @ngInject */
-	function configure($logProvider, exceptionHandlerProvider, $httpProvider) {
-		//Turn debugging off/on (no info or warn);
+	function configure($logProvider,  $httpProvider, $interpolateProvider, localStorageServiceProvider, $compileProvider) {
+		
+    //Turn debugging off/on (no info or warn);
 		if ($logProvider.debugEnabled) {
 			$logProvider.debugEnabled(true);
 		}
 
-		//Configure the common exception handler
-		exceptionHandlerProvider.configure(config.appErrorPrefix);
+    $interpolateProvider.startSymbol("{!");
+    $interpolateProvider.endSymbol("!}");
 
+    localStorageServiceProvider.setPrefix('mcdanielNutrition');
+    localStorageServiceProvider.setStorageCookie(180, '<path>');
+    localStorageServiceProvider.setStorageCookieDomain('https://mcdanielnutrition.com');
+    /** Debug */
+    localStorageServiceProvider.setNotify(true, true);
 
-		$httpProvider.defaults.headers.post['Content-Type'] = config.header;
-    $httpProvider.deafaults.headers.post['X-CSRF-TOKEN'] = jq('meta[name="csrf-token"]').attr('content')
-    $httpProvider.defaults.transformRequest = [function(data) {
-      return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
-    }];
+    $compileProvider.debugInfoEnabled(false);
+
+    $httpProvider.defaults.headers.post['Content-Type'] = config.header;
+    $httpProvider.defaults.headers.post['X-CSRF-TOKEN'] = jq('meta[name="csrf-token"]').attr('content')
+    // $httpProvider.defaults.transformRequest = [function(data) {
+    //   return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
+    // }];
 	}
 
 
@@ -1661,7 +1678,7 @@ var jq = $.noConflict();
         return query.length ? query.substr(0, query.length - 1) : query;
 	}
 
-});
+})();
 (function() {
     'use strict';
 
@@ -1846,6 +1863,109 @@ var jq = $.noConflict();
     'use strict';
 
     angular
+        .module('mcdaniel.faq')
+        .directive('faqBlock', faqBlock);
+
+    /* @ngInject */
+    function faqBlock () {
+        // Usage:
+        // <div faq-block></div>
+        var directive = {
+            bindToController: true,
+            controller: FaqBlockController,
+            controllerAs: 'vd',
+            link: link,
+            restrict: 'A',
+            templateUrl: '/templates/faqs/faq-block.html',
+            scope: {
+                faqs: "="
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+            
+        }
+    }
+
+    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
+
+    /* @ngInject */
+    function FaqBlockController ($scope, $element, $attrs) {
+        var vd = $scope.vd;
+
+        vd.openAnswer = openAnswer;
+
+
+
+        //Open the Answers
+        function openAnswer($event) {
+            var self = jq($event.currentTarget),
+                answer = self.children('.faq__answer');
+
+            if (self.hasClass('open')) {
+                answer.slideUp(200);
+                self.toggleClass('open');
+            } else {
+                answer.slideDown(200);
+                self.toggleClass('open');
+            }
+        }
+    }
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqSearchInput', faqSearchInput);
+
+    faqSearchInput.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function faqSearchInput ($rootScope) {
+        // Usage:
+        // <input type="text" name="search" faq-search-input>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	/** @type {DOM} element  */
+        	var el = jq(element[0]);
+
+        	/**
+        	 * On Key up search
+        	 * @param  {event}
+        	 * @return {function} 
+        	 */
+        	el.on('keyup', function (e) {
+        		if (timer) clearTimeout(timer);
+        		
+        		var timer = setTimeout(broadcastSearch, 400);
+        	});
+
+
+        	/**
+        	 * Broadcast to the Root
+        	 * @param  {string} query 
+        	 * @return {null}       
+        	 */
+        	function broadcastSearch() {
+        		var query = el.val();
+        		$rootScope.$emit('faqSearch', query)
+        	}
+        }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('mcdaniel.blog')
         .directive('articleSmall', articleSmall);
 
@@ -1960,10 +2080,10 @@ var jq = $.noConflict();
         .module('mcdaniel.blog')
         .directive('footerRollup', footerRollup);
 
-    footerRollup.$inject = ['cookieService'];
+    footerRollup.$inject = ['localStorageService'];
 
     /* @ngInject */
-    function footerRollup (cookieService) {
+    function footerRollup (localStorageService) {
         // Usage:
         // <div footer-rollup></div>
         var directive = {
@@ -1987,12 +2107,8 @@ var jq = $.noConflict();
            * @param  {boolesn} cookieService.haveCookie 
            * @return {DOM}                          
            */
-          if (cookieService.haveCookie) {
-            var cookie = cookieService.getCookie();
-            
-            if (cookie.subscribedToMailChimp) {
-              el.addClass('off');
-            }
+          if (localStorageService.get('subscribedToMailChimp')) {
+            el.addClass('off');
           }
 					
 					/**
@@ -2031,9 +2147,9 @@ var jq = $.noConflict();
         }
     }
 
-    FooterRollupController.$inject = ['$scope', '$element', '$attrs', 'mailChimpService', 'cookieService'];
+    FooterRollupController.$inject = ['$scope', '$element', '$attrs', 'mailChimpService', 'localStorageService'];
 
-    function FooterRollupController($scope, $element, $attrs, mailChimpService, cookieService) {
+    function FooterRollupController($scope, $element, $attrs, mailChimpService, localStorageService) {
         var vd = $scope.vd;
 
         vd.formData = {
@@ -2046,6 +2162,7 @@ var jq = $.noConflict();
 
         vd.submitMailChimp = submitMailChimp;
 
+        console.dir(localStorageService.get('subscribedToMailChimp'));
 
         ///////
         
@@ -2059,9 +2176,12 @@ var jq = $.noConflict();
               vd.success = true;
               vd.message = data;
 
-              cookieService.storeCookie({
-                subscribedToMailChimp : true
-              })
+              vd.data = {
+                subscribe: true,
+                email: vd.formData.email
+              };
+
+              localStorageService.set('subscribedToMailChimp', vd.data)
 
               setTimeout(function () {
                 jq('.article__footer').removeClass('open').addClass('off');
@@ -2182,7 +2302,7 @@ var jq = $.noConflict();
             replace: true,
             templateUrl: '/templates/blog/search-input.html',
             scope: {
-
+                alwaysOpen: "@"
             }
         };
         
@@ -2203,6 +2323,9 @@ var jq = $.noConflict();
             input = jq('#q'),
             form = jq('#searchForm');
 
+        if (vd.alwaysOpen) {
+            el.addClass('always-open');
+        }
         
         jq('body').click(function (e) {
             if (jq(e.target).closest(el).length === 0) {
@@ -2482,193 +2605,6 @@ var jq = $.noConflict();
     }
 
     
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqBlock', faqBlock);
-
-    /* @ngInject */
-    function faqBlock () {
-        // Usage:
-        // <div faq-block></div>
-        var directive = {
-            bindToController: true,
-            controller: FaqBlockController,
-            controllerAs: 'vd',
-            link: link,
-            restrict: 'A',
-            templateUrl: '/templates/faqs/faq-block.html',
-            scope: {
-                faqs: "="
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-            
-        }
-    }
-
-    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
-
-    /* @ngInject */
-    function FaqBlockController ($scope, $element, $attrs) {
-        var vd = $scope.vd;
-
-        vd.openAnswer = openAnswer;
-
-
-
-        //Open the Answers
-        function openAnswer($event) {
-            var self = jq($event.currentTarget),
-                answer = self.children('.faq__answer');
-
-            if (self.hasClass('open')) {
-                answer.slideUp(200);
-                self.toggleClass('open');
-            } else {
-                answer.slideDown(200);
-                self.toggleClass('open');
-            }
-        }
-    }
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqSearchInput', faqSearchInput);
-
-    faqSearchInput.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function faqSearchInput ($rootScope) {
-        // Usage:
-        // <input type="text" name="search" faq-search-input>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	/** @type {DOM} element  */
-        	var el = jq(element[0]);
-
-        	/**
-        	 * On Key up search
-        	 * @param  {event}
-        	 * @return {function} 
-        	 */
-        	el.on('keyup', function (e) {
-        		if (timer) clearTimeout(timer);
-        		
-        		var timer = setTimeout(broadcastSearch, 400);
-        	});
-
-
-        	/**
-        	 * Broadcast to the Root
-        	 * @param  {string} query 
-        	 * @return {null}       
-        	 */
-        	function broadcastSearch() {
-        		var query = el.val();
-        		$rootScope.$emit('faqSearch', query)
-        	}
-        }
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.forms')
-        .directive('mailChimp', mailChimp);
-
-    /* @ngInject */
-    function mailChimp () {
-        // Usage:
-        // <div mail-chimp color-type="black || green">
-        var directive = {
-            bindToController: true,
-            controller: mailChimpInputController,
-            controllerAs: 'vd',
-            restrict: 'A',
-            link: link,
-            templateUrl: '/ngViews/forms/subscribe-button.html',
-            scope: {
-            	colorType: "@"
-            }
-        };
-    
-        return directive;
-
-        function link (scope, element, attrs) {
-        		var vd = scope.vd;
-        		vd.getColor = getColor;
-
-        		function getColor() {
-        			if (vd.colorType === 'black') {
-        				return 'bw';
-        			} else if (vd.colorType == 'green') {
-        				return 'open';
-        			}
-        		}
-				}
-
-    }
-
-    mailChimpInputController.$inject = ['$scope', 'mailChimpService', 'common', 'flash'];
-
-    /* @ngInject */
-    function mailChimpInputController ($scope, mailChimpService, common, flash) {
-    	var vd = $scope.vd;
-
-    	if (common.isTesting) {
-    	    vd.mailChimpInput = "zackd@assetbuilder.com";
-    	}
-			
-			vd.mailChimpSubmit = mailChimpSubmit;
-			vd.mailChimpMessage = null;
-
-			function mailChimpSubmit() {
-				if (vd.mailChimpInput === null) return;
-				send(vd.mailChimpInput);
-			};
-
-
-			function send(email) {
-				return mailChimpService.sendToMailChimp(email)
-					.then(mailChimpComplete)
-					.catch(mailChimpError);
-
-					/**
-					 * Dislay User Safe Results
-					 * @param  {object} data 
-					 * @return {string}      
-					 */
-					function mailChimpComplete(data) {
-                        flash.success(data.ReturnResult);
-					}
-
-					/**
-					 * Display User safe Error
-					 * @return {string} 
-					 */
-					function mailChimpError() {
-						console.log('error happendin in the controller');
-						//Make up user error not CPU Error
-					}
-			}
-    }
 })();
 /*
 |--------------------------------------------------------------------------
@@ -3219,12 +3155,12 @@ var jq = $.noConflict();
 
     angular
         .module('global.flash')
-        .directive('abFlash', abFlash);
+        .directive('mcdanielFlash', mcdanielFlash);
 
-    abFlash.$inject = ['$rootScope', '$timeout', 'mailService', 'flash', 'errors'];
+    mcdanielFlash.$inject = ['$rootScope', '$timeout', 'mailService', 'flash', 'errors'];
 
     /* @ngInject */
-    function abFlash ($rootScope, $timeout, mailService, flash, errors) {
+    function mcdanielFlash ($rootScope, $timeout, mailService, flash, errors) {
         // Usage:
         // <div ab-flash></div>
         var directive = {
@@ -3232,7 +3168,7 @@ var jq = $.noConflict();
             controller: Controller,
             controllerAs: 'vd',
             link: link,
-            templateUrl: '/ngViews/global/flash.html',
+            templateUrl: '/templates/global/flash.html',
             restrict: 'A',
             scope: {
             }
@@ -3309,7 +3245,7 @@ var jq = $.noConflict();
 					 function actionSubmit() {
 					    
 					     var AlertData = {
-					       name: 'hack master',
+					       name: 'Zack Davis',
 					       email: 'zackd@assetbuilder.com',
 					       phone: null,
 					       bestContactTime: null,
@@ -3391,6 +3327,54 @@ var jq = $.noConflict();
         function warning(message, data, title) {
         	$log.warn('Warning: ' + message, data);
             $rootScope.$emit('flash.warning', message);
+        }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.navigation')
+        .directive('blogNavigation', blogNavigation);
+
+    /* @ngInject */
+    function blogNavigation () {
+        // Usage:
+        //  <div blog-navigation></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var el = element[0];
+        	
+        	var sticky = new Waypoint({
+      			element: el,
+      			handler: function () {
+              		jq('body').toggleClass('nav-fixed');
+      			},
+      			offset: -100
+      		});
+			        	
+
+        	var lastScrollPosition = 0;
+        	
+        	//Detect Scroll Position
+        	jq(window).scroll(function (e) {
+        		var scrollTop = jq(this).scrollTop();
+        		if (scrollTop > lastScrollPosition) {
+        			//Scrolling Down
+        			jq(element[0]).removeClass('visible');
+        		} else {
+        			//Scrolling Up
+        			jq(element[0]).addClass('visible');
+        		}
+
+        		lastScrollPosition = scrollTop;
+        	});
         }
     }
 })();
@@ -3477,6 +3461,56 @@ var jq = $.noConflict();
         }
     }
 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.navigation')
+        .directive('mainNavigation', mainNavigation);
+
+    mainNavigation.$inject = ['$document'];
+
+    /* @ngInject */
+    function mainNavigation ($document) {
+        // Usage:
+        // <div class="navigation" main-navigation></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+          var el = element[0],
+              menuButton = jq('.mobile-navigation-button');
+
+          
+          /**
+      		 * Fixed Navigation
+      		 * Waypoints http://imakewebthings.com/waypoints/ 
+      		 */
+      		var sticky = new Waypoint({
+      			element: el,
+      			handler: function () {
+              jq('body').toggleClass('nav-fixed');
+      			},
+      			offset: -100
+      		});
+
+      		menuButton.on('click', function (e) {
+            jq('.mobile-navigation-button').toggleClass('active');
+            jq('.navigation').toggleClass('open');
+            jq('body').toggleClass('nav-open');
+          });
+
+  			}
+    }
+
+
+   
 })();
 /// <reference path="navigationURIWatcherDirective.js" />
 /* 
@@ -3775,6 +3809,45 @@ var jq = $.noConflict();
 
     angular
         .module('mcdaniel.pages')
+        .directive('servicesButton', servicesButton);
+
+   	servicesButton.$inject = ['localStorageService'];
+
+    /* @ngInject */	
+    function servicesButton (localStorageService) {
+        // Usage:
+        // <div class="button" data-services-button data-service="weight-loss"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	service: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+   			    var el = jq(element[0]);
+            var clicked = false;
+  			     
+            el.on('click', function (e) {
+                e.preventDefault();
+                localStorageService.set('interestedService', scope.service);
+                window.location = el.attr('href');
+            });
+        }
+    }
+
+  
+
+ 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.pages')
         .directive('tabbedServices', tabbedServices);
 
     /* @ngInject */
@@ -3793,8 +3866,6 @@ var jq = $.noConflict();
         return directive;
 
         function link(scope, element, attrs) {
-        	console.log('message');
-
         	var el = jq(element);
         	var target = jq('#' + scope.target);
 
@@ -3835,6 +3906,45 @@ var jq = $.noConflict();
         }
     }
 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('fixedAsset', fixedAsset);
+	
+	/* @ngInject */
+    function fixedAsset () {
+        // Usage:
+        // <div fixed-asset></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+              wrapper: "@"  
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var el = element[0];
+              
+          /**
+      		 * Fixed Navigation
+      		 * Waypoints http://imakewebthings.com/waypoints/ 
+      		 */
+      		var fixed = new Waypoint({
+      			element: el,
+      			handler: function () {
+            		jq(el).toggleClass('fixed');
+      			},
+      			offset: 120
+      		});
+
+         
+        }
+    }
 })();
 /*
 |--------------------------------------------------------------------------

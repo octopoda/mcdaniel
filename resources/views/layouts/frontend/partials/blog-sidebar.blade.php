@@ -1,6 +1,6 @@
 <div class="article-list__categories">
 	<div class="article-list__search">
-		<div data-search-input></div>
+		<div data-search-input data-always-open="false"></div>
 	</div>
 	<div class="article-list__topics">
 		<h3>Topics</h3>

@@ -16,37 +16,39 @@
         .module('mcdaniel.forms')
         .controller('ContactFormController', ContactFormController);
 
-    ContactFormController.$inject = ['$scope', 'mailService', 'flash', 'common'];
+    ContactFormController.$inject = ['$scope', 'mailService', 'flash', 'common', 'localStorageService'];
 
     /* @ngInject */
-    function ContactFormController($scope, mailService, flash, common) {
+    function ContactFormController($scope, mailService, flash, common, localStorageService) {
         var vm = this;
         vm.title = 'ContactFormController';
         
         /** @type {Vars} Scope Vars */
         vm.loading = false;
+        vm.success = false;
+        vm.service = 'all'
 
         /** @type {Methods} Scope Methods */
         vm.submitForm = submitForm;
 
-        vm.successMessage = "Thanks for Contacting Us. Your email is important to us and one of our team members will get back to you in 1 to 2 business days.";
+        /** @type {String} Success Message */
+        vm.successMessage = "Thanks for Contacting Us. Your email is important to us and we will get back to you in 1 to 2 business days.";
+
 
         /**
          * Data for All contact Forms.  Just add to here if not in form already. 
          * @type {Object}
          */
         vm.formData = {
-        	first: null,
-            last: null,
+        	customerName: null,
         	email: null, 
         	phone: null,
         	bestContactTime: null,
         	subject: null,
-        	message: null,
+        	contactMessage: null,
             formType: null,
             question: null,
-            lastViewedPortfolio: null,
-            alertMessage: null,
+            interestedService: null,
         }
 
         /**
@@ -73,7 +75,13 @@
          * @return {[type]} [description]
          */
         function activate() {
-        
+            vm.formData.interestedService = localStorageService.get('interestedService');
+            vm.service = localStorageService.get('interestedService');
+
+            if (vm.formData.interestedService == null) vm.service = 'all';
+            if (vm.formData.interestedService == 'weight-loss') vm.formData.interestedService = 'sustain';
+            if (vm.formData.interestedService == null) vm.formData.interestedService = 'sustain';
+            
         }
 
         
@@ -91,13 +99,14 @@
          * @param PortfolioNAme  name of last viewed portfolio.  Set null for most forms. 
          * @return {[type]} [description]
          */
-        function submitForm(portfolioName) {
+        function submitForm() {
             
             vm.loading = 'loading'
 
             vm.formData.subject = setupEmailSubject();
-            vm.formData.lastViewedPortfolio = portfolioName;
-
+            vm.formData.interestedService = vm.formData.interestedService.replace("-", " ");
+            
+            
             
             mailService.sendToMailer(vm.formData)
                 .then(function (data) {
@@ -105,10 +114,9 @@
                 });
 
             function mailSent(data) {
-                console.dir(data);
                 if (data.status == 200) {
-                    flash.success(vm.successMessage);
                     clearForm();
+                    vm.success = true;
                 }
             }
         }
@@ -120,20 +128,14 @@
          */
         function setupEmailSubject() {
             switch (vm.formData.formType) {
-                case "expatsForm":
-                    return 'Expats Contact Form';
+                case "get-started-page":
+                    return 'The Get Started Contact Page was submitted';
                     break;
                 case "faqForm":
                     return 'A Question has been submitted';
                     break;
-                case "portfolioForm":
-                    return 'A customer has submitted a request from the Portfolio Page';
-                    break;
                 case "contactForm":
                     return 'A customer has submitted a Contact Request';
-                    break;
-                case "expatsPortfolioForm":
-                    return 'An expat customer has submitted a request from the Portfolio Page';
                     break;
                 default: 
                     return 'A form was submitted on the site';
@@ -151,15 +153,15 @@
             vm.loading = false
 
             vm.formData =  {
-                name: null,
+                customerName: null,
                 email: null, 
                 phone: null,
                 bestContactTime: null,
                 subject: null,
-                message: null,
+                contactMessage: null,
                 formType: null,
                 question: null,
-                alertMessage: null,
+
             }
         }
 
@@ -173,19 +175,18 @@
 
         function fillForm() {
            vm.formData = { 
-                name: 'Bob Dole',
-                email: 'bobd@assetbuilder.com', 
+                customerName: 'Bob Dole',
+                email: 'bobd@2721west.com', 
                 phone: '972.535.4040',
                 bestContactTime: {
                     'afternoon' : true,
                     'morning' : true
                 },
                 subject: "Big Gulp Huh?",
-                message: 'alright\' ... we\'ll see you later',
+                contactMessage: 'alright\' ... we\'ll see you later',
                 formType: null,
                 question: 'Big Gulps Huh?',
-                alertMessage: null,
-                lastViewedPortfolio: 'portfolio 10',
+                interestedService: 'teach-and-taste'
             }
         }
 

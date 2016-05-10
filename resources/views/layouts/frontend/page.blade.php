@@ -71,7 +71,7 @@
 </head>
 
 <body data-ng-app="mcdaniel">
-  {{-- @yield('modal') --}}
+  <div data-mcdaniel-flash class="m-flash" role="alert"></div>
   
   <section>
       <header>

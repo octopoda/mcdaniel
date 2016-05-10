@@ -9,7 +9,7 @@
 
     /* @ngInject */
     function mailService($http, common,  errors) {
-        var apiUrl = common.apiUrl + "Mail";
+        var apiUrl = common.apiUrl + "/contact/formSubmit";
         
         var service = {
             sendToMailer: sendToMailer,
@@ -29,10 +29,9 @@
         	return $http.post(apiUrl, data)
                 .then(mailSent)
                 .catch(function (message) {
-                    errors.catcher('Mail cannot be sent at this time.  Please contact us at 972.535.4040')(message);
+                    errors.catcher('Mail cannot be sent at this time.')(message);
                 });
 
-                //Mark hides the status inside the data.
                 function mailSent(data, status, headers, config) {
                     return data;
                 }

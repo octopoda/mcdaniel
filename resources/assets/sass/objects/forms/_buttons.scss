@@ -210,10 +210,10 @@ button, input[type="submit"] {
 */
 
 .progress-spinner {
-  border-bottom: $spinner-size solid rgba(255, 255, 255, .4);
-  border-left: $spinner-size solid rgba(255, 255, 255, .4);
-  border-right: $spinner-size solid rgba(255, 255, 255, .4);
-  border-top: $spinner-size solid rgba(255, 255, 255, .8);
+  border-bottom: $spinner-size solid rgba($green, .4);
+  border-left: $spinner-size solid rgba($green, .4);
+  border-right: $spinner-size solid rgba($green, .4);
+  border-top: $spinner-size solid rgba($green, .8);
   border-radius: 100%;
   height: $spinner;
   width: $spinner;
@@ -272,6 +272,7 @@ button, input[type="submit"] {
 		display: inline-block;
 		opacity:0;
         margin-left:rem-calc(-20);
+        margin-top:rem-calc(-5);
         @include center(x);
     }
 

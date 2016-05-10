@@ -63,17 +63,17 @@ $header = [
 
 	
 	<!-- Contact Form -->
- <section class="contact-form  l-section" id="contactForm" ng-controller="ContactFormController as fc">
+ <section class="contact-form  l-section" id="contactForm" ng-controller="ContactFormController as fc" data-ng-init="fc.formData.formType = 'contactForm'">
 	<div class="contact-address__form row">
 			<h3>Email Jennifer</h3>
 			<form name="contactForm" class="l-section__small top-errors" ng-submit="fc.submitForm()">
 				
 				<div class="form-group">
-					<label for="customer_name">Name <i class="required">*</i></label>
-					<div class="input-errors" ng-messages="contactForm.customer_name.$error" ng-if="contactForm.customer_name.$dirty">
+					<label for="customerName">Name <i class="required">*</i></label>
+					<div class="input-errors" ng-messages="contactForm.customerName.$error" ng-if="contactForm.customerName.$dirty">
 						<small class="error" ng-message="required">Please provide your name</small>
 					</div>	
-					<input type="text" name="customer_name" id="customer_name"  placeholder="Full Name" ng-model="fc.formData.first" required>
+					<input type="text" name="customerName" id="customerName"  placeholder="Full Name" ng-model="fc.formData.customerName" required>
 				</div>
 
 				
@@ -115,7 +115,7 @@ $header = [
 				
 				<div class="form-group">
 					<label for="message">Message</label>
-					<textarea name="contact_message" id="contactMessage" cols="30" rows="10" ng-model="fc.formData.message"></textarea>
+					<textarea name="contact_message" id="contactMessage" cols="30" rows="10" ng-model="fc.formData.contactMessage"></textarea>
 				</div>
 				
 				<div class="form-group__center">
@@ -124,6 +124,10 @@ $header = [
 						<div class="progress-spinner"></div>
 						<div class="button-text">Send Message</div> 
 					</button>	
+				</div>
+
+				<div class="contact__success" data-ng-show="fc.success" data-ng-cloak>
+					<p>{! fc.successMessage  !}</p>
 				</div>
 			</form>
 		</div>	

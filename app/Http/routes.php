@@ -380,8 +380,54 @@ Route::group(['prefix' => "about-mcdaniel-nutrition"], function () {
 
 Route::group(['prefix' => 'corporate-wellness'], function () {
 	Route::get('/',  [
-		"as" => "corporate",
+		"as" => "corporate", 
 		"uses" => "PageController@corporate"
+	]);
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Get Started Routes
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+Route::group(['prefix' => 'get-started'], function () {
+	Route::get('/',  [
+		'as' => 'get-started',
+		'uses' => 'GetStartedController@index'
+	]);
+
+	Route::get('/weight-loss', [
+		'as' => 'get-started-weight',
+		'uses' =>  'GetStartedController@weight'
+	]);
+
+	Route::get('/sports-nutrition', [
+		'as' => 'get-started-sports',
+		'uses' =>  'GetStartedController@sports'
+	]);
+
+	Route::get('/maternal-nutrition', [
+		'as' => 'get-started-maternal',
+		'uses' =>  'GetStartedController@maternal'
+	]);
+
+	Route::get('/corporate-wellness', [
+		'as' => 'get-started-corporate',
+		'uses' =>  'GetStartedController@corporate'
+	]);
+
+	Route::get('/rmr-testing', [
+		'as' => 'get-started-rmr',
+		'uses' =>  'GetStartedController@rmr'
+	]);
+
+	Route::get('/thank-you', [
+		'as' => 'get-started-thanks',
+		'uses' =>  'GetStartedController@thanks'
 	]);
 });
 
@@ -427,10 +473,6 @@ Route::get('/contact-mcdaniel-nutrition', [
 	"uses" => "PageController@contact"
 ]);
 
-Route::get('/get-started', [
-	"as" => "getStarted",
-	"uses" => "PageController@getStarted"
-]);
 
 Route::get('/search', [
 	"as" => "search",

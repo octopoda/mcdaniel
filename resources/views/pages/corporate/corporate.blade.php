@@ -3,8 +3,6 @@ $header = [
 	"title" => "Corporate Wellness - McDaniel Nutrition Therapy, St Louis",
 	"description" => "Build a healthier, happier workplace through our corporate wellness solutions. Help your employees make lasting nutritional changes and be more effective.",
 	"Keywords" => "corporate wellness, company wellness, company health, employee health, nutrition, St Louis",
-	"fixed" => true,
-	"subnav" => true
 	];
 
 ?>
@@ -12,20 +10,6 @@ $header = [
 
 @extends('layouts.frontend.page', compact('header'))
 
-{{-- Nodals --}}
-@section('modal')
-		<div class="modal modal-fixed-footer corporate__modal" id="corporateModal">
-			<section class="modal-content">		
-				<h3>Thank you for choosing McDaniel Nutrition</h3>
-				<p>Complete the form below to get started.  We will then contact you shortly with more information.</p>
-				@include('forms.corporate')
-			</section>
-			<section class="modal-footer text-right">
-				<a href="#!" class="modal-action waves-effect waves-green btn-flatten hollow"  id="modalSubmit">Sign Up Now</a>
-				<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flatten hollow" >Cancel</a>
-			</section>
-		</div>
-@endsection
 
 
 
@@ -83,7 +67,7 @@ $header = [
 			<div class="row  text-center corporate-sustain__text--cta ">
 				<h3>Bring the Sustain Program to Your Company</h3>
 				<div class="button">
-					<a href="#">Enroll Today</a>
+					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="sustain-corporate" >Help your Company reach its health goals</a>
 				</div>
 			</div>
 		</div>
@@ -113,7 +97,7 @@ $header = [
 			<div class="row  text-center">
 				<h3>Setup Your Next Lunch &amp; Learn</h3>
 				<div class="button">
-					<a href="#">Sign Up Today</a>
+					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="lunch-and-learn" >Start Learning Today</a>
 				</div>
 			</div>
 		</div>
@@ -132,19 +116,19 @@ $header = [
 		<div class="corporate-taste__text green-gradient">
 			<div class="row g-two-columns">
 				<section>
-					<p class="large">Teach & Taste sessions show how easy it can be to create delicious food that can fuel your body’s needs. Demonstrations involve the audience and highlight mouth-watering, practical recipes that use easy to find ingredients.
+					<p class="large">Teach &amp; Taste sessions show how easy it can be to create delicious food that can fuel your body’s needs. Demonstrations involve the audience and highlight mouth-watering, practical recipes that use easy to find ingredients.
 </p>
 				</section>
 				<section>
 					<h3>Popular Topics</h3>
-					<p><strong>Secret Strategies of a Smart Snacker:</strong> Do your snack habits support or sabotage your health? In this Teach & Taste, learn how to plan & prepare fresh and nutritious snacks while understanding how to snack smartly to support your health goals. </p>
-					<p><strong>Time Saving Strategies for Meal Planning:</strong> The main barrier to meal planning is TIME! In this Teach & Taste, you will learn time-saving strategies for putting healthy meals on the table – PLUS fresh menu and recipe ideas that the whole family will devour! </p>
+					<p><strong>Secret Strategies of a Smart Snacker:</strong> Do your snack habits support or sabotage your health? In this Teach &amp; Taste, learn how to plan &amp; prepare fresh and nutritious snacks while understanding how to snack smartly to support your health goals. </p>
+					<p><strong>Time Saving Strategies for Meal Planning:</strong> The main barrier to meal planning is TIME! In this Teach &amp; Taste, you will learn time-saving strategies for putting healthy meals on the table – PLUS fresh menu and recipe ideas that the whole family will devour! </p>
 				</section>
 			</div>
 			<div class="row  text-center">
 				<h3>Setup Your Next Taste &amp; Teach</h3>
 				<div class="button">
-					<a href="#">Enroll Today</a>
+					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="teach-and-taste" >Enroll Today</a>
 				</div>
 			</div>
 		</div>
@@ -161,7 +145,7 @@ $header = [
 				<h3>Webinars:</h3>
 				<p>McDaniel Nutrition offers Lunch and Learn seminars in webinar format making it convenient for your employees to better their health on their own time. Choose from over 30 nutrition topics or let us tailor the education to the individual interests of your employees. </p>
 				<div class="button">
-					<a href="">Setup Your Webinar</a>
+					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="webinars" >Setup Your Next Webinar</a>
 				</div>
 			</section>
 			<section class="tablet-up ">

@@ -20,9 +20,7 @@
         return directive;
 
         function link(scope, element, attrs) {
-            
-
-          var el = document.getElementById('navigation'),
+          var el = element[0],
               menuButton = jq('.mobile-navigation-button');
 
           

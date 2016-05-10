@@ -5,10 +5,10 @@
         .module('mcdaniel.blog')
         .directive('footerRollup', footerRollup);
 
-    footerRollup.$inject = ['cookieService'];
+    footerRollup.$inject = ['localStorageService'];
 
     /* @ngInject */
-    function footerRollup (cookieService) {
+    function footerRollup (localStorageService) {
         // Usage:
         // <div footer-rollup></div>
         var directive = {
@@ -32,12 +32,8 @@
            * @param  {boolesn} cookieService.haveCookie 
            * @return {DOM}                          
            */
-          if (cookieService.haveCookie) {
-            var cookie = cookieService.getCookie();
-            
-            if (cookie.subscribedToMailChimp) {
-              el.addClass('off');
-            }
+          if (localStorageService.get('subscribedToMailChimp')) {
+            el.addClass('off');
           }
 					
 					/**
@@ -76,9 +72,9 @@
         }
     }
 
-    FooterRollupController.$inject = ['$scope', '$element', '$attrs', 'mailChimpService', 'cookieService'];
+    FooterRollupController.$inject = ['$scope', '$element', '$attrs', 'mailChimpService', 'localStorageService'];
 
-    function FooterRollupController($scope, $element, $attrs, mailChimpService, cookieService) {
+    function FooterRollupController($scope, $element, $attrs, mailChimpService, localStorageService) {
         var vd = $scope.vd;
 
         vd.formData = {
@@ -91,6 +87,7 @@
 
         vd.submitMailChimp = submitMailChimp;
 
+        console.dir(localStorageService.get('subscribedToMailChimp'));
 
         ///////
         
@@ -104,9 +101,12 @@
               vd.success = true;
               vd.message = data;
 
-              cookieService.storeCookie({
-                subscribedToMailChimp : true
-              })
+              vd.data = {
+                subscribe: true,
+                email: vd.formData.email
+              };
+
+              localStorageService.set('subscribedToMailChimp', vd.data)
 
               setTimeout(function () {
                 jq('.article__footer').removeClass('open').addClass('off');

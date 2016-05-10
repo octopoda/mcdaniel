@@ -27,6 +27,6 @@
             'global.flash', 'global.errors', 'global.modal', 'global.share', 'global.sidemenu',  'global.loading',
 
             /** Third Party */
-            'angular-loading-bar'
+            'angular-loading-bar', 'LocalStorageModule'
         ]);
 })();

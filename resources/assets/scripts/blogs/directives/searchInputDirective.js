@@ -18,7 +18,7 @@
             replace: true,
             templateUrl: '/templates/blog/search-input.html',
             scope: {
-
+                alwaysOpen: "@"
             }
         };
         
@@ -39,6 +39,9 @@
             input = jq('#q'),
             form = jq('#searchForm');
 
+        if (vd.alwaysOpen) {
+            el.addClass('always-open');
+        }
         
         jq('body').click(function (e) {
             if (jq(e.target).closest(el).length === 0) {

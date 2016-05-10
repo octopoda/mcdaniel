@@ -11,22 +11,6 @@ $header = [
 
 @extends('layouts.frontend.page', compact('header'))
 
-
-
-@section('modal')
-	<div class="modal modal-fixed-footer indivdual" id="maternalModal">
-			<section class="modal-content">		
-				<h3>Thank you for choosing McDaniel Nutrition</h3>
-				<p>We are excited to help you get started on helping you feed your baby.  Please fill out the form and we will contact you shortly to schedule an appointment.</p>
-				@include('forms.individual')
-			</section>
-			<section class="modal-footer text-right">
-				<a href="#!" class="modal-action waves-effect waves-green btn-flatten hollow"  id="modalSubmit">Sign Up Now</a>
-				<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flatten hollow" >Cancel</a>
-			</section>
-		</div>
-@endsection
-
 @section('content')
 
 <!-- Header -->
@@ -57,7 +41,7 @@ $header = [
 				<p><strong>After pregnancy</strong>, we can help you safely return to your pre-pregnancy weight, ensure you’re getting the necessary nutrients for breast feeding, and ease postpartum fatigue, mood swings, or depression. </p>
 
 				<div class="button">
-					<a href="">Start Today</a>
+					<a href="{{ route('get-started-maternal') }}" data-services-button data-service="maternal-nutrition" >Protect Your Child Today</a>
 				</div>
 			</section>
 		</div>
@@ -92,7 +76,7 @@ $header = [
 		</div>
 		<div class="row sales-button">
 			<div class="button">
-				<a href="">Setup a Individual Consultation</a>
+				<a href="{{ route('get-started-maternal') }}" data-services-button data-service="maternal-nutrition" >Setup An Indiviudal Consultation</a>
 			</div>
 		</div>
 	</div>

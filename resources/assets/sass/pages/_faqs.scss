@@ -122,4 +122,17 @@
 	padding:rem-calc(40) rem-calc(20);
 
 	@include angle(before, true);
+
+	@include breakpoint('tablet') {
+		&--form {
+			width:span(10 of 12);
+			margin:auto;	
+		}
+	}
+
+	@include breakpoint('laptop') {
+		&--form {
+			width:span(8 of 12);	
+		}
+	}
 }

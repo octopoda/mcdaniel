@@ -10,19 +10,37 @@
 	
 	@include breakpoint('tablet') {
 		position: absolute;
+		padding-top:rem-calc(4);
 		height:rem-calc(80);
 		background:transparent;
 		margin:auto;
+		
+		.nav-fixed & {
+			position: fixed;
+			top:0;
+			background:rgba($off-white, 0.98);
+			animation: menuDown 0.4s forwards;
+			box-shadow:0 0 rem-calc(10) rgba($black, 0.2);
+
+		}
+
+
+
+	}
+}
+
+.nav-fixed .navigation.blog {
+	@include breakpoint('tablet') {
+		animation: menuUp 0.2s forwards;
 	}
 
-
-	.nav-fixed & {
-		position: fixed;
-		top:0;
-		background:rgba($off-white, 0.96);
-		animation: menuDown 0.4s forwards;
-		border:2px solid $white;
-
+	&.visible {
+		animation: menuDown 0.2s forwards;
+		height:rem-calc(60);
+		padding-top:rem-calc(10);
+		.main-navigation__menu  {
+			opacity:0;
+		}
 	}
 }
 
@@ -46,6 +64,15 @@
 	}
 	from {
 		@include translateY(-100%);
+	}
+}
+
+@keyframes menuUp {
+	to {
+		@include translateY(-100%);
+	}
+	from {
+		@include translateY(0);
 	}
 }
 
@@ -102,6 +129,15 @@
 		@include breakpoint('retina') {
 			background-image:url('#{$icon}logo@2x.png')
 		}
+
+		&.blog {
+			background-image:url('#{$icon}blog-logo-color.png') !important;
+			height:rem-calc(40);
+
+			@include breakpoint('retina') {
+				background-image:url('#{$icon}blog-logo-color@2x.png') !important;			
+			}	
+		}
 	}
 
 	@include breakpoint('phone-only') {
@@ -154,8 +190,9 @@
 
 	@include transition(transform $sidebar-cubic 0.4s);
 	@include translateX(-100%);
-	
 
+	
+	
 	&__menu {
 		@include span(12 of 12);
 		margin-top:rem-calc(100);
@@ -193,13 +230,10 @@
 			clear:none;
 			text-align: right;
 		}
+
+
 	}
-
-	@include breakpoint('laptop') {
-	
-	}	
 }
-
 
 /*
 |--------------------------------------------------------------------------
@@ -226,20 +260,26 @@
 		li {
 		  font-size:rem-calc(14);
 		  margin-right:rem-calc(10);
+		  opacity:1;
 		  a { color:$white; }
 
 		  .black & {
 		  	a { color:$black; }
 		  }
 		}
-	}
 
+		
+	}
+	
 	@include breakpoint('laptop') {
 		li {
 			margin-right:rem-calc(20);
 		}
 	}
 }
+
+
+
 
 .dropdown-trigger {
 	position: relative;
@@ -302,6 +342,11 @@
 .main-navigation__cta {
 	.button {
 		margin-left:0;
+
+	}
+
+	.navigation_search {
+		display: none;
 	}
 
 	@include breakpoint('tablet') {
@@ -309,6 +354,7 @@
 			margin-top:rem-calc(20);
 			background:$white;
 			border:transparent;
+
 			
 			a { 
 				color:$black; 
@@ -321,6 +367,27 @@
 				}	
 			}
 		}
+
+		&.blog .get_started {
+			display: inline-block;
+
+			
+			.nav-fixed & {
+				display:none;
+			}
+		}
+
+		&.blog .navigation_search {
+			display:none;
+			
+			input {
+				background:none !important;
+			}
+			
+			.nav-fixed & {
+				display: block;
+			}
+		}	
 	}
 }
 

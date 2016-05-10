@@ -208,6 +208,7 @@ $button-font-size: rem-calc(16);
 $button-large-font-size: rem-calc(34);
 $button-small-font-size: rem-calc(18);
 
+$label-font-size: rem-calc(14);
 
 $input-border-color: $gray;
 $input-error-color: $error;
@@ -229,25 +230,6 @@ $youtube: #ee6c53;
 $facebook: #4f7cbe;
 $twitter:  #64cdef;
 $social-icon-size: rem-calc(45);
-
-/**
- * Model Portfolio Allocation Colors
- */
-//AssetBuilder Portfolios
-$ab-fixed:#c5dd83;
-$ab-large:#a7cf5f;
-$ab-small: #8dc63f;
-$ab-reit:#78a22f;
-$ab-international: #67883d;
-$ab-emerging: #556f35;
-
-//Expats Portfolios 
-$ex-fixed:#D6EAED;
-$ex-large:#A3DBE3;
-$ex-small: #7BCED6;
-$ex-reit:#52C5CD;
-$ex-international: #27B2B9;
-$ex-emerging: #228E95;
 
 
 

@@ -21,11 +21,9 @@ $dev: false !default;
 @import 'objects/elements/table';
 
 //Forms
-@import 'objects/forms/redactor';
 @import 'objects/forms/buttons';
 @import 'objects/forms/forms';
 @import 'objects/forms/inputs';
-@import 'objects/forms/subscribe-input';
 
 //Layouts
 @import 'objects/layouts/colors';
@@ -38,6 +36,7 @@ $dev: false !default;
 @import 'objects/modules/article-sidebar';
 @import 'objects/modules/article';
 @import 'objects/modules/blog-preview';
+@import 'objects/modules/contact';
 @import 'objects/modules/flash';
 @import 'objects/modules/footer';
 @import 'objects/modules/loading';
@@ -69,6 +68,8 @@ $dev: false !default;
 @import 'pages/faqs';
 @import 'pages/article-list';
 @import 'pages/article';
+@import 'pages/get-started';
+@import 'pages/contact';
 
 
 

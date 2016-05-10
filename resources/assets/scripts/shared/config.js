@@ -10,26 +10,34 @@
 	}
 
 	shared.value('config', config);
-	share.config(configure)
+	shared.config(configure)
 
-  configure.$inject = ['$logProvider', 'exceptionHandlerProvider', '$httpProvider'];
+  configure.$inject = ['$logProvider', '$httpProvider', '$interpolateProvider', 'localStorageServiceProvider', '$compileProvider'];
 
 	/** @ngInject */
-	function configure($logProvider, exceptionHandlerProvider, $httpProvider) {
-		//Turn debugging off/on (no info or warn);
+	function configure($logProvider,  $httpProvider, $interpolateProvider, localStorageServiceProvider, $compileProvider) {
+		
+    //Turn debugging off/on (no info or warn);
 		if ($logProvider.debugEnabled) {
 			$logProvider.debugEnabled(true);
 		}
 
-		//Configure the common exception handler
-		exceptionHandlerProvider.configure(config.appErrorPrefix);
+    $interpolateProvider.startSymbol("{!");
+    $interpolateProvider.endSymbol("!}");
 
+    localStorageServiceProvider.setPrefix('mcdanielNutrition');
+    localStorageServiceProvider.setStorageCookie(180, '<path>');
+    localStorageServiceProvider.setStorageCookieDomain('https://mcdanielnutrition.com');
+    /** Debug */
+    localStorageServiceProvider.setNotify(true, true);
 
-		$httpProvider.defaults.headers.post['Content-Type'] = config.header;
-    $httpProvider.deafaults.headers.post['X-CSRF-TOKEN'] = jq('meta[name="csrf-token"]').attr('content')
-    $httpProvider.defaults.transformRequest = [function(data) {
-      return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
-    }];
+    $compileProvider.debugInfoEnabled(false);
+
+    $httpProvider.defaults.headers.post['Content-Type'] = config.header;
+    $httpProvider.defaults.headers.post['X-CSRF-TOKEN'] = jq('meta[name="csrf-token"]').attr('content')
+    // $httpProvider.defaults.transformRequest = [function(data) {
+    //   return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
+    // }];
 	}
 
 
@@ -65,4 +73,4 @@
         return query.length ? query.substr(0, query.length - 1) : query;
 	}
 
-});
+})();

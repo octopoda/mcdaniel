@@ -21,8 +21,6 @@
         return directive;
 
         function link(scope, element, attrs) {
-        	console.log('message');
-
         	var el = jq(element);
         	var target = jq('#' + scope.target);
 

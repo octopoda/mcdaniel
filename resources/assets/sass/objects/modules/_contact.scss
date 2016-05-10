@@ -1,0 +1,16 @@
+.m-contact-form {
+	@extend %clearfix;
+}
+
+
+.contact__success {
+	font-size:rem-calc(16);
+	color:$green; 
+	@extend %clearfix;
+	text-align: center;
+
+	@include breakpoint('laptop') {
+		width:span(8 of 12);
+		margin:auto !important;
+	}
+}

@@ -1,0 +1,12 @@
+<div class="m-flash__wrapper">
+	<a data-ng-show="vd.close" class="m-flash__close" data-ng-click="vd.closeFlash();">&times;</a>
+	
+	<div class="m-flash__heading">
+		<p>{{ vd.heading }}</p>
+	</div>
+	
+	<div data-ng-show="vd.actionButton" class="m-flash__action">
+		<button data-ng-click="vd.actionSubmit()">{{ vd.actionText }}</button>
+	</div>
+
+</div>

@@ -12,19 +12,6 @@ $header = [
 @extends('layouts.frontend.page', compact('header'))
 
 
-@section('modal')
-	<div class="modal modal-fixed-footer indivdual" id="rmrModal">
-			<section class="modal-content">		
-				<h3>Thank you for choosing McDaniel Nutrition</h3>
-				<p>We ready to help you take the guesswork out of planning.  Please fill out the form and we will contact you shortly to schedule an appointment.</p>
-				@include('forms.individual')
-			</section>
-			<section class="modal-footer text-right">
-				<a href="#!" class="modal-action waves-effect waves-green btn-flatten hollow"  id="modalSubmit">Sign Up Now</a>
-				<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flatten hollow" >Cancel</a>
-			</section>
-		</div>
-@endsection
 
 @section('content')
 
@@ -50,7 +37,7 @@ $header = [
 				<p>Using BodyGem equipment, we can easily and precisely test your resting metabolic rate through only your breathing. This test allows us to further personalize your nutritional planning and finally confirm just how high or low your metabolism might be.  </p>
 				
 				<div class="button">
-					<a href="">Start Today</a>
+					<a href="{{ route('get-started-rmr') }}" data-services-button data-service="rmr-testing" >Start Today</a>
 				</div>
 			</section>
 		</div>
@@ -77,7 +64,7 @@ $header = [
 		</div>
 		<div class="row sales-button">
 			<div class="button">
-				<a href="">Setup a RMR Testing</a>
+				<a href="{{ route('get-started-rmr') }}" data-services-button data-service="rmr-testing" >Optimize Your Metabolism Today</a>
 			</div>
 		</div>
 	</div>

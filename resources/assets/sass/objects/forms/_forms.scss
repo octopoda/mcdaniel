@@ -26,8 +26,7 @@ legend {
 
 label, .label {
 	display:block;
-    @extend %font-light;
-    font-size:$font-size-large;
+    font-size:$font-size-medium;
     margin-bottom:rem-calc(20);
 
     .required {

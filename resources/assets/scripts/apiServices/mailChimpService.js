@@ -33,8 +33,7 @@
         		});
 
         		function mailChimpComplete(data, status, headers, config) {
-        			console.dir(data);
-                    return data.data;
+        			return data.data;
         		}
         }
     }

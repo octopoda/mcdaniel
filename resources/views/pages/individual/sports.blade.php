@@ -11,22 +11,6 @@ $header = [
 
 @extends('layouts.frontend.page', compact('header'))
 
-
-@section('modal')
-		<div class="m-modal indivdual" id="sportsModal">
-			<section class="modal-content">		
-				<h3>Thank you for choosing McDaniel Nutrition</h3>
-				<p>We are excited to help you feul yourself to a new PR.  Please fill out the form and we will contact you shortly to schedule an appointment.</p>
-				@include('forms.individual')
-			</section>
-			<section class="modal-footer text-right">
-				<a href="#!" class="modal-action waves-effect waves-green btn-flatten hollow"  id="modalSubmit">Sign Up Now</a>
-				<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flatten hollow" >Cancel</a>
-			</section>
-		</div> 
-@endsection
-
-
 @section('content')
 	<!-- Header -->
 	<div class="sports_hero hero">
@@ -50,7 +34,7 @@ $header = [
 				<p>We also provide personalized sports nutrition advice for special populations such as: bone mineral disturbances, cardiovascular conditions, vegetarian diets, female athlete triad, and iron deficiency anemia. </p>
 				<p>Purchase one of our packages to boost your results, get started with an initial consultation, or contact us to discuss your individual needs. </p>
 				<div class="button">
-					<a href="">Sign Up Now</a>
+					<a href="{{ route('get-started-sports') }}" data-services-button data-service="sports-nutrition" >Sign Up Now</a>
 				</div>
 			</section>
 		</div>
@@ -83,7 +67,7 @@ $header = [
 		</div>
 		<div class="row sales-button">
 			<div class="button">
-				<a href="">Setup a Individual Consultation</a>
+				<a href="{{ route('get-started-sports') }}" data-services-button data-service="sports-nutrition" >Setup An Individual Consulation</a>
 			</div>
 		</div>
 	</div>
