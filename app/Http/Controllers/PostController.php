@@ -126,14 +126,12 @@ class PostController extends Controller
 
        if ($request->hasfile('post_image')) {
             $filePath = $this->post->saveImageForPost($request, 'post_image');
-
             $post->post_image = $filePath;
             $post->update();
        }
 
        if ($request->hasfile('post_thumbnail')) {
             $filePath = $this->post->saveImageForPost($request, 'post_thumbnail');
-
             $post->post_thumbnail = $filePath;
             $post->update();
        }
@@ -141,7 +139,6 @@ class PostController extends Controller
 
        if ($request->hasfile('post_facebook')) {
             $filePath = $this->post->saveImageForPost($request, 'post_facebook');
-
             $post->post_facebook = $filePath;
             $post->update();
        }
@@ -426,6 +423,41 @@ class PostController extends Controller
         return view('posts.search', compact('posts', 'query', 'categories', 'authors', 'dates'));
     }
 
+    /**
+     * Build and RSS Feed
+     * @return [type] [description]
+     */
+    public function setupFeed() {
+        $feed = \App::make('feed');
+        $feed->setCache(60, 'laravelFeedKey');
+
+        if (!$feed->isCached()) {
+           $posts = $this->post->pushCriteria(new AscendingOrder())->all();
+
+           // set your feed's title, description, link, pubdate and language
+           $feed->title = 'McDaniel Nutrition Blog';
+           $feed->description = 'Your description';
+           $feed->logo = 'http://mcdanielnutrition.com/assets/images/icons/blog-logo-color.png';
+           $feed->link = url('feed');
+           $feed->setDateFormat('datetime'); // 'datetime', 'timestamp' or 'carbon'
+           $feed->pubdate = $posts[0]->created_at;
+           $feed->lang = 'en';
+           $feed->setShortening(true); // true or false
+           $feed->setTextLimit(100); // maximum length of description text
+
+
+           foreach ($posts as $post)
+           {
+               $slug = 'https://mcdanilenutrition.com/posts/' . $post->direct_link;
+               // set item's title, author, url, pubdate, description, content, enclosure (optional)*
+               $feed->add($post->title, $post->blog->user->name, \URL::to($slug), $post->publish_date, $post->searchable, $post->content);
+           }
+
+        }
+
+        return $feed->render('atom');
+    }
+
 
     /**
      * Go through all post and get dates
@@ -447,6 +479,10 @@ class PostController extends Controller
 
         return $years;
     }
+
+
+
+
 
 
 

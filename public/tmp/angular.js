@@ -29,16 +29,16 @@ var jq = $.noConflict();
     angular.module('mcdaniel.api', []);
 })();
 (function() {
+    'use strict';
+
+    angular.module('mcdaniel.blog', []);
+})();
+(function() {
    'use strict';
 
     angular.module('mcdaniel.faq', []); 
 
  })();
-(function() {
-    'use strict';
-
-    angular.module('mcdaniel.blog', []);
-})();
 (function() {
     'use strict';
 
@@ -126,13 +126,13 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular
-        .module('global.errors', []);
+    angular.module('global.flash', []);
 })();
 (function() {
     'use strict';
 
-    angular.module('global.flash', []);
+    angular
+        .module('global.errors', []);
 })();
 (function() {
     'use strict';
@@ -823,6 +823,44 @@ var jq = $.noConflict();
        
      }
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.api')
+        .factory('productService', productService);
+
+     productService.$inject = ['$http', 'common', 'errors'];
+
+    /* @ngInject */
+    function productService($http, common,  errors) {
+        var apiUrl = common.apiUrl + '/download/product/';
+        
+        var service = {
+            productUrl : productUrl 
+        };
+        return service;
+
+        ////////////////
+
+        /**
+         * Get url for Download StoreController@downloadProducts;
+         * @param  {int} id 
+         * @return {object}    
+         */
+        function productUrl (id) {
+        	return $http.get(apiUrl + id)	
+        		.then(urlComplete)
+        		.catch(function (message) {
+        			errors.catcher('Cannot Download Product right now.  Please contact us')(message);
+        		});
+
+        		function urlComplete(data, status, headers, config) {
+        			return data;
+        		}
+        }
+    }
+})();
 /*
 |--------------------------------------------------------------------------
 | Service to get Topics for Article Sidbar
@@ -977,6 +1015,54 @@ var jq = $.noConflict();
   	expires: exp
 	});
 */
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .controller('SearchController', SearchController);
+
+    SearchController.$inject = ['$rootScope', 'articleService'];
+
+    /* @ngInject */
+    function SearchController($rootScope, articleService) {
+        var vm = this;
+        vm.title = 'SearchController';
+        vm.formData =  {
+        	query: null,
+        }
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+        	
+        }
+
+        function searchArticles() {
+        	articleService.searchArticles(vm.formData).then(function (data) {
+
+        	});
+        }
+
+
+        function clearSpaceAndReplace() {
+        	
+        }
+
+
+        $rootScope.$on('article.search', function (event, query) {
+        	//if (query === 'null') 
+        	vm.formData.query = query;
+        	searchArticles();
+
+        })
+
+
+
+    }
+})();
 /*
 |--------------------------------------------------------------------------
 | FAQ controller.  
@@ -1068,54 +1154,6 @@ var jq = $.noConflict();
         });
 
 
-
-
-
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.blog')
-        .controller('SearchController', SearchController);
-
-    SearchController.$inject = ['$rootScope', 'articleService'];
-
-    /* @ngInject */
-    function SearchController($rootScope, articleService) {
-        var vm = this;
-        vm.title = 'SearchController';
-        vm.formData =  {
-        	query: null,
-        }
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-        	
-        }
-
-        function searchArticles() {
-        	articleService.searchArticles(vm.formData).then(function (data) {
-
-        	});
-        }
-
-
-        function clearSpaceAndReplace() {
-        	
-        }
-
-
-        $rootScope.$on('article.search', function (event, query) {
-        	//if (query === 'null') 
-        	vm.formData.query = query;
-        	searchArticles();
-
-        })
 
 
 
@@ -1863,109 +1901,6 @@ var jq = $.noConflict();
     'use strict';
 
     angular
-        .module('mcdaniel.faq')
-        .directive('faqBlock', faqBlock);
-
-    /* @ngInject */
-    function faqBlock () {
-        // Usage:
-        // <div faq-block></div>
-        var directive = {
-            bindToController: true,
-            controller: FaqBlockController,
-            controllerAs: 'vd',
-            link: link,
-            restrict: 'A',
-            templateUrl: '/templates/faqs/faq-block.html',
-            scope: {
-                faqs: "="
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-            
-        }
-    }
-
-    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
-
-    /* @ngInject */
-    function FaqBlockController ($scope, $element, $attrs) {
-        var vd = $scope.vd;
-
-        vd.openAnswer = openAnswer;
-
-
-
-        //Open the Answers
-        function openAnswer($event) {
-            var self = jq($event.currentTarget),
-                answer = self.children('.faq__answer');
-
-            if (self.hasClass('open')) {
-                answer.slideUp(200);
-                self.toggleClass('open');
-            } else {
-                answer.slideDown(200);
-                self.toggleClass('open');
-            }
-        }
-    }
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqSearchInput', faqSearchInput);
-
-    faqSearchInput.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function faqSearchInput ($rootScope) {
-        // Usage:
-        // <input type="text" name="search" faq-search-input>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	/** @type {DOM} element  */
-        	var el = jq(element[0]);
-
-        	/**
-        	 * On Key up search
-        	 * @param  {event}
-        	 * @return {function} 
-        	 */
-        	el.on('keyup', function (e) {
-        		if (timer) clearTimeout(timer);
-        		
-        		var timer = setTimeout(broadcastSearch, 400);
-        	});
-
-
-        	/**
-        	 * Broadcast to the Root
-        	 * @param  {string} query 
-        	 * @return {null}       
-        	 */
-        	function broadcastSearch() {
-        		var query = el.val();
-        		$rootScope.$emit('faqSearch', query)
-        	}
-        }
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
         .module('mcdaniel.blog')
         .directive('articleSmall', articleSmall);
 
@@ -2606,6 +2541,109 @@ var jq = $.noConflict();
 
     
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqBlock', faqBlock);
+
+    /* @ngInject */
+    function faqBlock () {
+        // Usage:
+        // <div faq-block></div>
+        var directive = {
+            bindToController: true,
+            controller: FaqBlockController,
+            controllerAs: 'vd',
+            link: link,
+            restrict: 'A',
+            templateUrl: '/templates/faqs/faq-block.html',
+            scope: {
+                faqs: "="
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+            
+        }
+    }
+
+    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
+
+    /* @ngInject */
+    function FaqBlockController ($scope, $element, $attrs) {
+        var vd = $scope.vd;
+
+        vd.openAnswer = openAnswer;
+
+
+
+        //Open the Answers
+        function openAnswer($event) {
+            var self = jq($event.currentTarget),
+                answer = self.children('.faq__answer');
+
+            if (self.hasClass('open')) {
+                answer.slideUp(200);
+                self.toggleClass('open');
+            } else {
+                answer.slideDown(200);
+                self.toggleClass('open');
+            }
+        }
+    }
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqSearchInput', faqSearchInput);
+
+    faqSearchInput.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function faqSearchInput ($rootScope) {
+        // Usage:
+        // <input type="text" name="search" faq-search-input>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	/** @type {DOM} element  */
+        	var el = jq(element[0]);
+
+        	/**
+        	 * On Key up search
+        	 * @param  {event}
+        	 * @return {function} 
+        	 */
+        	el.on('keyup', function (e) {
+        		if (timer) clearTimeout(timer);
+        		
+        		var timer = setTimeout(broadcastSearch, 400);
+        	});
+
+
+        	/**
+        	 * Broadcast to the Root
+        	 * @param  {string} query 
+        	 * @return {null}       
+        	 */
+        	function broadcastSearch() {
+        		var query = el.val();
+        		$rootScope.$emit('faqSearch', query)
+        	}
+        }
+    }
+})();
 /*
 |--------------------------------------------------------------------------
 | Directive for Phone Input
@@ -3050,110 +3088,6 @@ var jq = $.noConflict();
     'use strict';
 
     angular
-        .module('global.errors')
-        .factory('errors', errors);
-
-    errors.$inject = ['flash'];
-
-    /* @ngInject */
-    function errors(flash) {
-        var errorReason = null;
-
-        var service = {
-            catcher: catcher,
-            getReason: getReason
-        };
-        
-        return service;
-
-        ////////////////
-
-        /**
-         * Catch the Error and Display a Error Flash
-         * @param {string} Message to display
-         * @param {string} reason for Console.
-         */
-        function catcher(message) {
-           return function (reason) {
-                reason.insertedObject = (reason.insertedObject == null) ? 'none' : reason.insertedObject;
-                errorReason = reason;
-        		flash.error(message, reason);
-        	}
-        }
-
-        /**
-         * Get reason for mailing
-         * @return {string} 
-         */
-        function getReason() {
-            return errorReason;
-        }
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.errors')
-        .provider('errorHandler', exceptionHandlerProvider)
-        .config(config);
-
-    
-    /**
-     * Must Configure the exception handling
-     */
-     function exceptionHandlerProvider() {
-        /* jshint validthis:true */
-        this.config = {
-            appErrorPrefix: undefined
-        };
-
-        this.configure = function (appErrorPrefix) {
-            this.config.appErrorPrefix = appErrorPrefix;
-        };
-
-        this.$get = function() {
-            return {config: this.config};
-        };
-    }
-
-    config.$inject = ['$provide'];
-
-	/**
-     * Configure by setting an optional string value for appErrorPrefix
-     * @param  {object} $provide 
-     * @ngInject
-     */
-    function config($provide) {
-        $provide.decorator('$exceptionHandler', extendExceptionHandler);
-    }
-
-
-    extendExceptionHandler.$inject = ['$delegate', 'errorHandler'];
-
-    /**
-     * Extend the $exceptionHandler servie to also display our Flash
-     * @param  {Object} $delegate        
-     * @param  {Object} exceptionHandler 
-     * @param  {Object} flash            
-     * @return {function} the decorated $exceptionHandler service
-     */
-     function extendExceptionHandler($delegate, errorHandler) {
-        return function(exception, cause) {
-            var appErrorPrefix = errorHandler.config.appErrorPrefix || '';
-            var errorData = {exception: exception, cause: cause};
-            exception.message = appErrorPrefix + exception.message;
-            $delegate(exception, cause);
-           // flash.error(exception.message, errorData);
-        };
-    }
-
-   
-})();
-(function() {
-    'use strict';
-
-    angular
         .module('global.flash')
         .directive('mcdanielFlash', mcdanielFlash);
 
@@ -3329,6 +3263,110 @@ var jq = $.noConflict();
             $rootScope.$emit('flash.warning', message);
         }
     }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.errors')
+        .factory('errors', errors);
+
+    errors.$inject = ['flash'];
+
+    /* @ngInject */
+    function errors(flash) {
+        var errorReason = null;
+
+        var service = {
+            catcher: catcher,
+            getReason: getReason
+        };
+        
+        return service;
+
+        ////////////////
+
+        /**
+         * Catch the Error and Display a Error Flash
+         * @param {string} Message to display
+         * @param {string} reason for Console.
+         */
+        function catcher(message) {
+           return function (reason) {
+                reason.insertedObject = (reason.insertedObject == null) ? 'none' : reason.insertedObject;
+                errorReason = reason;
+        		flash.error(message, reason);
+        	}
+        }
+
+        /**
+         * Get reason for mailing
+         * @return {string} 
+         */
+        function getReason() {
+            return errorReason;
+        }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.errors')
+        .provider('errorHandler', exceptionHandlerProvider)
+        .config(config);
+
+    
+    /**
+     * Must Configure the exception handling
+     */
+     function exceptionHandlerProvider() {
+        /* jshint validthis:true */
+        this.config = {
+            appErrorPrefix: undefined
+        };
+
+        this.configure = function (appErrorPrefix) {
+            this.config.appErrorPrefix = appErrorPrefix;
+        };
+
+        this.$get = function() {
+            return {config: this.config};
+        };
+    }
+
+    config.$inject = ['$provide'];
+
+	/**
+     * Configure by setting an optional string value for appErrorPrefix
+     * @param  {object} $provide 
+     * @ngInject
+     */
+    function config($provide) {
+        $provide.decorator('$exceptionHandler', extendExceptionHandler);
+    }
+
+
+    extendExceptionHandler.$inject = ['$delegate', 'errorHandler'];
+
+    /**
+     * Extend the $exceptionHandler servie to also display our Flash
+     * @param  {Object} $delegate        
+     * @param  {Object} exceptionHandler 
+     * @param  {Object} flash            
+     * @return {function} the decorated $exceptionHandler service
+     */
+     function extendExceptionHandler($delegate, errorHandler) {
+        return function(exception, cause) {
+            var appErrorPrefix = errorHandler.config.appErrorPrefix || '';
+            var errorData = {exception: exception, cause: cause};
+            exception.message = appErrorPrefix + exception.message;
+            $delegate(exception, cause);
+           // flash.error(exception.message, errorData);
+        };
+    }
+
+   
 })();
 (function() {
     'use strict';
@@ -3906,6 +3944,61 @@ var jq = $.noConflict();
         }
     }
 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.shared')
+        .directive('downloadProduct', downloadProduct);
+
+    downloadProduct.$inject = ['productService'];   
+
+    /* @ngInject */
+    function downloadProduct (productService) {
+        // Usage:
+        //
+        // Creates:
+        //
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	productId: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var el = jq(element[0]);
+
+        	el.on('click', function (e) {
+        		e.preventDefault();
+        		var newWindow = window.open();
+        		var url = getURL(wind);
+        		newWindow.location = data[url];
+
+        	});
+
+        	/**
+        	 * Get the Product URL and download it.
+        	 * @return {[type]} [description]
+        	 */
+        	function getURL(wind) {
+        		return productService.productUrl(scope.productId).then(function (data) {
+        			
+        			if (data.status === 200) {
+        				return data.data;
+        			} else {
+                        
+                    }
+        		});
+			}
+        }
+    }
+
+    
 })();
 (function() {
     'use strict';

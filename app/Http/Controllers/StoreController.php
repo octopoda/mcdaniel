@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Event;
+use App\Events\StoreTransactionComplete;
+
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -205,8 +208,15 @@ class StoreController extends Controller
             ];
 
 
-            $this->transaction->create($transaction);
+            $transaction = $this->transaction->create($transaction);
 
+            $products = [];
+
+            foreach($items as $item) {
+              $products[] = $this->product->find($item);
+            }
+
+            $this->fireEvent($transaction, $products);
             return redirect('/store/downloads/'. $tx);
 
         } else {
@@ -214,9 +224,36 @@ class StoreController extends Controller
         }
     }
 
+    /**
+     * Send out the emails
+     * @param  App/Transaction $transaction 
+     * @param  Collection $products    
+     * @return Event              
+     */
+    public function fireEvent($transaction, $products) {
+       Event::fire(new StoreTransactionComplete($transaction, $products));
+    }
+
+
+    public function transactionTest() {
+      $transaction = $this->transaction->find(3);
+      $products = [];
+      foreach (json_decode($transaction->items) as $item) {
+        $products[] = $this->product->find($item);
+      }
+      
+
+      Event::fire(new StoreTransactionComplete($transaction, $products));
+      return 'just testing';
+    }
 
 
 
+    /**
+     * Show the Download Pages after a transaction
+     * @param  int $transaction_id 
+     * @return /Illuminate/Html/Response                 
+     */
     public function getDownloads($transaction_id) {
         $transaction = $this->transaction->findBy('transaction_id', $transaction_id);
         $items = json_decode($transaction->items);
@@ -227,6 +264,46 @@ class StoreController extends Controller
             $products[] = $this->product->find($item);
         }
 
-        return view('store.download', compact('products'));
+        return view('store.download', compact('products', 'transaction'));
+    }
+
+
+    /**
+     * Api Call to download Product
+     * @param  int $id 
+     * @return JSON    
+     */
+    public function downloadProduct($transaction_id, $id) {
+        $product = null;
+        $transaction = $this->transaction->findBy('transaction_id', $transaction_id);
+        if ($transaction == false ) {
+            exit('Sorry you do not have a transacton with us.');
+        } else {
+            $product = $this->product->find($id);
+        }
+
+        $name = (basename($product->url).PHP_EOL);
+        header("Content-type: application/pdf");
+        header("Content-Disposition: attachment; filename={$name}");
+        readfile($product->url);
+    }
+
+
+    /**
+     * Show the Transaction Detial for Dashboard
+     * @param  int $id 
+     * @return /Illuminate/Html/Response
+     */
+    public function transactionDetail($id) {
+      $transaction = $this->transaction->find($id);
+      $items = json_decode($transaction->items);
+
+        $products = [];
+
+        foreach ($items as $item) {
+            $products[] = $this->product->find($item);
+        }
+
+        return view('dashboard.products.transactions', compact('products', 'transaction'));
     }
 }

@@ -17,11 +17,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
   <!-- Facebook Metadata /-->
   <meta property="fb:page_id" content=""> <!-- TODO -->
-  <meta property="og:image" content="images/icons/facebook.jpg">
+  <meta property="og:image" content="/images/icons/facebook.jpg">
   <meta property="og:description" content="{{ $pageDescription }}">
   <meta property="og:title" content="{{ $pageTitle }}">
 
@@ -57,7 +57,6 @@
   <!-- CSS: implied media="all" -->
   <link rel="stylesheet" href="/assets/css/app.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-  <!-- <link href='https://fonts.googleapis.com/css?family=Merriweather:400,700|Lora' rel='stylesheet' type='text/css'> -->
   <link href='https://fonts.googleapis.com/css?family=Material+Icons' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Source+Serif+Pro' rel='stylesheet' type='text/css'>
 <!--[if lt IE 9]>
@@ -90,11 +89,13 @@
 
   
 
-  
+@if($app->environment(['local']))
   <script src="/tmp/vendor-file.js"></script>
   <script src="/tmp/templates.js"></script>
   <script src="/tmp/angular.js"></script>
-  
+@elseif ($app->environment('production')) 
+  <script src="/scripts/app.min.js"></script> 
+ @endif
 
 
   @yield('extra-scripts')

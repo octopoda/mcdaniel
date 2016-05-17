@@ -24,11 +24,28 @@ class ProductRequest extends Request {
 	 */
 	public function rules()
 	{
-		return [
-			'title' => 'required|unique:products|min:3',
-			'description' => 'required',
-			'price' => 'required',
-		];
+		 switch($this->method()) {
+		        case 'GET':
+		        case 'DELETE': {
+		            return [];
+		        }
+		        case 'POST': {
+					return [
+						'title' => 'required|unique:products|min:3',
+						'description' => 'required',
+						'price' => 'required',
+					];
+				}
+				case 'PUT' :
+				case 'PATCH' : {
+					return [
+						'title' => 'required|min:3',
+						'description' => 'required',
+						'price' => 'required',
+					];
+				}
+				default:break;
+			}
 	}
 
 }

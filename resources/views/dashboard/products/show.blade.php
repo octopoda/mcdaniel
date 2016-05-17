@@ -14,9 +14,9 @@
 		<div class="card">
 			<div class="card-image">
 				<img src="{{ $product->product_image }}" alt="{{ $product->title }}">
-				<span class="card-title">{{ $product->title }} - ${{ $product->price }}</span>
 			</div>
 			<div class="card-content">
+				<span class="card-title">{{ $product->title }} - ${{ $product->price }}</span>
 				<p>{!! $product->description !!}</p>
 			</div>
 			<div class="card-action">
@@ -31,15 +31,28 @@
 
 
 	<div class="col s12 m6">
-		<h5>Transaction for products</h5>
+		<h5>Transaction for product # {{ $product->id }}</h5>
 		<table class="striped responsive-table">
 			<thead>
+				<th>Transaction Id</th>
 				<th>Email</th>
 				<th>Price</th>
-				<th>last 4</th>
 			</thead>
 			<tbody>
-
+				@if (empty($transactions))
+					<tr>
+					 	<td colspan="3">There are no transactions for this product</td>
+					</tr>
+				@else 
+					@foreach($transactions as $transaction)
+						<tr>
+							<td><a href="{{ route('transactionDetail', $transaction->id) }}">{{ $transaction->transaction_id }}</a></td>
+							<td>{{ $transaction->email }}</td>
+							<td>{{ $transaction->total }}</td>
+						</tr>
+					@endforeach
+				@endif
+				
 			</tbody>
 		</table>
 	</div>

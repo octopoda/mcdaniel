@@ -1,0 +1,185 @@
+.store_hero {
+	background-image: url('#{$page}store/store-hero-sm.jpg');
+	background-position:center right;
+
+	@include breakpoint('tablet') {
+		background-image: url('#{$page}store/store-hero-med.jpg');
+	}
+
+	@include breakpoint('laptop') {
+		background-image: url('#{$page}store/store-hero-large.jpg');
+
+		h1 {
+			margin-bottom:rem-calc(10) !important;
+		}
+	}
+}
+
+.store-subnav {
+	ul {
+		text-align: right;
+	}
+
+	li{
+		margin-right:0px;
+	}
+}
+
+/*
+|--------------------------------------------------------------------------
+| All Products
+|--------------------------------------------------------------------------
+|
+| Description 1
+|  Description 2
+| 
+|
+*/
+
+.store__products {
+	 background:$off-white;
+  	 position: relative;
+
+  	 @include angle(before, true);
+	
+	&--card {
+		overflow:hidden;
+		img {width:100%;}
+		text-align: center;
+		position: relative;
+
+		a {
+			text-decoration: none;
+		}
+
+		.view {
+			position: absolute;
+			height:100%;
+			width:100%;
+			background:rgba($green, 0.82);
+			font-size:rem-calc(24);
+			border:3px solid $green;
+			padding:rem-calc(12) rem-calc(20);
+			color:$white;
+			box-shadow: 0 0 3px rgba($black, 0.4);
+			opacity:0;
+			// @include transition(opacity ease-in 0.4s);
+		}
+
+		&:hover {
+			// .view {
+			// 	opacity:1;
+			// }
+		}
+
+	}
+
+
+  	 @include breakpoint('tablet') {
+  	 	&--card {
+  	 		@include gallery(4 of 12);
+  	 	}
+  	 }
+
+  	 @include breakpoint('laptop') {
+  	 	&--card {
+  	 		@include gallery(3 of 12);
+  	 	}
+  	 }
+}
+
+.sports__packages {
+	padding:rem-calc(40) rem-calc(20);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Indivdual Product
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+.store__product {
+	&--image {
+		padding:rem-calc(20);
+		
+		img {
+			width:100% !important;
+		}
+
+		.button {
+			display:none;
+		}	
+	}
+	
+
+	@include breakpoint('tablet') {
+		padding-top:rem-calc(40);
+		padding-bottom:rem-calc(30);
+		
+		&--image {
+			@include span(6 of 12);
+			text-align: right;
+			
+			img {
+				margin-top:rem-calc(20);
+			}
+
+			.button {
+				display:inline-block;
+				float:right;
+			}
+		}
+
+		&--content {
+			@include span(6 of 12 last);
+		}
+	}
+
+	@include breakpoint('laptop') {
+		&--image {
+			@include span(4 of 12);
+		}
+
+		&--content {
+			@include span(8 of 12 last);
+		}
+	}
+}
+
+
+.store__product--content {
+	h3 {
+		color:$black;
+		margin-bottom:0;
+	}
+
+	h5 {
+		color:$gray;
+		margin-top:0;
+	}
+}
+
+/*
+|--------------------------------------------------------------------------
+| Store Transations
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+.store__downloads {
+	 background:$off-white;
+  	 position: relative;
+
+  	 @include angle(before, true);
+     padding-top: rem-calc(60);		
+  	 padding-bottom:rem-calc(60);
+
+  	 ul {
+  	 	li {
+  	 		list-style:none;
+  	 	}
+  	 }
+}

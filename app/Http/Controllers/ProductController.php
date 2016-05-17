@@ -10,6 +10,9 @@ use App\Http\Controllers\Controller;
 
 
 use App\Repositories\ProductRepository as Product;
+use App\Repositories\TransactionRepository as Transaction;
+
+use App\Repositories\Criteria\Transaction\SearchProducts;
 
 class ProductController extends Controller
 {
@@ -21,13 +24,20 @@ class ProductController extends Controller
      */
     protected $product;
 
+    /**
+     * Transaction
+     * @var App\Transaction
+     */
+    protected $transaction;
+
 
     /**
      * Direct Inject Projdct
      * @param Product $product [description]
      */
-    public function __construct(Product $product) {
+    public function __construct(Product $product, Transaction $transaction) {
         $this->product = $product;
+        $this->transaction = $transaction;
     }
 
 
@@ -49,7 +59,14 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('dashboard.products.create');
+        $product = \App\Product::orderBy('id', 'desc')->limit('1')->get();
+        if (!$product) {
+            $id = ($product[0]->id + 1);    
+        } else {
+            $id = 1;
+        }
+        
+        return view('dashboard.products.create', compact('id'));
     }
 
     /**
@@ -90,7 +107,8 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = $this->product->find($id);
-        return view('dashboard.products.show', compact('product'));
+        $transactions = $this->transaction->pushCriteria(new SearchProducts($product->id))->all();
+        return view('dashboard.products.show', compact('product', 'transactions'));
     }
 
     /**
@@ -119,14 +137,14 @@ class ProductController extends Controller
 
         //Upload Image
         if ($request->hasFile('product_image')) {
-            $filePath = $this->product->saveImageForProduct($request);
+            $filePath = $this->product->saveProductToAmazon($request, 'product_image');
             $product->product_image = $filePath;
             $product->update();
         }
 
         //Upload Product
-        if ($request->hasFile('product_download')) {
-            $productPath = $this->product->saveProductToAmazon($request, 'product_download');
+        if ($request->hasFile('url')) {
+            $productPath = $this->product->saveProductToAmazon($request, 'url');
             $product->url = $productPath;
             $product->update();
         }

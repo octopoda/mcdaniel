@@ -147,7 +147,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
-        Skovmand\Mailchimp\MailchimpServiceProvider::class
+        Skovmand\Mailchimp\MailchimpServiceProvider::class,
+        Roumen\Feed\FeedServiceProvider::class
     ],
 
     /*
@@ -198,7 +199,8 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
         'Html'      => Illuminate\Html\HtmlFacade::class,
         'Form'      => Illuminate\Html\FormFacade::class,
-        'Entrust'   => Zizaco\Entrust\EntrustFacade::class
+        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+        'Feed'      => Roumen\Feed\Feed::class
     ],
 
 ];

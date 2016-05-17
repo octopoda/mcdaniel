@@ -2,7 +2,7 @@
 
 <header class="dashboard__section-title row">
 	<div class="dashboard__form--title col s8">
-		<h3>{{ $submitButtonText }}</h3>
+		<h3>{{ $headingText }}</h3>
 	</div>
 	
 	<div class="col s4 dashboard__form--publish-switch">
@@ -32,7 +32,7 @@
 	        	<input type="file" name="url" id="url">
 	      	</div>
 	      	<div class="file-path-wrapper">
-		        <input class="file-path validate" type="text">
+		        <input class="file-path validate" type="text" value="{{ (isset($product->url)) ? $product->url : null }}">
 	    	</div>
     	</div>
 	</div>
@@ -65,7 +65,7 @@
 	        	<input type="file" name="product_image" id="product_image">
 	      	</div>
 	      	<div class="file-path-wrapper">
-		        <input class="file-path validate" type="text">
+		        <input class="file-path validate" type="text" value="{{ (isset($product->product_image)) ? $product->product_image : null  }}">
 	    	</div>
     	</div>
 	</div>
@@ -74,7 +74,7 @@
 	<div class="row">
 		<div class="s12 col input-field">
 			{!! Form::text('product_url', null, ['class'=>'validate']) !!}
-			{!! Form::label('product_url', 'Product URL:') !!}
+			{!! Form::label('product_url', 'Product URL: (If product is off site)') !!}
 		</div>
 	</div>
 

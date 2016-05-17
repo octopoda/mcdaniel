@@ -101,6 +101,8 @@ Route::group(["prefix" => "api/v1"], function () {
 		"as" => "mailChimpSubscribe",
 		"uses" => "MailChimpController@subscribeToMailChimp"
 	]);
+
+	
 	
 	
 });
@@ -135,6 +137,11 @@ Route::group(['prefix'=>'dashboard',  'middleware'=>['auth']], function () {
 	Route::get('/roles-permissions', [
 		"as" => "dashboard.rolepermission.index",
 		"uses" => "RolesPermissionsController@index"
+	]);
+
+	Route:get('/transactions/{id}', [
+		"as" => "transactionDetail",
+		"uses" => "StoreController@transactionDetail"
 	]);
 	
 	Route::post('/roles-permissions', "RolesPermissionsController@store");
@@ -223,6 +230,11 @@ Route::get('/categories/{category}', function ($category) {
 	return Redirect::route('postsbyCategory', ['category'=>$category], 301);
 });
 
+Route::get('/rss.xml', [
+	"as" => "rssFeed",
+	"uses" => "PostController@setupFeed"
+]);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -297,10 +309,16 @@ Route::group(['prefix' => 'store'], function () {
 		'uses' => 'StoreController@transactionError'
 	]);
 
-	
+	//List Downloads
 	Route::Get('/downloads/{transaction_id}', [
 		'as' => 'getDownloads',
 		'uses' => 'StoreController@getDownloads'
+	]);
+
+	//Product Routes
+	Route::get('/download/{transaction_id}/{id}',  [
+		"as" => 'downloadProduct',
+		"uses" => "StoreController@downloadProduct"
 	]);
 
 
@@ -309,7 +327,6 @@ Route::group(['prefix' => 'store'], function () {
 		'as' => 'productByTitle',
 		'uses' => 'StoreController@productByTitle'
 	]);
-
 });
 
 
@@ -453,6 +470,11 @@ Route::group(['prefix' => 'testing',   'middleware'=>['auth']], function () {
 	Route::post('/contact-test', [
 		"as" => "contact-test",
 		"uses" => "ContactController@store"
+	]);
+
+	Route::get('/transaction', [
+		"as" => "transactionTest",
+		"uses" => "StoreController@transactionTest"
 	]);
 });
 

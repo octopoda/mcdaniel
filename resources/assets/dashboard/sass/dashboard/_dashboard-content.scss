@@ -62,6 +62,23 @@ $source-font: 'Source Serif Pro', serif;
 	}
 }
 
+.dashboard__content {
+	dl {
+		margin-top:rem-calc(20);
+		margin-bottom:rem-calc(20);
+	}
+
+	dt {
+		margin-top:rem-calc(20);
+		border-bottom:1px solid #333;
+	}
+
+	dd {
+		margin-top:rem-calc(10);
+		margin-left:0;
+	}
+}
+
 
 .dashboard__content--card {
 	.col {
