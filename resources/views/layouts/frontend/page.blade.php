@@ -55,7 +55,11 @@
   <meta name="msapplication-square310x310logo" content="images/icons/large.jpg"/>
 	
   <!-- CSS: implied media="all" -->
-  <link rel="stylesheet" href="/assets/css/app.min.css">
+  @if ($app->environment('local'))
+    <link rel="stylesheet" href="/assets/css/app.min.css">
+  @elseif ($app->environment('production') )
+    <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/mcdaniel-staging/css/app.min.css">
+  @endif
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link href='https://fonts.googleapis.com/css?family=Material+Icons' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Source+Serif+Pro' rel='stylesheet' type='text/css'>
@@ -94,7 +98,7 @@
   <script src="/tmp/templates.js"></script>
   <script src="/tmp/angular.js"></script>
 @elseif ($app->environment('production')) 
-  <script src="/scripts/app.min.js"></script> 
+  <script src="https://s3-us-west-2.amazonaws.com/mcdaniel-staging/scripts/app.min.js"></script> 
  @endif
 
 
