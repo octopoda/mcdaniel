@@ -20,45 +20,44 @@ $header = [
 		</section>
 	</div>
 
-	<div class="get-started row">
-		<div class="get-started__price tablet-up">
-			<h3>Individualized Consultation</h3>
-			<h2>$150.00</h2>
-
-			
-		</div>
-
-		<div class="get-started__content">
-			<h2>Perform Beyond Your Best</h2>
-			<p>The rise to your athletic performance goals and new levels of competition is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past. We tailor sessions to your period of training and include pre-, during-, and post-nutrition recommendations.</p>
-
-			<div class="get-started__price phone-only">
+	<div class="get-started">
+		<div class="row">
+			<div class="get-started__price tablet-up">
 				<h3>Individualized Consultation</h3>
-				<h2>$150.00</h2>
+				<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
+				<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us For a Price</h4>
 			</div>
 
-			<div class="get-started__contact">
-				@include('getstarted.partials.get-started-form')
+			<div class="get-started__content">
+				<h2>Perform Beyond Your Best</h2>
+				<p>The rise to your athletic performance goals and new levels of competition is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past. We tailor sessions to your period of training and include pre-, during-, and post-nutrition recommendations.</p>
+
+				<div class="get-started__price phone-only">
+					<h3>Individualized Consultation</h3>
+					<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
+					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us For a Price</h4>
+				</div>
+
+				<div class="get-started__contact">
+					@include('getstarted.partials.get-started-form')
+				</div>
+
+
+				<div class="get-started__articles">
+					<h3>Recent Articles For Sports Nurtition</h3>
+					<ul>
+						@foreach($posts as $post)
+						<li>
+							<h4><a href="/posts/{{ $post->direct_link }}">{{ $post->title }}</a></h4>
+							{!! $post->summary !!}
+							<div class="button">
+								<a href="/posts/{{ $post->direct_link }}">Read More</a>
+							</div>
+						</li>
+						@endforeach
+					</ul>
+				</div>
 			</div>
-
-
-			<div class="get-started__articles">
-				<h3>Recent Articles For Sports Nurtition</h3>
-				<ul>
-					@foreach($posts as $post)
-					<li>
-						<h4><a href="/posts/{{ $post->direct_link }}">{{ $post->title }}</a></h4>
-						{!! $post->summary !!}
-						<div class="button">
-							<a href="/posts/{{ $post->direct_link }}">Read More</a>
-						</div>
-					</li>
-					@endforeach
-				</ul>
-			</div>
-
-			
-
 
 		</div>	
 	</div>

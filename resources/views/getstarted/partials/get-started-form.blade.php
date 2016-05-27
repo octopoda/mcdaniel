@@ -1,20 +1,19 @@
-
 <div data-ng-controller="ContactFormController as fc">
 	<form name="contactForm" class="top-errors m-contact-form" data-ng-submit="fc.submitForm()" data-ng-init="fc.formData.formType = 'get-started-page'">
 		<!-- Dynamic Form -->
 		<div data-ng-switch="fc.service">
 			<div class="form-group" data-ng-switch-when="all">
 				<label for="service">Our Services:</label>
-				<select id="interestedService" name="interestedService" data-ng-model="fc.formData.interestedService" >
-					<option value="sustain" selected="selected">Sustain Weight Loss</option>
-					<option value="sustain-premium">Sustain Weight Loss Premium</option>
-					<option value="sports">Sports Nutrition</option>
-					<option value="maternal">Maternal Nutrition</option>
-					<option value="rmr-testing">RMR Testing</option>
-					<option value="sustain-coporate">Sustain </option>
-					<option value="sustain-virtual">Sustain Virtual</option>
-					<option value="lunch-and-learn">Lunch &amp; Learn</option>
-					<option value="teach-and-taste">Taste &amp; Teach</option>
+				<select id="interestedService" name="interestedService" data-ng-model="fc.formData.interestedService" data-ng-change="fc.updatePrice()" >
+					<option value="sustain" selected="selected" data-item-price="150">Sustain Weight Loss</option>
+					<option value="sustain-premium" data-item-price="450">Sustain Weight Loss Premium</option>
+					<option value="sports" data-item-price="180">Sports Nutrition</option>
+					<option value="maternal" data-item-price="150">Maternal Nutrition</option>
+					<option value="rmr-testing" data-item-price="75">RMR Testing</option>
+					<option value="sustain-coporate" data-item-price="null">Sustain </option>
+					<option value="sustain-virtual" data-item-price="null">Sustain Virtual</option>
+					<option value="lunch-and-learn" data-item-price="300">Lunch &amp; Learn</option>
+					<option value="teach-and-taste" data-item-price="400">Taste &amp; Teach</option>
 					<option value="webinars">Webinars</option>
 				</select>
 			</div>
@@ -22,18 +21,18 @@
 			<!-- Weight Loss -->
 			<div class="form-group" data-ng-switch-when="weight-loss">
 				<label for="service">Weight Loss Services:</label>
-				<select id="interestedService" name="interestedService" data-ng-model="fc.formData.interestedService">
-					<option value="sustain" selected="selected">Sustain </option>
-					<option value="sustain-premium">Sustain Premium</option>
+				<select id="interestedService" name="interestedService" data-ng-model="fc.formData.interestedService" data-ng-change="fc.updatePrice()">
+					<option value="sustain" selected="selected" data-item-price="150">Sustain</option>
+					<option value="sustain-premium" data-item-price="450">Sustain Premium</option>
 				</select>
 			</div>
 
 			<!-- Sustain Corporate -->
 			<div class="form-group" data-ng-switch-when="sustain-corporate">
 				<label for="service">Online Service:</label>
-				<select id="interestedService" name="interestedService" data-ng-model="fc.formData.interestedService">
-					<option value="sustain-corporate">In-Office</option>
-					<option value="sustain-virtual">Online</option>
+				<select id="interestedService" name="interestedService" data-ng-model="fc.formData.interestedService" data-ng-change="fc.updatePrice()">
+					<option value="sustain-corporate" data-item-price=null>In-Office</option>
+					<option value="sustain-virtual" data-item-price=null>Online</option>
 				</select>
 			</div>
 

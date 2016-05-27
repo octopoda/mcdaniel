@@ -5,7 +5,7 @@
         .module('mcdaniel.shared')
         .directive('fixedAsset', fixedAsset);
 	
-	/* @ngInject */
+	  /* @ngInject */
     function fixedAsset () {
         // Usage:
         // <div fixed-asset></div>
@@ -32,6 +32,7 @@
       			},
       			offset: 120
       		});
+
 
          
         }

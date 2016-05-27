@@ -16,10 +16,10 @@
         .module('mcdaniel.forms')
         .controller('ContactFormController', ContactFormController);
 
-    ContactFormController.$inject = ['$scope', 'mailService', 'flash', 'common', 'localStorageService'];
+    ContactFormController.$inject = ['$scope', '$rootScope', 'mailService', 'flash', 'common', 'localStorageService'];
 
     /* @ngInject */
-    function ContactFormController($scope, mailService, flash, common, localStorageService) {
+    function ContactFormController($scope, $rootScope, mailService, flash, common, localStorageService) {
         var vm = this;
         vm.title = 'ContactFormController';
         
@@ -30,6 +30,7 @@
 
         /** @type {Methods} Scope Methods */
         vm.submitForm = submitForm;
+        vm.updatePrice = updatePrice;
 
         /** @type {String} Success Message */
         vm.successMessage = "Thanks for Contacting Us. Your email is important to us and we will get back to you in 1 to 2 business days.";
@@ -85,6 +86,10 @@
         }
 
         
+        function updatePrice() {
+            var price = jq("#interestedService").find(':selected').attr('data-item-price');
+            $rootScope.$emit('updatePrice', price);
+        }
 
         /*
         |--------------------------------------------------------------------------
@@ -92,6 +97,7 @@
         |--------------------------------------------------------------------------
         |
         */
+
 
 
         /**

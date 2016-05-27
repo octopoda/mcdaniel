@@ -21,27 +21,31 @@ $header = [
 	</div>
 
 
-	<div class="get-started row">
-		<div class="get-started__price tablet-up">
-			<h3>Individualized Consultation</h3>
-			<h2>$75.00</h2>
-		</div>
-
-		<div class="get-started__content">
-			<h2>Know Your Body</h2>
-			<p>Using BodyGem equipment, we can easily and precisely test your resting metabolic rate through only your breathing. This test allows us to further personalize your nutritional planning and finally confirm just how high or low your metabolism might be.  </p>
-
-			<div class="get-started__price phone-only">
+	<div class="get-started">
+		<div class="row">
+			<div class="get-started__price tablet-up">
 				<h3>Individualized Consultation</h3>
-				<h2>$75.00</h2>
-			</div>
-			
-			<div class="get-started__contact">
-				@include('getstarted.partials.get-started-form')
+				<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
+				<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us For a Price</h4>
 			</div>
 
-		
-		</div>	
+			<div class="get-started__content">
+				<h2>Know Your Body</h2>
+				<p>Using BodyGem equipment, we can easily and precisely test your resting metabolic rate through only your breathing. This test allows us to further personalize your nutritional planning and finally confirm just how high or low your metabolism might be.  </p>
+
+				<div class="get-started__price phone-only">
+					<h3>Individualized Consultation</h3>
+					<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
+					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us For a Price</h4>
+				</div>
+				
+				<div class="get-started__contact">
+					@include('getstarted.partials.get-started-form')
+				</div>
+
+			
+			</div>	
+		</div>
 	</div>
 
 	

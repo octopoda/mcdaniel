@@ -60,21 +60,6 @@ var jq = $.noConflict();
 
     angular.module('mcdaniel.pages', []);
 })();
-/*
-|--------------------------------------------------------------------------
-| Module for Survey 
-|--------------------------------------------------------------------------
-|
-| Module for all survey partials.  
-| Injection in main assetbuilder module
-| 
-|
-*/
-(function() {
-    'use strict';
-
-    angular.module('assetbuilder.survey', []);
-})();
 /**
  * All Shared Modules inserted here. 
  *   
@@ -121,13 +106,13 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular.module('global.sidemenu', []);
+    angular
+        .module('global.errors', []);
 })();
 (function() {
     'use strict';
 
-    angular
-        .module('global.errors', []);
+    angular.module('global.sidemenu', []);
 })();
 (function() {
     'use strict';
@@ -1177,10 +1162,10 @@ var jq = $.noConflict();
         .module('mcdaniel.forms')
         .controller('ContactFormController', ContactFormController);
 
-    ContactFormController.$inject = ['$scope', 'mailService', 'flash', 'common', 'localStorageService'];
+    ContactFormController.$inject = ['$scope', '$rootScope', 'mailService', 'flash', 'common', 'localStorageService'];
 
     /* @ngInject */
-    function ContactFormController($scope, mailService, flash, common, localStorageService) {
+    function ContactFormController($scope, $rootScope, mailService, flash, common, localStorageService) {
         var vm = this;
         vm.title = 'ContactFormController';
         
@@ -1191,6 +1176,7 @@ var jq = $.noConflict();
 
         /** @type {Methods} Scope Methods */
         vm.submitForm = submitForm;
+        vm.updatePrice = updatePrice;
 
         /** @type {String} Success Message */
         vm.successMessage = "Thanks for Contacting Us. Your email is important to us and we will get back to you in 1 to 2 business days.";
@@ -1246,6 +1232,10 @@ var jq = $.noConflict();
         }
 
         
+        function updatePrice() {
+            var price = jq("#interestedService").find(':selected').attr('data-item-price');
+            $rootScope.$emit('updatePrice', price);
+        }
 
         /*
         |--------------------------------------------------------------------------
@@ -1253,6 +1243,7 @@ var jq = $.noConflict();
         |--------------------------------------------------------------------------
         |
         */
+
 
 
         /**
@@ -1361,18 +1352,53 @@ var jq = $.noConflict();
         .module('mcdaniel.getstarted')
         .controller('GetStartedController', GetStartedController);
 
+    GetStartedController.$inject = ['$rootScope', 'localStorageService'];
+
     /* @ngInject */
-    function GetStartedController() {
+    function GetStartedController($rootScope, localStorageService) {
         var vm = this;
         vm.title = 'GetStartedController';
+        vm.price = null;
+        vm.service = localStorageService.get('interestedService');
 
         activate();
 
         ////////////////
+        
+        
 
         function activate() {
-        
+            console.dir(vm.service);
+            switch (vm.service) {
+                case 'lunch-and-learn' :
+                    vm.price = '$300.00';
+                    break;
+                case 'teach-and-taste' : 
+                    vm.price = '$400.00';
+                    break;
+                case 'weight-loss-sustain' : 
+                    vm.price = "$150.00";
+                    break;
+                case 'weight-loss-sustain-premium' : 
+                    vm.price = "$450.00";
+                    break;
+                case 'sports-nutrition' :
+                    vm.price = "$180.00";
+                    break;
+                case 'maternal-nutrition' :
+                    vm.price = "$150.00";
+                    break;
+                case 'rmr-testing' :
+                    vm.price = "$75.00"
+            }
         }
+
+        $rootScope.$on('updatePrice', function handlePrice(event, price) {
+            if (price !== "null") {
+                vm.price = "$" + price  + '.00';    
+            }
+            
+        });
     }
 })();
 (function() {
@@ -1419,186 +1445,6 @@ var jq = $.noConflict();
     /* @ngInject */
     function subNavigationController () {
 
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.survey')
-        .controller('LineController', LineController);
-
-    LineController.$inject = ['$scope', 'surveyService', 'surveyUtilities'];
-
-    /* @ngInject */
-    function LineController($scope, surveyService, surveyUtilities) {
-        var vm = this;
-        vm.title = 'LineController';
-        vm.Data = [];
-        vm.returnsData = [];
-        vm.portfolioId = [45, 46, 47];
-        vm.End;
-        vm.Add; 
-        vm.Years;
-        vm.primed = true;
-        vm.Plots = false;
-
-        activate();
-
-        ////////////////
-
-        /**
-         * Activate the Controller
-         * @return {} [description]
-         */
-        function activate() {
-        	return getExpectedReturns().then(function () {
-            if (angular.isUndefined(vm.Data.PlotPoints)) { return; }
-        		vm.Plots = Math.ceil(vm.Data.PlotPoints.length/2);
-        		setupPlotData();
-            setupDisplayData();
-        	});
-        }
-
-        /**
-      	 * Get Expected Returns
-      	 * @return {object} 
-      	 */
-      	function getExpectedReturns() {
-      		return surveyService.getExpectedReturns(vm.portfolioId[0]).then(function (data) {
-      			vm.Data = data;
-      			vm.Data.SurveyData = surveyService.getSurveyCookie();
-            return vm.Data;
-          });
-      	}
-
-
-        /**
-         * Setup the Date to go to the line chart directive
-         * @return {object} 
-         */
-      	
-        function setupPlotData() {
-          vm.returnsData = {
-            plotData: vm.Data.PlotPoints, 
-            end: vm.Data.EndAmount,
-            add: vm.Data.SurveyData.addMonthly,
-            years: vm.Data.PlotPoints[vm.Data.PlotPoints.length-1].Year,
-            lastYear: vm.Data.LastYear,
-            performance: vm.Data.Performance
-          };
-        
-          return vm.returnsData;
-      	}
-
-
-        /**
-         * Setup the Display Data above the chart
-         */
-        function setupDisplayData() {
-          var w = (vm.returnsData.add < 0) ? 'withdrawn' : 'added'
-
-          vm.Years = vm.returnsData.years;
-          vm.Add = surveyUtilities.printCurrency(vm.returnsData.add) + ' ' + w;
-          vm.portfolioTitle;
-        }
-
-        
-        /*
-        |--------------------------------------------------------------------------
-        | Scope Methods
-        |--------------------------------------------------------------------------
-        */
-
-        /**
-         * Watch Plots and Make Changes
-         * @param  {vm.Plots ) 
-         */
-      	$scope.$watch('vm.Plots', function () {
-            if (vm.Plots === undefined) return;
-          	vm.returnsData = vm.Data.PlotPoints;    
-        }, true)
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Survey Module Controller
-|--------------------------------------------------------------------------
-|  Controls the Overlay and Click buttons for Survey.
-|  @note Looking for the Form.  Check out the SurveyFormDirective.js 
-|  
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.survey')
-        .controller('SurveyController', SurveyController);
-
-    SurveyController.$inject = ['$scope', '$window', 'surveyService', 'common'];
-
-    /* @ngInject */
-    function SurveyController($scope, $window, surveyService, common) {
-        //Vars
-        var vm = this;
-        vm.title = 'SurveyController';
-        vm.investmentType = 'us';
-        
-        
-
-        //Methods
-        vm.changeInvestmentType = changeInvestmentType;
-        vm.checkInvestmentType = checkInvestmentType;
-        
-        activate();
-
-        ////////////////
-
-        /**
-         * Activate the Controller
-         * @return {Function} 
-         */
-        function activate() {
-            
-        }
-
-        
-        /**
-         * Change the investment type to expat
-         * @return {none} 
-         */
-        function changeInvestmentType() {
-            vm.investmentType = 'expat';
-            vm.expat = true;
-        }
-
-
-        /**
-         * Check the investment type and return the class name
-         * @return {string} 
-         */
-        function checkInvestmentType() {
-            if (vm.expat === true) {
-                return 'expat';
-            } else {
-                return 'c-gray-lightest-background';
-            }
-        }
-
-
-
-/*
-|--------------------------------------------------------------------------
-| Helpers
-|--------------------------------------------------------------------------
-|
-|
-*/
-       
-
-
-        
     }
 })();
 (function() {
@@ -3020,70 +2866,6 @@ var jq = $.noConflict();
 
     
 })();
-/*
-|--------------------------------------------------------------------------
-| Menu Toggle Directive
-|--------------------------------------------------------------------------
-|
-| Adds the class to open any id that you specify in the menu-toggle attribute
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('global.sidemenu')
-        .directive('menuToggle', menuToggle);
-
-    menuToggle.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function menuToggle ($rootScope) {
-        // Usage:
-        // <div menu-toggle="{id of element you wish to toggle}"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	jq(element).on('click', function () {
-               toggleMenu(attrs.menuToggle);
-               jq(this).toggleClass('active');
-            });
-
-            $rootScope.$on('menu.close', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-
-            $rootScope.$on('menu.open', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-		}
-    }
-
-    /**
-     * Toggle Menu Element
-     * @param  {string}  attr   
-     * @param  {Boolean} isOpen 
-     * @return {Boolean}         
-     */
-    function toggleMenu(attr) {
-    	var target = jq('#'+attr);
-
-        if (target.hasClass('open')) {
-    		target.removeClass('open');
-            return false;
-        } else {
-    	   target.addClass('open');	
-           return true;
-    	}
-    };
-
-
-})();
 (function() {
     'use strict';
 
@@ -3187,6 +2969,70 @@ var jq = $.noConflict();
     }
 
    
+})();
+/*
+|--------------------------------------------------------------------------
+| Menu Toggle Directive
+|--------------------------------------------------------------------------
+|
+| Adds the class to open any id that you specify in the menu-toggle attribute
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('global.sidemenu')
+        .directive('menuToggle', menuToggle);
+
+    menuToggle.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function menuToggle ($rootScope) {
+        // Usage:
+        // <div menu-toggle="{id of element you wish to toggle}"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	jq(element).on('click', function () {
+               toggleMenu(attrs.menuToggle);
+               jq(this).toggleClass('active');
+            });
+
+            $rootScope.$on('menu.close', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+
+            $rootScope.$on('menu.open', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+		}
+    }
+
+    /**
+     * Toggle Menu Element
+     * @param  {string}  attr   
+     * @param  {Boolean} isOpen 
+     * @return {Boolean}         
+     */
+    function toggleMenu(attr) {
+    	var target = jq('#'+attr);
+
+        if (target.hasClass('open')) {
+    		target.removeClass('open');
+            return false;
+        } else {
+    	   target.addClass('open');	
+           return true;
+    	}
+    };
+
+
 })();
 (function() {
     'use strict';
@@ -3917,1584 +3763,6 @@ var jq = $.noConflict();
 
     
 })();
-/*
-|--------------------------------------------------------------------------
-| Line Chart Object Factory
-|--------------------------------------------------------------------------
-|
-|
-*/
-(function() {
-  'use strict';
-
-  angular
-      .module('assetbuilder.survey')
-      .factory('ExpectedChart', runChart);
-
-        runChart.$inject = ['surveyUtilities', 'common'];
-
-        /* @ngInject */
-        function runChart(surveyUtilities, common) {
-              /**
-               * Constructor
-               */
-              function ExpectedChart () {
-                this.init.apply(this, arguments);
-        
-              };
-
-        /*
-        |--------------------------------------------------------------------------
-        | Setup Initial Data
-        |--------------------------------------------------------------------------
-        |
-        */
-
-              /**
-               * Set the Size of the container
-               * @return {int} 
-               */
-              ExpectedChart.prototype.updateSize = function () {
-      	        this.margin = {top: 1, right: 20, bottom:40, left:20};
-      	        this.elWidth = this.settings.containerEl.outerWidth();
-      	        this.elHeight = this.settings.containerEl.outerHeight();
-
-                this.width = this.elWidth - this.margin.left - this.margin.right;
-      	        this.height = this.elHeight - this.margin.top - this.margin.bottom;
-              };
-
-
- 
-      
-              /**
-               * Render the container for the chart
-               * @return {[type]} [description]
-               */
-              ExpectedChart.prototype.renderContainer = function () {
-                this.container = this.container || d3.select(this.settings.containerEl[0]);
-                this.outerSVG =  this.outerSVG  || this.container.select('svg');
-
-                var padding = 20;
-
-                this.outerSVG
-                  .attr('width', this.width - padding)
-                  .attr('height', this.height - padding);
-              };
-
-
-  
-              /**
-               * Setup the Initial Data for Animation Transition
-               * @return {object} 
-               */
-              ExpectedChart.prototype.setupStartData = function () {
-                var self = this;
-
-        
-                this.startData =  this.startData || this.settings.data.map( function (datum) {
-                  return {
-                    Year: datum.Year,
-                    ExpectedReturn: self.settings.data[0].ExpectedReturn,
-                    lowerBoundSTDev1: self.settings.data[0].ExpectedReturn,
-                    upperBoundSTDev1: self.settings.data[0].ExpectedReturn,
-                    lowerBoundSTDev2: self.settings.data[0].ExpectedReturn,
-                    upperBoundSTDev2: self.settings.data[0].ExpectedReturn
-                  }  
-                });
-              }
-
-
-              ExpectedChart.prototype.updateStartData = function () {
-                var self = this;
-
-                var last = self.settings.data.length-1;
-                this.startData = this.settings.data.map(function (datum) {
-                  return {
-                    Year: datum.Year,
-                    ExpectedReturn: self.settings.data[0].ExpectedReturn,
-                    lowerBoundSTDev1: self.settings.data[0].lowerBoundSTDev1,
-                    upperBoundSTDev1: self.settings.data[0].upperBoundSTDev1,
-                    lowerBoundSTDev2: self.settings.data[0].lowerBoundSTDev2,
-                    upperBoundSTDev2: self.settings.data[0].upperBoundSTDev2,
-                  }
-                });    
-              }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Render the Scales and Setup Axiseseses.
-        |--------------------------------------------------------------------------
-        |
-        */
-
-              /**
-               * Render D3 Scales to setup chart
-               * @return {} [description]
-               */
-              ExpectedChart.prototype.renderScales = function () {
-      	        //X Axis 
-      	        this.xScale = this.xScale || d3.scale.linear()
-                this.xYearScale = this.xYearScale || d3.scale.linear();
-      	
-                this.xScale
-                  .domain([this.settings.data[0].Month, this.settings.data[this.settings.data.length-1].Month])
-                  .range([0, this.width]); 
-
-                this.xYearScale
-                  .domain([this.settings.data[0].Year, this.settings.data[this.settings.data.length-2].Year])
-                  .range([0, this.width]);
-
-                this.xScale.reverse;
-        
-        
-                //Y Axis
-      	        this.yScale = this.yScale || d3.scale.linear();
-        
-                /** Change Domain for Withdrawl */
-      	        if (!this.settings.withdrawl) {
-                  var yStart = d3.min(this.settings.data, function (d) { return d.lowerBoundSTDev2});
-                  var yEnd = d3.max(this.settings.data, function (d) { return d.upperBoundSTDev2 });
-                  this.yScale
-                    .domain([yStart, yEnd]);
-                } else {
-                  this.yScale
-                    .domain([0,  this.settings.data[0].upperBoundSTDev2])
-                }
-
-
-      	
-        
-
-                this.yScale
-                  .range([(this.height - this.margin.top), 0]);
-
-        
-              };
-
-              /**
-               * Render the X Axis
-               * @return {SVG} 
-               */
-              ExpectedChart.prototype.renderXAxis = function () {
-                this.xAxis =  this.xAxis || d3.svg.axis().scale(this.xYearScale).orient('bottom');
-      	        this.xAxisDraw = this.xAxisDraw || this.outerSVG.append('g'); 
-
-                this.xAxisDraw
-      		        .attr('class', 'line-chart__xAxis')
-      		        .attr( 'transform', 'translate(0, ' + (this.height) + ')' )
-        	        .call(this.xAxis);
-              };
-
-
-              /**
-               * Render the Y Axis;
-               * @return {SVG} 
-               */
-              ExpectedChart.prototype.renderYAxis = function () {
-                this.yAxisDraw = this.yAxisDraw || this.outerSVG.append('g');
-
-
-                this.yAxis =  this.yAxis || d3.svg.axis().scale(this.yScale).orient('left').tickFormat(function (d) { return surveyUtilities.formatReturn(d) }),
-                this.yAxisTicks = this.yAxisTicks || d3.svg.axis().scale(this.yScale).orient('left').ticks(this.settings.data.length-1).tickSize(-this.height).tickFormat('');
-
-                this.yAxisDraw
-                  .attr('class', 'line-chart__yAxis')
-                  .attr('transform', 'translate('+ 0 +')') //Might need to be this.margin.left but I didn't like it. 
-                  .call(this.yAxis);
-              }
-
-
-      
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Main Lin and Area Rendering
-        |--------------------------------------------------------------------------
-        |
-        |
-        */
-
-
-              /**
-               * Render the Expected Return Link
-               * @return {SVG Path} 
-               */
-              ExpectedChart.prototype.renderMainLine = function () {
-                var self = this;
-
-                this.expectedReturnLine = this.expectedReturnLine || d3.svg.line();
-                this.expectedReturnPath = this.expectedReturnPath || this.outerSVG.append('path');
-
-                this.expectedReturnLine
-                  .interpolate('cardinal')
-                  .defined(function (d) { return d.ExpectedReturn > 0; })
-                  .x(function (d) {return self.xScale(d.Month) })
-                  .y(function (d) {return self.yScale(d.ExpectedReturn) });
-
-    
-                this.expectedReturnPath
-                  .datum(this.startData)
-                  .attr('class', 'line-chart__expected-return')
-                  .attr('d', this.expectedReturnLine(this.settings.data))
-                  .transition()
-                  .duration(function (d) {
-                    if (self.isResizing) return 0;
-                    return self.settings.duration
-                  })
-                  .delay(this.settings.delay)
-                  .attrTween('d', surveyUtilities.tween(this.settings.data, this.expectedReturnLine));
-              }
-
-              /**
-               * Render Standard Deviation 1 Area
-               * @return {SVG Path} 
-               */
-              ExpectedChart.prototype.renderMainArea = function () {
-                var self = this;
-
-                this.expectedReturnArea = this.expectedReturnArea || d3.svg.area();
-                this.STDevOneArea = this.STDevOneArea  || this.outerSVG.append('path');
-
- 
-     
-                this.expectedReturnArea
-                  .interpolate('basis')
-                  .defined(function (d) {return d.ExpectedReturn > 0; })
-                  .x(function (d) { return self.xScale(d.Month) })
-                  .y0(function (d) { return self.yScale(d.lowerBoundSTDev1) })
-                  .y1(function (d) {return self.yScale(d.upperBoundSTDev1) });
-
-                this.STDevOneArea
-                  .datum(this.startData)
-                  .attr('class', 'line-chart__expected-return--area')
-                  .attr('fill', 'url(#areaOneGradient)')
-                  .attr('d', this.expectedReturnArea(this.settings.data))
-                  .transition()
-                  .duration(function (d) {
-                   if (self.isResizing) return 0;
-                   return self.settings.duration
-                  })
-                  .delay(this.settings.delay)
-                  .attrTween('d', surveyUtilities.tween(this.settings.data, this.expectedReturnArea));
-
-              }
-
-
-              /**
-               * Render Standard Deviation 2 Area
-               * @return {SVG Path} 
-               */
-              ExpectedChart.prototype.renderSecondaryArea = function () {
-                var self = this;
-
-                this.expectedReturnTwoArea = this.expectedReturnTwoArea || d3.svg.area();
-                this.STDevTwoArea = this.STDevTwoArea  || this.outerSVG.append('path');
-
-                this.expectedReturnTwoArea
-                  .interpolate('basis')
-                  .defined(function (d) {return d.ExpectedReturn > 0; })
-                  .x(function (d) {return self.xScale(d.Month) }.bind(this))
-                  .y0(function (d) {return self.yScale(d.lowerBoundSTDev2) }.bind(this))
-                  .y1(function (d) {return self.yScale(d.upperBoundSTDev2) }.bind(this));
-
-
-                this.STDevTwoArea
-                  .datum(this.startData)
-                  .attr('class', 'line-chart__expected-return--secondary')
-                  .attr('fill', 'url(#areaTwoGradient)')
-                  .attr('d', this.expectedReturnTwoArea(this.settings.data))
-                  .transition()
-                  .duration(function (d) {
-                   if (self.isResizing) return 0;
-                   return self.settings.duration
-                  })
-                  .delay(this.settings.delay)
-                  .attrTween('d', surveyUtilities.tween(this.settings.data, this.expectedReturnTwoArea));
-
-              }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Circle/Handel Methods
-        |--------------------------------------------------------------------------
-        |
-        |
-        */
-
-              /**
-               * Draw the Handle and Transition it.
-               * @return {SVG:circle} 
-               * @note transition needs to be called through this method.
-               */
-              ExpectedChart.prototype.drawHandle = function () {
-                var self = this;
-                this.handle = this.handle || this.outerSVG.append('circle');
-
-                this.handle
-                  .datum(this.settings.data)
-                  .attr('class', 'line-chart__circle')
-                  .attr('r', 6)
-                  .attr('cx', 0)
-                  .attr('cy', 0)
-                  .attr('fill', 'url(#handleGradient)')
-                  .attr('filter', 'url(#dropshadow)')
-                  .transition()
-                  .delay(100)
-                  .duration(1000)
-                  .attr('r', 8)
-                  .attr('transform', 'translate('+ this.settings.data[0].ExpectedReturn+')');
-
-                this.transition(this.handle);
-              }
-
-              /**
-               * Setup of Transistion for Handle to Move
-               * @param  {svg:circle} handle 
-               * @return {transition()}        
-               */
-              ExpectedChart.prototype.transition = function (handle) {
-                  var self = this;
-
-                  handle
-                    .transition()
-                    .duration(function (d) {
-                      if (self.isResizing) return 0;
-                      return self.settings.handleDuration;
-                    })
-                    .attrTween('transform', this.translateAlongPath(this.expectedReturnPath.node()))
-                    .each('end', null);
-              }
-
-              /**
-               * Move the Handle up the MainLine
-               * @param  {mainRenderLine} path 
-               * @return {int}      
-               */
-              ExpectedChart.prototype.translateAlongPath = function (path){
-                var self = this;
-         
-                 var length = path.getTotalLength();
-                  return function (d, i, a) {
-                      return function (t) {
-                          var points = path.getPointAtLength(t * length);
-                          var amount = (self.yScale.invert(points.y) <= 0) ? 0 : self.yScale.invert(points.y); 
-                          self.updateMoneyLabel(parseInt(amount));
-                          return "translate(" + points.x + ',' + points.y + ")";
-                      }
-                  }
-              }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Labels
-        |--------------------------------------------------------------------------
-        |
-        */
-
-            /**
-             * Draw the Label to show Money value of expected Return;
-             * @note start with lowest value;
-             * @return {SVG Text} 
-             */
-            ExpectedChart.prototype.drawLabel = function () {
-                this.moneyLabel = this.moneyLabel || this.outerSVG.append('g');
-
-                var placement = {
-                  width: 50,
-                  height: 50
-                }
-        
-                if (this.settings.withdrawl) {
-                  placement.width = this.width - 150;
-                  placement.height = 50
-                }
-
-                this.moneyLabel
-                  .append('text')
-                  .datum(this.settings.data)
-                  .attr('x', placement.width)
-                  .attr('y', placement.height)
-                  .attr('class', 'line-chart__money')
-                  .text('')
-                  .text(function (d) { 
-                    return surveyUtilities.printCurrency(parseInt(d[0].ExpectedReturn));
-                   });
-            }
-
-            /**
-             * Drew the withdrawl label to alert user to how many years portfolio will last
-             * @return {svg:text} 
-             */
-            ExpectedChart.prototype.drawWithdrawlLabel = function () {
-              this.withdrawlLabel = this.withdrawlLabel || this.moneyLabel.append('text');
-
-              var placement =  {
-                width: this.width - 230,
-                height: 80
-              };
-
-              var year  = parseInt(this.settings.lastMonth/12);
-              var month = this.settings.lastMonth%12;
-              var pluralYear = (year < 2) ? "Year" : "Years";
-              var pluralMonth = (month < 2) ? "Month" : "Months";
-      
-              this.withdrawlLabel
-                .attr('class', 'line-chart__portfolio-last')
-                .attr('x', placement.width)
-                .attr('y', placement.height)
-                .text("We estimate your Portfolio will last " + year + ' ' + pluralYear + ' and ' + month + ' ' + pluralMonth);
-            }
-
-            /**
-             * Draw the performance Label
-             * @return {svg:text} [description]
-             */
-            ExpectedChart.prototype.drawPerformanceLabel = function () {
-              this.performanceLabel = this.performanceLabel || this.moneyLabel.append('text');
-
-              var placement = {
-                width: this.width-215,
-                height: -40
-              }
-
-
-     
-
-              var performanceNumber = this.settings.performance * 100;
-                  performanceNumber = parseFloat(performanceNumber).toFixed(2)
-
-              this.performanceLabel
-                .attr('class', 'line-chart__performance-label')
-                .attr('x', placement.width)
-                .attr('y', placement.height)
-                .text('Based on a performance: ' + (performanceNumber) + '%');
-            }
-
-
-            /**
-             * Update the money label onthe transition of the handle
-             * @param  {int} amount     
-             * @return {svg:text}
-             */
-            ExpectedChart.prototype.updateMoneyLabel = function (amount) {
-              d3.select('.line-chart__money').text(surveyUtilities.printCurrency(amount));
-            }
-
-    
-            /**
-             * Draw the Years Label
-             * @return {svg:text} 
-             */
-            ExpectedChart.prototype.drawXAxisLegend = function () {
-              this.xAxisLegend = this.xAxisLegend || this.xAxisDraw.append('text');
-
-              this.xAxisLegend
-                .attr('class', 'line-chart__yaxis-legend')
-                .attr('x', (this.width/2))
-                .attr('y', 50)
-                .text('Year');
-            }
-
-
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Initalization and Object Return
-        |--------------------------------------------------------------------------
-        | This needs to stay the botttom
-        |
-        */
-
-
-              /**
-               * Initalize the Object and run the methods
-               * @param  {object} opts 
-               * @return {null}      
-               */
-              ExpectedChart.prototype.init = function (opts) {
-                var self = this;
-                this.settings = this.settings || opts
-        
-                this.update(opts);
-
-                //Only Resizing evey call evey 350ms 
-                var resizeCallback = common.debounce(function () {
-                  self.isResizing = false;
-                }, 350);
-
-                //On Window Resize
-                jq(window).on('resize', function() {
-                    this.resize();
-                    resizeCallback();
-                 }.bind(this));
-
-
-                this.initialized = true;
-              }
-
-              /**
-               * Update Function
-               * @return 
-               */
-              ExpectedChart.prototype.update = function (opts) {
-                  if (opts) this.settings = opts;
-
-                  this.updateSize();
-                  this.renderContainer();
-          
-                  this.renderScales();
-                  this.renderXAxis();
-                  this.drawXAxisLegend();
-                  this.renderYAxis();
-          
-                  if (this.initialized == undefined) {
-                    this.setupStartData();
-                  }
-
-          
-                  this.setupAreaGradients();
-                  this.setupSecondaryAreaGraident();
-                  this.setupHandleGradient()
-          
-                  this.renderSecondaryArea();
-                  this.renderMainArea();
-                  this.renderMainLine();
-                  this.drawHandle();
-          
-          
-                  if (!this.isResizing && this.initialized == undefined) { 
-                    this.drawLabel();  
-                  } 
-          
-                  this.drawPerformanceLabel();
-          
-                  if (this.settings.withdrawl) {
-                    this.drawWithdrawlLabel()  
-                  } 
-
-                  // this.updateStartData();
-              }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Window Functions
-        |--------------------------------------------------------------------------
-        |
-        |  Updates to the Window and Mobile Changes
-        |
-        */
-
-            ExpectedChart.prototype.resize = function () {
-              this.isResizing = true;
-              this.update();
-            }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Data Changes
-        |--------------------------------------------------------------------------
-        |
-        | Changing Data from Portfolio Changes
-        |
-        */
-
-
-
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Gradients and Colors
-        |--------------------------------------------------------------------------
-        | 
-        |
-        */
-
-              /**
-               * Setup the Graident for the main area around the line. 
-               * @return {graident filter #areaOneGradient} 
-               * @note graident set with CSS.
-               */
-              ExpectedChart.prototype.setupAreaGradients = function () {
-                this.mainAreaGradient = this.mainAreaGradient  || this.outerSVG.append("svg:defs").append("svg:linearGradient");
-
-                this.mainAreaGradient
-                    .attr("id", "areaOneGradient")
-                    .attr("x1", "0%")
-                    .attr("y1", "0%")
-                    .attr("x2", "100%")
-                    .attr("y2", "0%")
-                    .attr("spreadMethod", "pad");
-
-                // Define the gradient colors
-                this.mainAreaGradient.append("svg:stop")
-                    .attr("offset", "0%")
-                    .attr("stop-color", "#78A22E")
-                    .attr("stop-opacity", 1);
-
-                this.mainAreaGradient.append("svg:stop")
-                    .attr("offset", "50%")
-                    .attr("stop-color", "#78A22E")
-                    .attr("stop-opacity", 0.4);
-
-                this.mainAreaGradient.append("svg:stop")
-                    .attr("offset", "80%")
-                    .attr("stop-color", "#78A22E")
-                    .attr("stop-opacity", 0.2);
-
-                this.mainAreaGradient.append("svg:stop")
-                    .attr("offset", "98%")
-                    .attr("stop-color", "#F6F5C5")
-                    .attr("stop-opacity", 0.1);
-              }
-
-              /**
-               * Setup the Graident for the secondary deviation Area
-               * @return {gradient Filetter #areaTwoGradient} 
-               * @note gradient set with CSS
-               */
-              ExpectedChart.prototype.setupSecondaryAreaGraident = function () {
-                this.secondaryAreaGradient = this.secondaryAreaGradient || this.outerSVG.append("svg:defs").append("svg:linearGradient");
-
-                this.secondaryAreaGradient
-                    .attr("id", "areaTwoGradient")
-                    .attr("x1", "0%")
-                    .attr("y1", "0%")
-                    .attr("x2", "100%")
-                    .attr("y2", "0%")
-                    .attr("spreadMethod", "pad");
-
-                // Define the gradient colors
-                this.secondaryAreaGradient.append("svg:stop")
-                    .attr("offset", "0%")
-                    .attr("stop-color", "#c5dd83")
-                    .attr("stop-opacity", 1);
-
-                this.secondaryAreaGradient.append("svg:stop")
-                    .attr("offset", "50%")
-                    .attr("stop-color", "#c5dd83")
-                    .attr("stop-opacity", 0.4);
-
-                this.secondaryAreaGradient.append("svg:stop")
-                    .attr("offset", "80%")
-                    .attr("stop-color", "#F6F5C5")
-                    .attr("stop-opacity", 0.1);
-              }
-
-
-              /**
-               * Setup the Graident for the Handle
-               * @return {gradient Filetter #handleGradient} 
-               * @note gradient set with CSS
-               */
-              ExpectedChart.prototype.setupHandleGradient = function () {
-                this.handleGradient = this.handleGradient || this.outerSVG.append("svg:defs").append("svg:linearGradient");
-
-                this.handleGradient
-                  .attr('id', 'handleGradient')
-                  .attr("x1", "0%")
-                  .attr("y1", "0%")
-                  .attr("x2", "0%")
-                  .attr("y2", "100%")
-                  .attr("spreadMethod", "pad");
-
-                this.handleGradient.append("svg:stop")
-                  .attr("offset", "0%")
-                  .attr("stop-color", "#f5f5f5")
-                  .attr("stop-opacity", 1);
-
-                this.handleGradient.append("svg:stop")
-                  .attr("offset", "80%")
-                  .attr("stop-color", "#f5f5f5")
-                  .attr("stop-opacity", 1);    
-
-                this.handleGradient.append("svg:stop")
-                  .attr("offset", "100%")
-                  .attr("stop-color", "#d4dde2")
-                  .attr("stop-opacity", 1);
-              }
-
-
-
-
-              return ExpectedChart;
-        } //End Function Run Chart
-
-
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.survey')
-        .factory('surveyModel', surveyModel);
-
-    surveyModel.$inject = ['$filter'];
-
-    /* @ngInject */
-    function surveyModel($filter) {
-        var service = {
-            formatSurveyData : formatSurveyData 
-        };
-    
-        return service;
-
-        ////////////////
-
-        /**
-         * Format the Survey Data in Arrays instead of ambigious key values
-         * @param  {object} data 
-         * @return {Object}      
-         */
-        function formatSurveyData(data) {
-    			var surveyData = {
-    				models: [],
-    				fees: []
-    			}	
-
-    			if (data.Model1 != undefined) {
-						surveyData.models.push(data.Model1);
-    			}
-
-    			if (data.Model2 != undefined) {
-    				surveyData.models.push(data.Model2);
-    			}
-
-    			if (data.Model3 != undefined) {
-    				surveyData.models.push(data.Model3);
-    			}
-
-    			if (data.Fees1 != undefined) {
-    				surveyData.fees.push(data.Fees1);
-    			}
-
-    			if (data.Fees2 != undefined) {
-    				surveyData.fees.push(data.Fees2);
-    			}
-
-    			if (data.Fees3 != undefined) {
-    				surveyData.fees.push(data.Fees3);
-    			}
-
-    			return surveyData;
-
-        }
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Clear Survey Cookie Directive
-|--------------------------------------------------------------------------
-|
-| clears the survey cookie and reloads the page. 
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.survey')
-        .directive('clearSurveyCookie', clearSurveyCookie);
-
-   clearSurveyCookie.$inject = ['surveyService', '$window', 'common'];
-
-    /* @ngInject */
-    function clearSurveyCookie (surveyService, $window, common) {
-        // Usage:
-        // <a clear-survey-cookie></a>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-			jq(element[0]).on('click', function (e) {
-                e.preventDefault();
-				surveyService.removeSurveyCookie();
-                $window.location = common.portfolioUrl;	
-			});    
-        }
-    }
-
-    
-})();
-/*
-|--------------------------------------------------------------------------
-| Currency Input Directive
-|--------------------------------------------------------------------------
-|
-| Handels Currency input for a text input box
-| Add min, max, and precision values
-| 
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.survey')
-        .directive('currencyInput', currencyInput);
-
-    currencyInput.$inject = ['common'];
-
-    /* @ngInject */
-    function currencyInput (common) {
-        // Usage:
-        // <input currency-input type="text" min="" max="">
-        
-        var directive = {
-            link: link,
-            restrict: 'A',
-            require: "ngModel",
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs, ngModel) {
-            var min, max, precision, lastValidValue, preRoundValue;
-
-            /**
-             * Using Parsers to validate the ngModel
-             * @param  {int} value
-             * @return {array}   
-             * @note will return last value if non int is entered.
-             */
-            ngModel.$parsers.push(function (value) {
-                if (angular.isUndefined(value)) { value = ''; }
-                var empty = ngModel.$isEmpty(value);
-
-                if (common.isNumber(value)) {
-                    lastValidValue = (value === null) ? null : (empty ? formatView(value) : parseInt(value));
-                } else if (!empty) {
-                    ngModel.$setViewValue(formatView(lastValidValue)); 
-                    ngModel.$render();
-                } else {
-                   return undefined;
-                }
-                
-
-                ngModel.$setValidity('number', true);
-                return lastValidValue;
-
-                return value
-            }); 
-
-
-            /**
-            * After Parsing the information from above add the format of commas and decimal points;
-            * @note should run last.
-            */
-            ngModel.$formatters.push(formatView);
-
-          
-            /**
-             * Grab the min attributes and validate the input
-             * @param  {int} value 
-             * @return {int}        
-             */
-            if (angular.isDefined(attrs.min)) {
-                attrs.$observe('min', function(value) {
-                    min = parseInt(value || 0);
-                    minValidator(ngModel.$modelValue);
-                });
-
-                ngModel.$parsers.push(minValidator);
-                ngModel.$formatters.push(minValidator);
-            }
-
-            
-            /**
-             * Grab the max attributes and validate the input
-             * @param  {int} value)  
-             * @return {validator}        
-             */
-            if (angular.isDefined(attrs.max)) {
-                attrs.$observe('max', function (val) {
-                    max = parseInt(val);
-                    maxValidator(ngModel.$modelValue);
-                })
-
-                ngModel.$parsers.push(maxValidator);
-                ngModel.$formatters.push(maxValidator);
-            }       
-
-            /**
-             * Round off the number based on precision attribute
-             * @param  {int} value
-             * @return {mixed}        
-             */
-            if (angular.isDefined(attrs.precision)) {
-                attrs.$observe('precision', function (value) {
-                    var parsed = parseInt(value);
-                    precision = !isNaN(parsed) ? parsed : 2;
-                });     
-            }
-
-            /**
-             * Format the Value
-             * @param  {int} value
-             * @return formatted Values
-             */
-            ngModel.$formatters.push(function (value) {
-                return value ? formatPrecision(value) : value;
-            })
-
-            
-            /** 
-             * Set the Last Valid Value
-             * @param  {int} value)
-             * @return {int} 
-             */
-            ngModel.$parsers.push(function (value) {
-                if (value && value >= attrs.min || value === 0) {
-                    lastValidValue = round(value);
-                    return lastValidValue;
-                } else {
-                    return undefined;
-                }
-            });
-
-
-            /**
-             * Format Input on Blur
-             * @param  {ngModel} 
-             * @return {int} 
-             */
-            jq(element).on('blur', function () {
-                var value = ngModel.$modelValue;
-                if (value) {
-                    ngModel.$viewValue = formatPrecision(value);
-                    ngModel.$render();
-                }
-            });
-
-
-            jq(element).on('focus', function () {
-                var value = ngModel.$modelValue;
-                if (value) {
-                    ngModel.$viewValue = '';
-                    ngModel.$render();
-                }
-            });
-
-            
-
-            /*
-            |--------------------------------------------------------------------------
-            | In Link Helper
-            |--------------------------------------------------------------------------
-            |
-            | Helper functions that will work on the model
-            | Do not remove from link function.
-            | 
-            |
-            */
-
-
-            /**
-             * Add Decimal Points to Value
-             * @param  {int} value 
-             * @return {float}       
-             */
-            function formatView(value) {
-                var val =  ngModel.$isEmpty(value) ? '' : '' + common.addCommas(value);
-                return val;
-            }
-
-           
-             /**
-             * Check to see if input is less than min
-             * @param  {int} value [input value]
-             * @return {validator} 
-             */
-            function minValidator(value) {
-                if (!ngModel.$isEmpty(value) && value < min) {
-                    ngModel.$setValidity('min', false);
-                    return undefined;
-                } else {
-                    ngModel.$setValidity('min', true);
-                    return value;
-                }
-            }
-
-            /**
-             * Check to see if input is more than max
-             * @param  {int} value [Input value]
-             * @return {validator}      
-             */
-            function maxValidator(value) {
-                if (!ngModel.$isEmpty(value) && value > max) {
-                    ngModel.$setValidity('max', false);
-                    return undefined;
-                } else {
-                    ngModel.$setValidity('max', true);
-                    return value;
-                }
-            }
-
-             /**
-             * Get a rounded number based on the precision setup. 
-             * @param  {Int} num  [Number to be Rounded]
-             * @return {int} Rounded Number 
-             */
-            function round(num) {
-                var d = Math.pow(10, precision);
-                return Math.round(num * d) / d;
-            }
-
-            /**
-             * REturn a string that respresents the rounded number
-             * @param  {Int} value [Number to be rounded]
-             * @return {String} 
-             */
-            function formatPrecision(value) {
-                var val =  value.toFixed(precision);
-                val = common.addCommas(val);
-                return val;
-            }
-
-
-            
-        
-        } //End Link
-    } //End Directive
-
-
-})();
-    /*
-|--------------------------------------------------------------------------
-| Line Chart Directive
-|--------------------------------------------------------------------------
-|
-| Draws the Line Chart for the Expected Returns
-| Get Data from SurveyService
-|
-*/
-
-		 	
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.survey')
-        .directive('lineChart', lineChart);
-
-    lineChart.$inject = ['ExpectedChart'];
-
-    /* @ngInject */
-    function lineChart (ExpectedChart) {
-        // Usage:
-        // <div line-chart></div>
-        var directive = {
-            bindToController: true,
-            controller: lineChartController,
-            controllerAs: 'vd',
-            restrict: 'A',
-            replace:true,
-            templateUrl: '/ngViews/survey/line-chart.html',
-            scope: {
-                portfolioId: "=",
-                returnsData: "=",
-                surveyData: "="
-            }
-        };
-        
-        return directive;
-    
-    }
-
-
-    lineChartController.$inject = ['$scope', '$element', 'errors', 'surveyService', 'ExpectedChart'];
-
-    /* @ngInject */
-    function lineChartController ($scope, $element, errors, surveyService, ExpectedChart) {
-        var vd = $scope.vd;
-            vd.opts = [];
-            vd.returnsData;
-            vd.surveyCookie;
-        
-        ///////////////////////////
-
-        /**
-         * Activate the Controller
-         */
-        function activate() {
-            vd.returnsData = setupPlotData(surveyService.getSurveyCookie());
-            vd.returnsData.plotData.shift();
-
-            setupOptions();
-            
-            if (vd.initailized) {
-                updateChart();
-            } else {
-                runChart();    
-            }
-            
-
-        }
-
-        /**
-         * Build and Run the Chart
-         * @return {D3} 
-         */
-        function runChart() {
-            vd.chart = new ExpectedChart(vd.opts);
-            vd.initailized = true;
-        }
-
-        function updateChart() {
-            vd.chart.update(vd.opts);
-        }
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Setup/Parse Data Methods
-        |--------------------------------------------------------------------------
-        |
-        */
-       
-       /**
-        * Setup options for the line chart.
-        * @return {object} 
-        */
-        function setupOptions() {
-            vd.opts = {
-                containerEl: jq($element[0]),
-                data: vd.returnsData.plotData,
-                duration: 1000,
-                handleDuration: 3000,
-                delay: 200,
-                withdrawl: false,//(vd.returnsData.lastMonth == (vd.returnsData.months)) ? false : true,
-                lastMonth: vd.returnsData.lastMonth,
-                performance: vd.returnsData.performance
-            };
-
-            return vd.opts;
-        }
-
-        /**
-         * Setup the Plot Data;
-         * @param  {object - from Cookie} surveyData 
-         * @return {object}
-         */
-        function setupPlotData(surveyData) {
-            vd.returnsData = {
-                plotData:  vd.returnsData.PlotPoints,
-                end: vd.returnsData.EndAmount,
-                add: surveyData.addMonthly,
-                months: vd.returnsData.PlotPoints[vd.returnsData.PlotPoints.length-1].Month,
-                lastMonth: vd.returnsData.LastMonth,
-                performance: vd.returnsData.Performance
-            }
-
-            return vd.returnsData;
-        }
-
-        
-
-        /*
-        |--------------------------------------------------------------------------
-        | Scope Methods
-        |--------------------------------------------------------------------------
-        |
-        |
-        */
-
-        /**
-         * Watching the returns data to activate controller
-         * after the main controller has returned that data;
-         */
-        $scope.$watch('vd.returnsData', function () {
-            if (angular.isDefined(vd.returnsData.PlotPoints)) {
-                activate();
-            }
-        })
-
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.survey')
-        .directive('openAccountButton', openAccountButton);
-
-    openAccountButton.$inject = ['surveyService', '$window'];
-
-    /* @ngInject */
-    function openAccountButton (surveyService, $window) {
-        // Usage:
-        // <div open-account-button></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	portfolio: "="
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-        	//Add name to cookie 
-        	jq(element).on('click', function (e) {
-        		e.preventDefault();
-        		surveyService.storeSelectedPortfolio(scope.portfolio);
-                $window.location = '/open-account';
-            });
-        
-        }
-    }
-
-    
-})();
-/*
-|--------------------------------------------------------------------------
-| Survey Form Directive
-|--------------------------------------------------------------------------
-|
-| Build the Survey Form. Uses range-slider and currency input directives.
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.survey')
-        .directive('surveyForm', surveyForm);
-
-    
-    /* @ngInject */
-    function surveyForm () {
-        // Usage:
-        // <div survey-form investment-type></div>
-        var directive = {
-            bindToController: true,
-            controller: surveyFormController,
-            controllerAs: 'vd',
-            replace:true,
-            templateUrl: '/ngViews/survey/survey-form.html',
-            restrict: 'A',
-            scope: {
-            	investmentType: "="
-            }
-        };
-        
-        return directive;
-    }
-
-
-    surveyFormController.$inject = ['$scope', '$window', 'surveyService', 'common'];
-
-    /* @ngInject */
-    function surveyFormController ($scope, $window, surveyService, common) {
-    	var vd = $scope.vd;
-    	vd.monthly_change_text = 'add';
-
-    	
-    	var button = document.getElementById('submitSurvey');
-    	button.addEventListener('touchend', function () {
-    	    submitSurvey();
-    	})
-
-		    	//Survey Inputs
-		    	vd.inputs =  {
-		    		initialInvestment : null,
-		    		addMonthly: null,
-		    		investmentTimeline: 13,
-		    		investmentRisk: 2,
-		    		investmentType: vd.investmentType,
-		    		date: new Date(),
-		    		expire: setExpire()
-					}
-
-		    	//Time Range Slider Options  
-					vd.timeSlider = {
-		          from: 2,
-		          to: 25,
-		          step: 1,
-		          dimension: 'Years',
-		          smooth: true,
-		          round: 1,
-		          scale: [2, '|', 5, "|", 10, "|", 15, "|", 20 ,"|", 25],  //Needs to be changed back to withdrawal for 1 when the equations is completed.
-		          callback: function (value, released) {
-		              if (released) {
-                          //Uncomment when Equation for Compounding STD on Withdrawl.
-		                  //changeAdditionalInput(value);    
-		              }
-		          }
-		      };
-
-		      //Risk Range Slider Options  
-		      vd.riskSlider =  {
-		          from: 1,
-		          to: 3,
-		          step: 1,
-		          scale: ['Conservative',  "Moderate",  "Aggressive"],
-		          realtime: true,
-		          smooth: true, 
-		          modelLabels: {
-		              1: 'Conservative', 
-		              2: 'Moderate', 
-		              3: 'Aggressive'
-		          }
-		      };
-
-
-		      jq('#initialAmount').on('focusout', function () {
-		          window.dataLayer = window.dataLayer || [];
-		          window.dataLayer.push({
-		              'survey-initialInvestment': vd.inputs.initialInvestment
-		          });
-		      });
-
-		      /** Methods */
-		      vd.submitSurvey = submitSurvey;
-
-		      /** Run this shiznit */
-		      activate();
-
-		  /*
-      |--------------------------------------------------------------------------
-      | Data Methods
-      |--------------------------------------------------------------------------
-      |
-      */    
-      
-      function activate() {
-      	if (surveyService.isSurveyComplete()) {
-      		fillInputsFromCookie();
-          if (vd.inputs.investmentTimeline < 2) {
-            vd.monthly_change_text = "withdrawl";
-          }
-      	} else {
-      		//Do Nothing. 
-      		//...Don't look at me like that
-      		//You do something.  
-      	}
-
-
-      }
-
-      /**
-       * Get Data from the Cookie and Change out inputs
-       * @return {object} 
-       * TODO: Expire Cookie after expiration Date;
-       */
-      function fillInputsFromCookie() {
-      	var cookie = surveyService.getSurveyCookie();
-      	vd.inputs = cookie;
-      }
-
-
-      /*
-      |--------------------------------------------------------------------------
-      | Submission Methods
-      |--------------------------------------------------------------------------
-      |
-      */
-     
-
-      /**
-       * Submit the Survey and Redirect to Our Portfolios
-       * @return {location} 
-       */
-      function submitSurvey() {
-        surveyService.storeSurveyCookie(vd.inputs);
-
-        if (vd.inputs.initialInvestment === null) {
-            return;
-        }
-
-        cleanSurveyInputs();
-		$window.location = common.portfolioUrl;
-      }
-     
-
-     	/**
-       * Prepare the Survey Inputs for API
-       * @return {object} 
-       */
-      function cleanSurveyInputs() {
-         /** @type {Int} Remove Commas and Decimal Places */
-         vd.inputs.initialInvestment = common.removeCommas(vd.inputs.initialInvestment);
-         var num = common.removeCommas(vd.inputs.addMonthly);
-         
-		/** check for withdrawl or addition */
-		if (vd.monthly_change_text === "withdrawl") {
-            num = -Math.abs(num);
-         } else {
-            num = Math.abs(num);
-         }
-
-         vd.inputs.addMonthly = num;
-      }
-
-
-
-      /*
-      |--------------------------------------------------------------------------
-      | Helper Methods
-      |--------------------------------------------------------------------------
-      |
-      */
-     
-    	/**
-       * Get the Date Time for a 90 expiration on the Survey Information
-       * @return {Date String}
-       */
-      function setExpire() {
-        var today = new Date();
-        var expire = new Date();
-        expire.setDate(today.getDate() + 90);
-        return expire;
-      }
-
-
-      /**
-         * Add and Remove the Addition and Widthdrawl inputs on Slider Change
-         * @param  {int} value 
-         * @return {boolean}       
-         */
-        function changeAdditionalInput(value) {
-            if (value <= 2) {
-                vd.monthly_change_text = "withdrawl";
-                vd.timeSlider.dimension = 'Year';
-            } else {
-                vd.monthly_change_text = "add";
-                vd.timeSlider.dimension = 'Years';
-            }
-        }
-
-
-    }
-
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('assetbuilder.survey')
-        .factory('surveyUtilities', surveyUtilities);
-
-    surveyUtilities.$inject = ['common'];
-
-    /* @ngInject */
-    function surveyUtilities(common) {
-        var service = {
-            formatReturn : formatReturn,
-           	printCurrency :	printCurrency,
-            tween : tween
-        };
-        
-        return service;
-
-        ////////////////
-
-				/**
-				 * Format the Return Values for Y Axis
-				 * @param  {int} num 
-				 * @return {string}     
-				 */
-				function formatReturn(num) {
-				    num = num.toFixed(0);
-
-				    if (num.length <= 6) {
-				        num = formatHundreds(num)
-				    } else  if (num.length > 6) {
-				        num = formatMillions(num); 
-				    }
-
-				    return num;
-				}
-
-					/**
-				 * Tween the properties
-				 * @param  {Objbect}   b        data to be tweened
-				 * @param  {Function} callback  function to tween to
-				 * @return {Function}            
-				 */
-				function tween(b, callback) {
-				    return function (a) {
-				        var i = d3.interpolateArray(a, b);
-				        return function (t) {
-				            return callback(i(t));
-				        }
-				    }
-				}
-
-				/**
-				 * Print int into a currency
-				 * @param  {int} amount 
-				 * @return {string}        
-				 */
-				function printCurrency(amount) {
-					return '$' + common.addCommas(amount);
-				}
-
-
-/*
-|--------------------------------------------------------------------------
-| Private Methods
-|--------------------------------------------------------------------------
-|
-*/
-
-
-				/**
-				 * Format for the 10 thousands (ie.  50,000 to 50K)
-				 * @param  {int} num 
-				 * @return {string}     
-				 */
-				function formatTens(num) {
-				    var str = num.toString();
-				    return '$' + str + 'k';
-				}
-
-				/**
-				 * Format for the 100 thousands (ie.  500,000 to 500K)
-				 * @param  {int} num 
-				 * @return {string}     
-				 */
-				function formatHundreds(num) {
-					  num = num/1000;
-					  var str = num.toString();
-				    return '$' + str + 'k';
-				}   
-
-
-				/**
-				 * Format for the 100 thousands (ie.  5,000,000 to 5M)
-				 * @param  {int} num 
-				 * @return {string}     
-				 */
-				function formatMillions(num) {
-					  num = num/1000000;
-					  var str = num.toString();
-				    return '$' + str + 'M';
-				}
-
-				function formatTenMillions(num) {
-					  num = num/1000000;
-					  var str = num.toString();
-
-				}
-
-
-			
-    }
-})();
 (function() {
     'use strict';
 
@@ -5585,7 +3853,7 @@ var jq = $.noConflict();
         .module('mcdaniel.shared')
         .directive('fixedAsset', fixedAsset);
 	
-	/* @ngInject */
+	  /* @ngInject */
     function fixedAsset () {
         // Usage:
         // <div fixed-asset></div>
@@ -5612,6 +3880,7 @@ var jq = $.noConflict();
       			},
       			offset: 120
       		});
+
 
          
         }
@@ -6027,6 +4296,86 @@ var jq = $.noConflict();
 
     angular
         .module('global.modal')
+        .service('modalService', modalService);
+
+    modalService.$inject = ['$rootScope', '$q'];
+
+    /* @ngInject */
+    function modalService($rootScope, $q) {
+        var modal = {
+					deferred: null,
+					params: null
+				};
+
+				this.open = open;
+				this.params = params;
+				this.proceedTo = proceedTo;
+				this.reject = reject;
+				this.resolve = resolve;
+
+        ////////////////
+
+        function open( type, params, pipeResponse ) {
+					var previousDeferred = modal.deferred;
+					
+					modal.deferred = $q.defer();
+					modal.params = params;
+
+					if ( previousDeferred && pipeResponse ) {
+						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
+					} else if ( previousDeferred ) {
+						previousDeferred.reject();
+					}
+
+					$rootScope.$emit( "modalService.open", type );
+					return modal.deferred.promise;
+				}
+
+
+				
+				function params() {
+					return ( modal.params || {} );
+				}
+
+
+				function proceedTo( type, params ) {
+					return open(type, params, true) ;
+				}
+
+
+				
+				function reject( reason ) {
+					if ( ! modal.deferred ) {return; }
+					modal.deferred.reject( reason );
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+
+				
+				function resolve( response ) {
+					if (!modal.deferred) {return; }
+					
+					modal.deferred.resolve(response);
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+    }
+})();
+
+
+
+
+
+
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
         .directive('alertModal', alertModal);
 
     alertModal.$inject = ['$rootScope', 'modalService'];
@@ -6124,86 +4473,6 @@ var jq = $.noConflict();
     }
 
 })();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
-        .service('modalService', modalService);
-
-    modalService.$inject = ['$rootScope', '$q'];
-
-    /* @ngInject */
-    function modalService($rootScope, $q) {
-        var modal = {
-					deferred: null,
-					params: null
-				};
-
-				this.open = open;
-				this.params = params;
-				this.proceedTo = proceedTo;
-				this.reject = reject;
-				this.resolve = resolve;
-
-        ////////////////
-
-        function open( type, params, pipeResponse ) {
-					var previousDeferred = modal.deferred;
-					
-					modal.deferred = $q.defer();
-					modal.params = params;
-
-					if ( previousDeferred && pipeResponse ) {
-						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
-					} else if ( previousDeferred ) {
-						previousDeferred.reject();
-					}
-
-					$rootScope.$emit( "modalService.open", type );
-					return modal.deferred.promise;
-				}
-
-
-				
-				function params() {
-					return ( modal.params || {} );
-				}
-
-
-				function proceedTo( type, params ) {
-					return open(type, params, true) ;
-				}
-
-
-				
-				function reject( reason ) {
-					if ( ! modal.deferred ) {return; }
-					modal.deferred.reject( reason );
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-
-				
-				function resolve( response ) {
-					if (!modal.deferred) {return; }
-					
-					modal.deferred.resolve(response);
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-    }
-})();
-
-
-
-
-
-
 /*
 |--------------------------------------------------------------------------
 | Loading Directive
