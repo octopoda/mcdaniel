@@ -53,13 +53,7 @@ class PostController extends Controller
      */
     protected $category;
 
-    /**
-     * Post Types 
-     * @var array
-     */
-    protected $post_types = ['articles', 'recipes', 'videos'];
-
-
+    
     /**
      * @param Post $post [description]
      * @param Blog $blog [description]

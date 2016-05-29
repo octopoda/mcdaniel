@@ -7,8 +7,44 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Repositories\PostRepository as Post;
+use App\Repositories\ContactRepository as Contact;
+use App\Repositories\TransactionRepository as Transaction;
+
+use App\Repositories\Criteria\Post\TopReadPosts;
+use App\Repositories\Criteria\Post\TrendingPosts;
+use App\Repositories\Criteria\Contact\GetNumberOfContacts;
+use App\Repositories\Criteria\Transaction\LatestTransactions;
+use App\Repositories\Criteria\Transaction\TotalIncome;
+
 class DashboardController extends Controller
 {
+    
+    /**
+     * Post Model
+     * @var \App\Post
+     */
+    protected $post;
+
+    /**
+     * Contact Model
+     * @var \App\Contact
+     */
+    protected $contact;
+
+    /**
+     * Transaction Model
+     * @var \App\Transaction
+     */
+    protected $transaction;
+
+
+    public function __construct(Post $post, Contact $contact, Transaction $transaction) {
+        $this->post = $post;
+        $this->contact = $contact;
+        $this->transaction = $transaction;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +52,12 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard.index');
+        $latestContacts = $this->contact->pushCriteria(new GetNumberOfContacts(5))->all();
+        $trendingPosts = $this->post->pushCriteria(new TrendingPosts(5))->all();
+        $topPosts = $this->post->pushCriteria(new TopReadPosts(5))->all();
+        $latestTransactions = $this->transaction->pushCriteria(new LatestTransactions(5))->all();
+        $totalIncome = \App\Transaction::sum('total');
+        return view('dashboard.index', compact('topPosts', 'trendingPosts', 'latestContacts', 'latestTransactions', 'totalIncome'));
     }
 
     /**
