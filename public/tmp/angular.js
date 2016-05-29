@@ -106,13 +106,13 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular
-        .module('global.errors', []);
+    angular.module('global.sidemenu', []);
 })();
 (function() {
     'use strict';
 
-    angular.module('global.sidemenu', []);
+    angular
+        .module('global.errors', []);
 })();
 (function() {
     'use strict';
@@ -2866,6 +2866,70 @@ var jq = $.noConflict();
 
     
 })();
+/*
+|--------------------------------------------------------------------------
+| Menu Toggle Directive
+|--------------------------------------------------------------------------
+|
+| Adds the class to open any id that you specify in the menu-toggle attribute
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('global.sidemenu')
+        .directive('menuToggle', menuToggle);
+
+    menuToggle.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function menuToggle ($rootScope) {
+        // Usage:
+        // <div menu-toggle="{id of element you wish to toggle}"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	jq(element).on('click', function () {
+               toggleMenu(attrs.menuToggle);
+               jq(this).toggleClass('active');
+            });
+
+            $rootScope.$on('menu.close', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+
+            $rootScope.$on('menu.open', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+		}
+    }
+
+    /**
+     * Toggle Menu Element
+     * @param  {string}  attr   
+     * @param  {Boolean} isOpen 
+     * @return {Boolean}         
+     */
+    function toggleMenu(attr) {
+    	var target = jq('#'+attr);
+
+        if (target.hasClass('open')) {
+    		target.removeClass('open');
+            return false;
+        } else {
+    	   target.addClass('open');	
+           return true;
+    	}
+    };
+
+
+})();
 (function() {
     'use strict';
 
@@ -2969,70 +3033,6 @@ var jq = $.noConflict();
     }
 
    
-})();
-/*
-|--------------------------------------------------------------------------
-| Menu Toggle Directive
-|--------------------------------------------------------------------------
-|
-| Adds the class to open any id that you specify in the menu-toggle attribute
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('global.sidemenu')
-        .directive('menuToggle', menuToggle);
-
-    menuToggle.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function menuToggle ($rootScope) {
-        // Usage:
-        // <div menu-toggle="{id of element you wish to toggle}"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	jq(element).on('click', function () {
-               toggleMenu(attrs.menuToggle);
-               jq(this).toggleClass('active');
-            });
-
-            $rootScope.$on('menu.close', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-
-            $rootScope.$on('menu.open', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-		}
-    }
-
-    /**
-     * Toggle Menu Element
-     * @param  {string}  attr   
-     * @param  {Boolean} isOpen 
-     * @return {Boolean}         
-     */
-    function toggleMenu(attr) {
-    	var target = jq('#'+attr);
-
-        if (target.hasClass('open')) {
-    		target.removeClass('open');
-            return false;
-        } else {
-    	   target.addClass('open');	
-           return true;
-    	}
-    };
-
-
 })();
 (function() {
     'use strict';
@@ -4296,86 +4296,6 @@ var jq = $.noConflict();
 
     angular
         .module('global.modal')
-        .service('modalService', modalService);
-
-    modalService.$inject = ['$rootScope', '$q'];
-
-    /* @ngInject */
-    function modalService($rootScope, $q) {
-        var modal = {
-					deferred: null,
-					params: null
-				};
-
-				this.open = open;
-				this.params = params;
-				this.proceedTo = proceedTo;
-				this.reject = reject;
-				this.resolve = resolve;
-
-        ////////////////
-
-        function open( type, params, pipeResponse ) {
-					var previousDeferred = modal.deferred;
-					
-					modal.deferred = $q.defer();
-					modal.params = params;
-
-					if ( previousDeferred && pipeResponse ) {
-						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
-					} else if ( previousDeferred ) {
-						previousDeferred.reject();
-					}
-
-					$rootScope.$emit( "modalService.open", type );
-					return modal.deferred.promise;
-				}
-
-
-				
-				function params() {
-					return ( modal.params || {} );
-				}
-
-
-				function proceedTo( type, params ) {
-					return open(type, params, true) ;
-				}
-
-
-				
-				function reject( reason ) {
-					if ( ! modal.deferred ) {return; }
-					modal.deferred.reject( reason );
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-
-				
-				function resolve( response ) {
-					if (!modal.deferred) {return; }
-					
-					modal.deferred.resolve(response);
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-    }
-})();
-
-
-
-
-
-
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
         .directive('alertModal', alertModal);
 
     alertModal.$inject = ['$rootScope', 'modalService'];
@@ -4473,6 +4393,86 @@ var jq = $.noConflict();
     }
 
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .service('modalService', modalService);
+
+    modalService.$inject = ['$rootScope', '$q'];
+
+    /* @ngInject */
+    function modalService($rootScope, $q) {
+        var modal = {
+					deferred: null,
+					params: null
+				};
+
+				this.open = open;
+				this.params = params;
+				this.proceedTo = proceedTo;
+				this.reject = reject;
+				this.resolve = resolve;
+
+        ////////////////
+
+        function open( type, params, pipeResponse ) {
+					var previousDeferred = modal.deferred;
+					
+					modal.deferred = $q.defer();
+					modal.params = params;
+
+					if ( previousDeferred && pipeResponse ) {
+						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
+					} else if ( previousDeferred ) {
+						previousDeferred.reject();
+					}
+
+					$rootScope.$emit( "modalService.open", type );
+					return modal.deferred.promise;
+				}
+
+
+				
+				function params() {
+					return ( modal.params || {} );
+				}
+
+
+				function proceedTo( type, params ) {
+					return open(type, params, true) ;
+				}
+
+
+				
+				function reject( reason ) {
+					if ( ! modal.deferred ) {return; }
+					modal.deferred.reject( reason );
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+
+				
+				function resolve( response ) {
+					if (!modal.deferred) {return; }
+					
+					modal.deferred.resolve(response);
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+    }
+})();
+
+
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Loading Directive

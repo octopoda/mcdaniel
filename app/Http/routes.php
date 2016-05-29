@@ -122,6 +122,11 @@ Route::group(["prefix" => "api/v1"], function () {
 */
 
 Route::group(['prefix'=>'dashboard',  'middleware'=>['auth']], function () {
+	Route::get('/', [
+		'as' => 'dashboard.index',
+		'uses' => 'DashboardController@index'
+	]);
+
 	//Resources
 	Route::resource("blogs", "BlogController");
 	Route::resource("posts", "PostController");
