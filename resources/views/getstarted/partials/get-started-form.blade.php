@@ -1,5 +1,5 @@
 <div data-ng-controller="ContactFormController as fc">
-	<form name="contactForm" class="top-errors m-contact-form" data-ng-submit="fc.submitForm()" data-ng-init="fc.formData.formType = 'get-started-page'">
+	<form name="contactForm" class="top-errors m-contact-form" data-ng-submit="fc.submitForm()" data-ng-init="fc.formData.formType = 'get-started-page'; fc.getStarted = true">
 		<!-- Dynamic Form -->
 		<div data-ng-switch="fc.service">
 			<div class="form-group" data-ng-switch-when="all">

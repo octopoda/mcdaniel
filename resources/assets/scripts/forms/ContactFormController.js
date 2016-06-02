@@ -31,6 +31,7 @@
         /** @type {Methods} Scope Methods */
         vm.submitForm = submitForm;
         vm.updatePrice = updatePrice;
+        vm.getStarted = false;
 
         /** @type {String} Success Message */
         vm.successMessage = "Thanks for Contacting Us. Your email is important to us and we will get back to you in 1 to 2 business days.";
@@ -125,6 +126,9 @@
                 if (data.status == 200) {
                     clearForm();
                     vm.success = true;
+                    if (vm.getStarted) {
+                        window.location = '/get-started/thanks'
+                    }
                 }
             }
         }
