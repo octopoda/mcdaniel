@@ -20,7 +20,8 @@
             scope: {
      			title: "@",
      			image: "@",
-     			link: "@"
+     			link: "@",
+                video: "@"
             }
         };
         

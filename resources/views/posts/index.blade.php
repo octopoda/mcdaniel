@@ -15,7 +15,11 @@ $header = [
 	<header class="article__header hero" style="background-image:url('{{ $mainImage }}')" itemprop="http://schema.org/Article">	
 			<h1 itemprop="headline">{{ $main->title }}</h1>
 			<div class="button reverse">
-				<a href="/posts/{{ $main->direct_link }}">Read</a>
+				@if ($main->video == 0)
+					<a href="/posts/{{ $main->direct_link }}">Read</a>
+				@else
+					<a href="/posts/{{ $main->direct_link }}">Watch</a>
+				@endif
 			</div>
 	</header>
 
@@ -32,7 +36,11 @@ $header = [
 					<figcaption class="m-article__text">
 						<h2 itemprop="headline"><a href="/posts/{{ $second->direct_link }}">{{ $second->title }}</a></h2>
 						<div class="button reverse">
-							<a href="/posts/{{ $second->direct_link }}">Read</a>
+							@if ($second->video == 0)
+								<a href="/posts/{{ $second->direct_link }}">Read</a>
+							@else 
+								<a href="/posts/{{ $second->direct_link }}">Watch</a>
+							@endif
 						</div>
 					</figcaption>
 				</figure>
@@ -41,7 +49,7 @@ $header = [
 				<?php $nTimes = 3; ?>
 				@foreach ($posts as $post)
 					<?php  $image = (empty($post->post_image)) ? 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/'. $nTimes. '.jpg' : $post->post_image; ?>
-						<div data-article-small data-title="{{ $post->title }}" data-image="{{ $image }}" data-link="{{ $post->direct_link }}" data-ng-cloak></div>
+						<div data-article-small data-title="{{ $post->title }}" data-image="{{ $image }}" data-link="{{ $post->direct_link }}" data-video="{{ $post->video }}" data-ng-cloak></div>
 					<?php $nTimes++ ?>
 				@endforeach
 			</section> 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Event;
 use App\Events\ContactFormSubmitted;
+use App\Events\AlertSubmitted;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -58,6 +59,11 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request['formType'] == 'alertMessage') {
+            Event::fire(new AlertSubmitted($request->except('_token')));
+            return;
+        }
+
         $request['message'] = $request->except('_token');
         $contact = $this->contact->create($request->except('_token'));
         Event::fire(new contactFormSubmitted( $request->except('_token', 'message') )); 

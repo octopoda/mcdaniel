@@ -50,6 +50,7 @@
             formType: null,
             question: null,
             interestedService: null,
+            lastArticleRead: null
         }
 
         /**
@@ -111,6 +112,7 @@
 
             vm.formData.subject = setupEmailSubject();
             vm.formData.interestedService = vm.formData.interestedService.replace("-", " ");
+            vm.formData.lastArticleRead = localStorageService.get('lastArticleRead');
             
             
             

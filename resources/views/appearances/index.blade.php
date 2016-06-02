@@ -11,19 +11,6 @@ $header = [
 
 @extends('layouts.frontend.page', compact('header'))
 
-@section('modal')
-	<div class="m-modal indivdual" id="appearanceModal">
-		<section class="modal-content">		
-			<h3>I am ready to help you viewers/readers get healthy</h3>
-			<p>Please fill out the form below and we will contact you with more information.</p>
-			@include('forms.individual')
-		</section>
-		<section class="modal-footer text-right">
-			<a href="#!" class="modal-action waves-effect waves-green btn-flatten hollow"  id="modalSubmit">Sign Up Now</a>
-			<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flatten hollow" >Cancel</a>
-		</section>
-	</div>
-	@endsection
 
 @section('content')
 	
@@ -91,15 +78,88 @@ $header = [
 
 			<div class="button-group row">
 				<div class="button">
-					<a href="#appearanceModal" data-service="Book for Appearance">Book Jennifer</a>
+					<a data-slide-down data-target-id="appearanceForm" >Book Jennifer</a>
 				</div>
-				
 				<div class="button">
 					<a href="{{ route('appearancesArchive') }}" >More Appearances</a>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<div class="appearances__form" data-ng-controller="ContactFormController as fc" id="appearanceForm">
+			<div class="row">
+				<h2>Book Jennifer</h2>
+				<form name="contactForm" class="l-section__small top-errors" ng-submit="fc.submitForm()" ng-init="fc.formData.formType = 'appearancesForm'; fc.formData.interestedService = 'appearance'">
+				
+				<div class="form-group">
+					<label for="customerName">Name <i class="required">*</i></label>
+					<div class="input-errors" ng-messages="contactForm.customerName.$error" ng-if="contactForm.customerName.$dirty">
+						<small class="error" ng-message="required">Please provide your name</small>
+					</div>	
+					<input type="text" name="customerName" id="customerName"  placeholder="Full Name" ng-model="fc.formData.customerName" required>
+				</div>
+
+				
+				<div class="form-group form-half">
+					<label for="email_address">Email <i class="required">*</i></label>
+					<div class="input-errors" ng-messages="contactForm.email_address.$error" ng-if="contactForm.email_address.$dirty" role="alert">
+						<small class="error" ng-message="required">Please provide your email</small>
+						<small class="error" ng-message="email">Please provide a valid email</small>
+					</div>
+					<input type="email" name="email_address" id="emailAddress" placeholder="" ng-model="fc.formData.email" >
+				</div>
+				
+				<div class="form-group form-half">
+					<label for="phone_number">Phone Number</label>
+					<input phone-input target-id="bestTime" type="tel" name="phone_number" id="" ng-model="fc.formData.phone" placeholder="(555) 555-5555">
+				</div>
+				<div id="bestTime" class="hide">
+					<p class=" form-group label">When is the best time to call</p>	
+					<ul class="contact-address__form__checkboxes form-group">
+						<li>
+							<input type="checkbox" class="" name="best_contact_time" id="best-contact-time_morning" ng-model="fc.formData.bestContactTime.morning" value="morning">
+							<label for="best_contact_time_morning">Morning</label>
+						</li>
+						<li>
+							<input type="checkbox" class="" name="best_contact_time" id="best-contact-time_daytime" ng-model="fc.formData.bestContactTime.daytime" value="daytime">
+							<label for="best_contact_time_daytime">Daytime</label>
+						</li>
+						<li>
+							<input type="checkbox" class="" name="best_contact_time" id="best-contact-time_afternoon" ng-model="fc.formData.bestContactTime.afternoon" value="afternoon">
+							<label for="best_contact_time_afternoon">Afternoon</label>
+						</li>
+						<li>
+							<input type="checkbox" class="" name="best_contact_time" id="best-contact-time_night" ng-model="fc.formData.bestContactTime.night" value="night">
+							<label for="best_contact_time_night">Night</label>
+						</li>
+					</ul>
+			
+				</div>
+				
+				<div class="form-group">
+					<label for="message">Message</label>
+					<textarea name="contact_message" id="contactMessage" cols="30" rows="10" ng-model="fc.formData.contactMessage"></textarea>
+				</div>
+				
+				<div class="form-group__center">
+					<input type="hidden" name="form_type" ng-model="fc.formData.formType" value="contact_page_form">
+
+					<button class="button__loading {! fc.loading !}" ng-disabled="contactForm.$invalid" >
+						<div class="progress-spinner"></div>
+						<div class="button-text">Send Message</div> 
+					</button>	
+				</div>
+
+				<div class="contact__success" data-ng-show="fc.success" data-ng-cloak>
+					<p>{! fc.successMessage  !}</p>
+				</div>
+			</form>
+
+			
+		</div>
+	</div>
+
 @endsection
 
 

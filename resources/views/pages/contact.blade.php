@@ -91,7 +91,7 @@ $header = [
 				
 				<div class="form-group__center">
 					<input type="hidden" name="form_type" ng-model="fc.formData.formType" value="contact_page_form">
-					<button class="button__loading {! fc.loading !}" ng-disabled="contactForm.$invalid" google-click category="forms" action="contact-form" name="contact-us" value="4">
+					<button class="button__loading {! fc.loading !}" ng-disabled="contactForm.$invalid" >
 						<div class="progress-spinner"></div>
 						<div class="button-text">Send Message</div> 
 					</button>	

@@ -25,7 +25,7 @@ $header = [
 			<div class="get-started__price tablet-up">
 				<h3>Individualized Consultation</h3>
 				<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
-				<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us For a Price</h4>
+				<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 			</div>
 
 			<div class="get-started__content">
@@ -35,7 +35,7 @@ $header = [
 				<div class="get-started__price phone-only">
 					<h3>Individualized Consultation</h3>
 					<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
-					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us For a Price</h4>
+					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 				</div>
 
 				<div class="get-started__contact">

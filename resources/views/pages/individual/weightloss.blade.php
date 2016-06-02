@@ -64,9 +64,9 @@ $header = [
 
 		<div class="row weight-loss-break"></div>
 		<div class="m-sub-navigation">
-			<ul>
-				<li class="active" data-tabbed-services data-target="sustain">Sustain</li>
-				<li data-tabbed-services data-target="premium">Sustain Premium</li>
+			<ul class="tabbed-services-indicator">
+				<li class="active tab-indicator sustain" data-tabbed-services data-target="sustain">Sustain</li>
+				<li class="premium tab-indicator" data-tabbed-services data-target="premium">Sustain Premium</li>
 			</ul>
 		</div>
 

@@ -42,7 +42,7 @@ $header = [
 		<div class="weight-loss__package-image">
 			<div class="weight-loss__package-image--three weight m-square-small__wrapper">	
 				<div class="m-square-small"></div>
-				<div class="m-square-small__text" data-tabbed-services data-target="sustain">
+				<div class="m-square-small__text">
 					<h3><a href="{{ route('weight-loss') }}">Sustain Weight Loss</a></h3>
 					<h5><a href="{{ route('weight-loss') }}">Getting Started</a></h5>
 				</div>
@@ -50,7 +50,7 @@ $header = [
 
 			<div class="weight-loss__package-image--three sports m-square-small__wrapper">	
 				<div class="m-square-small"></div>
-				<div class="m-square-small__text" data-tabbed-services data-target="sustain">
+				<div class="m-square-small__text">
 					<h3><a href="{{ route('sports-nutrition') }}">Sports Nutrition</a></h3>
 					<h5><a href="{{ route('sports-nutrition') }}">Reach A New PR</a></h5>
 				</div>
@@ -58,7 +58,7 @@ $header = [
 
 			<div class="weight-loss__package-image--three corporate m-square-small__wrapper">	
 				<div class="m-square-small"></div>
-				<div class="m-square-small__text" data-tabbed-services data-target="premium">
+				<div class="m-square-small__text">
 					<h3><a href="{{ route('corporate') }}">Corporate Welleness</a></h3>
 					<h5><a href="{{ route('corporate') }}">Get Your Company Healthy</a></h5>
 				</div>

@@ -87,8 +87,7 @@
 
         vd.submitMailChimp = submitMailChimp;
 
-        console.dir(localStorageService.get('subscribedToMailChimp'));
-
+        
         ///////
         
 

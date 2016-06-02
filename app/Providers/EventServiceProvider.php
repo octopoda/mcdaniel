@@ -7,10 +7,12 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 
 use App\Events\ContactFormSubmitted;
 use App\Events\StoreTransactionComplete;
+use App\Events\AlertSubmitted;
 
 use App\Listeners\EmailAdminContactForm;
 use App\Listeners\EmailAdminTransaction;
 use App\Listeners\EmailUserTransaction;
+use App\Listeners\EmailWebMaster;
 
 
 class EventServiceProvider extends ServiceProvider
@@ -27,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
         StoreTransactionComplete::class => [
             EmailAdminTransaction::class,
             EmailUserTransaction::class
+        ],
+        AlertSubmitted::class => [
+            EmailWebMaster::class
         ]
     ];
 

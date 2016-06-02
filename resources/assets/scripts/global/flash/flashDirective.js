@@ -94,11 +94,7 @@
 					    
 					     var AlertData = {
 					       name: 'Zack Davis',
-					       email: 'zackd@assetbuilder.com',
-					       phone: null,
-					       bestContactTime: null,
-					       question: null,
-                           survey: null,
+					       email: 'zackd@octopodainteractive',
 					       subject: 'The Alert Button was pressed',
 					       message: 'User saw a error message.   The status code is ' +  vd.actionEvent + '. ' +  errors.getReason().insertedObject,
 					       formType: 'alertMessage',

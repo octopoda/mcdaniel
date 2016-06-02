@@ -11,21 +11,6 @@ $header = [
 
 @extends('layouts.frontend.page', compact('header'))
 
-@section('modal')
-	<div class="modal modal-fixed-footer indivdual" id="appearanceModal">
-		<section class="modal-content">		
-			<h3>I am ready to help you viewers/readers get healthy</h3>
-			<p>Please fill out the form below and we will contact you with more information.</p>
-			@include('forms.individual')
-		</section>
-		<section class="modal-footer text-right">
-			<a href="#!" class="modal-action waves-effect waves-green btn-flatten hollow"  id="modalSubmit">Sign Up Now</a>
-			<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flatten hollow" >Cancel</a>
-		</section>
-	</div>
-@endsection
-
-
 @section('content')
 		<!-- Header -->
 	<div class="appearances__hero hero">

@@ -26,7 +26,7 @@ $header = [
 				<div data-fixed-asset data-wrapper="getStarted">
 					<h3>Corporate Wellness<br> Packages</h3>
 					<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
-					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us For a Price</h4>
+					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 				</div>
 			</div>
 

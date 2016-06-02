@@ -29,12 +29,6 @@ var jq = $.noConflict();
     angular.module('mcdaniel.api', []);
 })();
 (function() {
-   'use strict';
-
-    angular.module('mcdaniel.faq', []); 
-
- })();
-(function() {
     'use strict';
 
     angular.module('mcdaniel.blog', []);
@@ -50,6 +44,12 @@ var jq = $.noConflict();
 
     angular.module('mcdaniel.getstarted', []);
 })();
+(function() {
+   'use strict';
+
+    angular.module('mcdaniel.faq', []); 
+
+ })();
 (function() {
     'use strict';
 
@@ -1000,105 +1000,6 @@ var jq = $.noConflict();
   	expires: exp
 	});
 */
-/*
-|--------------------------------------------------------------------------
-| FAQ controller.  
-|--------------------------------------------------------------------------
-|
-| Grabs FAQs from API and presents them on the page. 
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .controller('FaqController', FaqController);
-
-    FaqController.$inject = ['$rootScope', 'faqService'];
-
-    /* @ngInject */
-    function FaqController($rootScope, faqService) {
-        var vm = this;
-        vm.title = 'FaqController';
-        vm.Faqs =[];
-        vm.loading = false;
-        vm.formData = {
-            query: null
-        }
-
-        activate();
-
-        ////////////////
-
-        /**
-         * Activate the Controller and wait for Promise
-         * @return {object} 
-         */
-        function activate() {
-        	vm.loading = true;
-            return getFaqData().then(function () {
-               vm.loading = false;
-        	});
-        }
-
-
-        /**
-         * Get FAQ Data 
-         * @return {object} 
-         */
-        function getFaqData () {
-        	return faqService.getStaredFaqs().then(function (data) {
-        		vm.Faqs = data.faqs;
-                vm.loading = false;
-                return vm.Faqs;
-        	});
-        }
-
-
-
-        /**
-         * Seach all the Faqs
-         * @return {object}
-         */
-        function searchFaqs() {
-            console.log('message');
-            console.dir(vm.formData);
-            return faqService.searchFaqs(vm.formData).then(function (data) {
-                vm.Faqs = data.faqs;
-                vm.loading = false;
-                return vm.Faqs;
-            });
-        }
-
-
-
-        /**
-         * Wait for FAQ search event and then load new search
-         * @param  {event}  event       
-         * @param  {string} query
-         * @return {null}
-         */
-        $rootScope.$on("faqSearch", function handleSearchEvent( event, query ) {
-            vm.loading = true;
-            
-            if (query === '') {
-                getFaqData();
-                return;
-            }
-
-            vm.formData.query = query;
-            console.dir(vm.formData);
-            searchFaqs();
-        });
-
-
-
-
-
-    }
-})();
 (function() {
     'use strict';
 
@@ -1199,6 +1100,7 @@ var jq = $.noConflict();
             formType: null,
             question: null,
             interestedService: null,
+            lastArticleRead: null
         }
 
         /**
@@ -1260,6 +1162,7 @@ var jq = $.noConflict();
 
             vm.formData.subject = setupEmailSubject();
             vm.formData.interestedService = vm.formData.interestedService.replace("-", " ");
+            vm.formData.lastArticleRead = localStorageService.get('lastArticleRead');
             
             
             
@@ -1404,6 +1307,102 @@ var jq = $.noConflict();
         });
     }
 })();
+/*
+|--------------------------------------------------------------------------
+| FAQ controller.  
+|--------------------------------------------------------------------------
+|
+| Grabs FAQs from API and presents them on the page. 
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .controller('FaqController', FaqController);
+
+    FaqController.$inject = ['$rootScope', 'faqService'];
+
+    /* @ngInject */
+    function FaqController($rootScope, faqService) {
+        var vm = this;
+        vm.title = 'FaqController';
+        vm.Faqs =[];
+        vm.loading = false;
+        vm.formData = {
+            query: null
+        }
+
+        activate();
+
+        ////////////////
+
+        /**
+         * Activate the Controller and wait for Promise
+         * @return {object} 
+         */
+        function activate() {
+        	vm.loading = true;
+            return getFaqData().then(function () {
+               vm.loading = false;
+        	});
+        }
+
+
+        /**
+         * Get FAQ Data 
+         * @return {object} 
+         */
+        function getFaqData () {
+        	return faqService.getStaredFaqs().then(function (data) {
+        		vm.Faqs = data.faqs;
+                vm.loading = false;
+                return vm.Faqs;
+        	});
+        }
+
+
+
+        /**
+         * Seach all the Faqs
+         * @return {object}
+         */
+        function searchFaqs() {
+            return faqService.searchFaqs(vm.formData).then(function (data) {
+                vm.Faqs = data.faqs;
+                vm.loading = false;
+                return vm.Faqs;
+            });
+        }
+
+
+
+        /**
+         * Wait for FAQ search event and then load new search
+         * @param  {event}  event       
+         * @param  {string} query
+         * @return {null}
+         */
+        $rootScope.$on("faqSearch", function handleSearchEvent( event, query ) {
+            vm.loading = true;
+            
+            if (query === '') {
+                getFaqData();
+                return;
+            }
+
+            vm.formData.query = query;
+            searchFaqs();
+        });
+
+
+
+
+
+    }
+})();
 (function() {
     'use strict';
 
@@ -1462,7 +1461,7 @@ var jq = $.noConflict();
     /* @ngInject */
     function common($location, $q, $rootScope, $timeout, flash) {
         var dev = false;
-        var testing = false;
+        var testing = true;
 
 
         var service = {
@@ -1750,103 +1749,31 @@ var jq = $.noConflict();
     'use strict';
 
     angular
-        .module('mcdaniel.faq')
-        .directive('faqBlock', faqBlock);
+        .module('mcdaniel.blog')
+        .directive('articleAnalytics', articleAnalytics);
+
+    articleAnalytics.$inject =  ['localStorageService'];
 
     /* @ngInject */
-    function faqBlock () {
+    function articleAnalytics (localStorageService) {
         // Usage:
-        // <div faq-block></div>
+        // <div article-analytics title="article-title"></div>
         var directive = {
-            bindToController: true,
-            controller: FaqBlockController,
-            controllerAs: 'vd',
             link: link,
             restrict: 'A',
-            templateUrl: '/templates/faqs/faq-block.html',
             scope: {
-                faqs: "="
+            	title: '@'
             }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-            
-        }
-    }
-
-    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
-
-    /* @ngInject */
-    function FaqBlockController ($scope, $element, $attrs) {
-        var vd = $scope.vd;
-
-        vd.openAnswer = openAnswer;
-
-
-
-        //Open the Answers
-        function openAnswer($event) {
-            var self = jq($event.currentTarget),
-                answer = self.children('.faq__answer');
-
-            if (self.hasClass('open')) {
-                answer.slideUp(200);
-                self.toggleClass('open');
-            } else {
-                answer.slideDown(200);
-                self.toggleClass('open');
-            }
-        }
-    }
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqSearchInput', faqSearchInput);
-
-    faqSearchInput.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function faqSearchInput ($rootScope) {
-        // Usage:
-        // <input type="text" name="search" faq-search-input>
-        var directive = {
-            link: link,
-            restrict: 'A',
         };
         
         return directive;
 
         function link(scope, element, attrs) {
-        	/** @type {DOM} element  */
-        	var el = jq(element[0]);
-
-        	/**
-        	 * On Key up search
-        	 * @param  {event}
-        	 * @return {function} 
-        	 */
-        	el.on('keyup', function (e) {
-        		if (timer) clearTimeout(timer);
-        		var timer = setTimeout(broadcastSearch, 400);
-        	});
-
-
-        	/**
-        	 * Broadcast to the Root
-        	 * @param  {string} query 
-        	 * @return {null}       
-        	 */
-        	function broadcastSearch() {
-        		var query = el.val();
-        		$rootScope.$emit('faqSearch', query)
-        	}
+        	localStorageService.set('lastArticleRead', scope.title);
         }
     }
+
+    
 })();
 (function() {
     'use strict';
@@ -1870,7 +1797,8 @@ var jq = $.noConflict();
             scope: {
      			title: "@",
      			image: "@",
-     			link: "@"
+     			link: "@",
+                video: "@"
             }
         };
         
@@ -2048,8 +1976,7 @@ var jq = $.noConflict();
 
         vd.submitMailChimp = submitMailChimp;
 
-        console.dir(localStorageService.get('subscribedToMailChimp'));
-
+        
         ///////
         
 
@@ -2563,6 +2490,108 @@ var jq = $.noConflict();
     }
 
     
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqBlock', faqBlock);
+
+    /* @ngInject */
+    function faqBlock () {
+        // Usage:
+        // <div faq-block></div>
+        var directive = {
+            bindToController: true,
+            controller: FaqBlockController,
+            controllerAs: 'vd',
+            link: link,
+            restrict: 'A',
+            templateUrl: '/templates/faqs/faq-block.html',
+            scope: {
+                faqs: "="
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+            
+        }
+    }
+
+    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
+
+    /* @ngInject */
+    function FaqBlockController ($scope, $element, $attrs) {
+        var vd = $scope.vd;
+
+        vd.openAnswer = openAnswer;
+
+
+
+        //Open the Answers
+        function openAnswer($event) {
+            var self = jq($event.currentTarget),
+                answer = self.children('.faq__answer');
+
+            if (self.hasClass('open')) {
+                answer.slideUp(200);
+                self.toggleClass('open');
+            } else {
+                answer.slideDown(200);
+                self.toggleClass('open');
+            }
+        }
+    }
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqSearchInput', faqSearchInput);
+
+    faqSearchInput.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function faqSearchInput ($rootScope) {
+        // Usage:
+        // <input type="text" name="search" faq-search-input>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	/** @type {DOM} element  */
+        	var el = jq(element[0]);
+
+        	/**
+        	 * On Key up search
+        	 * @param  {event}
+        	 * @return {function} 
+        	 */
+        	el.on('keyup', function (e) {
+        		if (timer) clearTimeout(timer);
+        		var timer = setTimeout(broadcastSearch, 400);
+        	});
+
+
+        	/**
+        	 * Broadcast to the Root
+        	 * @param  {string} query 
+        	 * @return {null}       
+        	 */
+        	function broadcastSearch() {
+        		var query = el.val();
+        		$rootScope.$emit('faqSearch', query)
+        	}
+        }
+    }
 })();
 
 /*
@@ -3132,11 +3161,7 @@ var jq = $.noConflict();
 					    
 					     var AlertData = {
 					       name: 'Zack Davis',
-					       email: 'zackd@assetbuilder.com',
-					       phone: null,
-					       bestContactTime: null,
-					       question: null,
-                           survey: null,
+					       email: 'zackd@octopodainteractive',
 					       subject: 'The Alert Button was pressed',
 					       message: 'User saw a error message.   The status code is ' +  vd.actionEvent + '. ' +  errors.getReason().insertedObject,
 					       formType: 'alertMessage',
@@ -3754,11 +3779,19 @@ var jq = $.noConflict();
         function link(scope, element, attrs) {
         	var el = jq(element);
         	var target = jq('#' + scope.target);
+            var indicator = jq('.tab-indicator');
+
 
         	el.on('click', function (e) {
         		e.preventDefault();
 				target.addClass('open').siblings('.m-tabbed-info').removeClass('open');
         		el.addClass('active').siblings('.active').removeClass('active');
+
+                jq.each(indicator, function () {
+                    if (jq(this).hasClass(scope.target)) {
+                        jq(this).addClass('active').siblings('.active').removeClass('active')
+                    }
+                });
         	});
         }
     }
@@ -4177,6 +4210,108 @@ var jq = $.noConflict();
 
     angular
         .module('global.modal')
+        .directive('alertModal', alertModal);
+
+    alertModal.$inject = ['$rootScope', 'modalService'];
+
+    /* @ngInject */
+    function alertModal ($rootScope, modalService) {
+        // Usage:
+        // <div alert-modal title="" message="" action=""></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var promise;
+        	var params =  {
+        		title: attrs.title,
+        		message: attrs.message,
+        		action: attrs.action
+        	};
+ 
+        	
+
+            // scope.alertModal = function () {
+                 
+            // }
+
+            angular.element(element).bind('click', function () {
+                promise = modalService.open('alert', params);
+
+                promise.then(function handleResolve(response) {
+                    
+                }, function handleReject(error) {
+                    
+                });                   
+            })
+
+        	/**
+        	 * Resolve or Reject the Promise;
+        	*/
+        	
+        }
+    
+    }
+
+    
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .directive('abModal', abModal);
+
+    abModal.$inject = ['$rootScope', 'modalService']
+
+    /* @ngInject */
+    function abModal ($rootScope, modalService) {
+        // Usage:
+        // <div ab-modal>
+        var directive = {
+            link: link,
+            templateUrl: '/ngViews/global/modal.html'
+        };
+        
+        return directive;
+
+        
+        function link(scope, element, attrs) {
+        	scope.subview = null;
+
+
+            //click on background to reject
+            jq('.m-modal__background').on("click", function handleClickEvent( event ) {
+				cope.$apply( modalService.reject );
+			});
+
+            
+			
+			//Modal Open - Blur Background throw approriate modal
+			$rootScope.$on("modalService.open", function handleModalOpenEvent( event, modalType ) {
+				scope.subview = modalType;
+                scope.$apply( scope.subview );
+                jq('body').addClass('m-modal-open');
+			});
+
+			//Clost the modal
+			$rootScope.$on("modalService.close", function handleModalCloseEvent( event ) {
+				scope.subview = null;
+                jq('body').removeClass('m-modal-open');
+			});
+        }
+    }
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
         .controller('AlertModalController', AlertModalController);
 
     AlertModalController.$inject = ['$scope', 'modalService'];
@@ -4292,108 +4427,6 @@ var jq = $.noConflict();
 				};
 
     }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
-        .directive('alertModal', alertModal);
-
-    alertModal.$inject = ['$rootScope', 'modalService'];
-
-    /* @ngInject */
-    function alertModal ($rootScope, modalService) {
-        // Usage:
-        // <div alert-modal title="" message="" action=""></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	var promise;
-        	var params =  {
-        		title: attrs.title,
-        		message: attrs.message,
-        		action: attrs.action
-        	};
- 
-        	
-
-            // scope.alertModal = function () {
-                 
-            // }
-
-            angular.element(element).bind('click', function () {
-                promise = modalService.open('alert', params);
-
-                promise.then(function handleResolve(response) {
-                    
-                }, function handleReject(error) {
-                    
-                });                   
-            })
-
-        	/**
-        	 * Resolve or Reject the Promise;
-        	*/
-        	
-        }
-    
-    }
-
-    
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
-        .directive('abModal', abModal);
-
-    abModal.$inject = ['$rootScope', 'modalService']
-
-    /* @ngInject */
-    function abModal ($rootScope, modalService) {
-        // Usage:
-        // <div ab-modal>
-        var directive = {
-            link: link,
-            templateUrl: '/ngViews/global/modal.html'
-        };
-        
-        return directive;
-
-        
-        function link(scope, element, attrs) {
-        	scope.subview = null;
-
-
-            //click on background to reject
-            jq('.m-modal__background').on("click", function handleClickEvent( event ) {
-				cope.$apply( modalService.reject );
-			});
-
-            
-			
-			//Modal Open - Blur Background throw approriate modal
-			$rootScope.$on("modalService.open", function handleModalOpenEvent( event, modalType ) {
-				scope.subview = modalType;
-                scope.$apply( scope.subview );
-                jq('body').addClass('m-modal-open');
-			});
-
-			//Clost the modal
-			$rootScope.$on("modalService.close", function handleModalCloseEvent( event ) {
-				scope.subview = null;
-                jq('body').removeClass('m-modal-open');
-			});
-        }
-    }
-
 })();
 (function() {
     'use strict';

@@ -13,7 +13,7 @@
 @extends('layouts.frontend.blog', compact('header'))
 
 @section('content')
-
+	<div data-article-analytics data-title="{{$post->title}}"></div> 
 	<article class="article" itemprop="http://schema.org/Article">
 		<?php $mainImage = (empty($post->post_image)) ? 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/' . rand(1, 25) . '.jpg' : $post->post_image; ?>
 		<header class="article__header hero" style="background-image:url({{ $mainImage }})">	
