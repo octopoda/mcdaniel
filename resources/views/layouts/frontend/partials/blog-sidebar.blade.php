@@ -6,7 +6,7 @@
 		<h3>Topics</h3>
 		<ul>
 			<li><a href="/posts/types/recipes">Recipes</a></li>
-			<li><a href="/post/types/videos">Videos</a></li>
+			<li><a href="/posts/types/videos">Videos</a></li>
 			@foreach($categories as $category)
 				<li>
 					<a href="/posts/category/{{ $category->direct_link }}">{{ $category->title }}</a>

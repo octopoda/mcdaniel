@@ -11,7 +11,7 @@
 	}
 
 	li {
-		display: inline-block;
+		display:block;
 		text-align: center;
 		font-size:$navigation-font-size;	
 		list-style:none;
@@ -27,14 +27,22 @@
 		}
 
 		&.active {
-			border-bottom:rem-calc(5) solid $white;
+			border-bottom:1px solid white;
 		}
+
+		
 	}
 
 	@include breakpoint('tablet') {
 		li {
 			text-align: center;
 			margin-right:rem-calc(20);
+			display: inline-block;
+
+			&.active {
+				border-left:none;
+				border-bottom:rem-calc(5) solid $white;
+			}
 		}
 
 		&.fixed {

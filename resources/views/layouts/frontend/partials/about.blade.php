@@ -7,7 +7,7 @@
 			</section>
 			<section class="about__jennifer--text">
 				<h3>About Jennifer McDaniel</h3>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est ad repudiandae, voluptatibus quis quae, quo similique, eius aliquid sunt sint blanditiis et cum voluptates perspiciatis vitae consequatur porro deleniti. Praesentium, saepe aut. Perferendis nulla aperiam dolore neque ipsam quam expedita animi enim sapiente reiciendis repellendus similique quaerat incidunt quisquam nihil, tempore deleniti beatae saepe, fugit. Recusandae, ipsa quis. Earum, quia.</p>
+				<p>Jennifer McDaniel, MS, RDN, CSSD, LD is a nationally recognized nutrition and lifestyle expert who has guided hundreds of clients to become the best version of themselves through healthy lifestyle change.  As a mom to 3 young boys, she appreciates the unbalanced life of a working professional and mom and simply strives to be present with the ones she is with – clients or children.  She believes food is more than fuel, but a vehicle to connect others and nourish both body and mind. </p>
 				<div class="button">
 					<a href="{{ route('about') }}">Learn More About Jennifer</a>
 				</div>

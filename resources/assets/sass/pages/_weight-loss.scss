@@ -52,7 +52,6 @@
 		
 		&--left {
 			@include span(6 of 12 no-gutter wide);
-			background-image:url('#{$page}weight-loss/weight-loss-sustain-med.jpg');
 			background-size:cover;
 			background-repeat:no-repeat;
 			background-position:top right;
@@ -62,7 +61,6 @@
 
 		&--right {
 			@include span(6 of 12 no-gutter wide last);
-			background-image:url('#{$page}weight-loss/weight-loss-sustain-premium-med.jpg');
 			background-size:cover;
 			background-repeat:no-repeat;
 			background-position:top right;	
@@ -85,8 +83,16 @@
 				@include last;
 			}
 
+			&.sustain {
+				background-image:url('#{$page}weight-loss/weight-loss-sustain-med.jpg');
+			}
+
 			&.weight {
 				background-image:url('#{$page}weight-loss/weight-loss-sustain-premium-med.jpg');
+			}
+
+			&.online {
+				background-image:url('#{$page}weight-loss/weight-loss-sustain-online-med.jpg');
 			}
 
 			&.sports {

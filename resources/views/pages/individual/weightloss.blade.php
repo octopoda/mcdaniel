@@ -23,7 +23,7 @@ $header = [
 	<!-- Sports Text -->
 	<div class="weight-loss__text">
 		<div class="weight-loss__text__image tablet-up">
-			<img src="/assets/images/pages/weight-loss/weight-loss-text-side.png" alt="Fuel Your New Best with McDaniel Nutrition Sports Packages">
+			<img src="https://s3-us-west-2.amazonaws.com/mcdaniel-staging/images/pages/weight-loss/weight-loss-text-side.png" alt="Sustian your Healhty Weight with McDaniel Nutrition Sports Packages">
 		</div>
 		<div class="g-half">
 			<section class="tablet-up ">
@@ -43,9 +43,8 @@ $header = [
 	</div>
 	<!-- Controller Wrapper -->
 	<div>
-		
 		<div class="weight-loss__package-image">
-			<div class="weight-loss__package-image--left m-square-small__wrapper">	
+			<div class="weight-loss__package-image--three sustain m-square-small__wrapper">	
 				<div class="m-square-small"></div>
 				<div class="m-square-small__text" data-tabbed-services data-target="sustain">
 					<h3>Sustain</h3>
@@ -53,11 +52,20 @@ $header = [
 				</div>
 			</div>
 
-			<div class="weight-loss__package-image--right m-square-small__wrapper">	
+			<div class="weight-loss__package-image--three weight m-square-small__wrapper">	
 				<div class="m-square-small"></div>
 				<div class="m-square-small__text" data-tabbed-services data-target="premium">
 					<h3>Sustain Premium</h3>
 					<h5>Weight Loss Package</h5>
+				</div>
+			</div>
+
+
+			<div class="weight-loss__package-image--three online m-square-small__wrapper">	
+				<div class="m-square-small"></div>
+				<div class="m-square-small__text" data-tabbed-services data-target="online">
+					<h3>Sustain Online</h3>
+					<h5>Weight Loss Online</h5>
 				</div>
 			</div>
 		</div>
@@ -67,6 +75,7 @@ $header = [
 			<ul class="tabbed-services-indicator">
 				<li class="active tab-indicator sustain" data-tabbed-services data-target="sustain">Sustain</li>
 				<li class="premium tab-indicator" data-tabbed-services data-target="premium">Sustain Premium</li>
+				<li class="online tab-indicator" data-tabbed-services data-target="online">Sustain Online</li>
 			</ul>
 		</div>
 
@@ -105,6 +114,38 @@ $header = [
 					<div class="g-two-columns row">
 						<section class="sports-description__right">
 							<h2>Sustain Premium</h2>
+							<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past and what allows us to give you the most personally tailored consultations.</p>
+						</section>
+						<section class="sports-description__left">
+							<h4>Setting you up for Success</h4>
+									<p>Sustatin Premium Packages include:</p>
+									<p>Initial Consultation plus 5, 30 minute follow-up sessions which can be conducted in-office or by phone/skype. </p>
+									<p>With each follow-up visit you can expect:</p>
+									<ul>
+										<li>Review of your foundational action plan</li>
+										<li>Analysis of your food journal or online health app </li>
+										<li>Meal planning support &amp; recipe ideas incorporating your preferences</li>
+										<li>Tailored feedback to your lifestyle and goals.</li>
+									</ul>
+
+									<p>Follow-Up Sessions can also be scheduled on an as needed basis. You and your dietitian will discuss your personalized follow-up plan. </p>
+
+									<p class="legal">Prior to consultation, you will need to complete a client contract and comprehensive nutritional assessment, found here. Please bring the completed paperwork to your initial consultation. If you desire a computerized nutritional analysis of your 3-day food journal, we will complete this prior to the consult for an additional fee of $30. During our initial consult, we will review your information to glean insights into your unique eating habits, lifestyle needs, experience with weight loss, and areas of focus.</p>
+									
+						</section>
+					</div>
+					<section class="row sales-button">
+						<div class="button">
+							<a href="{{ route('get-started-weight') }}" data-services-button data-service="weight-loss-sustain-premium" >Start the Program Today</a>
+						</div>
+					</section>
+				</div>
+
+
+				<div class="m-tabbed-info" id="online">
+					<div class="g-two-columns row">
+						<section class="sports-description__right">
+							<h2>Sustain Online</h2>
 							<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past and what allows us to give you the most personally tailored consultations.</p>
 						</section>
 						<section class="sports-description__left">

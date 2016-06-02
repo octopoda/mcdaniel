@@ -34,11 +34,17 @@
                 case 'teach-and-taste' : 
                     vm.price = '$400.00';
                     break;
+                case 'webinars' : 
+                    vm.price = '$300.00';
+                    break;
                 case 'weight-loss-sustain' : 
                     vm.price = "$150.00";
                     break;
                 case 'weight-loss-sustain-premium' : 
                     vm.price = "$450.00";
+                    break;
+                case 'weight-loss-sustain-online' : 
+                    vm.price = "$150.00";
                     break;
                 case 'sports-nutrition' :
                     vm.price = "$180.00";
@@ -56,14 +62,14 @@
             
             //Multiples
             if (path === 'weight-loss' ) {
-                if (vm.service != 'weight-loss-sustain' && vm.service != 'weight-loss-sustain-premium')  {
+                if (vm.service != 'weight-loss-sustain' && vm.service != 'weight-loss-sustain-premium' && vm.service != 'weight-loss-sustain-online')  {
                     vm.service = "weight-loss-sustain";
                 }
 
             } 
 
             if (path === 'corporate-wellness' ) {
-                if (vm.service != 'lunch-and-learn' && vm.service != 'taste-and-teach')  {
+                if (vm.service != 'lunch-and-learn' && vm.service != 'taste-and-teach' && vm.service != 'webinars')  {
                     vm.service = null
                 }
             } 

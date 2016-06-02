@@ -19,6 +19,12 @@
 	
   	 @include angle(before);
 
+  	 &--list {
+		li {
+			margin-top:rem-calc(20);
+		}
+  	 }
+
   	 @include breakpoint('tablet') {
   	 	text-align: left;
 

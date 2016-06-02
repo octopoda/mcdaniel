@@ -26,7 +26,9 @@ $header = [
 
 	<div class="article-list row">
 		@include('layouts.frontend.partials.blog-sidebar', ['categories' => $categories])
+		
 
+		@if ($second)
 		<div class="article-list__articles">
 			<div class="article-list__articles-second row" itemprop="http://schema.org/Article">
 				<?php $secondImage = (empty($second->post_image)) ? 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/2.jpg' : $second->post_image; ?>
@@ -45,6 +47,9 @@ $header = [
 					</figcaption>
 				</figure>
 			</div>
+			@endif
+
+			@if($posts)
 			<section class="article-list__articles-remaining row">
 				<?php $nTimes = 3; ?>
 				@foreach ($posts as $post)
@@ -53,7 +58,7 @@ $header = [
 					<?php $nTimes++ ?>
 				@endforeach
 			</section> 
-
+			@endif
 
 			<div class="pagination">
 				{!! $posts->render() !!}

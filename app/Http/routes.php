@@ -171,6 +171,8 @@ Route::group(['prefix'=>'dashboard',  'middleware'=>['auth']], function () {
 /**
  * Post Routes
  */
+
+
 Route::group(['prefix'=>'posts'], function () {
 	
 	//Get all Post Paginated
@@ -178,7 +180,12 @@ Route::group(['prefix'=>'posts'], function () {
 		"as" => "allPosts",
 		"uses" => "PostController@paginatePost"
 	]);
-	
+
+	Route::get('/recipes', [
+		'as' => 'recipePosts',
+		'uses' => "PostController@recipesOnly"
+	]);
+
 	//Get Post By Title
 	Route::get('/{title}', [
 		"as" => "postByTitle",

@@ -26,7 +26,7 @@
   	 		position: absolute;
   	 		overflow:hidden;
 			width:span(8 of 12);
-			bottom:10%;
+			bottom:30%;
 			img {width:100%;}
 		}
   	 }
@@ -34,7 +34,7 @@
   	 @include breakpoint('laptop') {
   	 	&__image {
 			width:span(6 of 12);
-			bottom:-10%;
+			bottom:20%;
   	 	}
   	 }
 	

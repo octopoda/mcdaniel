@@ -23,7 +23,7 @@ $header = [
 
 	<div class="maternal__text">
 		<div class="maternal__text__image tablet-up">
-			<img src="/assets/images/pages/maternal/maternal-text-side.png" alt="Fuel Your New Best with McDaniel Nutrition Sports Packages">
+			<img src="https://s3-us-west-2.amazonaws.com/mcdaniel-staging/images/pages/maternal/maternal-text-side.jpg" alt="Protect More than Your Health">
 		</div>
 		<div class="g-half">
 			<section class="tablet-up ">
@@ -31,17 +31,17 @@ $header = [
 			</section>
 			<section>
 				<h2>Eating for 2(+)</h2>
-				<p>Pregnancy is a precious moment of life. But it can also be daunting. The right diet can improve your chances of conception, nourish your growing baby, and get you back on track post-pregnancy. </p>
-				<p>With children of their own, our nutrition experts can give you evidence-based recommendations with real-life understanding.</p>
+				<p>Pregnancy is a precious moment of life, but the do’s and don’s can be overwhelming. The right diet can improve your chances of conception, nourish your growing baby, and get you back on track post-pregnancy.</p>
+				<p>With children of our own, our nutrition experts can give you evidence-based recommendations with real-life understanding.</p>
 
-				<p><strong>Prior to pregnancy</strong> nutrition services can help sort the truths from the myths of fertility foods, help you attain a body weight conducive to conception, and equip your body for pregnancy with the right mix of nutrients. </p>
-				
-				<p><strong>During pregnancy</strong>, we can ensure your food choices & supplements support both you and your baby’s health and proper weight gain. </p>
-				
-				<p><strong>After pregnancy</strong>, we can help you safely return to your pre-pregnancy weight, ensure you’re getting the necessary nutrients for breast feeding, and ease postpartum fatigue, mood swings, or depression. </p>
-
+				<ul class="maternal__text--list">
+					<li>Prior to pregnancy, we can help you sort the truths from the myths of fertility foods, help you attain a body weight conducive to conception, and equip your body for pregnancy with the right mix of nutrients.</li>
+					<li>During pregnancy, we can ensure your food choices and  supplements support both you and your baby’s health and obtain proper weight gain.</li>
+					<li>After pregnancy, we can help you safely return to your pre-pregnancy weight, ensure you’re getting the necessary nutrients for breast feeding, and ease postpartum fatigue, mood swings, or depression.</li>
+				</ul>
+			
 				<div class="button">
-					<a href="{{ route('get-started-maternal') }}" data-services-button data-service="maternal-nutrition" >Protect Your Child Today</a>
+					<a href="{{ route('get-started-maternal') }}" data-services-button data-service="maternal-nutrition" >Support Your Maternal Health </a>
 				</div>
 			</section>
 		</div>
@@ -59,10 +59,11 @@ $header = [
 		<div class="row g-two-columns">
 			<section class="maternal-description__right">
 				<h3>Maternal Nutrition</h3>
-				<p class="large">Keeping nutrition a priority near or during your pregnancy is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past and what allows us to give you the most personally tailored consultations.</p>
+				<p class="large">Keeping nutrition a priority near or during your pregnancy is easier with support. Our services will give you the most personally tailored consultations which are best for both you and baby. </p>
 			</section>
 			<section class="maternal-description__left">
-				<h5>How we can Lead you to a new health.</h5>
+				<h5>How we can support you and baby:</h5>
+				
 				<ul>
 					<li>Detailed evaluation of your unique maternal nutrition needs</li>
 					<li>Personalized eating strategies and meal plans for optimal results and health</li>

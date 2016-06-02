@@ -366,6 +366,21 @@ class PostController extends Controller
         return view('posts.list', compact('posts', 'category', 'categories'));
     }
 
+    /**
+     * Get Recipes from the Posts
+     * @return /Illuminate/Html/Reponse
+     */
+    public function RecipesOnly() {
+        $posts = $this->post->pushCriteria(new PostTypes('recipes'))->paginate(20);
+        $types = $this->post->getPostTypes();
+        $categories = $this->category->all();
+        
+        $main = $posts->pull(0);
+        $second = $posts->pull(1);
+        
+        return view('posts.index', compact('posts', 'type', 'categories', 'main', 'second'));
+    }
+
 
     /**
      * Get post from Type

@@ -79,29 +79,16 @@ class Post extends Model
         return date('F d, Y', strtotime($value));
    }
 
+
    /**
     * Get the Post Types Attribute
     * @return array 
     */
    protected function getPostTypesAttribute() {
-        return ['Article', 'Recipes', 'Video'];
+        return ['Article', 'Recipes', 'Videos'];
    }
 
     
-   
-   /**
-    * Get the Post Type value in USer readable format
-    * @param  int $value 
-    * @return string        
-    */
-   // protected function getPostTypeAttribute($value) {
-   //      return  ucwords($this->post_types[$value]);
-   // }
-
-
-   protected function setPostTypeAttibute($value) {
-        // $this->attribute['post_type'] = array_search($value, $this->post_types);
-   }
 
    
 }

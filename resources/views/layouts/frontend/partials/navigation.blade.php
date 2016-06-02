@@ -18,7 +18,12 @@
               </ul>
             </li>
         		<li><a href="{{ route('corporate') }}" title="Corporate">Corporate</a></li>
-        		<li><a href="{{ route('allPosts') }}" title="Blog" >Blog</a></li>
+        		<li class="dropdown-trigger" data-dropdown>
+              <a href="{{ route('allPosts') }}" title="Blog" >Blog</a>
+              <ul class="dropdown-menu">
+                  <li><a href="{{ route('recipePosts') }}">Recipes</a></li>
+                </ul>
+            </li>
         		<li><a href="{{ route('allAppearances') }}" title="Media" >Media</a></li>
         		<li class="dropdown-trigger" data-dropdown>
                 <a href="#" title="About" >About</a>

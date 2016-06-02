@@ -30,7 +30,7 @@ $header = [
 
 			<div class="get-started__content">
 				<h2>Perform Beyond Your Best</h2>
-				<p>The rise to your athletic performance goals and new levels of competition is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past. We tailor sessions to your period of training and include pre-, during-, and post-nutrition recommendations.</p>
+				<p>The rise to your athletic performance goals and new levels of competition is easier with support. Our services are tailored to your period of training, body composition goals, and lifestyle habits. Nutrition consults can also address pre-, during-, and post-nutrition recommendations.</p>
 
 				<div class="get-started__price phone-only">
 					<h3>Individualized Consultation</h3>

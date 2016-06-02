@@ -22,7 +22,7 @@ $header = [
 	<!-- Sports Text -->
 	<div class="sports__text">
 		<div class="sports__text__image tablet-up">
-			<img src="/assets/images/pages/sports/sports-text-side.png" alt="Fuel Your New Best with McDaniel Nutrition Sports Packages">
+			<img src="https://s3-us-west-2.amazonaws.com/mcdaniel-staging/images/pages/sports/sports-text-side.png" alt="Fuel Your New Best with McDaniel Nutrition Sports Packages">
 		</div>
 		<div class="g-half">
 			<section class="tablet-up ">
