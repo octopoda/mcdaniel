@@ -13,7 +13,7 @@ $header = [
 @extends('layouts.frontend.page', compact('header'))
 
 @section('content')
-<article class="gs" data-ng-controller="GetStartedController as vm">
+<article class="gs" data-ng-controller="GetStartedController as vm" data-ng-init="vm.service = 'rmr-testing'">
 	<div class="rmr__hero hero">
 		<section class="row">
 			<h1>Take The Guesswork<br> Out Of Planning</h1>

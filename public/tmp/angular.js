@@ -34,17 +34,17 @@ var jq = $.noConflict();
     angular.module('mcdaniel.blog', []);
 })();
 (function() {
-    'use strict';
-
-    angular .module('mcdaniel.forms', []); 
-
-  })();
-(function() {
    'use strict';
 
     angular.module('mcdaniel.faq', []); 
 
  })();
+(function() {
+    'use strict';
+
+    angular .module('mcdaniel.forms', []); 
+
+  })();
 (function() {
     'use strict';
 
@@ -1050,6 +1050,102 @@ var jq = $.noConflict();
 })();
 /*
 |--------------------------------------------------------------------------
+| FAQ controller.  
+|--------------------------------------------------------------------------
+|
+| Grabs FAQs from API and presents them on the page. 
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .controller('FaqController', FaqController);
+
+    FaqController.$inject = ['$rootScope', 'faqService'];
+
+    /* @ngInject */
+    function FaqController($rootScope, faqService) {
+        var vm = this;
+        vm.title = 'FaqController';
+        vm.Faqs =[];
+        vm.loading = false;
+        vm.formData = {
+            query: null
+        }
+
+        activate();
+
+        ////////////////
+
+        /**
+         * Activate the Controller and wait for Promise
+         * @return {object} 
+         */
+        function activate() {
+        	vm.loading = true;
+            return getFaqData().then(function () {
+               vm.loading = false;
+        	});
+        }
+
+
+        /**
+         * Get FAQ Data 
+         * @return {object} 
+         */
+        function getFaqData () {
+        	return faqService.getStaredFaqs().then(function (data) {
+        		vm.Faqs = data.faqs;
+                vm.loading = false;
+                return vm.Faqs;
+        	});
+        }
+
+
+
+        /**
+         * Seach all the Faqs
+         * @return {object}
+         */
+        function searchFaqs() {
+            return faqService.searchFaqs(vm.formData).then(function (data) {
+                vm.Faqs = data.faqs;
+                vm.loading = false;
+                return vm.Faqs;
+            });
+        }
+
+
+
+        /**
+         * Wait for FAQ search event and then load new search
+         * @param  {event}  event       
+         * @param  {string} query
+         * @return {null}
+         */
+        $rootScope.$on("faqSearch", function handleSearchEvent( event, query ) {
+            vm.loading = true;
+            
+            if (query === '') {
+                getFaqData();
+                return;
+            }
+
+            vm.formData.query = query;
+            searchFaqs();
+        });
+
+
+
+
+
+    }
+})();
+/*
+|--------------------------------------------------------------------------
 | Contact Form Controller
 |--------------------------------------------------------------------------
 |
@@ -1255,102 +1351,6 @@ var jq = $.noConflict();
 
     }
 })();
-/*
-|--------------------------------------------------------------------------
-| FAQ controller.  
-|--------------------------------------------------------------------------
-|
-| Grabs FAQs from API and presents them on the page. 
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .controller('FaqController', FaqController);
-
-    FaqController.$inject = ['$rootScope', 'faqService'];
-
-    /* @ngInject */
-    function FaqController($rootScope, faqService) {
-        var vm = this;
-        vm.title = 'FaqController';
-        vm.Faqs =[];
-        vm.loading = false;
-        vm.formData = {
-            query: null
-        }
-
-        activate();
-
-        ////////////////
-
-        /**
-         * Activate the Controller and wait for Promise
-         * @return {object} 
-         */
-        function activate() {
-        	vm.loading = true;
-            return getFaqData().then(function () {
-               vm.loading = false;
-        	});
-        }
-
-
-        /**
-         * Get FAQ Data 
-         * @return {object} 
-         */
-        function getFaqData () {
-        	return faqService.getStaredFaqs().then(function (data) {
-        		vm.Faqs = data.faqs;
-                vm.loading = false;
-                return vm.Faqs;
-        	});
-        }
-
-
-
-        /**
-         * Seach all the Faqs
-         * @return {object}
-         */
-        function searchFaqs() {
-            return faqService.searchFaqs(vm.formData).then(function (data) {
-                vm.Faqs = data.faqs;
-                vm.loading = false;
-                return vm.Faqs;
-            });
-        }
-
-
-
-        /**
-         * Wait for FAQ search event and then load new search
-         * @param  {event}  event       
-         * @param  {string} query
-         * @return {null}
-         */
-        $rootScope.$on("faqSearch", function handleSearchEvent( event, query ) {
-            vm.loading = true;
-            
-            if (query === '') {
-                getFaqData();
-                return;
-            }
-
-            vm.formData.query = query;
-            searchFaqs();
-        });
-
-
-
-
-
-    }
-})();
 (function() {
     'use strict';
 
@@ -1358,10 +1358,10 @@ var jq = $.noConflict();
         .module('mcdaniel.getstarted')
         .controller('GetStartedController', GetStartedController);
 
-    GetStartedController.$inject = ['$rootScope', 'localStorageService'];
+    GetStartedController.$inject = ['$rootScope', 'localStorageService', '$location'];
 
     /* @ngInject */
-    function GetStartedController($rootScope, localStorageService) {
+    function GetStartedController($rootScope, localStorageService, $location) {
         var vm = this;
         vm.title = 'GetStartedController';
         vm.price = null;
@@ -1372,9 +1372,14 @@ var jq = $.noConflict();
         ////////////////
         
         
+        
+        
+
 
         function activate() {
-            console.dir(vm.service);
+            clearServiceIfNeeded();
+
+            
             switch (vm.service) {
                 case 'lunch-and-learn' :
                     vm.price = '$300.00';
@@ -1397,6 +1402,38 @@ var jq = $.noConflict();
                 case 'rmr-testing' :
                     vm.price = "$75.00"
             }
+        }
+
+        function clearServiceIfNeeded() {
+            var path = $location.absUrl().split('/')[4]
+            
+            //Multiples
+            if (path === 'weight-loss' ) {
+                if (vm.service != 'weight-loss-sustain' && vm.service != 'weight-loss-sustain-premium')  {
+                    vm.service = "weight-loss-sustain";
+                }
+
+            } 
+
+            if (path === 'corporate-wellness' ) {
+                if (vm.service != 'lunch-and-learn' && vm.service != 'taste-and-teach')  {
+                    vm.service = null
+                }
+            } 
+
+            //Singles
+            if (path === 'maternal-nutrition' && vm.service != 'maternal-nutrition')  {
+              vm.service = "maternal-nutrition";  
+            } 
+
+            if (path === 'sports-nutrition' && vm.service != 'sports-nutrition')  {
+              vm.service = "sports-nutrition";  
+            }     
+
+            if (path === 'rmr-testing' && vm.service != 'rmr-testing')  {
+              vm.service = "rmr-testing";  
+            } 
+
         }
 
         $rootScope.$on('updatePrice', function handlePrice(event, price) {
@@ -2423,78 +2460,6 @@ var jq = $.noConflict();
 
     
 })();
-/*
-|--------------------------------------------------------------------------
-| Directive for Phone Input
-|--------------------------------------------------------------------------
-|
-| Validates and creates slide downs for Phone Input
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.forms')
-        .directive('phoneInput', phoneInput);
-
-    /* @ngInject */
-    function phoneInput () {
-        // Usage:
-        // <input phone-input type="tel">
-        var directive = {
-            link: link,
-            restrict: 'A',
-            require: 'ngModel',
-            scope: {
-            	targetId: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs, ngModel) {
-        	var tar = jq('#' + scope.targetId);
-            
-
-        	/**
-             * On focus check for validation and then add best time to call. 
-             */
-            jq(element).on('focusout', function () {
-        		if (jq(this).val() != '') {
-        			tar.slideDown(500);
-        		} else {
-        			tar.slideUp(500);
-        		}
-        	});
-
-
-
-            /**
-             * Validate the Phone
-             * @param  {string} value 
-             * @return {boolean}       
-             * @note - not validating phone number.  going to trust the user will need it. 
-             */
-            // function phoneValidator(value) {
-            //     var reg = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
-            //     valid = reg.test(value)
-            //     if (!ngModel.$isEmpty(value) && valid) {
-            //         ngModel.$setValidity('phone', true);
-            //         return value;
-            //     } else {
-            //         ngModel.$setValidity('phone')
-            //     }
-            // }
-
-            
-
-        }
-    }
-
-    
-})();
 (function() {
     'use strict';
 
@@ -2596,6 +2561,78 @@ var jq = $.noConflict();
         	}
         }
     }
+})();
+/*
+|--------------------------------------------------------------------------
+| Directive for Phone Input
+|--------------------------------------------------------------------------
+|
+| Validates and creates slide downs for Phone Input
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.forms')
+        .directive('phoneInput', phoneInput);
+
+    /* @ngInject */
+    function phoneInput () {
+        // Usage:
+        // <input phone-input type="tel">
+        var directive = {
+            link: link,
+            restrict: 'A',
+            require: 'ngModel',
+            scope: {
+            	targetId: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs, ngModel) {
+        	var tar = jq('#' + scope.targetId);
+            
+
+        	/**
+             * On focus check for validation and then add best time to call. 
+             */
+            jq(element).on('focusout', function () {
+        		if (jq(this).val() != '') {
+        			tar.slideDown(500);
+        		} else {
+        			tar.slideUp(500);
+        		}
+        	});
+
+
+
+            /**
+             * Validate the Phone
+             * @param  {string} value 
+             * @return {boolean}       
+             * @note - not validating phone number.  going to trust the user will need it. 
+             */
+            // function phoneValidator(value) {
+            //     var reg = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
+            //     valid = reg.test(value)
+            //     if (!ngModel.$isEmpty(value) && valid) {
+            //         ngModel.$setValidity('phone', true);
+            //         return value;
+            //     } else {
+            //         ngModel.$setValidity('phone')
+            //     }
+            // }
+
+            
+
+        }
+    }
+
+    
 })();
 
 /*
@@ -4335,86 +4372,6 @@ var jq = $.noConflict();
 
     angular
         .module('global.modal')
-        .service('modalService', modalService);
-
-    modalService.$inject = ['$rootScope', '$q'];
-
-    /* @ngInject */
-    function modalService($rootScope, $q) {
-        var modal = {
-					deferred: null,
-					params: null
-				};
-
-				this.open = open;
-				this.params = params;
-				this.proceedTo = proceedTo;
-				this.reject = reject;
-				this.resolve = resolve;
-
-        ////////////////
-
-        function open( type, params, pipeResponse ) {
-					var previousDeferred = modal.deferred;
-					
-					modal.deferred = $q.defer();
-					modal.params = params;
-
-					if ( previousDeferred && pipeResponse ) {
-						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
-					} else if ( previousDeferred ) {
-						previousDeferred.reject();
-					}
-
-					$rootScope.$emit( "modalService.open", type );
-					return modal.deferred.promise;
-				}
-
-
-				
-				function params() {
-					return ( modal.params || {} );
-				}
-
-
-				function proceedTo( type, params ) {
-					return open(type, params, true) ;
-				}
-
-
-				
-				function reject( reason ) {
-					if ( ! modal.deferred ) {return; }
-					modal.deferred.reject( reason );
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-
-				
-				function resolve( response ) {
-					if (!modal.deferred) {return; }
-					
-					modal.deferred.resolve(response);
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-    }
-})();
-
-
-
-
-
-
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
         .directive('alertModal', alertModal);
 
     alertModal.$inject = ['$rootScope', 'modalService'];
@@ -4512,6 +4469,86 @@ var jq = $.noConflict();
     }
 
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .service('modalService', modalService);
+
+    modalService.$inject = ['$rootScope', '$q'];
+
+    /* @ngInject */
+    function modalService($rootScope, $q) {
+        var modal = {
+					deferred: null,
+					params: null
+				};
+
+				this.open = open;
+				this.params = params;
+				this.proceedTo = proceedTo;
+				this.reject = reject;
+				this.resolve = resolve;
+
+        ////////////////
+
+        function open( type, params, pipeResponse ) {
+					var previousDeferred = modal.deferred;
+					
+					modal.deferred = $q.defer();
+					modal.params = params;
+
+					if ( previousDeferred && pipeResponse ) {
+						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
+					} else if ( previousDeferred ) {
+						previousDeferred.reject();
+					}
+
+					$rootScope.$emit( "modalService.open", type );
+					return modal.deferred.promise;
+				}
+
+
+				
+				function params() {
+					return ( modal.params || {} );
+				}
+
+
+				function proceedTo( type, params ) {
+					return open(type, params, true) ;
+				}
+
+
+				
+				function reject( reason ) {
+					if ( ! modal.deferred ) {return; }
+					modal.deferred.reject( reason );
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+
+				
+				function resolve( response ) {
+					if (!modal.deferred) {return; }
+					
+					modal.deferred.resolve(response);
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+    }
+})();
+
+
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Loading Directive

@@ -27,7 +27,7 @@
                   <li><a href="{{ route('allFAQs') }}">FAQs</a></li>
                 </ul>
             </li>
-            <li><a href="{{ route('allProducts') }}" title="Store" >Store</a></li>
+            <!-- <li><a href="{{ route('allProducts') }}" title="Store" >Store</a></li> -->
          </ul>
 
 

@@ -5,10 +5,10 @@
         .module('mcdaniel.getstarted')
         .controller('GetStartedController', GetStartedController);
 
-    GetStartedController.$inject = ['$rootScope', 'localStorageService'];
+    GetStartedController.$inject = ['$rootScope', 'localStorageService', '$location'];
 
     /* @ngInject */
-    function GetStartedController($rootScope, localStorageService) {
+    function GetStartedController($rootScope, localStorageService, $location) {
         var vm = this;
         vm.title = 'GetStartedController';
         vm.price = null;
@@ -19,9 +19,14 @@
         ////////////////
         
         
+        
+        
+
 
         function activate() {
-            console.dir(vm.service);
+            clearServiceIfNeeded();
+
+            
             switch (vm.service) {
                 case 'lunch-and-learn' :
                     vm.price = '$300.00';
@@ -44,6 +49,38 @@
                 case 'rmr-testing' :
                     vm.price = "$75.00"
             }
+        }
+
+        function clearServiceIfNeeded() {
+            var path = $location.absUrl().split('/')[4]
+            
+            //Multiples
+            if (path === 'weight-loss' ) {
+                if (vm.service != 'weight-loss-sustain' && vm.service != 'weight-loss-sustain-premium')  {
+                    vm.service = "weight-loss-sustain";
+                }
+
+            } 
+
+            if (path === 'corporate-wellness' ) {
+                if (vm.service != 'lunch-and-learn' && vm.service != 'taste-and-teach')  {
+                    vm.service = null
+                }
+            } 
+
+            //Singles
+            if (path === 'maternal-nutrition' && vm.service != 'maternal-nutrition')  {
+              vm.service = "maternal-nutrition";  
+            } 
+
+            if (path === 'sports-nutrition' && vm.service != 'sports-nutrition')  {
+              vm.service = "sports-nutrition";  
+            }     
+
+            if (path === 'rmr-testing' && vm.service != 'rmr-testing')  {
+              vm.service = "rmr-testing";  
+            } 
+
         }
 
         $rootScope.$on('updatePrice', function handlePrice(event, price) {
