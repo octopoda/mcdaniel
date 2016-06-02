@@ -49,7 +49,7 @@
 					<?php $nTimes = 1; ?>
 					@foreach ($posts as $post)
 						<?php  $image = (empty($post->post_image)) ? 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/unsplash/'. $nTimes. '.jpg' : $post->post_image; ?>
-							<div data-article-small data-title="{{ $post->title }}" data-image="{{ $image }}" data-link="{{ $post->direct_link }}" data-ng-cloak></div>
+							<div data-article-small data-title="{{ $post->title }}" data-image="{{ $image }}" data-link="{{ $post->direct_link }}" data-video="{{ $post->post_type }}" data-ng-cloak></div>
 						<?php $nTimes++ ?>
 					@endforeach
 				@endif

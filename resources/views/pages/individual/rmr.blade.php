@@ -32,7 +32,7 @@ $header = [
 				
 			</section>
 			<section>
-				<h2>Optimze your Metobolism</h2>
+				<h2>Optimize your Metabolism</h2>
 				<p>Every human body is unique. Which means the standardized calculations for how many calories you burn in a day aren’t completely accurate.</p>
 				<p>Using BodyGem equipment, we can easily and precisely test your resting metabolic rate through only your breathing. This test allows us to further personalize your nutritional planning and finally confirm just how high or low your metabolism might be.  </p>
 

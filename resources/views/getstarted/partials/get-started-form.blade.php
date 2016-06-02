@@ -24,6 +24,7 @@
 				<select id="interestedService" name="interestedService" data-ng-model="fc.formData.interestedService" data-ng-change="fc.updatePrice()">
 					<option value="sustain" selected="selected" data-item-price="150">Sustain</option>
 					<option value="sustain-premium" data-item-price="450">Sustain Premium</option>
+					<option value="sustain-online" data-item-price="150">Sustain Premium</option>
 				</select>
 			</div>
 

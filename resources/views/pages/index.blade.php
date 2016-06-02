@@ -23,7 +23,7 @@
 				</div>
 				<div class="home__corporate__phone--text green-gradient">
 					<section class="row">
-						<p>McDaniel Nutrition can help your employees sustain a healthier life through our programs services such as our: signature weight loss program “SUSTAIN,” interactive Lunch & Learn seminars, Teach & Taste cooking demonstrations, and virtual learning webinars. </p>
+						<p>McDaniel Nutrition can help your employees sustain a healthier life through our programs services such as our: signature weight loss program “SUSTAIN,” interactive Lunch &amp; Learn seminars, Teach &amp; Taste cooking demonstrations, and virtual learning webinars. </p>
 						
 						<div class="button">
 							<a href="{{ route('corporate') }}">Get Your Team Healthy</a>
@@ -39,7 +39,7 @@
 					<div class="m-square-left"></div>
 					<section class="m-square-left__text">
 						<h2>Corporate<br> Wellness</h2>
-						<p>McDaniel Nutrition can help your employees sustain a healthier life through our programs services such as our: signature weight loss program “SUSTAIN,” interactive Lunch & Learn seminars, Teach & Taste cooking demonstrations, and virtual learning webinars. </p>
+						<p>McDaniel Nutrition can help your employees sustain a healthier life through our programs services such as our: signature weight loss program “SUSTAIN,” interactive Lunch &amp; Learn seminars, Teach &amp; Taste cooking demonstrations, and virtual learning webinars. </p>
 						<div class="button">
 							<a href="#">Get Your Team Healthy</a>
 						</div>

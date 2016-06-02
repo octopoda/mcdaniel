@@ -104,7 +104,7 @@ $header = [
 					</div>
 					<section class="row sales-button">
 						<div class="button">
-							<a href="{{ route('get-started-weight') }}" data-services-button data-service="weight-loss-sustain" >Setup Your Consultation Now</a>
+							<a href="{{ route('get-started-weight') }}" data-services-button data-service="weight-loss-sustain" >Set up Your Consultation Now</a>
 						</div>
 					</section>
 				</div>

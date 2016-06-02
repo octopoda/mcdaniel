@@ -53,12 +53,12 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular.module('mcdaniel.pages', []);
+    angular.module('mcdaniel.navigation', []);
 })();
 (function() {
     'use strict';
 
-    angular.module('mcdaniel.navigation', []);
+    angular.module('mcdaniel.pages', []);
 })();
 /**
  * All Shared Modules inserted here. 
@@ -106,13 +106,13 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular
-        .module('global.errors', []);
+    angular.module('global.sidemenu', []);
 })();
 (function() {
     'use strict';
 
-    angular.module('global.sidemenu', []);
+    angular
+        .module('global.errors', []);
 })();
 (function() {
     'use strict';
@@ -2944,6 +2944,70 @@ var jq = $.noConflict();
 
     
 })();
+/*
+|--------------------------------------------------------------------------
+| Menu Toggle Directive
+|--------------------------------------------------------------------------
+|
+| Adds the class to open any id that you specify in the menu-toggle attribute
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('global.sidemenu')
+        .directive('menuToggle', menuToggle);
+
+    menuToggle.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function menuToggle ($rootScope) {
+        // Usage:
+        // <div menu-toggle="{id of element you wish to toggle}"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	jq(element).on('click', function () {
+               toggleMenu(attrs.menuToggle);
+               jq(this).toggleClass('active');
+            });
+
+            $rootScope.$on('menu.close', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+
+            $rootScope.$on('menu.open', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+		}
+    }
+
+    /**
+     * Toggle Menu Element
+     * @param  {string}  attr   
+     * @param  {Boolean} isOpen 
+     * @return {Boolean}         
+     */
+    function toggleMenu(attr) {
+    	var target = jq('#'+attr);
+
+        if (target.hasClass('open')) {
+    		target.removeClass('open');
+            return false;
+        } else {
+    	   target.addClass('open');	
+           return true;
+    	}
+    };
+
+
+})();
 (function() {
     'use strict';
 
@@ -3047,70 +3111,6 @@ var jq = $.noConflict();
     }
 
    
-})();
-/*
-|--------------------------------------------------------------------------
-| Menu Toggle Directive
-|--------------------------------------------------------------------------
-|
-| Adds the class to open any id that you specify in the menu-toggle attribute
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('global.sidemenu')
-        .directive('menuToggle', menuToggle);
-
-    menuToggle.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function menuToggle ($rootScope) {
-        // Usage:
-        // <div menu-toggle="{id of element you wish to toggle}"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	jq(element).on('click', function () {
-               toggleMenu(attrs.menuToggle);
-               jq(this).toggleClass('active');
-            });
-
-            $rootScope.$on('menu.close', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-
-            $rootScope.$on('menu.open', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-		}
-    }
-
-    /**
-     * Toggle Menu Element
-     * @param  {string}  attr   
-     * @param  {Boolean} isOpen 
-     * @return {Boolean}         
-     */
-    function toggleMenu(attr) {
-    	var target = jq('#'+attr);
-
-        if (target.hasClass('open')) {
-    		target.removeClass('open');
-            return false;
-        } else {
-    	   target.addClass('open');	
-           return true;
-    	}
-    };
-
-
 })();
 (function() {
     'use strict';
@@ -3287,89 +3287,6 @@ var jq = $.noConflict();
             $rootScope.$emit('flash.warning', message);
         }
     }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.pages')
-        .directive('servicesButton', servicesButton);
-
-   	servicesButton.$inject = ['localStorageService'];
-
-    /* @ngInject */	
-    function servicesButton (localStorageService) {
-        // Usage:
-        // <div class="button" data-services-button data-service="weight-loss"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	service: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-   			    var el = jq(element[0]);
-            var clicked = false;
-  			     
-            el.on('click', function (e) {
-                e.preventDefault();
-                localStorageService.set('interestedService', scope.service);
-                window.location = el.attr('href');
-            });
-        }
-    }
-
-  
-
- 
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.pages')
-        .directive('tabbedServices', tabbedServices);
-
-    /* @ngInject */
-    function tabbedServices () {
-        // Usage:
-        //
-        // Creates:
-        //
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	target: "@"
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-        	var el = jq(element);
-        	var target = jq('#' + scope.target);
-            var indicator = jq('.tab-indicator');
-
-
-        	el.on('click', function (e) {
-        		e.preventDefault();
-				target.addClass('open').siblings('.m-tabbed-info').removeClass('open');
-        		el.addClass('active').siblings('.active').removeClass('active');
-
-                jq.each(indicator, function () {
-                    if (jq(this).hasClass(scope.target)) {
-                        jq(this).addClass('active').siblings('.active').removeClass('active')
-                    }
-                });
-        	});
-        }
-    }
-
-    
 })();
 (function() {
     'use strict';
@@ -3844,6 +3761,89 @@ var jq = $.noConflict();
 		}
     }
 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.pages')
+        .directive('servicesButton', servicesButton);
+
+   	servicesButton.$inject = ['localStorageService'];
+
+    /* @ngInject */	
+    function servicesButton (localStorageService) {
+        // Usage:
+        // <div class="button" data-services-button data-service="weight-loss"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	service: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+   			    var el = jq(element[0]);
+            var clicked = false;
+  			     
+            el.on('click', function (e) {
+                e.preventDefault();
+                localStorageService.set('interestedService', scope.service);
+                window.location = el.attr('href');
+            });
+        }
+    }
+
+  
+
+ 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.pages')
+        .directive('tabbedServices', tabbedServices);
+
+    /* @ngInject */
+    function tabbedServices () {
+        // Usage:
+        //
+        // Creates:
+        //
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	target: "@"
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var el = jq(element);
+        	var target = jq('#' + scope.target);
+            var indicator = jq('.tab-indicator');
+
+
+        	el.on('click', function (e) {
+        		e.preventDefault();
+				target.addClass('open').siblings('.m-tabbed-info').removeClass('open');
+        		el.addClass('active').siblings('.active').removeClass('active');
+
+                jq.each(indicator, function () {
+                    if (jq(this).hasClass(scope.target)) {
+                        jq(this).addClass('active').siblings('.active').removeClass('active')
+                    }
+                });
+        	});
+        }
+    }
+
+    
 })();
 (function() {
     'use strict';

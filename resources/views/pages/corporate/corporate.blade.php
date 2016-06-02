@@ -98,7 +98,7 @@ $header = [
 			</div>
 			<div class="row  text-center">
 				<div class="button">
-					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="lunch-and-learn" >Setup Your Next Lunch &amp; Learn</a>
+					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="lunch-and-learn" >Set up Your Next Lunch &amp; Learn</a>
 				</div>
 			</div>
 		</div>
@@ -128,7 +128,7 @@ $header = [
 			</div>
 			<div class="row  text-center">
 				<div class="button">
-					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="teach-and-taste" >Setup Your Next Taste &amp; Teach</a>
+					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="teach-and-taste" >Set up Your Next Taste &amp; Teach</a>
 				</div>
 			</div>
 		</div>
@@ -145,7 +145,7 @@ $header = [
 				<h3>Webinars:</h3>
 				<p>McDaniel Nutrition offers Lunch and Learn seminars in a webinar format making it convenient for your employees to better their health on their own time. Choose from over 30 nutrition seminars or let us tailor the education to the individual interests of your employees. </p>
 				<div class="button">
-					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="webinars" >Setup Your Next Webinar</a>
+					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="webinars" >Set up Your Next Webinar</a>
 				</div>
 			</section>
 			<section class="tablet-up ">

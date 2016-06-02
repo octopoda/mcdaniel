@@ -3,8 +3,8 @@
 	<figcaption class="m-article__text">
 		<h2 itemprop="headline"><a href="/posts/{{ vd.link }}">{{ vd.title}}</a></h2>
 		<div class="button reverse" data-ng-switch="{{ vd.video }}">
-			<a href="/posts/{{ vd.link }}" data-ng-switch-when="0">Read</a>
-			<a href="/posts/{{ vd.link }}" data-ng-switch-when="1">Read</a>
+			<a href="/posts/{{ vd.link }}" data-ng-switch-when="2">Watch</a>
+			<a href="/posts/{{ vd.link }}" data-ng-switch-default="0">Read</a>
 		</div>
 	</figcaption>
 </figure>

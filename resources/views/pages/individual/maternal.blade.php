@@ -77,7 +77,7 @@ $header = [
 		</div>
 		<div class="row sales-button">
 			<div class="button">
-				<a href="{{ route('get-started-maternal') }}" data-services-button data-service="maternal-nutrition" >Setup An Indiviudal Consultation</a>
+				<a href="{{ route('get-started-maternal') }}" data-services-button data-service="maternal-nutrition" >Set up An Indiviudal Consultation</a>
 			</div>
 		</div>
 	</div>

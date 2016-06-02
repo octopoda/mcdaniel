@@ -53,7 +53,7 @@ $header = [
 				<p>The rise to your athletic performance goals and new levels of competition is easier with support. Our services are tailored to your period of training, body composition goals, and lifestyle habits. Nutrition consults can also address pre-, during-, and post-nutrition recommendations.</p>
 			</section>
 			<section class="sports-description__left">
-				<h5>How ew can help fuel your best.</h5>
+				<h5>How we can help fuel your best.</h5>
 
 				<ul>
 					<li>Detailed evaluation of your food journal using a computerized nutritional analysis program</li>
@@ -69,7 +69,7 @@ $header = [
 		</div>
 		<div class="row sales-button">
 			<div class="button">
-				<a href="{{ route('get-started-sports') }}" data-services-button data-service="sports-nutrition" >Setup An Individual Consulation</a>
+				<a href="{{ route('get-started-sports') }}" data-services-button data-service="sports-nutrition" >Set up An Individual Consulation</a>
 			</div>
 		</div>
 	</div>
