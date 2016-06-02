@@ -72,7 +72,7 @@ Route::group(["prefix" => "api/v1"], function () {
 	//FAQ Routes
 	Route::post('/faqs/search', [
 		"as" => 'faqSearch',
-		"uses" =>  'FAQController@searchFaqs'
+		"uses" =>  'FaqController@searchFaqs'
 	]);
 
 	Route::get('/faqs/stared', [

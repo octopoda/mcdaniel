@@ -40,8 +40,7 @@
         	 */
         	function broadcastSearch() {
         		var query = el.val();
-        		console.dir(query);
-                $rootScope.$emit('faqSearch', query)
+        		$rootScope.$emit('faqSearch', query)
         	}
         }
     }

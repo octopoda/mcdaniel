@@ -61,6 +61,8 @@
          * @return {object}
          */
         function searchFaqs() {
+            console.log('message');
+            console.dir(vm.formData);
             return faqService.searchFaqs(vm.formData).then(function (data) {
                 vm.Faqs = data.faqs;
                 vm.loading = false;
@@ -85,6 +87,7 @@
             }
 
             vm.formData.query = query;
+            console.dir(vm.formData);
             searchFaqs();
         });
 

@@ -29,6 +29,12 @@ var jq = $.noConflict();
     angular.module('mcdaniel.api', []);
 })();
 (function() {
+   'use strict';
+
+    angular.module('mcdaniel.faq', []); 
+
+ })();
+(function() {
     'use strict';
 
     angular.module('mcdaniel.blog', []);
@@ -39,12 +45,6 @@ var jq = $.noConflict();
     angular .module('mcdaniel.forms', []); 
 
   })();
-(function() {
-   'use strict';
-
-    angular.module('mcdaniel.faq', []); 
-
- })();
 (function() {
     'use strict';
 
@@ -106,13 +106,13 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular.module('global.sidemenu', []);
+    angular
+        .module('global.errors', []);
 })();
 (function() {
     'use strict';
 
-    angular
-        .module('global.errors', []);
+    angular.module('global.sidemenu', []);
 })();
 (function() {
     'use strict';
@@ -1000,6 +1000,105 @@ var jq = $.noConflict();
   	expires: exp
 	});
 */
+/*
+|--------------------------------------------------------------------------
+| FAQ controller.  
+|--------------------------------------------------------------------------
+|
+| Grabs FAQs from API and presents them on the page. 
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .controller('FaqController', FaqController);
+
+    FaqController.$inject = ['$rootScope', 'faqService'];
+
+    /* @ngInject */
+    function FaqController($rootScope, faqService) {
+        var vm = this;
+        vm.title = 'FaqController';
+        vm.Faqs =[];
+        vm.loading = false;
+        vm.formData = {
+            query: null
+        }
+
+        activate();
+
+        ////////////////
+
+        /**
+         * Activate the Controller and wait for Promise
+         * @return {object} 
+         */
+        function activate() {
+        	vm.loading = true;
+            return getFaqData().then(function () {
+               vm.loading = false;
+        	});
+        }
+
+
+        /**
+         * Get FAQ Data 
+         * @return {object} 
+         */
+        function getFaqData () {
+        	return faqService.getStaredFaqs().then(function (data) {
+        		vm.Faqs = data.faqs;
+                vm.loading = false;
+                return vm.Faqs;
+        	});
+        }
+
+
+
+        /**
+         * Seach all the Faqs
+         * @return {object}
+         */
+        function searchFaqs() {
+            console.log('message');
+            console.dir(vm.formData);
+            return faqService.searchFaqs(vm.formData).then(function (data) {
+                vm.Faqs = data.faqs;
+                vm.loading = false;
+                return vm.Faqs;
+            });
+        }
+
+
+
+        /**
+         * Wait for FAQ search event and then load new search
+         * @param  {event}  event       
+         * @param  {string} query
+         * @return {null}
+         */
+        $rootScope.$on("faqSearch", function handleSearchEvent( event, query ) {
+            vm.loading = true;
+            
+            if (query === '') {
+                getFaqData();
+                return;
+            }
+
+            vm.formData.query = query;
+            console.dir(vm.formData);
+            searchFaqs();
+        });
+
+
+
+
+
+    }
+})();
 (function() {
     'use strict';
 
@@ -1245,102 +1344,6 @@ var jq = $.noConflict();
                 interestedService: 'teach-and-taste'
             }
         }
-
-
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| FAQ controller.  
-|--------------------------------------------------------------------------
-|
-| Grabs FAQs from API and presents them on the page. 
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .controller('FaqController', FaqController);
-
-    FaqController.$inject = ['$rootScope', 'faqService'];
-
-    /* @ngInject */
-    function FaqController($rootScope, faqService) {
-        var vm = this;
-        vm.title = 'FaqController';
-        vm.Faqs =[];
-        vm.loading = false;
-        vm.formData = {
-            query: null
-        }
-
-        activate();
-
-        ////////////////
-
-        /**
-         * Activate the Controller and wait for Promise
-         * @return {object} 
-         */
-        function activate() {
-        	vm.loading = true;
-            return getFaqData().then(function () {
-               vm.loading = false;
-        	});
-        }
-
-
-        /**
-         * Get FAQ Data 
-         * @return {object} 
-         */
-        function getFaqData () {
-        	return faqService.getStaredFaqs().then(function (data) {
-        		vm.Faqs = data.faqs;
-                vm.loading = false;
-                return vm.Faqs;
-        	});
-        }
-
-
-
-        /**
-         * Seach all the Faqs
-         * @return {object}
-         */
-        function searchFaqs() {
-            return faqService.searchFaqs(vm.formData).then(function (data) {
-                vm.Faqs = data.faqs;
-                vm.loading = false;
-                return vm.Faqs;
-            });
-        }
-
-
-
-        /**
-         * Wait for FAQ search event and then load new search
-         * @param  {event}  event       
-         * @param  {string} query
-         * @return {null}
-         */
-        $rootScope.$on("faqSearch", function handleSearchEvent( event, query ) {
-            vm.loading = true;
-            
-            if (query === '') {
-                getFaqData();
-                return;
-            }
-
-            vm.formData.query = query;
-            searchFaqs();
-        });
-
-
-
 
 
     }
@@ -1742,6 +1745,108 @@ var jq = $.noConflict();
         return query.length ? query.substr(0, query.length - 1) : query;
 	}
 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqBlock', faqBlock);
+
+    /* @ngInject */
+    function faqBlock () {
+        // Usage:
+        // <div faq-block></div>
+        var directive = {
+            bindToController: true,
+            controller: FaqBlockController,
+            controllerAs: 'vd',
+            link: link,
+            restrict: 'A',
+            templateUrl: '/templates/faqs/faq-block.html',
+            scope: {
+                faqs: "="
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+            
+        }
+    }
+
+    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
+
+    /* @ngInject */
+    function FaqBlockController ($scope, $element, $attrs) {
+        var vd = $scope.vd;
+
+        vd.openAnswer = openAnswer;
+
+
+
+        //Open the Answers
+        function openAnswer($event) {
+            var self = jq($event.currentTarget),
+                answer = self.children('.faq__answer');
+
+            if (self.hasClass('open')) {
+                answer.slideUp(200);
+                self.toggleClass('open');
+            } else {
+                answer.slideDown(200);
+                self.toggleClass('open');
+            }
+        }
+    }
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqSearchInput', faqSearchInput);
+
+    faqSearchInput.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function faqSearchInput ($rootScope) {
+        // Usage:
+        // <input type="text" name="search" faq-search-input>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	/** @type {DOM} element  */
+        	var el = jq(element[0]);
+
+        	/**
+        	 * On Key up search
+        	 * @param  {event}
+        	 * @return {function} 
+        	 */
+        	el.on('keyup', function (e) {
+        		if (timer) clearTimeout(timer);
+        		var timer = setTimeout(broadcastSearch, 400);
+        	});
+
+
+        	/**
+        	 * Broadcast to the Root
+        	 * @param  {string} query 
+        	 * @return {null}       
+        	 */
+        	function broadcastSearch() {
+        		var query = el.val();
+        		$rootScope.$emit('faqSearch', query)
+        	}
+        }
+    }
 })();
 (function() {
     'use strict';
@@ -2459,109 +2564,6 @@ var jq = $.noConflict();
 
     
 })();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqBlock', faqBlock);
-
-    /* @ngInject */
-    function faqBlock () {
-        // Usage:
-        // <div faq-block></div>
-        var directive = {
-            bindToController: true,
-            controller: FaqBlockController,
-            controllerAs: 'vd',
-            link: link,
-            restrict: 'A',
-            templateUrl: '/templates/faqs/faq-block.html',
-            scope: {
-                faqs: "="
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-            
-        }
-    }
-
-    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
-
-    /* @ngInject */
-    function FaqBlockController ($scope, $element, $attrs) {
-        var vd = $scope.vd;
-
-        vd.openAnswer = openAnswer;
-
-
-
-        //Open the Answers
-        function openAnswer($event) {
-            var self = jq($event.currentTarget),
-                answer = self.children('.faq__answer');
-
-            if (self.hasClass('open')) {
-                answer.slideUp(200);
-                self.toggleClass('open');
-            } else {
-                answer.slideDown(200);
-                self.toggleClass('open');
-            }
-        }
-    }
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqSearchInput', faqSearchInput);
-
-    faqSearchInput.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function faqSearchInput ($rootScope) {
-        // Usage:
-        // <input type="text" name="search" faq-search-input>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	/** @type {DOM} element  */
-        	var el = jq(element[0]);
-
-        	/**
-        	 * On Key up search
-        	 * @param  {event}
-        	 * @return {function} 
-        	 */
-        	el.on('keyup', function (e) {
-        		if (timer) clearTimeout(timer);
-        		var timer = setTimeout(broadcastSearch, 400);
-        	});
-
-
-        	/**
-        	 * Broadcast to the Root
-        	 * @param  {string} query 
-        	 * @return {null}       
-        	 */
-        	function broadcastSearch() {
-        		var query = el.val();
-        		console.dir(query);
-                $rootScope.$emit('faqSearch', query)
-        	}
-        }
-    }
-})();
 
 /*
 |--------------------------------------------------------------------------
@@ -2866,70 +2868,6 @@ var jq = $.noConflict();
 
     
 })();
-/*
-|--------------------------------------------------------------------------
-| Menu Toggle Directive
-|--------------------------------------------------------------------------
-|
-| Adds the class to open any id that you specify in the menu-toggle attribute
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('global.sidemenu')
-        .directive('menuToggle', menuToggle);
-
-    menuToggle.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function menuToggle ($rootScope) {
-        // Usage:
-        // <div menu-toggle="{id of element you wish to toggle}"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	jq(element).on('click', function () {
-               toggleMenu(attrs.menuToggle);
-               jq(this).toggleClass('active');
-            });
-
-            $rootScope.$on('menu.close', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-
-            $rootScope.$on('menu.open', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-		}
-    }
-
-    /**
-     * Toggle Menu Element
-     * @param  {string}  attr   
-     * @param  {Boolean} isOpen 
-     * @return {Boolean}         
-     */
-    function toggleMenu(attr) {
-    	var target = jq('#'+attr);
-
-        if (target.hasClass('open')) {
-    		target.removeClass('open');
-            return false;
-        } else {
-    	   target.addClass('open');	
-           return true;
-    	}
-    };
-
-
-})();
 (function() {
     'use strict';
 
@@ -3033,6 +2971,70 @@ var jq = $.noConflict();
     }
 
    
+})();
+/*
+|--------------------------------------------------------------------------
+| Menu Toggle Directive
+|--------------------------------------------------------------------------
+|
+| Adds the class to open any id that you specify in the menu-toggle attribute
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('global.sidemenu')
+        .directive('menuToggle', menuToggle);
+
+    menuToggle.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function menuToggle ($rootScope) {
+        // Usage:
+        // <div menu-toggle="{id of element you wish to toggle}"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	jq(element).on('click', function () {
+               toggleMenu(attrs.menuToggle);
+               jq(this).toggleClass('active');
+            });
+
+            $rootScope.$on('menu.close', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+
+            $rootScope.$on('menu.open', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+		}
+    }
+
+    /**
+     * Toggle Menu Element
+     * @param  {string}  attr   
+     * @param  {Boolean} isOpen 
+     * @return {Boolean}         
+     */
+    function toggleMenu(attr) {
+    	var target = jq('#'+attr);
+
+        if (target.hasClass('open')) {
+    		target.removeClass('open');
+            return false;
+        } else {
+    	   target.addClass('open');	
+           return true;
+    	}
+    };
+
+
 })();
 (function() {
     'use strict';
