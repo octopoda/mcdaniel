@@ -30,7 +30,7 @@
         function getArticles(pgSize) {
             var pageSize = (pgSize === null) ? defaultPageSize : pgSize;
         	
-            return $http.get(apiUrl + "?pgSize=" + pageSize)
+            return $http.get(apiUrl)
         		.then(articleComplete)
         		.catch(function (message) {
         			errors.catcher('XHR for getArticles failed')(message);

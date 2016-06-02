@@ -34,17 +34,17 @@ var jq = $.noConflict();
     angular.module('mcdaniel.blog', []);
 })();
 (function() {
-   'use strict';
-
-    angular.module('mcdaniel.faq', []); 
-
- })();
-(function() {
     'use strict';
 
     angular .module('mcdaniel.forms', []); 
 
   })();
+(function() {
+   'use strict';
+
+    angular.module('mcdaniel.faq', []); 
+
+ })();
 (function() {
     'use strict';
 
@@ -156,7 +156,7 @@ var jq = $.noConflict();
         function getArticles(pgSize) {
             var pageSize = (pgSize === null) ? defaultPageSize : pgSize;
         	
-            return $http.get(apiUrl + "?pgSize=" + pageSize)
+            return $http.get(apiUrl)
         		.then(articleComplete)
         		.catch(function (message) {
         			errors.catcher('XHR for getArticles failed')(message);
@@ -1050,102 +1050,6 @@ var jq = $.noConflict();
 })();
 /*
 |--------------------------------------------------------------------------
-| FAQ controller.  
-|--------------------------------------------------------------------------
-|
-| Grabs FAQs from API and presents them on the page. 
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .controller('FaqController', FaqController);
-
-    FaqController.$inject = ['$rootScope', 'faqService'];
-
-    /* @ngInject */
-    function FaqController($rootScope, faqService) {
-        var vm = this;
-        vm.title = 'FaqController';
-        vm.Faqs =[];
-        vm.loading = false;
-        vm.formData = {
-            query: null
-        }
-
-        activate();
-
-        ////////////////
-
-        /**
-         * Activate the Controller and wait for Promise
-         * @return {object} 
-         */
-        function activate() {
-        	vm.loading = true;
-            return getFaqData().then(function () {
-               vm.loading = false;
-        	});
-        }
-
-
-        /**
-         * Get FAQ Data 
-         * @return {object} 
-         */
-        function getFaqData () {
-        	return faqService.getStaredFaqs().then(function (data) {
-        		vm.Faqs = data.faqs;
-                vm.loading = false;
-                return vm.Faqs;
-        	});
-        }
-
-
-
-        /**
-         * Seach all the Faqs
-         * @return {object}
-         */
-        function searchFaqs() {
-            return faqService.searchFaqs(vm.formData).then(function (data) {
-                vm.Faqs = data.faqs;
-                vm.loading = false;
-                return vm.Faqs;
-            });
-        }
-
-
-
-        /**
-         * Wait for FAQ search event and then load new search
-         * @param  {event}  event       
-         * @param  {string} query
-         * @return {null}
-         */
-        $rootScope.$on("faqSearch", function handleSearchEvent( event, query ) {
-            vm.loading = true;
-            
-            if (query === '') {
-                getFaqData();
-                return;
-            }
-
-            vm.formData.query = query;
-            searchFaqs();
-        });
-
-
-
-
-
-    }
-})();
-/*
-|--------------------------------------------------------------------------
 | Contact Form Controller
 |--------------------------------------------------------------------------
 |
@@ -1341,6 +1245,102 @@ var jq = $.noConflict();
                 interestedService: 'teach-and-taste'
             }
         }
+
+
+    }
+})();
+/*
+|--------------------------------------------------------------------------
+| FAQ controller.  
+|--------------------------------------------------------------------------
+|
+| Grabs FAQs from API and presents them on the page. 
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .controller('FaqController', FaqController);
+
+    FaqController.$inject = ['$rootScope', 'faqService'];
+
+    /* @ngInject */
+    function FaqController($rootScope, faqService) {
+        var vm = this;
+        vm.title = 'FaqController';
+        vm.Faqs =[];
+        vm.loading = false;
+        vm.formData = {
+            query: null
+        }
+
+        activate();
+
+        ////////////////
+
+        /**
+         * Activate the Controller and wait for Promise
+         * @return {object} 
+         */
+        function activate() {
+        	vm.loading = true;
+            return getFaqData().then(function () {
+               vm.loading = false;
+        	});
+        }
+
+
+        /**
+         * Get FAQ Data 
+         * @return {object} 
+         */
+        function getFaqData () {
+        	return faqService.getStaredFaqs().then(function (data) {
+        		vm.Faqs = data.faqs;
+                vm.loading = false;
+                return vm.Faqs;
+        	});
+        }
+
+
+
+        /**
+         * Seach all the Faqs
+         * @return {object}
+         */
+        function searchFaqs() {
+            return faqService.searchFaqs(vm.formData).then(function (data) {
+                vm.Faqs = data.faqs;
+                vm.loading = false;
+                return vm.Faqs;
+            });
+        }
+
+
+
+        /**
+         * Wait for FAQ search event and then load new search
+         * @param  {event}  event       
+         * @param  {string} query
+         * @return {null}
+         */
+        $rootScope.$on("faqSearch", function handleSearchEvent( event, query ) {
+            vm.loading = true;
+            
+            if (query === '') {
+                getFaqData();
+                return;
+            }
+
+            vm.formData.query = query;
+            searchFaqs();
+        });
+
+
+
 
 
     }
@@ -2387,6 +2387,78 @@ var jq = $.noConflict();
 
     
 })();
+/*
+|--------------------------------------------------------------------------
+| Directive for Phone Input
+|--------------------------------------------------------------------------
+|
+| Validates and creates slide downs for Phone Input
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.forms')
+        .directive('phoneInput', phoneInput);
+
+    /* @ngInject */
+    function phoneInput () {
+        // Usage:
+        // <input phone-input type="tel">
+        var directive = {
+            link: link,
+            restrict: 'A',
+            require: 'ngModel',
+            scope: {
+            	targetId: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs, ngModel) {
+        	var tar = jq('#' + scope.targetId);
+            
+
+        	/**
+             * On focus check for validation and then add best time to call. 
+             */
+            jq(element).on('focusout', function () {
+        		if (jq(this).val() != '') {
+        			tar.slideDown(500);
+        		} else {
+        			tar.slideUp(500);
+        		}
+        	});
+
+
+
+            /**
+             * Validate the Phone
+             * @param  {string} value 
+             * @return {boolean}       
+             * @note - not validating phone number.  going to trust the user will need it. 
+             */
+            // function phoneValidator(value) {
+            //     var reg = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
+            //     valid = reg.test(value)
+            //     if (!ngModel.$isEmpty(value) && valid) {
+            //         ngModel.$setValidity('phone', true);
+            //         return value;
+            //     } else {
+            //         ngModel.$setValidity('phone')
+            //     }
+            // }
+
+            
+
+        }
+    }
+
+    
+})();
 (function() {
     'use strict';
 
@@ -2473,7 +2545,6 @@ var jq = $.noConflict();
         	 */
         	el.on('keyup', function (e) {
         		if (timer) clearTimeout(timer);
-        		
         		var timer = setTimeout(broadcastSearch, 400);
         	});
 
@@ -2485,82 +2556,11 @@ var jq = $.noConflict();
         	 */
         	function broadcastSearch() {
         		var query = el.val();
-        		$rootScope.$emit('faqSearch', query)
+        		console.dir(query);
+                $rootScope.$emit('faqSearch', query)
         	}
         }
     }
-})();
-/*
-|--------------------------------------------------------------------------
-| Directive for Phone Input
-|--------------------------------------------------------------------------
-|
-| Validates and creates slide downs for Phone Input
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.forms')
-        .directive('phoneInput', phoneInput);
-
-    /* @ngInject */
-    function phoneInput () {
-        // Usage:
-        // <input phone-input type="tel">
-        var directive = {
-            link: link,
-            restrict: 'A',
-            require: 'ngModel',
-            scope: {
-            	targetId: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs, ngModel) {
-        	var tar = jq('#' + scope.targetId);
-            
-
-        	/**
-             * On focus check for validation and then add best time to call. 
-             */
-            jq(element).on('focusout', function () {
-        		if (jq(this).val() != '') {
-        			tar.slideDown(500);
-        		} else {
-        			tar.slideUp(500);
-        		}
-        	});
-
-
-
-            /**
-             * Validate the Phone
-             * @param  {string} value 
-             * @return {boolean}       
-             * @note - not validating phone number.  going to trust the user will need it. 
-             */
-            // function phoneValidator(value) {
-            //     var reg = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
-            //     valid = reg.test(value)
-            //     if (!ngModel.$isEmpty(value) && valid) {
-            //         ngModel.$setValidity('phone', true);
-            //         return value;
-            //     } else {
-            //         ngModel.$setValidity('phone')
-            //     }
-            // }
-
-            
-
-        }
-    }
-
-    
 })();
 
 /*

@@ -29,7 +29,6 @@
         	 */
         	el.on('keyup', function (e) {
         		if (timer) clearTimeout(timer);
-        		
         		var timer = setTimeout(broadcastSearch, 400);
         	});
 
@@ -41,7 +40,8 @@
         	 */
         	function broadcastSearch() {
         		var query = el.val();
-        		$rootScope.$emit('faqSearch', query)
+        		console.dir(query);
+                $rootScope.$emit('faqSearch', query)
         	}
         }
     }

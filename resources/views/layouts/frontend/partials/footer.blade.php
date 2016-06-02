@@ -15,8 +15,8 @@
 			</address>
 		</div>
 		<div class="row">
-			<p>Ph: 314-314-1996</p>
-			<p class="footer__contact-button"><a href="{{ route('contact') }}">Contact Us</a></p>
+			<p>Ph: 314-413-1996</p>
+			<div class="button bw footer__contact-button"><a href="{{ route('contact') }}">Contact Us</a></div>
 		</div>
 		<div class="copyright">
 			&copy; 2010 -  {{ date('Y') }} McDaniel Nutrition, All Rights Reserved

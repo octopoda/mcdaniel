@@ -8,7 +8,7 @@
 */
 
 h1 {
-	font-size:rem-calc(60);
+	font-size:rem-calc(58);
 	line-height:rem-calc(64);
 	font-family: $header-font;
 	
@@ -71,7 +71,7 @@ p {
 	line-height:1.61;
 	
 	&.large {
-		font-size:rem-calc(18);
+		font-size:rem-calc(20);
 	}
 
 	&.small {
@@ -197,7 +197,7 @@ a.tel {
 /**Other Styles */
 .legal {
 	font-size:$font-size-small;
-	color:$gray;
+	color:$gray-dark;
 }
 
 

@@ -6,7 +6,7 @@
 			<!-- <div class="hero-overylay"></div> -->
 			
 			<div class="row">
-				<h1>Join Us To Sustain A Healthier Life</h1>
+				<h1>Join Us To Sustain <br>A Healthier Life</h1>
 				<p class="large">We’re  your nutrition experts committed to help you SUSTAIN the healthiest version of you or your company.  We specialize in weight loss, sports nutrition, maternal nutrition and corporate wellness. </p>
 			</div>
 		</div>

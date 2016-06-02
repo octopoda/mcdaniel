@@ -26,18 +26,19 @@ $header = [
 				<div data-fixed-asset data-wrapper="getStarted">
 					<h3>Individualized <br> Consultation</h3>
 					<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
-					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us For a Price</h4>
+					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 				</div>
 			</div>
 
 			<div class="get-started__content">
 				<h2>We Support Change</h2>
-				<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past and what allows us to give you the most personally tailored consultations.</p>
-				<p>Purchase one of our packages for long-term results, get started with an initial consultation, or contact us to discuss your individual needs. </p>
+				<p>The journey toward weight loss, body composition change, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past and what allows us to give you the most personally tailored consultations.</p>
+				<p>Purchase one of our packages for long-term results or get started with an initial consultation. Please contact us to discuss your individual needs. </p>
 
 				<div class="get-started__price phone-only">
 					<h3>Individualized Consultation</h3>
-					<h2>$150.00</h2>
+					<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
+					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 				</div>
 
 				<div class="get-started__contact">

@@ -31,7 +31,6 @@ $header = [
 		<div class="row">
 			<section class="faqs__questions">
 				<h2 class="underlined">Popular Questions</h2>
-				<div data-loading></div>
 				<div class="faq-block" data-faq-block data-faqs="vm.Faqs">
 				
 			</section>

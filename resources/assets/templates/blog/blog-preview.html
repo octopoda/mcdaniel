@@ -14,8 +14,9 @@
 		<section data-ng-repeat="article in vd.otherArticles" style="background-image:url('{{ article.post_thumbnail }}')">
 			<h4><a href="/posts/{{ article.direct_link }}">{{ article.title }}</a></h4>
 			<h5>{{ article.author }}</h5>
-			<div class="button reverse">
-				<a href="/posts/{{ article.direct_link }}">Read</a>
+			<div class="button reverse" data-ng-switch="article.video">
+				<a href="/posts/{{ article.direct_link }}" data-ng-switch-when="0">Read</a>
+				<a href="/posts/{{ article.direct_link }}" data-ng-switch-when="1">Watch</a>
 			</div>
 		</section>
 	</div>

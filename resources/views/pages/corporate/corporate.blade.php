@@ -22,18 +22,20 @@ $header = [
 				<h4>and a Supportive Coporate Culture</h4>
 			</section>
 		</div>
+	
 
+		<div data-scroll-spy>
 		<nav class="m-sub-navigation corporate-subnav" id="subnav">
 			<ul>
-				<li><a href="#sustain">Sustain</a></li>
-				<li><a href="#lunch">Lunch &amp; Learn</a></li>
-				<li><a href="#taste">Taste & Teach</a></li>
-				<li><a href="#webinar">Webinars</a></li>
+				<li><a data-smooth-scroll spy="sustain" >Sustain</a></li>
+				<li><a data-smooth-scroll spy="lunch" >Lunch &amp; Learn</a></li>
+				<li><a data-smooth-scroll spy="taste" >Taste & Teach</a></li>
+				<li><a data-smooth-scroll spy="webinars">Webinars</a></li>
 			</ul>
 		</nav>
 
 
-		<div class="corporate-sustain  hero">
+		<div class="corporate-sustain  hero" id="sustain">
 			<section class="row">
 				<h1>Sustain:</h1>
 				<h4>A Weight Loss Program for Life</h4>
@@ -76,7 +78,7 @@ $header = [
 
 
 	
-		<div class="corporate-lunch  hero">
+		<div class="corporate-lunch  hero" id="lunch">
 			<section class="row">
 				<h1>Lunch &amp; Learn</h1>
 			</section>
@@ -107,7 +109,7 @@ $header = [
 
 
 
-		<div class="corporate-taste  hero">
+		<div class="corporate-taste  hero" id="taste">
 			<section class="row">
 				<h1>Taste &amp; Teach</h1>
 			</section>
@@ -138,7 +140,7 @@ $header = [
 			
 		
 		
-	<div class="corporate__webinars">
+	<div class="corporate__webinars" id="webinars">
 		<div class="g-half">
 			
 			<section class="corporate__webinars--text">
@@ -155,7 +157,7 @@ $header = [
 		<div class="corporate__webinars--image tablet-up"></div>
 	</div>
 
-
+	</div>
 		
 	@include('layouts.frontend.partials.about')
 

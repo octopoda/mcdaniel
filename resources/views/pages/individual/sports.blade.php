@@ -29,10 +29,10 @@ $header = [
 				
 			</section>
 			<section>
-				<h2>Sports Nutrition Packages</h2>
+				<h2>Sports Nutrition Services</h2>
 				<p>Whether you’re a recreational athlete or a professional competitor, you can take your performance further. Our Board Certified Specialist in Sports Dietetics (CSSD) can help you get there. </p>
-				<p>We also provide personalized sports nutrition advice for special populations such as: bone mineral disturbances, cardiovascular conditions, vegetarian diets, female athlete triad, and iron deficiency anemia. </p>
-				<p>Purchase one of our packages to boost your results, get started with an initial consultation, or contact us to discuss your individual needs. </p>
+				<p>We also provide personalized sports nutrition advice for athlete-specific bone mineral disturbances, vegetarian diets, infertility, and iron deficiency anemia.</p>
+				<p>Get started with an initial consultation and you and your dietitian will formulate a game plan for follow-up needs. Please contact us for individual questions. </p>
 				<div class="button">
 					<a href="{{ route('get-started-sports') }}" data-services-button data-service="sports-nutrition" >Sign Up Now</a>
 				</div>
@@ -50,19 +50,21 @@ $header = [
 		<div class="row g-two-columns">
 			<section class="sports-description__right">
 				<h3>Sport Nutrition</h3>
-				<p>The rise to your athletic performance goals and new levels of competition is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past. We tailor sessions to your period of training and include pre-, during-, and post-nutrition recommendations.</p>
+				<p>The rise to your athletic performance goals and new levels of competition is easier with support. Our services are tailored to your period of training, body composition goals, and lifestyle habits. Nutrition consults can also address pre-, during-, and post-nutrition recommendations.</p>
 			</section>
 			<section class="sports-description__left">
-				<h5>How we can help you fuel a new PR.</h5>
+				<h5>How ew can help fuel your best.</h5>
 
 				<ul>
 					<li>Detailed evaluation of your food journal using a computerized nutritional analysis program</li>
+					<li>Nutrition plan geared for body comp optimization </li>
 					<li>Evaluation of how fuel intake supports your training program</li>
 					<li>Pre-, during-, and post-training nutrition guidelines</li>
 					<li>Creation of tailored eating strategies and personalized meal plans for optimal results</li>
 				</ul>
 
-				<p class="legal">Follow-up visits are highly recommended. These sessions support your success and allow us to answer any questions you might have after implementing initial recommendations. These sessions can be completed by phone or in-person. </p>
+				<p class="legal">Prior to your consultation, you will need to complete a client contract and comprehensive nutritional assessment. Please bring the completed paperwork to your initial consultation. If you desire a computerized nutritional analysis of your 3-day food journal, we will complete this prior to the consult for an additional fee of $30. During our initial consult, we will review your information to glean insights into your unique eating habits, lifestyle needs, experience with weight loss, and areas of focus.</p>
+				<p class="legal">Follow-up visits are highly recommended. These sessions support your success and allow us to support your goals set in the inital consultation. These sessions can be completed by phone/skype or in-person. </p>
 			</section>
 		</div>
 		<div class="row sales-button">
