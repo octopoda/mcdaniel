@@ -101,14 +101,6 @@ Route::group(["prefix" => "api/v1"], function () {
 		"as" => "mailChimpSubscribe",
 		"uses" => "MailChimpController@subscribeToMailChimp"
 	]);
-
-	Route::get('/convert', [
-		'as' => 'convertContent',
-		'uses' => 'PostController@convertContent'
-	]);
-	
-	
-	
 	
 });
 
