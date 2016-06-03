@@ -491,6 +491,21 @@ class PostController extends Controller
 
 
 
+    public function convertContent() {
+        $posts = \App\Post::all();
+        
+        $nTimes = 0;
+        
+        foreach ($posts as $post) {
+            if (strpos($post->content, '/files/uploads')) {
+                $nTimes++;
+                // $post->content = str_replace('/files/uploads/', 'https://s3-us-west-2.amazonaws.com/mcdaniel-staging/posts/', $post->content);
+                // $post->save();
+            }
+        }
+
+        return 'done ' . $nTimes . ' changed';
+    }
 
 
 
