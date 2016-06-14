@@ -124,8 +124,11 @@
 
             function mailSent(data) {
                 if (data.status == 200) {
+                    localStorageService.set('submittedService', localStorageService.get('interestedService'));
+
                     clearForm();
                     vm.success = true;
+
                     if (vm.getStarted) {
                         window.location = '/get-started/thanks'
                     }

@@ -451,7 +451,7 @@ Route::group(['prefix' => 'get-started'], function () {
 		'uses' =>  'GetStartedController@rmr'
 	]);
 
-	Route::get('/thank-you', [
+	Route::get('/thanks', [
 		'as' => 'get-started-thanks',
 		'uses' =>  'GetStartedController@thanks'
 	]);
