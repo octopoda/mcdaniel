@@ -18,7 +18,7 @@
         ////////////////
 
         function activate() {
-        	 switch (localStorageService.get('submittedService')) {
+        	 switch ('lunch-and-learn') {
                 case 'lunch-and-learn' :
                     vm.service = 'corporate';
                     break;
