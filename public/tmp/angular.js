@@ -24,11 +24,10 @@ var jq = $.noConflict();
         ]);
 })();
 (function() {
-   'use strict';
+    'use strict';
 
-    angular.module('mcdaniel.faq', []); 
-
- })();
+    angular.module('mcdaniel.blog', []);
+})();
 (function() {
     'use strict';
 
@@ -36,10 +35,11 @@ var jq = $.noConflict();
 
   })();
 (function() {
-    'use strict';
+   'use strict';
 
-    angular.module('mcdaniel.blog', []);
-})();
+    angular.module('mcdaniel.faq', []); 
+
+ })();
 (function() {
     'use strict';
 
@@ -53,7 +53,7 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular.module('mcdaniel.pages', []);
+    angular.module('mcdaniel.getstarted', []);
 })();
 /**
  * All Shared Modules inserted here. 
@@ -90,7 +90,7 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular.module('mcdaniel.getstarted', []);
+    angular.module('mcdaniel.pages', []);
 })();
 (function() {
     'use strict';
@@ -101,13 +101,13 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular.module('global.flash', []);
+    angular
+        .module('global.errors', []);
 })();
 (function() {
     'use strict';
 
-    angular
-        .module('global.errors', []);
+    angular.module('global.flash', []);
 })();
 (function() {
     'use strict';
@@ -124,97 +124,49 @@ var jq = $.noConflict();
 
     angular.module('global.share', []);
 })();
-/*
-|--------------------------------------------------------------------------
-| FAQ controller.  
-|--------------------------------------------------------------------------
-|
-| Grabs FAQs from API and presents them on the page. 
-|
-*/
-
 (function() {
     'use strict';
 
     angular
-        .module('mcdaniel.faq')
-        .controller('FaqController', FaqController);
+        .module('mcdaniel.blog')
+        .controller('SearchController', SearchController);
 
-    FaqController.$inject = ['$rootScope', 'faqService'];
+    SearchController.$inject = ['$rootScope', 'articleService'];
 
     /* @ngInject */
-    function FaqController($rootScope, faqService) {
+    function SearchController($rootScope, articleService) {
         var vm = this;
-        vm.title = 'FaqController';
-        vm.Faqs =[];
-        vm.loading = false;
-        vm.formData = {
-            query: null
+        vm.title = 'SearchController';
+        vm.formData =  {
+        	query: null,
         }
 
         activate();
 
         ////////////////
 
-        /**
-         * Activate the Controller and wait for Promise
-         * @return {object} 
-         */
         function activate() {
-        	vm.loading = true;
-            return getFaqData().then(function () {
-               vm.loading = false;
+        	
+        }
+
+        function searchArticles() {
+        	articleService.searchArticles(vm.formData).then(function (data) {
+
         	});
         }
 
 
-        /**
-         * Get FAQ Data 
-         * @return {object} 
-         */
-        function getFaqData () {
-        	return faqService.getStaredFaqs().then(function (data) {
-        		vm.Faqs = data.faqs;
-                vm.loading = false;
-                return vm.Faqs;
-        	});
+        function clearSpaceAndReplace() {
+        	
         }
 
 
+        $rootScope.$on('article.search', function (event, query) {
+        	//if (query === 'null') 
+        	vm.formData.query = query;
+        	searchArticles();
 
-        /**
-         * Seach all the Faqs
-         * @return {object}
-         */
-        function searchFaqs() {
-            return faqService.searchFaqs(vm.formData).then(function (data) {
-                vm.Faqs = data.faqs;
-                vm.loading = false;
-                return vm.Faqs;
-            });
-        }
-
-
-
-        /**
-         * Wait for FAQ search event and then load new search
-         * @param  {event}  event       
-         * @param  {string} query
-         * @return {null}
-         */
-        $rootScope.$on("faqSearch", function handleSearchEvent( event, query ) {
-            vm.loading = true;
-            
-            if (query === '') {
-                getFaqData();
-                return;
-            }
-
-            vm.formData.query = query;
-            searchFaqs();
-        });
-
-
+        })
 
 
 
@@ -430,49 +382,97 @@ var jq = $.noConflict();
 
     }
 })();
+/*
+|--------------------------------------------------------------------------
+| FAQ controller.  
+|--------------------------------------------------------------------------
+|
+| Grabs FAQs from API and presents them on the page. 
+|
+*/
+
 (function() {
     'use strict';
 
     angular
-        .module('mcdaniel.blog')
-        .controller('SearchController', SearchController);
+        .module('mcdaniel.faq')
+        .controller('FaqController', FaqController);
 
-    SearchController.$inject = ['$rootScope', 'articleService'];
+    FaqController.$inject = ['$rootScope', 'faqService'];
 
     /* @ngInject */
-    function SearchController($rootScope, articleService) {
+    function FaqController($rootScope, faqService) {
         var vm = this;
-        vm.title = 'SearchController';
-        vm.formData =  {
-        	query: null,
+        vm.title = 'FaqController';
+        vm.Faqs =[];
+        vm.loading = false;
+        vm.formData = {
+            query: null
         }
 
         activate();
 
         ////////////////
 
+        /**
+         * Activate the Controller and wait for Promise
+         * @return {object} 
+         */
         function activate() {
-        	
-        }
-
-        function searchArticles() {
-        	articleService.searchArticles(vm.formData).then(function (data) {
-
+        	vm.loading = true;
+            return getFaqData().then(function () {
+               vm.loading = false;
         	});
         }
 
 
-        function clearSpaceAndReplace() {
-        	
+        /**
+         * Get FAQ Data 
+         * @return {object} 
+         */
+        function getFaqData () {
+        	return faqService.getStaredFaqs().then(function (data) {
+        		vm.Faqs = data.faqs;
+                vm.loading = false;
+                return vm.Faqs;
+        	});
         }
 
 
-        $rootScope.$on('article.search', function (event, query) {
-        	//if (query === 'null') 
-        	vm.formData.query = query;
-        	searchArticles();
 
-        })
+        /**
+         * Seach all the Faqs
+         * @return {object}
+         */
+        function searchFaqs() {
+            return faqService.searchFaqs(vm.formData).then(function (data) {
+                vm.Faqs = data.faqs;
+                vm.loading = false;
+                return vm.Faqs;
+            });
+        }
+
+
+
+        /**
+         * Wait for FAQ search event and then load new search
+         * @param  {event}  event       
+         * @param  {string} query
+         * @return {null}
+         */
+        $rootScope.$on("faqSearch", function handleSearchEvent( event, query ) {
+            vm.loading = true;
+            
+            if (query === '') {
+                getFaqData();
+                return;
+            }
+
+            vm.formData.query = query;
+            searchFaqs();
+        });
+
+
 
 
 
@@ -1404,6 +1404,170 @@ var jq = $.noConflict();
     'use strict';
 
     angular
+        .module('mcdaniel.getstarted')
+        .controller('GetStartedController', GetStartedController);
+
+    GetStartedController.$inject = ['$rootScope', 'localStorageService', '$location'];
+
+    /* @ngInject */
+    function GetStartedController($rootScope, localStorageService, $location) {
+        var vm = this;
+        vm.title = 'GetStartedController';
+        vm.price = null;
+        vm.service = localStorageService.get('interestedService');
+        vm.name = null;
+
+        activate();
+
+        ////////////////
+        
+        
+        
+        
+
+
+        function activate() {
+            clearServiceIfNeeded();
+
+            
+            switch (vm.service) {
+                case 'lunch-and-learn' :
+                    vm.price = '$300.00';
+                    vm.name = "Lunch and Learn Session";
+                    break;
+                case 'teach-and-taste' : 
+                    vm.price = '$400.00';
+                    vm.name = "Teach and Taste Session";
+                    break;
+                case 'webinars' : 
+                    vm.price = '$300.00';
+                    vm.name = "Company Webinar";
+                    break;
+                case 'weight-loss-sustain' : 
+                    vm.price = "$150.00";
+                    vm.name = "Individual Consultation";
+                    break;
+                case 'weight-loss-sustain-premium' : 
+                    vm.price = "$450.00";
+                    vm.name = "Premium Sustain Weight Loss Consultation";
+                    break;
+                case 'weight-loss-sustain-online' : 
+                    vm.price = "$400.00";
+                    vm.name = "Sustain Weight Loss Online";
+                    break;
+                case 'sports-nutrition' :
+                    vm.name = "Individual Consultation";
+                    vm.price = "$180.00";
+                    break;
+                case 'maternal-nutrition' :
+                    vm.name = "Individual Consultation";
+                    vm.price = "$150.00";
+                    break;
+                case 'rmr-testing' :
+                    vm.name = "Metabolic Test";
+                    vm.price = "$75.00"
+            }
+        }
+
+        function clearServiceIfNeeded() {
+            var path = $location.absUrl().split('/')[4]
+            
+            //Multiples
+            if (path === 'weight-loss' ) {
+                if (vm.service != 'weight-loss-sustain' && vm.service != 'weight-loss-sustain-premium' && vm.service != 'weight-loss-sustain-online')  {
+                    vm.service = "weight-loss-sustain";
+                }
+
+            } 
+
+            if (path === 'corporate-wellness' ) {
+                if (vm.service != 'lunch-and-learn' && vm.service != 'taste-and-teach' && vm.service != 'webinars')  {
+                    vm.service = null
+                }
+            } 
+
+            //Singles
+            if (path === 'maternal-nutrition' && vm.service != 'maternal-nutrition')  {
+              vm.service = "maternal-nutrition";  
+            } 
+
+            if (path === 'sports-nutrition' && vm.service != 'sports-nutrition')  {
+              vm.service = "sports-nutrition";  
+            }     
+
+            if (path === 'rmr-testing' && vm.service != 'rmr-testing')  {
+              vm.service = "rmr-testing";  
+            } 
+
+        }
+
+        $rootScope.$on('updatePrice', function handlePrice(event, price) {
+            if (price !== "null") {
+                vm.price = "$" + price  + '.00';    
+            }
+            
+        });
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.getstarted')
+        .controller('ThanksController', ThanksController);
+
+    ThanksController.$inject = ['localStorageService'];
+
+    /* @ngInject */
+    function ThanksController(localStorageService) {
+        var vm = this;
+        vm.title = 'ThanksController';
+        vm.service = null;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+        	 switch ('lunch-and-learn') {
+                case 'lunch-and-learn' :
+                    vm.service = 'corporate';
+                    break;
+                case 'teach-and-taste' : 
+                    vm.service = 'corporate';
+                    break;
+                case 'webinars' : 
+                    vm.service = 'corporate';
+                    break;
+                case 'weight-loss-sustain' : 
+                    vm.service = "weight";
+                    break;
+                case 'weight-loss-sustain-premium' : 
+                    vm.service = "weight";
+                    break;
+                case 'weight-loss-sustain-online' : 
+                    vm.service = "weight";
+                    break;
+                case 'sports-nutrition' :
+                    vm.service = "sports";
+                    break;
+                case 'maternal-nutrition' :
+                    vm.service = "maternal";
+                    break;
+                case 'rmr-testing' :
+                    vm.service = "rmr"
+                case 'default' :
+                	vm.service = "default"
+            }
+
+            console.log(vm.service);
+        }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('mcdaniel.shared')
         .factory('common', common);
 
@@ -1696,169 +1860,77 @@ var jq = $.noConflict();
 	}
 
 })();
+/*
+|--------------------------------------------------------------------------
+| Directive for Phone Input
+|--------------------------------------------------------------------------
+|
+| Validates and creates slide downs for Phone Input
+|
+*/
+
 (function() {
     'use strict';
 
     angular
-        .module('mcdaniel.getstarted')
-        .controller('GetStartedController', GetStartedController);
-
-    GetStartedController.$inject = ['$rootScope', 'localStorageService', '$location'];
+        .module('mcdaniel.forms')
+        .directive('phoneInput', phoneInput);
 
     /* @ngInject */
-    function GetStartedController($rootScope, localStorageService, $location) {
-        var vm = this;
-        vm.title = 'GetStartedController';
-        vm.price = null;
-        vm.service = localStorageService.get('interestedService');
-        vm.name = null;
-
-        activate();
-
-        ////////////////
+    function phoneInput () {
+        // Usage:
+        // <input phone-input type="tel">
+        var directive = {
+            link: link,
+            restrict: 'A',
+            require: 'ngModel',
+            scope: {
+            	targetId: "@"
+            }
+        };
         
-        
-        
-        
+        return directive;
+
+        function link(scope, element, attrs, ngModel) {
+        	var tar = jq('#' + scope.targetId);
+            
+
+        	/**
+             * On focus check for validation and then add best time to call. 
+             */
+            jq(element).on('focusout', function () {
+        		if (jq(this).val() != '') {
+        			tar.slideDown(500);
+        		} else {
+        			tar.slideUp(500);
+        		}
+        	});
 
 
-        function activate() {
-            clearServiceIfNeeded();
+
+            /**
+             * Validate the Phone
+             * @param  {string} value 
+             * @return {boolean}       
+             * @note - not validating phone number.  going to trust the user will need it. 
+             */
+            // function phoneValidator(value) {
+            //     var reg = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
+            //     valid = reg.test(value)
+            //     if (!ngModel.$isEmpty(value) && valid) {
+            //         ngModel.$setValidity('phone', true);
+            //         return value;
+            //     } else {
+            //         ngModel.$setValidity('phone')
+            //     }
+            // }
 
             
-            switch (vm.service) {
-                case 'lunch-and-learn' :
-                    vm.price = '$300.00';
-                    vm.name = "Lunch and Learn Session";
-                    break;
-                case 'teach-and-taste' : 
-                    vm.price = '$400.00';
-                    vm.name = "Teach and Taste Session";
-                    break;
-                case 'webinars' : 
-                    vm.price = '$300.00';
-                    vm.name = "Company Webinar";
-                    break;
-                case 'weight-loss-sustain' : 
-                    vm.price = "$150.00";
-                    vm.name = "Individual Consultation";
-                    break;
-                case 'weight-loss-sustain-premium' : 
-                    vm.price = "$450.00";
-                    vm.name = "Premium Sustain Weight Loss Consultation";
-                    break;
-                case 'weight-loss-sustain-online' : 
-                    vm.price = "$400.00";
-                    vm.name = "Sustain Weight Loss Online";
-                    break;
-                case 'sports-nutrition' :
-                    vm.name = "Individual Consultation";
-                    vm.price = "$180.00";
-                    break;
-                case 'maternal-nutrition' :
-                    vm.name = "Individual Consultation";
-                    vm.price = "$150.00";
-                    break;
-                case 'rmr-testing' :
-                    vm.name = "Metabolic Test";
-                    vm.price = "$75.00"
-            }
-        }
 
-        function clearServiceIfNeeded() {
-            var path = $location.absUrl().split('/')[4]
-            
-            //Multiples
-            if (path === 'weight-loss' ) {
-                if (vm.service != 'weight-loss-sustain' && vm.service != 'weight-loss-sustain-premium' && vm.service != 'weight-loss-sustain-online')  {
-                    vm.service = "weight-loss-sustain";
-                }
-
-            } 
-
-            if (path === 'corporate-wellness' ) {
-                if (vm.service != 'lunch-and-learn' && vm.service != 'taste-and-teach' && vm.service != 'webinars')  {
-                    vm.service = null
-                }
-            } 
-
-            //Singles
-            if (path === 'maternal-nutrition' && vm.service != 'maternal-nutrition')  {
-              vm.service = "maternal-nutrition";  
-            } 
-
-            if (path === 'sports-nutrition' && vm.service != 'sports-nutrition')  {
-              vm.service = "sports-nutrition";  
-            }     
-
-            if (path === 'rmr-testing' && vm.service != 'rmr-testing')  {
-              vm.service = "rmr-testing";  
-            } 
-
-        }
-
-        $rootScope.$on('updatePrice', function handlePrice(event, price) {
-            if (price !== "null") {
-                vm.price = "$" + price  + '.00';    
-            }
-            
-        });
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.getstarted')
-        .controller('ThanksController', ThanksController);
-
-    ThanksController.$inject = ['localStorageService'];
-
-    /* @ngInject */
-    function ThanksController(localStorageService) {
-        var vm = this;
-        vm.title = 'ThanksController';
-        vm.service = null;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-        	 switch ('lunch-and-learn') {
-                case 'lunch-and-learn' :
-                    vm.service = 'corporate';
-                    break;
-                case 'teach-and-taste' : 
-                    vm.service = 'corporate';
-                    break;
-                case 'webinars' : 
-                    vm.service = 'corporate';
-                    break;
-                case 'weight-loss-sustain' : 
-                    vm.service = "weight";
-                    break;
-                case 'weight-loss-sustain-premium' : 
-                    vm.service = "weight";
-                    break;
-                case 'weight-loss-sustain-online' : 
-                    vm.service = "weight";
-                    break;
-                case 'sports-nutrition' :
-                    vm.service = "sports";
-                    break;
-                case 'maternal-nutrition' :
-                    vm.service = "maternal";
-                    break;
-                case 'rmr-testing' :
-                    vm.service = "rmr"
-                case 'default' :
-                	vm.service = "default"
-            }
-
-            console.log(vm.service);
         }
     }
+
+    
 })();
 (function() {
     'use strict';
@@ -1962,77 +2034,109 @@ var jq = $.noConflict();
         }
     }
 })();
-/*
-|--------------------------------------------------------------------------
-| Directive for Phone Input
-|--------------------------------------------------------------------------
-|
-| Validates and creates slide downs for Phone Input
-|
-*/
-
 (function() {
     'use strict';
 
     angular
-        .module('mcdaniel.forms')
-        .directive('phoneInput', phoneInput);
+        .module('global.errors')
+        .factory('errors', errors);
+
+    errors.$inject = ['flash'];
 
     /* @ngInject */
-    function phoneInput () {
-        // Usage:
-        // <input phone-input type="tel">
-        var directive = {
-            link: link,
-            restrict: 'A',
-            require: 'ngModel',
-            scope: {
-            	targetId: "@"
-            }
+    function errors(flash) {
+        var errorReason = null;
+
+        var service = {
+            catcher: catcher,
+            getReason: getReason
         };
         
-        return directive;
+        return service;
 
-        function link(scope, element, attrs, ngModel) {
-        	var tar = jq('#' + scope.targetId);
-            
+        ////////////////
 
-        	/**
-             * On focus check for validation and then add best time to call. 
-             */
-            jq(element).on('focusout', function () {
-        		if (jq(this).val() != '') {
-        			tar.slideDown(500);
-        		} else {
-        			tar.slideUp(500);
-        		}
-        	});
+        /**
+         * Catch the Error and Display a Error Flash
+         * @param {string} Message to display
+         * @param {string} reason for Console.
+         */
+        function catcher(message) {
+           return function (reason) {
+                reason.insertedObject = (reason.insertedObject == null) ? 'none' : reason.insertedObject;
+                errorReason = reason;
+        		flash.error(message, reason);
+        	}
+        }
 
-
-
-            /**
-             * Validate the Phone
-             * @param  {string} value 
-             * @return {boolean}       
-             * @note - not validating phone number.  going to trust the user will need it. 
-             */
-            // function phoneValidator(value) {
-            //     var reg = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
-            //     valid = reg.test(value)
-            //     if (!ngModel.$isEmpty(value) && valid) {
-            //         ngModel.$setValidity('phone', true);
-            //         return value;
-            //     } else {
-            //         ngModel.$setValidity('phone')
-            //     }
-            // }
-
-            
-
+        /**
+         * Get reason for mailing
+         * @return {string} 
+         */
+        function getReason() {
+            return errorReason;
         }
     }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.errors')
+        .provider('errorHandler', exceptionHandlerProvider)
+        .config(config);
 
     
+    /**
+     * Must Configure the exception handling
+     */
+     function exceptionHandlerProvider() {
+        /* jshint validthis:true */
+        this.config = {
+            appErrorPrefix: undefined
+        };
+
+        this.configure = function (appErrorPrefix) {
+            this.config.appErrorPrefix = appErrorPrefix;
+        };
+
+        this.$get = function() {
+            return {config: this.config};
+        };
+    }
+
+    config.$inject = ['$provide'];
+
+	/**
+     * Configure by setting an optional string value for appErrorPrefix
+     * @param  {object} $provide 
+     * @ngInject
+     */
+    function config($provide) {
+        $provide.decorator('$exceptionHandler', extendExceptionHandler);
+    }
+
+
+    extendExceptionHandler.$inject = ['$delegate', 'errorHandler'];
+
+    /**
+     * Extend the $exceptionHandler servie to also display our Flash
+     * @param  {Object} $delegate        
+     * @param  {Object} exceptionHandler 
+     * @param  {Object} flash            
+     * @return {function} the decorated $exceptionHandler service
+     */
+     function extendExceptionHandler($delegate, errorHandler) {
+        return function(exception, cause) {
+            var appErrorPrefix = errorHandler.config.appErrorPrefix || '';
+            var errorData = {exception: exception, cause: cause};
+            exception.message = appErrorPrefix + exception.message;
+            $delegate(exception, cause);
+           // flash.error(exception.message, errorData);
+        };
+    }
+
+   
 })();
 (function() {
     'use strict';
@@ -2209,478 +2313,6 @@ var jq = $.noConflict();
             $rootScope.$emit('flash.warning', message);
         }
     }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.errors')
-        .factory('errors', errors);
-
-    errors.$inject = ['flash'];
-
-    /* @ngInject */
-    function errors(flash) {
-        var errorReason = null;
-
-        var service = {
-            catcher: catcher,
-            getReason: getReason
-        };
-        
-        return service;
-
-        ////////////////
-
-        /**
-         * Catch the Error and Display a Error Flash
-         * @param {string} Message to display
-         * @param {string} reason for Console.
-         */
-        function catcher(message) {
-           return function (reason) {
-                reason.insertedObject = (reason.insertedObject == null) ? 'none' : reason.insertedObject;
-                errorReason = reason;
-        		flash.error(message, reason);
-        	}
-        }
-
-        /**
-         * Get reason for mailing
-         * @return {string} 
-         */
-        function getReason() {
-            return errorReason;
-        }
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.errors')
-        .provider('errorHandler', exceptionHandlerProvider)
-        .config(config);
-
-    
-    /**
-     * Must Configure the exception handling
-     */
-     function exceptionHandlerProvider() {
-        /* jshint validthis:true */
-        this.config = {
-            appErrorPrefix: undefined
-        };
-
-        this.configure = function (appErrorPrefix) {
-            this.config.appErrorPrefix = appErrorPrefix;
-        };
-
-        this.$get = function() {
-            return {config: this.config};
-        };
-    }
-
-    config.$inject = ['$provide'];
-
-	/**
-     * Configure by setting an optional string value for appErrorPrefix
-     * @param  {object} $provide 
-     * @ngInject
-     */
-    function config($provide) {
-        $provide.decorator('$exceptionHandler', extendExceptionHandler);
-    }
-
-
-    extendExceptionHandler.$inject = ['$delegate', 'errorHandler'];
-
-    /**
-     * Extend the $exceptionHandler servie to also display our Flash
-     * @param  {Object} $delegate        
-     * @param  {Object} exceptionHandler 
-     * @param  {Object} flash            
-     * @return {function} the decorated $exceptionHandler service
-     */
-     function extendExceptionHandler($delegate, errorHandler) {
-        return function(exception, cause) {
-            var appErrorPrefix = errorHandler.config.appErrorPrefix || '';
-            var errorData = {exception: exception, cause: cause};
-            exception.message = appErrorPrefix + exception.message;
-            $delegate(exception, cause);
-           // flash.error(exception.message, errorData);
-        };
-    }
-
-   
-})();
-/*
-|--------------------------------------------------------------------------
-| Menu Toggle Directive
-|--------------------------------------------------------------------------
-|
-| Adds the class to open any id that you specify in the menu-toggle attribute
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('global.sidemenu')
-        .directive('menuToggle', menuToggle);
-
-    menuToggle.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function menuToggle ($rootScope) {
-        // Usage:
-        // <div menu-toggle="{id of element you wish to toggle}"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	jq(element).on('click', function () {
-               toggleMenu(attrs.menuToggle);
-               jq(this).toggleClass('active');
-            });
-
-            $rootScope.$on('menu.close', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-
-            $rootScope.$on('menu.open', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-		}
-    }
-
-    /**
-     * Toggle Menu Element
-     * @param  {string}  attr   
-     * @param  {Boolean} isOpen 
-     * @return {Boolean}         
-     */
-    function toggleMenu(attr) {
-    	var target = jq('#'+attr);
-
-        if (target.hasClass('open')) {
-    		target.removeClass('open');
-            return false;
-        } else {
-    	   target.addClass('open');	
-           return true;
-    	}
-    };
-
-
-})();
-
-/*
-|--------------------------------------------------------------------------
-| Facebook Share Direcgive
-|--------------------------------------------------------------------------
-|
-| Builds facebook share button and URL to shre the article on twitter
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('global.share')
-        .directive('facebookShare', facebookShare);
-
-    facebookShare.$inject = ['$location'];
-
-    /* @ngInject */
-    function facebookShare ($location) {
-        // Usage:
-        // <div facebook-share></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-                title: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-            var url = $location.absUrl(),
-                fbLink = buildLink(url, scope.title);
-                
-            jq(element[0]).on('click', function (e) {
-                popup(fbLink, 700, 500);
-                //Send to Google Analytics
-                _ga('send', 'event', 'knowledge-center', 'share', 'facebook', 0);
-            });
-
-        }
-    }
-
-    /**
-     * Build Facebook Sharer Link
-     * @param  {string} url 
-     * @return {string}     
-     */
-    function buildLink(url, title) {
-        //TODO: add description 
-        // return 'http://www.facebook.com/dialog/feed?app_id=556572864519365&caption=' + title + '&display=popup&link=' + url;
-
-        var url = 'https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2F';
-        var uri = 'https%3A%2F%2Fdevelopers.facebook.com%2Ftools%2Fexplorer';
-
-        return 'https://www.facebook.com/dialog/share?' +
-                  'app_id=145634995501895' +
-                  '&display=popup' +
-                  '&href=' + url + 
-                  '&redirect_uri=' + uri;
-    }
-
-    
-    /**
-     * Make the Popup Window
-     * @param  {string} url    
-     * @param  {int} width  
-     * @param  {int} height 
-     * @return {window.open}        
-     */
-    function popup(url, width, height) {
-        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
-    }
-
-
-})();   
-
-
-(function() {
-    'use strict';
-
-    angular
-        .module('global.share')
-        .directive('linkedinShare', linkedinShare);
-
-    linkedinShare.$inject = ['$location'];
-    
-    /* @ngInject */
-    function linkedinShare ($location) {
-        // Usage:
-        // <div data-linked-share>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	title:  "@",
-            	summary: "@"
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-    		var el = jq(element[0]),
-    			url = $location.absUrl(),
-    			title = scope.title,
-    			summary = scope.summary,
-    			linkedInLink = buildLink(url, title, summary);
-
-    		el.on('click', function () {
-    			popup(linkedInLink, 700, 500);
-    		})
-
-        }
-    }
-
-
-     /**
-     * Build Pinterst Sharer Link
-     * @param  {string} url 
-     * @return {string}     
-     */
-    function buildLink(url, title, summary) {
-        //return 'http://pinterest.com/pin/create/button/?url='+ url +'&description='+ title +'&media=' +  media;
-        return 'http://www.linkedin.com/shareArticle?mini=true&url='+ url +'&title='+ title +'&summary='+ summary +'&source=http://mcndanielnutrition.com';
-    }
-
-
-    /**
-     * Trucate the String to Match
-     * @param  {string} url  
-     * @param  {string} via  
-     * @param  {string} html 
-     * @return {string}
-     */
-    function truncateHTML(url, via, html) {
-        var full = url.length + via.length + 4;
-        var text = html.substr(0, (140-full));
-        return text + '...'
-    }
-
-     /**
-     * Make the Popup Window
-     * @param  {string} url    
-     * @param  {int} width  
-     * @param  {int} height 
-     * @return {window.open}        
-     */
-    function popup(url, width, height) {
-        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
-    }
-
-    
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.share')
-        .directive('pinterestShare', pinterestShare);
-
-    pinterestShare.$inject = ['$location']
-
-    /* @ngInject */
-    function pinterestShare ($location) {
-        // Usage:
-        // <li pinterest-share><li>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	title: '@',
-            	media: '@'
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-        	var el = jq(element[0]),
-        		url = $location.absUrl(),
-        		title = scope.title,
-        		media = scope.media,
-        		pinterstLink = buildLink(url, title, media)
-
-        		el.on('click', function () {
-        			popup(pinterstLink, 700, 500);
-        		});
-        }
-    }
-
-
-     /**
-     * Build Pinterst Sharer Link
-     * @param  {string} url 
-     * @return {string}     
-     */
-    function buildLink(url, title, media) {
-        return 'http://pinterest.com/pin/create/button/?url='+ url +'&description='+ title +'&media=' +  media;
-    }
-
-
-    /**
-     * Trucate the String to Match
-     * @param  {string} url  
-     * @param  {string} via  
-     * @param  {string} html 
-     * @return {string}
-     */
-    function truncateHTML(url, via, html) {
-        var full = url.length + via.length + 4;
-        var text = html.substr(0, (140-full));
-        return text + '...'
-    }
-
-     /**
-     * Make the Popup Window
-     * @param  {string} url    
-     * @param  {int} width  
-     * @param  {int} height 
-     * @return {window.open}        
-     */
-    function popup(url, width, height) {
-        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
-    }
-    
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.share')
-        .directive('twitterShare', twitterShare);
-
-    twitterShare.$inject = ['$location'];
-
-    /* @ngInject */
-    function twitterShare ($location) {
-        // Usage:
-        // <div twitter-share></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-                title: '@'
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-            var el = jq(element[0]),
-                title = scope.title,
-                tiny = jq('meta[name="tiny"]').attr('content'),
-                url = 'http://mcdanielnutrition.com/p/' + tiny,
-                via = '- @mcdanielrdn',
-                twitterLink = buildLink(url, via, title);
-
-            el.on('click', function () {
-                popup(twitterLink, 700, 500);
-            })
-        
-        }
-    }
-
-
-
-     /**
-     * Build Twitter Sharer Link
-     * @param  {string} url 
-     * @return {string}     
-     */
-    function buildLink(url, via, html) {
-        var text = truncateHTML(url, via, html);
-        return 'http://twitter.com/intent/tweet?url='+ url + '&text=' + text + via;
-    }
-
-
-    /**
-     * Trucate the String to Match
-     * @param  {string} url  
-     * @param  {string} via  
-     * @param  {string} html 
-     * @return {string}
-     */
-    function truncateHTML(url, via, html) {
-        var full = url.length + via.length + 4;
-        var text = html.substr(0, (140-full));
-        return text + '...'
-    }
-
-     /**
-     * Make the Popup Window
-     * @param  {string} url    
-     * @param  {int} width  
-     * @param  {int} height 
-     * @return {window.open}        
-     */
-    function popup(url, width, height) {
-        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
-    }
-
-    
 })();
 (function() {
     'use strict';
@@ -3356,6 +2988,70 @@ var jq = $.noConflict();
 
     
 })();
+/*
+|--------------------------------------------------------------------------
+| Menu Toggle Directive
+|--------------------------------------------------------------------------
+|
+| Adds the class to open any id that you specify in the menu-toggle attribute
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('global.sidemenu')
+        .directive('menuToggle', menuToggle);
+
+    menuToggle.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function menuToggle ($rootScope) {
+        // Usage:
+        // <div menu-toggle="{id of element you wish to toggle}"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	jq(element).on('click', function () {
+               toggleMenu(attrs.menuToggle);
+               jq(this).toggleClass('active');
+            });
+
+            $rootScope.$on('menu.close', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+
+            $rootScope.$on('menu.open', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+		}
+    }
+
+    /**
+     * Toggle Menu Element
+     * @param  {string}  attr   
+     * @param  {Boolean} isOpen 
+     * @return {Boolean}         
+     */
+    function toggleMenu(attr) {
+    	var target = jq('#'+attr);
+
+        if (target.hasClass('open')) {
+    		target.removeClass('open');
+            return false;
+        } else {
+    	   target.addClass('open');	
+           return true;
+    	}
+    };
+
+
+})();
 /// <reference path="navigationURIWatcherDirective.js" />
 /* 
 |-----------------------------------------------------------------
@@ -3648,6 +3344,310 @@ var jq = $.noConflict();
     }
 
 })();
+
+/*
+|--------------------------------------------------------------------------
+| Facebook Share Direcgive
+|--------------------------------------------------------------------------
+|
+| Builds facebook share button and URL to shre the article on twitter
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('global.share')
+        .directive('facebookShare', facebookShare);
+
+    facebookShare.$inject = ['$location'];
+
+    /* @ngInject */
+    function facebookShare ($location) {
+        // Usage:
+        // <div facebook-share></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+                title: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+            var url = $location.absUrl(),
+                fbLink = buildLink(url, scope.title);
+                
+            jq(element[0]).on('click', function (e) {
+                popup(fbLink, 700, 500);
+                //Send to Google Analytics
+                _ga('send', 'event', 'knowledge-center', 'share', 'facebook', 0);
+            });
+
+        }
+    }
+
+    /**
+     * Build Facebook Sharer Link
+     * @param  {string} url 
+     * @return {string}     
+     */
+    function buildLink(url, title) {
+        //TODO: add description 
+        // return 'http://www.facebook.com/dialog/feed?app_id=556572864519365&caption=' + title + '&display=popup&link=' + url;
+
+        var url = 'https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2F';
+        var uri = 'https%3A%2F%2Fdevelopers.facebook.com%2Ftools%2Fexplorer';
+
+        return 'https://www.facebook.com/dialog/share?' +
+                  'app_id=145634995501895' +
+                  '&display=popup' +
+                  '&href=' + url + 
+                  '&redirect_uri=' + uri;
+    }
+
+    
+    /**
+     * Make the Popup Window
+     * @param  {string} url    
+     * @param  {int} width  
+     * @param  {int} height 
+     * @return {window.open}        
+     */
+    function popup(url, width, height) {
+        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    }
+
+
+})();   
+
+
+(function() {
+    'use strict';
+
+    angular
+        .module('global.share')
+        .directive('linkedinShare', linkedinShare);
+
+    linkedinShare.$inject = ['$location'];
+    
+    /* @ngInject */
+    function linkedinShare ($location) {
+        // Usage:
+        // <div data-linked-share>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	title:  "@",
+            	summary: "@"
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+    		var el = jq(element[0]),
+    			url = $location.absUrl(),
+    			title = scope.title,
+    			summary = scope.summary,
+    			linkedInLink = buildLink(url, title, summary);
+
+    		el.on('click', function () {
+    			popup(linkedInLink, 700, 500);
+    		})
+
+        }
+    }
+
+
+     /**
+     * Build Pinterst Sharer Link
+     * @param  {string} url 
+     * @return {string}     
+     */
+    function buildLink(url, title, summary) {
+        //return 'http://pinterest.com/pin/create/button/?url='+ url +'&description='+ title +'&media=' +  media;
+        return 'http://www.linkedin.com/shareArticle?mini=true&url='+ url +'&title='+ title +'&summary='+ summary +'&source=http://mcndanielnutrition.com';
+    }
+
+
+    /**
+     * Trucate the String to Match
+     * @param  {string} url  
+     * @param  {string} via  
+     * @param  {string} html 
+     * @return {string}
+     */
+    function truncateHTML(url, via, html) {
+        var full = url.length + via.length + 4;
+        var text = html.substr(0, (140-full));
+        return text + '...'
+    }
+
+     /**
+     * Make the Popup Window
+     * @param  {string} url    
+     * @param  {int} width  
+     * @param  {int} height 
+     * @return {window.open}        
+     */
+    function popup(url, width, height) {
+        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    }
+
+    
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.share')
+        .directive('pinterestShare', pinterestShare);
+
+    pinterestShare.$inject = ['$location']
+
+    /* @ngInject */
+    function pinterestShare ($location) {
+        // Usage:
+        // <li pinterest-share><li>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	title: '@',
+            	media: '@'
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var el = jq(element[0]),
+        		url = $location.absUrl(),
+        		title = scope.title,
+        		media = scope.media,
+        		pinterstLink = buildLink(url, title, media)
+
+        		el.on('click', function () {
+        			popup(pinterstLink, 700, 500);
+        		});
+        }
+    }
+
+
+     /**
+     * Build Pinterst Sharer Link
+     * @param  {string} url 
+     * @return {string}     
+     */
+    function buildLink(url, title, media) {
+        return 'http://pinterest.com/pin/create/button/?url='+ url +'&description='+ title +'&media=' +  media;
+    }
+
+
+    /**
+     * Trucate the String to Match
+     * @param  {string} url  
+     * @param  {string} via  
+     * @param  {string} html 
+     * @return {string}
+     */
+    function truncateHTML(url, via, html) {
+        var full = url.length + via.length + 4;
+        var text = html.substr(0, (140-full));
+        return text + '...'
+    }
+
+     /**
+     * Make the Popup Window
+     * @param  {string} url    
+     * @param  {int} width  
+     * @param  {int} height 
+     * @return {window.open}        
+     */
+    function popup(url, width, height) {
+        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    }
+    
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.share')
+        .directive('twitterShare', twitterShare);
+
+    twitterShare.$inject = ['$location'];
+
+    /* @ngInject */
+    function twitterShare ($location) {
+        // Usage:
+        // <div twitter-share></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+                title: '@'
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+            var el = jq(element[0]),
+                title = scope.title,
+                tiny = jq('meta[name="tiny"]').attr('content'),
+                url = 'http://mcdanielnutrition.com/p/' + tiny,
+                via = '- @mcdanielrdn',
+                twitterLink = buildLink(url, via, title);
+
+            el.on('click', function () {
+                popup(twitterLink, 700, 500);
+            })
+        
+        }
+    }
+
+
+
+     /**
+     * Build Twitter Sharer Link
+     * @param  {string} url 
+     * @return {string}     
+     */
+    function buildLink(url, via, html) {
+        var text = truncateHTML(url, via, html);
+        return 'http://twitter.com/intent/tweet?url='+ url + '&text=' + text + via;
+    }
+
+
+    /**
+     * Trucate the String to Match
+     * @param  {string} url  
+     * @param  {string} via  
+     * @param  {string} html 
+     * @return {string}
+     */
+    function truncateHTML(url, via, html) {
+        var full = url.length + via.length + 4;
+        var text = html.substr(0, (140-full));
+        return text + '...'
+    }
+
+     /**
+     * Make the Popup Window
+     * @param  {string} url    
+     * @param  {int} width  
+     * @param  {int} height 
+     * @return {window.open}        
+     */
+    function popup(url, width, height) {
+        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    }
+
+    
+})();
 (function() {
     'use strict';
 
@@ -3829,89 +3829,6 @@ var jq = $.noConflict();
 
 
    
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.pages')
-        .directive('servicesButton', servicesButton);
-
-   	servicesButton.$inject = ['localStorageService'];
-
-    /* @ngInject */	
-    function servicesButton (localStorageService) {
-        // Usage:
-        // <div class="button" data-services-button data-service="weight-loss"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	service: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-   			    var el = jq(element[0]);
-            var clicked = false;
-  			     
-            el.on('click', function (e) {
-                e.preventDefault();
-                localStorageService.set('interestedService', scope.service);
-                window.location = el.attr('href');
-            });
-        }
-    }
-
-  
-
- 
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.pages')
-        .directive('tabbedServices', tabbedServices);
-
-    /* @ngInject */
-    function tabbedServices () {
-        // Usage:
-        //
-        // Creates:
-        //
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	target: "@"
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-        	var el = jq(element);
-        	var target = jq('#' + scope.target);
-            var indicator = jq('.tab-indicator');
-
-
-        	el.on('click', function (e) {
-        		e.preventDefault();
-				target.addClass('open').siblings('.m-tabbed-info').removeClass('open');
-        		el.addClass('active').siblings('.active').removeClass('active');
-
-                jq.each(indicator, function () {
-                    if (jq(this).hasClass(scope.target)) {
-                        jq(this).addClass('active').siblings('.active').removeClass('active')
-                    }
-                });
-        	});
-        }
-    }
-
-    
 })();
 (function() {
     'use strict';
@@ -4315,6 +4232,89 @@ var jq = $.noConflict();
                 }, 200);
             }
         
+        }
+    }
+
+    
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.pages')
+        .directive('servicesButton', servicesButton);
+
+   	servicesButton.$inject = ['localStorageService'];
+
+    /* @ngInject */	
+    function servicesButton (localStorageService) {
+        // Usage:
+        // <div class="button" data-services-button data-service="weight-loss"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	service: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+   			    var el = jq(element[0]);
+            var clicked = false;
+  			     
+            el.on('click', function (e) {
+                e.preventDefault();
+                localStorageService.set('interestedService', scope.service);
+                window.location = el.attr('href');
+            });
+        }
+    }
+
+  
+
+ 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.pages')
+        .directive('tabbedServices', tabbedServices);
+
+    /* @ngInject */
+    function tabbedServices () {
+        // Usage:
+        //
+        // Creates:
+        //
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	target: "@"
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var el = jq(element);
+        	var target = jq('#' + scope.target);
+            var indicator = jq('.tab-indicator');
+
+
+        	el.on('click', function (e) {
+        		e.preventDefault();
+				target.addClass('open').siblings('.m-tabbed-info').removeClass('open');
+        		el.addClass('active').siblings('.active').removeClass('active');
+
+                jq.each(indicator, function () {
+                    if (jq(this).hasClass(scope.target)) {
+                        jq(this).addClass('active').siblings('.active').removeClass('active')
+                    }
+                });
+        	});
         }
     }
 
