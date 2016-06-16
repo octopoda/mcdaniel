@@ -146,25 +146,36 @@ $header = [
 					<div class="g-two-columns row">
 						<section class="sports-description__right">
 							<h2>Sustain Online</h2>
-							<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past and what allows us to give you the most personally tailored consultations.</p>
+							<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our online Sustain Weight Loss Program is a 16-week weight management program that allows you to listen, learn and transform in the comfort of your own home. Listen live or use the option to listen to the live recordings at a later time. </p>
 						</section>
 						<section class="sports-description__left">
-							<h4>Setting you up for Success</h4>
+							<h4>How we help set you up for sustainable success: </h4>
+
+							<h5>Weight Loss Recommendations you can TRUST</h5>
 									<ul>
-										<li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, praesentium.</li>
-										<li>Nobis, voluptates odio eaque provident harum cupiditate a ullam quas?</li>
-										<li>In consequuntur maiores nihil nemo soluta distinctio, cum quibusdam quos?</li>
-										<li>Sed quam ea illo placeat ipsum mollitia veritatis necessitatibus qui.</li>
-										<li>Omnis sequi eveniet ratione ipsam quas dolorem quod, obcaecati iste!</li>
+										<li>16 weeks of evidence-based weight loss guidance conducted by a Registered Dietitian </li>
+										<li>Weight loss counsel based on thousands of successful McDaniel Nutrition clients </li>
+										<li>Weight loss information that leads to more than just weight loss, but also addresses disease prevention and longevity promotion</li>
 									</ul>
 
-									<p class="legal">Prior to consultation, you will need to complete a client contract and comprehensive nutritional assessment, found here. Please bring the completed paperwork to your initial consultation. If you desire a computerized nutritional analysis of your 3-day food journal, we will complete this prior to the consult for an additional fee of $30. During our initial consult, we will review your information to glean insights into your unique eating habits, lifestyle needs, experience with weight loss, and areas of focus.</p>
+							<h5>Personalized components tailored to YOU</h5>
+									<ul>
+										<li>4 private email sessions between you and your dietitian </li>
+										<li>Optional analysis of your online food journal </li>
+									</ul>
+
+							<h5>An enhanced group learning experience </h5>
+							<ul>
+								<li>During live sessions, you have the ability to ask questions and learn from other Sustain participants </li>
+							</ul>
+	
+							<p class="legal">Prior to consultation, you will need to complete a client contract and comprehensive nutritional assessment, found here. Please bring the completed paperwork to your initial consultation. If you desire a computerized nutritional analysis of your 3-day food journal, we will complete this prior to the consult for an additional fee of $30. During our initial consult, we will review your information to glean insights into your unique eating habits, lifestyle needs, experience with weight loss, and areas of focus.</p>
 									
 						</section>
 					</div>
 					<section class="row sales-button">
 						<div class="button">
-							<a href="{{ route('get-started-weight') }}" data-services-button data-service="weight-loss-sustain-premium" >Start the Program Today</a>
+							<a href="{{ route('get-started-weight') }}" data-services-button data-service="weight-loss-sustain-online" >Start the Program Today</a>
 						</div>
 					</section>
 				</div>

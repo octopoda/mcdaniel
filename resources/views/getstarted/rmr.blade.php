@@ -25,7 +25,7 @@ $header = [
 	<div class="get-started">
 		<div class="row">
 			<div class="get-started__price tablet-up">
-				<h3>Individualized Consultation</h3>
+				<h3 data-ng-cloak>{!  vm.name  !}</h3>
 				<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
 				<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 			</div>
@@ -38,7 +38,7 @@ $header = [
 				<p>This test is best when used in combination with another nutrition service. This way your individual plan is even more tailored to your uniqueness.</p>
 
 				<div class="get-started__price phone-only">
-					<h3>Individualized Consultation</h3>
+					<h3 data-ng-cloak>{!  vm.name  !}</h3>
 					<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
 					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 				</div>

@@ -24,16 +24,6 @@ var jq = $.noConflict();
         ]);
 })();
 (function() {
-    'use strict';
-
-    angular.module('mcdaniel.api', []);
-})();
-(function() {
-    'use strict';
-
-    angular.module('mcdaniel.blog', []);
-})();
-(function() {
    'use strict';
 
     angular.module('mcdaniel.faq', []); 
@@ -48,7 +38,12 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular.module('mcdaniel.getstarted', []);
+    angular.module('mcdaniel.blog', []);
+})();
+(function() {
+    'use strict';
+
+    angular.module('mcdaniel.api', []);
 })();
 (function() {
     'use strict';
@@ -95,18 +90,18 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
+    angular.module('mcdaniel.getstarted', []);
+})();
+(function() {
+    'use strict';
+
     angular.module('global.modal', []); 
 
 })();
 (function() {
     'use strict';
 
-    angular.module('global.share', []);
-})();
-(function() {
-    'use strict';
-
-    angular.module('global.sidemenu', []);
+    angular.module('global.flash', []);
 })();
 (function() {
     'use strict';
@@ -117,12 +112,371 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular.module('global.flash', []);
+    angular.module('global.loading', []);
 })();
 (function() {
     'use strict';
 
-    angular.module('global.loading', []);
+    angular.module('global.sidemenu', []);
+})();
+(function() {
+    'use strict';
+
+    angular.module('global.share', []);
+})();
+/*
+|--------------------------------------------------------------------------
+| FAQ controller.  
+|--------------------------------------------------------------------------
+|
+| Grabs FAQs from API and presents them on the page. 
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .controller('FaqController', FaqController);
+
+    FaqController.$inject = ['$rootScope', 'faqService'];
+
+    /* @ngInject */
+    function FaqController($rootScope, faqService) {
+        var vm = this;
+        vm.title = 'FaqController';
+        vm.Faqs =[];
+        vm.loading = false;
+        vm.formData = {
+            query: null
+        }
+
+        activate();
+
+        ////////////////
+
+        /**
+         * Activate the Controller and wait for Promise
+         * @return {object} 
+         */
+        function activate() {
+        	vm.loading = true;
+            return getFaqData().then(function () {
+               vm.loading = false;
+        	});
+        }
+
+
+        /**
+         * Get FAQ Data 
+         * @return {object} 
+         */
+        function getFaqData () {
+        	return faqService.getStaredFaqs().then(function (data) {
+        		vm.Faqs = data.faqs;
+                vm.loading = false;
+                return vm.Faqs;
+        	});
+        }
+
+
+
+        /**
+         * Seach all the Faqs
+         * @return {object}
+         */
+        function searchFaqs() {
+            return faqService.searchFaqs(vm.formData).then(function (data) {
+                vm.Faqs = data.faqs;
+                vm.loading = false;
+                return vm.Faqs;
+            });
+        }
+
+
+
+        /**
+         * Wait for FAQ search event and then load new search
+         * @param  {event}  event       
+         * @param  {string} query
+         * @return {null}
+         */
+        $rootScope.$on("faqSearch", function handleSearchEvent( event, query ) {
+            vm.loading = true;
+            
+            if (query === '') {
+                getFaqData();
+                return;
+            }
+
+            vm.formData.query = query;
+            searchFaqs();
+        });
+
+
+
+
+
+    }
+})();
+/*
+|--------------------------------------------------------------------------
+| Contact Form Controller
+|--------------------------------------------------------------------------
+|
+| This controller should be used for all contacts forms on the AssetBuilder 6.0 site
+| By adding more variables to the formData object it should allow anything
+| to be sent to the mailService
+| 
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.forms')
+        .controller('ContactFormController', ContactFormController);
+
+    ContactFormController.$inject = ['$scope', '$rootScope', 'mailService', 'flash', 'common', 'localStorageService'];
+
+    /* @ngInject */
+    function ContactFormController($scope, $rootScope, mailService, flash, common, localStorageService) {
+        var vm = this;
+        vm.title = 'ContactFormController';
+        
+        /** @type {Vars} Scope Vars */
+        vm.loading = false;
+        vm.success = false;
+        vm.service = 'all'
+
+        /** @type {Methods} Scope Methods */
+        vm.submitForm = submitForm;
+        vm.updatePrice = updatePrice;
+        vm.getStarted = false;
+
+        /** @type {String} Success Message */
+        vm.successMessage = "Thanks for Contacting Us. Your email is important to us and we will get back to you in 1 to 2 business days.";
+
+
+        /**
+         * Data for All contact Forms.  Just add to here if not in form already. 
+         * @type {Object}
+         */
+        vm.formData = {
+        	customerName: null,
+        	email: null, 
+        	phone: null,
+        	bestContactTime: null,
+        	subject: null,
+        	contactMessage: null,
+            formType: null,
+            question: null,
+            interestedService: null,
+            lastArticleRead: null
+        }
+
+        /**
+         * If Testing Fill out form
+         * @param  {boolean} common.isTesting 
+         */
+        if (common.isTesting) {
+            fillForm();
+        }
+
+        activate();
+
+        ////////////////
+
+        /*
+        |--------------------------------------------------------------------------
+        | Startup Methods
+        |--------------------------------------------------------------------------
+        |
+        */
+
+        /**
+         * Active Controller if needed
+         * @return {[type]} [description]
+         */
+        function activate() {
+            vm.formData.interestedService = localStorageService.get('interestedService');
+            vm.service = localStorageService.get('interestedService');
+
+            if (vm.formData.interestedService == null) vm.service = 'all';
+            if (vm.formData.interestedService == 'weight-loss') vm.formData.interestedService = 'sustain';
+            if (vm.formData.interestedService == null) vm.formData.interestedService = 'sustain';
+            
+        }
+
+        
+        function updatePrice() {
+            var price = jq("#interestedService").find(':selected').attr('data-item-price');
+            $rootScope.$emit('updatePrice', price);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Submit Methods
+        |--------------------------------------------------------------------------
+        |
+        */
+
+
+
+        /**
+         * Submit the Mail Form
+         * @param PortfolioNAme  name of last viewed portfolio.  Set null for most forms. 
+         * @return {[type]} [description]
+         */
+        function submitForm() {
+            
+            vm.loading = 'loading'
+
+            vm.formData.subject = setupEmailSubject();
+            vm.formData.interestedService = vm.formData.interestedService.replace("-", " ");
+            vm.formData.lastArticleRead = localStorageService.get('lastArticleRead');
+            
+            
+            
+            mailService.sendToMailer(vm.formData)
+                .then(function (data) {
+                    mailSent(data);
+                });
+
+            function mailSent(data) {
+                if (data.status == 200) {
+                    localStorageService.set('submittedService', localStorageService.get('interestedService'));
+
+                    clearForm();
+                    vm.success = true;
+
+                    if (vm.getStarted) {
+                        window.location = '/get-started/thanks'
+                    }
+                }
+            }
+        }
+
+
+        /**
+         * Change the subject out based on the formType
+         * @return {string} subject
+         */
+        function setupEmailSubject() {
+            switch (vm.formData.formType) {
+                case "get-started-page":
+                    return 'The Get Started Contact Page was submitted';
+                    break;
+                case "faqForm":
+                    return 'A Question has been submitted';
+                    break;
+                case "contactForm":
+                    return 'A customer has submitted a Contact Request';
+                    break;
+                default: 
+                    return 'A form was submitted on the site';
+                    break;
+            }
+        }
+    
+
+
+        /**
+         * Clear the Form for next submission
+         * @return {DOM} 
+         */
+        function clearForm() {
+            vm.loading = false
+
+            vm.formData =  {
+                customerName: null,
+                email: null, 
+                phone: null,
+                bestContactTime: null,
+                subject: null,
+                contactMessage: null,
+                formType: null,
+                question: null,
+
+            }
+        }
+
+       
+        /*
+        |--------------------------------------------------------------------------
+        | Testing Methods
+        |--------------------------------------------------------------------------
+        |
+        */
+
+        function fillForm() {
+           vm.formData = { 
+                customerName: 'Bob Dole',
+                email: 'bobd@2721west.com', 
+                phone: '972.535.4040',
+                bestContactTime: {
+                    'afternoon' : true,
+                    'morning' : true
+                },
+                subject: "Big Gulp Huh?",
+                contactMessage: 'alright\' ... we\'ll see you later',
+                formType: null,
+                question: 'Big Gulps Huh?',
+                interestedService: 'teach-and-taste'
+            }
+        }
+
+
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.blog')
+        .controller('SearchController', SearchController);
+
+    SearchController.$inject = ['$rootScope', 'articleService'];
+
+    /* @ngInject */
+    function SearchController($rootScope, articleService) {
+        var vm = this;
+        vm.title = 'SearchController';
+        vm.formData =  {
+        	query: null,
+        }
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+        	
+        }
+
+        function searchArticles() {
+        	articleService.searchArticles(vm.formData).then(function (data) {
+
+        	});
+        }
+
+
+        function clearSpaceAndReplace() {
+        	
+        }
+
+
+        $rootScope.$on('article.search', function (event, query) {
+        	//if (query === 'null') 
+        	vm.formData.query = query;
+        	searchArticles();
+
+        })
+
+
+
+    }
 })();
 (function() {
     'use strict';
@@ -1004,514 +1358,6 @@ var jq = $.noConflict();
     'use strict';
 
     angular
-        .module('mcdaniel.blog')
-        .controller('SearchController', SearchController);
-
-    SearchController.$inject = ['$rootScope', 'articleService'];
-
-    /* @ngInject */
-    function SearchController($rootScope, articleService) {
-        var vm = this;
-        vm.title = 'SearchController';
-        vm.formData =  {
-        	query: null,
-        }
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-        	
-        }
-
-        function searchArticles() {
-        	articleService.searchArticles(vm.formData).then(function (data) {
-
-        	});
-        }
-
-
-        function clearSpaceAndReplace() {
-        	
-        }
-
-
-        $rootScope.$on('article.search', function (event, query) {
-        	//if (query === 'null') 
-        	vm.formData.query = query;
-        	searchArticles();
-
-        })
-
-
-
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| FAQ controller.  
-|--------------------------------------------------------------------------
-|
-| Grabs FAQs from API and presents them on the page. 
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .controller('FaqController', FaqController);
-
-    FaqController.$inject = ['$rootScope', 'faqService'];
-
-    /* @ngInject */
-    function FaqController($rootScope, faqService) {
-        var vm = this;
-        vm.title = 'FaqController';
-        vm.Faqs =[];
-        vm.loading = false;
-        vm.formData = {
-            query: null
-        }
-
-        activate();
-
-        ////////////////
-
-        /**
-         * Activate the Controller and wait for Promise
-         * @return {object} 
-         */
-        function activate() {
-        	vm.loading = true;
-            return getFaqData().then(function () {
-               vm.loading = false;
-        	});
-        }
-
-
-        /**
-         * Get FAQ Data 
-         * @return {object} 
-         */
-        function getFaqData () {
-        	return faqService.getStaredFaqs().then(function (data) {
-        		vm.Faqs = data.faqs;
-                vm.loading = false;
-                return vm.Faqs;
-        	});
-        }
-
-
-
-        /**
-         * Seach all the Faqs
-         * @return {object}
-         */
-        function searchFaqs() {
-            return faqService.searchFaqs(vm.formData).then(function (data) {
-                vm.Faqs = data.faqs;
-                vm.loading = false;
-                return vm.Faqs;
-            });
-        }
-
-
-
-        /**
-         * Wait for FAQ search event and then load new search
-         * @param  {event}  event       
-         * @param  {string} query
-         * @return {null}
-         */
-        $rootScope.$on("faqSearch", function handleSearchEvent( event, query ) {
-            vm.loading = true;
-            
-            if (query === '') {
-                getFaqData();
-                return;
-            }
-
-            vm.formData.query = query;
-            searchFaqs();
-        });
-
-
-
-
-
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Contact Form Controller
-|--------------------------------------------------------------------------
-|
-| This controller should be used for all contacts forms on the AssetBuilder 6.0 site
-| By adding more variables to the formData object it should allow anything
-| to be sent to the mailService
-| 
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.forms')
-        .controller('ContactFormController', ContactFormController);
-
-    ContactFormController.$inject = ['$scope', '$rootScope', 'mailService', 'flash', 'common', 'localStorageService'];
-
-    /* @ngInject */
-    function ContactFormController($scope, $rootScope, mailService, flash, common, localStorageService) {
-        var vm = this;
-        vm.title = 'ContactFormController';
-        
-        /** @type {Vars} Scope Vars */
-        vm.loading = false;
-        vm.success = false;
-        vm.service = 'all'
-
-        /** @type {Methods} Scope Methods */
-        vm.submitForm = submitForm;
-        vm.updatePrice = updatePrice;
-        vm.getStarted = false;
-
-        /** @type {String} Success Message */
-        vm.successMessage = "Thanks for Contacting Us. Your email is important to us and we will get back to you in 1 to 2 business days.";
-
-
-        /**
-         * Data for All contact Forms.  Just add to here if not in form already. 
-         * @type {Object}
-         */
-        vm.formData = {
-        	customerName: null,
-        	email: null, 
-        	phone: null,
-        	bestContactTime: null,
-        	subject: null,
-        	contactMessage: null,
-            formType: null,
-            question: null,
-            interestedService: null,
-            lastArticleRead: null
-        }
-
-        /**
-         * If Testing Fill out form
-         * @param  {boolean} common.isTesting 
-         */
-        if (common.isTesting) {
-            fillForm();
-        }
-
-        activate();
-
-        ////////////////
-
-        /*
-        |--------------------------------------------------------------------------
-        | Startup Methods
-        |--------------------------------------------------------------------------
-        |
-        */
-
-        /**
-         * Active Controller if needed
-         * @return {[type]} [description]
-         */
-        function activate() {
-            vm.formData.interestedService = localStorageService.get('interestedService');
-            vm.service = localStorageService.get('interestedService');
-
-            if (vm.formData.interestedService == null) vm.service = 'all';
-            if (vm.formData.interestedService == 'weight-loss') vm.formData.interestedService = 'sustain';
-            if (vm.formData.interestedService == null) vm.formData.interestedService = 'sustain';
-            
-        }
-
-        
-        function updatePrice() {
-            var price = jq("#interestedService").find(':selected').attr('data-item-price');
-            $rootScope.$emit('updatePrice', price);
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Submit Methods
-        |--------------------------------------------------------------------------
-        |
-        */
-
-
-
-        /**
-         * Submit the Mail Form
-         * @param PortfolioNAme  name of last viewed portfolio.  Set null for most forms. 
-         * @return {[type]} [description]
-         */
-        function submitForm() {
-            
-            vm.loading = 'loading'
-
-            vm.formData.subject = setupEmailSubject();
-            vm.formData.interestedService = vm.formData.interestedService.replace("-", " ");
-            vm.formData.lastArticleRead = localStorageService.get('lastArticleRead');
-            
-            
-            
-            mailService.sendToMailer(vm.formData)
-                .then(function (data) {
-                    mailSent(data);
-                });
-
-            function mailSent(data) {
-                if (data.status == 200) {
-                    localStorageService.set('submittedService', localStorageService.get('interestedService'));
-
-                    clearForm();
-                    vm.success = true;
-
-                    if (vm.getStarted) {
-                        window.location = '/get-started/thanks'
-                    }
-                }
-            }
-        }
-
-
-        /**
-         * Change the subject out based on the formType
-         * @return {string} subject
-         */
-        function setupEmailSubject() {
-            switch (vm.formData.formType) {
-                case "get-started-page":
-                    return 'The Get Started Contact Page was submitted';
-                    break;
-                case "faqForm":
-                    return 'A Question has been submitted';
-                    break;
-                case "contactForm":
-                    return 'A customer has submitted a Contact Request';
-                    break;
-                default: 
-                    return 'A form was submitted on the site';
-                    break;
-            }
-        }
-    
-
-
-        /**
-         * Clear the Form for next submission
-         * @return {DOM} 
-         */
-        function clearForm() {
-            vm.loading = false
-
-            vm.formData =  {
-                customerName: null,
-                email: null, 
-                phone: null,
-                bestContactTime: null,
-                subject: null,
-                contactMessage: null,
-                formType: null,
-                question: null,
-
-            }
-        }
-
-       
-        /*
-        |--------------------------------------------------------------------------
-        | Testing Methods
-        |--------------------------------------------------------------------------
-        |
-        */
-
-        function fillForm() {
-           vm.formData = { 
-                customerName: 'Bob Dole',
-                email: 'bobd@2721west.com', 
-                phone: '972.535.4040',
-                bestContactTime: {
-                    'afternoon' : true,
-                    'morning' : true
-                },
-                subject: "Big Gulp Huh?",
-                contactMessage: 'alright\' ... we\'ll see you later',
-                formType: null,
-                question: 'Big Gulps Huh?',
-                interestedService: 'teach-and-taste'
-            }
-        }
-
-
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.getstarted')
-        .controller('GetStartedController', GetStartedController);
-
-    GetStartedController.$inject = ['$rootScope', 'localStorageService', '$location'];
-
-    /* @ngInject */
-    function GetStartedController($rootScope, localStorageService, $location) {
-        var vm = this;
-        vm.title = 'GetStartedController';
-        vm.price = null;
-        vm.service = localStorageService.get('interestedService');
-
-        activate();
-
-        ////////////////
-        
-        
-        
-        
-
-
-        function activate() {
-            clearServiceIfNeeded();
-
-            
-            switch (vm.service) {
-                case 'lunch-and-learn' :
-                    vm.price = '$300.00';
-                    break;
-                case 'teach-and-taste' : 
-                    vm.price = '$400.00';
-                    break;
-                case 'webinars' : 
-                    vm.price = '$300.00';
-                    break;
-                case 'weight-loss-sustain' : 
-                    vm.price = "$150.00";
-                    break;
-                case 'weight-loss-sustain-premium' : 
-                    vm.price = "$450.00";
-                    break;
-                case 'weight-loss-sustain-online' : 
-                    vm.price = "$150.00";
-                    break;
-                case 'sports-nutrition' :
-                    vm.price = "$180.00";
-                    break;
-                case 'maternal-nutrition' :
-                    vm.price = "$150.00";
-                    break;
-                case 'rmr-testing' :
-                    vm.price = "$75.00"
-            }
-        }
-
-        function clearServiceIfNeeded() {
-            var path = $location.absUrl().split('/')[4]
-            
-            //Multiples
-            if (path === 'weight-loss' ) {
-                if (vm.service != 'weight-loss-sustain' && vm.service != 'weight-loss-sustain-premium' && vm.service != 'weight-loss-sustain-online')  {
-                    vm.service = "weight-loss-sustain";
-                }
-
-            } 
-
-            if (path === 'corporate-wellness' ) {
-                if (vm.service != 'lunch-and-learn' && vm.service != 'taste-and-teach' && vm.service != 'webinars')  {
-                    vm.service = null
-                }
-            } 
-
-            //Singles
-            if (path === 'maternal-nutrition' && vm.service != 'maternal-nutrition')  {
-              vm.service = "maternal-nutrition";  
-            } 
-
-            if (path === 'sports-nutrition' && vm.service != 'sports-nutrition')  {
-              vm.service = "sports-nutrition";  
-            }     
-
-            if (path === 'rmr-testing' && vm.service != 'rmr-testing')  {
-              vm.service = "rmr-testing";  
-            } 
-
-        }
-
-        $rootScope.$on('updatePrice', function handlePrice(event, price) {
-            if (price !== "null") {
-                vm.price = "$" + price  + '.00';    
-            }
-            
-        });
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.getstarted')
-        .controller('ThanksController', ThanksController);
-
-    ThanksController.$inject = ['localStorageService'];
-
-    /* @ngInject */
-    function ThanksController(localStorageService) {
-        var vm = this;
-        vm.title = 'ThanksController';
-        vm.service = null;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-        	 switch ('lunch-and-learn') {
-                case 'lunch-and-learn' :
-                    vm.service = 'corporate';
-                    break;
-                case 'teach-and-taste' : 
-                    vm.service = 'corporate';
-                    break;
-                case 'webinars' : 
-                    vm.service = 'corporate';
-                    break;
-                case 'weight-loss-sustain' : 
-                    vm.service = "weight";
-                    break;
-                case 'weight-loss-sustain-premium' : 
-                    vm.service = "weight";
-                    break;
-                case 'weight-loss-sustain-online' : 
-                    vm.service = "weight";
-                    break;
-                case 'sports-nutrition' :
-                    vm.service = "sports";
-                    break;
-                case 'maternal-nutrition' :
-                    vm.service = "maternal";
-                    break;
-                case 'rmr-testing' :
-                    vm.service = "rmr"
-                case 'default' :
-                	vm.service = "default"
-            }
-
-            console.log(vm.service);
-        }
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
         .module('mcdaniel.navigation')
         .directive('subNavigation', subNavigation);
 
@@ -1566,7 +1412,7 @@ var jq = $.noConflict();
     /* @ngInject */
     function common($location, $q, $rootScope, $timeout, flash) {
         var dev = false;
-        var testing = true;
+        var testing = false;
 
 
         var service = {
@@ -1849,6 +1695,992 @@ var jq = $.noConflict();
         return query.length ? query.substr(0, query.length - 1) : query;
 	}
 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.getstarted')
+        .controller('GetStartedController', GetStartedController);
+
+    GetStartedController.$inject = ['$rootScope', 'localStorageService', '$location'];
+
+    /* @ngInject */
+    function GetStartedController($rootScope, localStorageService, $location) {
+        var vm = this;
+        vm.title = 'GetStartedController';
+        vm.price = null;
+        vm.service = localStorageService.get('interestedService');
+        vm.name = null;
+
+        activate();
+
+        ////////////////
+        
+        
+        
+        
+
+
+        function activate() {
+            clearServiceIfNeeded();
+
+            
+            switch (vm.service) {
+                case 'lunch-and-learn' :
+                    vm.price = '$300.00';
+                    vm.name = "Lunch and Learn Session";
+                    break;
+                case 'teach-and-taste' : 
+                    vm.price = '$400.00';
+                    vm.name = "Teach and Taste Session";
+                    break;
+                case 'webinars' : 
+                    vm.price = '$300.00';
+                    vm.name = "Company Webinar";
+                    break;
+                case 'weight-loss-sustain' : 
+                    vm.price = "$150.00";
+                    vm.name = "Individual Consultation";
+                    break;
+                case 'weight-loss-sustain-premium' : 
+                    vm.price = "$450.00";
+                    vm.name = "Premium Sustain Weight Loss Consultation";
+                    break;
+                case 'weight-loss-sustain-online' : 
+                    vm.price = "$400.00";
+                    vm.name = "Sustain Weight Loss Online";
+                    break;
+                case 'sports-nutrition' :
+                    vm.name = "Individual Consultation";
+                    vm.price = "$180.00";
+                    break;
+                case 'maternal-nutrition' :
+                    vm.name = "Individual Consultation";
+                    vm.price = "$150.00";
+                    break;
+                case 'rmr-testing' :
+                    vm.name = "Metabolic Test";
+                    vm.price = "$75.00"
+            }
+        }
+
+        function clearServiceIfNeeded() {
+            var path = $location.absUrl().split('/')[4]
+            
+            //Multiples
+            if (path === 'weight-loss' ) {
+                if (vm.service != 'weight-loss-sustain' && vm.service != 'weight-loss-sustain-premium' && vm.service != 'weight-loss-sustain-online')  {
+                    vm.service = "weight-loss-sustain";
+                }
+
+            } 
+
+            if (path === 'corporate-wellness' ) {
+                if (vm.service != 'lunch-and-learn' && vm.service != 'taste-and-teach' && vm.service != 'webinars')  {
+                    vm.service = null
+                }
+            } 
+
+            //Singles
+            if (path === 'maternal-nutrition' && vm.service != 'maternal-nutrition')  {
+              vm.service = "maternal-nutrition";  
+            } 
+
+            if (path === 'sports-nutrition' && vm.service != 'sports-nutrition')  {
+              vm.service = "sports-nutrition";  
+            }     
+
+            if (path === 'rmr-testing' && vm.service != 'rmr-testing')  {
+              vm.service = "rmr-testing";  
+            } 
+
+        }
+
+        $rootScope.$on('updatePrice', function handlePrice(event, price) {
+            if (price !== "null") {
+                vm.price = "$" + price  + '.00';    
+            }
+            
+        });
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.getstarted')
+        .controller('ThanksController', ThanksController);
+
+    ThanksController.$inject = ['localStorageService'];
+
+    /* @ngInject */
+    function ThanksController(localStorageService) {
+        var vm = this;
+        vm.title = 'ThanksController';
+        vm.service = null;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+        	 switch ('lunch-and-learn') {
+                case 'lunch-and-learn' :
+                    vm.service = 'corporate';
+                    break;
+                case 'teach-and-taste' : 
+                    vm.service = 'corporate';
+                    break;
+                case 'webinars' : 
+                    vm.service = 'corporate';
+                    break;
+                case 'weight-loss-sustain' : 
+                    vm.service = "weight";
+                    break;
+                case 'weight-loss-sustain-premium' : 
+                    vm.service = "weight";
+                    break;
+                case 'weight-loss-sustain-online' : 
+                    vm.service = "weight";
+                    break;
+                case 'sports-nutrition' :
+                    vm.service = "sports";
+                    break;
+                case 'maternal-nutrition' :
+                    vm.service = "maternal";
+                    break;
+                case 'rmr-testing' :
+                    vm.service = "rmr"
+                case 'default' :
+                	vm.service = "default"
+            }
+
+            console.log(vm.service);
+        }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqBlock', faqBlock);
+
+    /* @ngInject */
+    function faqBlock () {
+        // Usage:
+        // <div faq-block></div>
+        var directive = {
+            bindToController: true,
+            controller: FaqBlockController,
+            controllerAs: 'vd',
+            link: link,
+            restrict: 'A',
+            templateUrl: '/templates/faqs/faq-block.html',
+            scope: {
+                faqs: "="
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+            
+        }
+    }
+
+    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
+
+    /* @ngInject */
+    function FaqBlockController ($scope, $element, $attrs) {
+        var vd = $scope.vd;
+
+        vd.openAnswer = openAnswer;
+
+
+
+        //Open the Answers
+        function openAnswer($event) {
+            var self = jq($event.currentTarget),
+                answer = self.children('.faq__answer');
+
+            if (self.hasClass('open')) {
+                answer.slideUp(200);
+                self.toggleClass('open');
+            } else {
+                answer.slideDown(200);
+                self.toggleClass('open');
+            }
+        }
+    }
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqSearchInput', faqSearchInput);
+
+    faqSearchInput.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function faqSearchInput ($rootScope) {
+        // Usage:
+        // <input type="text" name="search" faq-search-input>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	/** @type {DOM} element  */
+        	var el = jq(element[0]);
+
+        	/**
+        	 * On Key up search
+        	 * @param  {event}
+        	 * @return {function} 
+        	 */
+        	el.on('keyup', function (e) {
+        		if (timer) clearTimeout(timer);
+        		var timer = setTimeout(broadcastSearch, 400);
+        	});
+
+
+        	/**
+        	 * Broadcast to the Root
+        	 * @param  {string} query 
+        	 * @return {null}       
+        	 */
+        	function broadcastSearch() {
+        		var query = el.val();
+        		$rootScope.$emit('faqSearch', query)
+        	}
+        }
+    }
+})();
+/*
+|--------------------------------------------------------------------------
+| Directive for Phone Input
+|--------------------------------------------------------------------------
+|
+| Validates and creates slide downs for Phone Input
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.forms')
+        .directive('phoneInput', phoneInput);
+
+    /* @ngInject */
+    function phoneInput () {
+        // Usage:
+        // <input phone-input type="tel">
+        var directive = {
+            link: link,
+            restrict: 'A',
+            require: 'ngModel',
+            scope: {
+            	targetId: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs, ngModel) {
+        	var tar = jq('#' + scope.targetId);
+            
+
+        	/**
+             * On focus check for validation and then add best time to call. 
+             */
+            jq(element).on('focusout', function () {
+        		if (jq(this).val() != '') {
+        			tar.slideDown(500);
+        		} else {
+        			tar.slideUp(500);
+        		}
+        	});
+
+
+
+            /**
+             * Validate the Phone
+             * @param  {string} value 
+             * @return {boolean}       
+             * @note - not validating phone number.  going to trust the user will need it. 
+             */
+            // function phoneValidator(value) {
+            //     var reg = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
+            //     valid = reg.test(value)
+            //     if (!ngModel.$isEmpty(value) && valid) {
+            //         ngModel.$setValidity('phone', true);
+            //         return value;
+            //     } else {
+            //         ngModel.$setValidity('phone')
+            //     }
+            // }
+
+            
+
+        }
+    }
+
+    
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.flash')
+        .directive('mcdanielFlash', mcdanielFlash);
+
+    mcdanielFlash.$inject = ['$rootScope', '$timeout', 'mailService', 'flash', 'errors'];
+
+    /* @ngInject */
+    function mcdanielFlash ($rootScope, $timeout, mailService, flash, errors) {
+        // Usage:
+        // <div ab-flash></div>
+        var directive = {
+            bindToController: true,
+            controller: Controller,
+            controllerAs: 'vd',
+            link: link,
+            templateUrl: '/templates/global/flash.html',
+            restrict: 'A',
+            scope: {
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+					 var el = jq(element);
+					 var vd = scope.vd;
+					 	    vd.closeFlash = closeFlash;
+					 	    vd.close = false;
+					 	    vd.actionButton = false;
+					 	    vd.event = false;
+
+
+					 	    vd.actionSubmit = actionSubmit;
+                
+
+					 /**
+					  * Display the Flash in an Error Format with Close
+					  * @note add button in flash to alert technology - will be sent through mailService
+					  * 
+					  */		 
+					 $rootScope.$on('flash.error', function handleErrorFlash( event, message) {
+					 		vd.close = true;
+					 		el.addClass('error').addClass('open');
+					 		vd.heading = message;
+					 		vd.actionButton = true;
+					 		vd.actionEvent = errors.getReason().status;
+					 		vd.actionText = 'Alert Us'; 
+					 });
+
+					 /**
+					  * Display the Flash in an Success Format
+					  */
+					 $rootScope.$on('flash.success', function handleSuccessFlash( event, message) {
+					 		el.addClass('success').addClass('open');
+					 		vd.heading = message;
+					 		$timeout(closeFlash, 3000);
+					 });
+
+					 /**
+					  * Display the Flash in an Warning Format ready for Close
+					  */
+					 $rootScope.$on('flash.warning', function handleWarningFlash( event, message) {
+					 		vd.close = true;
+					 		el.addClass('warning').addClass('open');
+					 		vd.heading = message;
+					 		$timeout(closeFlash, 3000);
+					 });
+
+					 /**
+					  * Display the Flash in an Info Format
+					  */
+					 $rootScope.$on('flash.info', function handleInfoFlash( event, message) {
+					 		el.addClass('info').addClass('open');
+					 		vd.heading = message;
+					 		$timeout(closeFlash, 3000);
+					 });
+
+					 /**
+					  * Close the Flash
+					  * @return {DOM} 
+					  */
+					 function closeFlash() {
+					 		el.removeClass('open');
+					 }
+
+                    /**
+                     * When Button is clicked send Allert Mail
+                     * 
+                     */
+					 function actionSubmit() {
+					    
+					     var AlertData = {
+					       name: 'Zack Davis',
+					       email: 'zackd@octopodainteractive',
+					       subject: 'The Alert Button was pressed',
+					       message: 'User saw a error message.   The status code is ' +  vd.actionEvent + '. ' +  errors.getReason().insertedObject,
+					       formType: 'alertMessage',
+					       alertMessage: vd.heading,
+					    }
+
+
+					     return mailService.sendAlert(AlertData)
+                            .then(function (data) {
+                      
+                                if (data.status === 200) {
+                                    closeFlash();
+                                    $timeout(function () {
+                                        flash.success('Thanks for alerting us.  Our team will look into the problem shortly.');
+                                    }, 300);
+                                    
+                                }
+                               
+                                vd.actionButton = false;
+                            });
+
+                            
+                            
+					 }
+        }
+    }
+
+    /* @ngInject */
+    function Controller () {
+
+    }
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.flash')
+        .factory('flash', flash);
+
+    flash.$inject = ['$log', '$rootScope'];
+
+    /* @ngInject */
+    function flash($log, $rootScope) {
+        
+        var service = {
+            error: error,
+            info: info,
+            success: success,
+            warning: warning,
+
+            log: $log.log
+        };
+        return service;
+
+        ////////////////
+
+
+        function error(message, data, title) {
+            $log.error('Error: ' + message, data);
+            $rootScope.$emit('flash.error', message);
+        }
+
+        function info(message, data, title) {
+        	$log.info('Info: ' + message, data);
+            $rootScope.$emit('flash.info', message);
+        }
+
+        function success(message, data, title) {
+        	$log.info('Success: ' + message, data);
+            $rootScope.$emit('flash.success', message);
+        }
+
+        function warning(message, data, title) {
+        	$log.warn('Warning: ' + message, data);
+            $rootScope.$emit('flash.warning', message);
+        }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.errors')
+        .factory('errors', errors);
+
+    errors.$inject = ['flash'];
+
+    /* @ngInject */
+    function errors(flash) {
+        var errorReason = null;
+
+        var service = {
+            catcher: catcher,
+            getReason: getReason
+        };
+        
+        return service;
+
+        ////////////////
+
+        /**
+         * Catch the Error and Display a Error Flash
+         * @param {string} Message to display
+         * @param {string} reason for Console.
+         */
+        function catcher(message) {
+           return function (reason) {
+                reason.insertedObject = (reason.insertedObject == null) ? 'none' : reason.insertedObject;
+                errorReason = reason;
+        		flash.error(message, reason);
+        	}
+        }
+
+        /**
+         * Get reason for mailing
+         * @return {string} 
+         */
+        function getReason() {
+            return errorReason;
+        }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.errors')
+        .provider('errorHandler', exceptionHandlerProvider)
+        .config(config);
+
+    
+    /**
+     * Must Configure the exception handling
+     */
+     function exceptionHandlerProvider() {
+        /* jshint validthis:true */
+        this.config = {
+            appErrorPrefix: undefined
+        };
+
+        this.configure = function (appErrorPrefix) {
+            this.config.appErrorPrefix = appErrorPrefix;
+        };
+
+        this.$get = function() {
+            return {config: this.config};
+        };
+    }
+
+    config.$inject = ['$provide'];
+
+	/**
+     * Configure by setting an optional string value for appErrorPrefix
+     * @param  {object} $provide 
+     * @ngInject
+     */
+    function config($provide) {
+        $provide.decorator('$exceptionHandler', extendExceptionHandler);
+    }
+
+
+    extendExceptionHandler.$inject = ['$delegate', 'errorHandler'];
+
+    /**
+     * Extend the $exceptionHandler servie to also display our Flash
+     * @param  {Object} $delegate        
+     * @param  {Object} exceptionHandler 
+     * @param  {Object} flash            
+     * @return {function} the decorated $exceptionHandler service
+     */
+     function extendExceptionHandler($delegate, errorHandler) {
+        return function(exception, cause) {
+            var appErrorPrefix = errorHandler.config.appErrorPrefix || '';
+            var errorData = {exception: exception, cause: cause};
+            exception.message = appErrorPrefix + exception.message;
+            $delegate(exception, cause);
+           // flash.error(exception.message, errorData);
+        };
+    }
+
+   
+})();
+/*
+|--------------------------------------------------------------------------
+| Menu Toggle Directive
+|--------------------------------------------------------------------------
+|
+| Adds the class to open any id that you specify in the menu-toggle attribute
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('global.sidemenu')
+        .directive('menuToggle', menuToggle);
+
+    menuToggle.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function menuToggle ($rootScope) {
+        // Usage:
+        // <div menu-toggle="{id of element you wish to toggle}"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	jq(element).on('click', function () {
+               toggleMenu(attrs.menuToggle);
+               jq(this).toggleClass('active');
+            });
+
+            $rootScope.$on('menu.close', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+
+            $rootScope.$on('menu.open', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+		}
+    }
+
+    /**
+     * Toggle Menu Element
+     * @param  {string}  attr   
+     * @param  {Boolean} isOpen 
+     * @return {Boolean}         
+     */
+    function toggleMenu(attr) {
+    	var target = jq('#'+attr);
+
+        if (target.hasClass('open')) {
+    		target.removeClass('open');
+            return false;
+        } else {
+    	   target.addClass('open');	
+           return true;
+    	}
+    };
+
+
+})();
+
+/*
+|--------------------------------------------------------------------------
+| Facebook Share Direcgive
+|--------------------------------------------------------------------------
+|
+| Builds facebook share button and URL to shre the article on twitter
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('global.share')
+        .directive('facebookShare', facebookShare);
+
+    facebookShare.$inject = ['$location'];
+
+    /* @ngInject */
+    function facebookShare ($location) {
+        // Usage:
+        // <div facebook-share></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+                title: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+            var url = $location.absUrl(),
+                fbLink = buildLink(url, scope.title);
+                
+            jq(element[0]).on('click', function (e) {
+                popup(fbLink, 700, 500);
+                //Send to Google Analytics
+                _ga('send', 'event', 'knowledge-center', 'share', 'facebook', 0);
+            });
+
+        }
+    }
+
+    /**
+     * Build Facebook Sharer Link
+     * @param  {string} url 
+     * @return {string}     
+     */
+    function buildLink(url, title) {
+        //TODO: add description 
+        // return 'http://www.facebook.com/dialog/feed?app_id=556572864519365&caption=' + title + '&display=popup&link=' + url;
+
+        var url = 'https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2F';
+        var uri = 'https%3A%2F%2Fdevelopers.facebook.com%2Ftools%2Fexplorer';
+
+        return 'https://www.facebook.com/dialog/share?' +
+                  'app_id=145634995501895' +
+                  '&display=popup' +
+                  '&href=' + url + 
+                  '&redirect_uri=' + uri;
+    }
+
+    
+    /**
+     * Make the Popup Window
+     * @param  {string} url    
+     * @param  {int} width  
+     * @param  {int} height 
+     * @return {window.open}        
+     */
+    function popup(url, width, height) {
+        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    }
+
+
+})();   
+
+
+(function() {
+    'use strict';
+
+    angular
+        .module('global.share')
+        .directive('linkedinShare', linkedinShare);
+
+    linkedinShare.$inject = ['$location'];
+    
+    /* @ngInject */
+    function linkedinShare ($location) {
+        // Usage:
+        // <div data-linked-share>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	title:  "@",
+            	summary: "@"
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+    		var el = jq(element[0]),
+    			url = $location.absUrl(),
+    			title = scope.title,
+    			summary = scope.summary,
+    			linkedInLink = buildLink(url, title, summary);
+
+    		el.on('click', function () {
+    			popup(linkedInLink, 700, 500);
+    		})
+
+        }
+    }
+
+
+     /**
+     * Build Pinterst Sharer Link
+     * @param  {string} url 
+     * @return {string}     
+     */
+    function buildLink(url, title, summary) {
+        //return 'http://pinterest.com/pin/create/button/?url='+ url +'&description='+ title +'&media=' +  media;
+        return 'http://www.linkedin.com/shareArticle?mini=true&url='+ url +'&title='+ title +'&summary='+ summary +'&source=http://mcndanielnutrition.com';
+    }
+
+
+    /**
+     * Trucate the String to Match
+     * @param  {string} url  
+     * @param  {string} via  
+     * @param  {string} html 
+     * @return {string}
+     */
+    function truncateHTML(url, via, html) {
+        var full = url.length + via.length + 4;
+        var text = html.substr(0, (140-full));
+        return text + '...'
+    }
+
+     /**
+     * Make the Popup Window
+     * @param  {string} url    
+     * @param  {int} width  
+     * @param  {int} height 
+     * @return {window.open}        
+     */
+    function popup(url, width, height) {
+        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    }
+
+    
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.share')
+        .directive('pinterestShare', pinterestShare);
+
+    pinterestShare.$inject = ['$location']
+
+    /* @ngInject */
+    function pinterestShare ($location) {
+        // Usage:
+        // <li pinterest-share><li>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	title: '@',
+            	media: '@'
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var el = jq(element[0]),
+        		url = $location.absUrl(),
+        		title = scope.title,
+        		media = scope.media,
+        		pinterstLink = buildLink(url, title, media)
+
+        		el.on('click', function () {
+        			popup(pinterstLink, 700, 500);
+        		});
+        }
+    }
+
+
+     /**
+     * Build Pinterst Sharer Link
+     * @param  {string} url 
+     * @return {string}     
+     */
+    function buildLink(url, title, media) {
+        return 'http://pinterest.com/pin/create/button/?url='+ url +'&description='+ title +'&media=' +  media;
+    }
+
+
+    /**
+     * Trucate the String to Match
+     * @param  {string} url  
+     * @param  {string} via  
+     * @param  {string} html 
+     * @return {string}
+     */
+    function truncateHTML(url, via, html) {
+        var full = url.length + via.length + 4;
+        var text = html.substr(0, (140-full));
+        return text + '...'
+    }
+
+     /**
+     * Make the Popup Window
+     * @param  {string} url    
+     * @param  {int} width  
+     * @param  {int} height 
+     * @return {window.open}        
+     */
+    function popup(url, width, height) {
+        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    }
+    
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.share')
+        .directive('twitterShare', twitterShare);
+
+    twitterShare.$inject = ['$location'];
+
+    /* @ngInject */
+    function twitterShare ($location) {
+        // Usage:
+        // <div twitter-share></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+                title: '@'
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+            var el = jq(element[0]),
+                title = scope.title,
+                tiny = jq('meta[name="tiny"]').attr('content'),
+                url = 'http://mcdanielnutrition.com/p/' + tiny,
+                via = '- @mcdanielrdn',
+                twitterLink = buildLink(url, via, title);
+
+            el.on('click', function () {
+                popup(twitterLink, 700, 500);
+            })
+        
+        }
+    }
+
+
+
+     /**
+     * Build Twitter Sharer Link
+     * @param  {string} url 
+     * @return {string}     
+     */
+    function buildLink(url, via, html) {
+        var text = truncateHTML(url, via, html);
+        return 'http://twitter.com/intent/tweet?url='+ url + '&text=' + text + via;
+    }
+
+
+    /**
+     * Trucate the String to Match
+     * @param  {string} url  
+     * @param  {string} via  
+     * @param  {string} html 
+     * @return {string}
+     */
+    function truncateHTML(url, via, html) {
+        var full = url.length + via.length + 4;
+        var text = html.substr(0, (140-full));
+        return text + '...'
+    }
+
+     /**
+     * Make the Popup Window
+     * @param  {string} url    
+     * @param  {int} width  
+     * @param  {int} height 
+     * @return {window.open}        
+     */
+    function popup(url, width, height) {
+        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    }
+
+    
 })();
 (function() {
     'use strict';
@@ -2524,1010 +3356,6 @@ var jq = $.noConflict();
 
     
 })();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqBlock', faqBlock);
-
-    /* @ngInject */
-    function faqBlock () {
-        // Usage:
-        // <div faq-block></div>
-        var directive = {
-            bindToController: true,
-            controller: FaqBlockController,
-            controllerAs: 'vd',
-            link: link,
-            restrict: 'A',
-            templateUrl: '/templates/faqs/faq-block.html',
-            scope: {
-                faqs: "="
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-            
-        }
-    }
-
-    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
-
-    /* @ngInject */
-    function FaqBlockController ($scope, $element, $attrs) {
-        var vd = $scope.vd;
-
-        vd.openAnswer = openAnswer;
-
-
-
-        //Open the Answers
-        function openAnswer($event) {
-            var self = jq($event.currentTarget),
-                answer = self.children('.faq__answer');
-
-            if (self.hasClass('open')) {
-                answer.slideUp(200);
-                self.toggleClass('open');
-            } else {
-                answer.slideDown(200);
-                self.toggleClass('open');
-            }
-        }
-    }
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqSearchInput', faqSearchInput);
-
-    faqSearchInput.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function faqSearchInput ($rootScope) {
-        // Usage:
-        // <input type="text" name="search" faq-search-input>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	/** @type {DOM} element  */
-        	var el = jq(element[0]);
-
-        	/**
-        	 * On Key up search
-        	 * @param  {event}
-        	 * @return {function} 
-        	 */
-        	el.on('keyup', function (e) {
-        		if (timer) clearTimeout(timer);
-        		var timer = setTimeout(broadcastSearch, 400);
-        	});
-
-
-        	/**
-        	 * Broadcast to the Root
-        	 * @param  {string} query 
-        	 * @return {null}       
-        	 */
-        	function broadcastSearch() {
-        		var query = el.val();
-        		$rootScope.$emit('faqSearch', query)
-        	}
-        }
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Directive for Phone Input
-|--------------------------------------------------------------------------
-|
-| Validates and creates slide downs for Phone Input
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.forms')
-        .directive('phoneInput', phoneInput);
-
-    /* @ngInject */
-    function phoneInput () {
-        // Usage:
-        // <input phone-input type="tel">
-        var directive = {
-            link: link,
-            restrict: 'A',
-            require: 'ngModel',
-            scope: {
-            	targetId: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs, ngModel) {
-        	var tar = jq('#' + scope.targetId);
-            
-
-        	/**
-             * On focus check for validation and then add best time to call. 
-             */
-            jq(element).on('focusout', function () {
-        		if (jq(this).val() != '') {
-        			tar.slideDown(500);
-        		} else {
-        			tar.slideUp(500);
-        		}
-        	});
-
-
-
-            /**
-             * Validate the Phone
-             * @param  {string} value 
-             * @return {boolean}       
-             * @note - not validating phone number.  going to trust the user will need it. 
-             */
-            // function phoneValidator(value) {
-            //     var reg = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
-            //     valid = reg.test(value)
-            //     if (!ngModel.$isEmpty(value) && valid) {
-            //         ngModel.$setValidity('phone', true);
-            //         return value;
-            //     } else {
-            //         ngModel.$setValidity('phone')
-            //     }
-            // }
-
-            
-
-        }
-    }
-
-    
-})();
-
-/*
-|--------------------------------------------------------------------------
-| Facebook Share Direcgive
-|--------------------------------------------------------------------------
-|
-| Builds facebook share button and URL to shre the article on twitter
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('global.share')
-        .directive('facebookShare', facebookShare);
-
-    facebookShare.$inject = ['$location'];
-
-    /* @ngInject */
-    function facebookShare ($location) {
-        // Usage:
-        // <div facebook-share></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-                title: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-            var url = $location.absUrl(),
-                fbLink = buildLink(url, scope.title);
-                
-            jq(element[0]).on('click', function (e) {
-                popup(fbLink, 700, 500);
-                //Send to Google Analytics
-                _ga('send', 'event', 'knowledge-center', 'share', 'facebook', 0);
-            });
-
-        }
-    }
-
-    /**
-     * Build Facebook Sharer Link
-     * @param  {string} url 
-     * @return {string}     
-     */
-    function buildLink(url, title) {
-        //TODO: add description 
-        // return 'http://www.facebook.com/dialog/feed?app_id=556572864519365&caption=' + title + '&display=popup&link=' + url;
-
-        var url = 'https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2F';
-        var uri = 'https%3A%2F%2Fdevelopers.facebook.com%2Ftools%2Fexplorer';
-
-        return 'https://www.facebook.com/dialog/share?' +
-                  'app_id=145634995501895' +
-                  '&display=popup' +
-                  '&href=' + url + 
-                  '&redirect_uri=' + uri;
-    }
-
-    
-    /**
-     * Make the Popup Window
-     * @param  {string} url    
-     * @param  {int} width  
-     * @param  {int} height 
-     * @return {window.open}        
-     */
-    function popup(url, width, height) {
-        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
-    }
-
-
-})();   
-
-
-(function() {
-    'use strict';
-
-    angular
-        .module('global.share')
-        .directive('linkedinShare', linkedinShare);
-
-    linkedinShare.$inject = ['$location'];
-    
-    /* @ngInject */
-    function linkedinShare ($location) {
-        // Usage:
-        // <div data-linked-share>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	title:  "@",
-            	summary: "@"
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-    		var el = jq(element[0]),
-    			url = $location.absUrl(),
-    			title = scope.title,
-    			summary = scope.summary,
-    			linkedInLink = buildLink(url, title, summary);
-
-    		el.on('click', function () {
-    			popup(linkedInLink, 700, 500);
-    		})
-
-        }
-    }
-
-
-     /**
-     * Build Pinterst Sharer Link
-     * @param  {string} url 
-     * @return {string}     
-     */
-    function buildLink(url, title, summary) {
-        //return 'http://pinterest.com/pin/create/button/?url='+ url +'&description='+ title +'&media=' +  media;
-        return 'http://www.linkedin.com/shareArticle?mini=true&url='+ url +'&title='+ title +'&summary='+ summary +'&source=http://mcndanielnutrition.com';
-    }
-
-
-    /**
-     * Trucate the String to Match
-     * @param  {string} url  
-     * @param  {string} via  
-     * @param  {string} html 
-     * @return {string}
-     */
-    function truncateHTML(url, via, html) {
-        var full = url.length + via.length + 4;
-        var text = html.substr(0, (140-full));
-        return text + '...'
-    }
-
-     /**
-     * Make the Popup Window
-     * @param  {string} url    
-     * @param  {int} width  
-     * @param  {int} height 
-     * @return {window.open}        
-     */
-    function popup(url, width, height) {
-        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
-    }
-
-    
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.share')
-        .directive('pinterestShare', pinterestShare);
-
-    pinterestShare.$inject = ['$location']
-
-    /* @ngInject */
-    function pinterestShare ($location) {
-        // Usage:
-        // <li pinterest-share><li>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	title: '@',
-            	media: '@'
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-        	var el = jq(element[0]),
-        		url = $location.absUrl(),
-        		title = scope.title,
-        		media = scope.media,
-        		pinterstLink = buildLink(url, title, media)
-
-        		el.on('click', function () {
-        			popup(pinterstLink, 700, 500);
-        		});
-        }
-    }
-
-
-     /**
-     * Build Pinterst Sharer Link
-     * @param  {string} url 
-     * @return {string}     
-     */
-    function buildLink(url, title, media) {
-        return 'http://pinterest.com/pin/create/button/?url='+ url +'&description='+ title +'&media=' +  media;
-    }
-
-
-    /**
-     * Trucate the String to Match
-     * @param  {string} url  
-     * @param  {string} via  
-     * @param  {string} html 
-     * @return {string}
-     */
-    function truncateHTML(url, via, html) {
-        var full = url.length + via.length + 4;
-        var text = html.substr(0, (140-full));
-        return text + '...'
-    }
-
-     /**
-     * Make the Popup Window
-     * @param  {string} url    
-     * @param  {int} width  
-     * @param  {int} height 
-     * @return {window.open}        
-     */
-    function popup(url, width, height) {
-        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
-    }
-    
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.share')
-        .directive('twitterShare', twitterShare);
-
-    twitterShare.$inject = ['$location'];
-
-    /* @ngInject */
-    function twitterShare ($location) {
-        // Usage:
-        // <div twitter-share></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-                title: '@'
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-            var el = jq(element[0]),
-                title = scope.title,
-                tiny = jq('meta[name="tiny"]').attr('content'),
-                url = 'http://mcdanielnutrition.com/p/' + tiny,
-                via = '- @mcdanielrdn',
-                twitterLink = buildLink(url, via, title);
-
-            el.on('click', function () {
-                popup(twitterLink, 700, 500);
-            })
-        
-        }
-    }
-
-
-
-     /**
-     * Build Twitter Sharer Link
-     * @param  {string} url 
-     * @return {string}     
-     */
-    function buildLink(url, via, html) {
-        var text = truncateHTML(url, via, html);
-        return 'http://twitter.com/intent/tweet?url='+ url + '&text=' + text + via;
-    }
-
-
-    /**
-     * Trucate the String to Match
-     * @param  {string} url  
-     * @param  {string} via  
-     * @param  {string} html 
-     * @return {string}
-     */
-    function truncateHTML(url, via, html) {
-        var full = url.length + via.length + 4;
-        var text = html.substr(0, (140-full));
-        return text + '...'
-    }
-
-     /**
-     * Make the Popup Window
-     * @param  {string} url    
-     * @param  {int} width  
-     * @param  {int} height 
-     * @return {window.open}        
-     */
-    function popup(url, width, height) {
-        window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
-    }
-
-    
-})();
-/*
-|--------------------------------------------------------------------------
-| Menu Toggle Directive
-|--------------------------------------------------------------------------
-|
-| Adds the class to open any id that you specify in the menu-toggle attribute
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('global.sidemenu')
-        .directive('menuToggle', menuToggle);
-
-    menuToggle.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function menuToggle ($rootScope) {
-        // Usage:
-        // <div menu-toggle="{id of element you wish to toggle}"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	jq(element).on('click', function () {
-               toggleMenu(attrs.menuToggle);
-               jq(this).toggleClass('active');
-            });
-
-            $rootScope.$on('menu.close', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-
-            $rootScope.$on('menu.open', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-		}
-    }
-
-    /**
-     * Toggle Menu Element
-     * @param  {string}  attr   
-     * @param  {Boolean} isOpen 
-     * @return {Boolean}         
-     */
-    function toggleMenu(attr) {
-    	var target = jq('#'+attr);
-
-        if (target.hasClass('open')) {
-    		target.removeClass('open');
-            return false;
-        } else {
-    	   target.addClass('open');	
-           return true;
-    	}
-    };
-
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.errors')
-        .factory('errors', errors);
-
-    errors.$inject = ['flash'];
-
-    /* @ngInject */
-    function errors(flash) {
-        var errorReason = null;
-
-        var service = {
-            catcher: catcher,
-            getReason: getReason
-        };
-        
-        return service;
-
-        ////////////////
-
-        /**
-         * Catch the Error and Display a Error Flash
-         * @param {string} Message to display
-         * @param {string} reason for Console.
-         */
-        function catcher(message) {
-           return function (reason) {
-                reason.insertedObject = (reason.insertedObject == null) ? 'none' : reason.insertedObject;
-                errorReason = reason;
-        		flash.error(message, reason);
-        	}
-        }
-
-        /**
-         * Get reason for mailing
-         * @return {string} 
-         */
-        function getReason() {
-            return errorReason;
-        }
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.errors')
-        .provider('errorHandler', exceptionHandlerProvider)
-        .config(config);
-
-    
-    /**
-     * Must Configure the exception handling
-     */
-     function exceptionHandlerProvider() {
-        /* jshint validthis:true */
-        this.config = {
-            appErrorPrefix: undefined
-        };
-
-        this.configure = function (appErrorPrefix) {
-            this.config.appErrorPrefix = appErrorPrefix;
-        };
-
-        this.$get = function() {
-            return {config: this.config};
-        };
-    }
-
-    config.$inject = ['$provide'];
-
-	/**
-     * Configure by setting an optional string value for appErrorPrefix
-     * @param  {object} $provide 
-     * @ngInject
-     */
-    function config($provide) {
-        $provide.decorator('$exceptionHandler', extendExceptionHandler);
-    }
-
-
-    extendExceptionHandler.$inject = ['$delegate', 'errorHandler'];
-
-    /**
-     * Extend the $exceptionHandler servie to also display our Flash
-     * @param  {Object} $delegate        
-     * @param  {Object} exceptionHandler 
-     * @param  {Object} flash            
-     * @return {function} the decorated $exceptionHandler service
-     */
-     function extendExceptionHandler($delegate, errorHandler) {
-        return function(exception, cause) {
-            var appErrorPrefix = errorHandler.config.appErrorPrefix || '';
-            var errorData = {exception: exception, cause: cause};
-            exception.message = appErrorPrefix + exception.message;
-            $delegate(exception, cause);
-           // flash.error(exception.message, errorData);
-        };
-    }
-
-   
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.flash')
-        .directive('mcdanielFlash', mcdanielFlash);
-
-    mcdanielFlash.$inject = ['$rootScope', '$timeout', 'mailService', 'flash', 'errors'];
-
-    /* @ngInject */
-    function mcdanielFlash ($rootScope, $timeout, mailService, flash, errors) {
-        // Usage:
-        // <div ab-flash></div>
-        var directive = {
-            bindToController: true,
-            controller: Controller,
-            controllerAs: 'vd',
-            link: link,
-            templateUrl: '/templates/global/flash.html',
-            restrict: 'A',
-            scope: {
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-					 var el = jq(element);
-					 var vd = scope.vd;
-					 	    vd.closeFlash = closeFlash;
-					 	    vd.close = false;
-					 	    vd.actionButton = false;
-					 	    vd.event = false;
-
-
-					 	    vd.actionSubmit = actionSubmit;
-                
-
-					 /**
-					  * Display the Flash in an Error Format with Close
-					  * @note add button in flash to alert technology - will be sent through mailService
-					  * 
-					  */		 
-					 $rootScope.$on('flash.error', function handleErrorFlash( event, message) {
-					 		vd.close = true;
-					 		el.addClass('error').addClass('open');
-					 		vd.heading = message;
-					 		vd.actionButton = true;
-					 		vd.actionEvent = errors.getReason().status;
-					 		vd.actionText = 'Alert Us'; 
-					 });
-
-					 /**
-					  * Display the Flash in an Success Format
-					  */
-					 $rootScope.$on('flash.success', function handleSuccessFlash( event, message) {
-					 		el.addClass('success').addClass('open');
-					 		vd.heading = message;
-					 		$timeout(closeFlash, 3000);
-					 });
-
-					 /**
-					  * Display the Flash in an Warning Format ready for Close
-					  */
-					 $rootScope.$on('flash.warning', function handleWarningFlash( event, message) {
-					 		vd.close = true;
-					 		el.addClass('warning').addClass('open');
-					 		vd.heading = message;
-					 		$timeout(closeFlash, 3000);
-					 });
-
-					 /**
-					  * Display the Flash in an Info Format
-					  */
-					 $rootScope.$on('flash.info', function handleInfoFlash( event, message) {
-					 		el.addClass('info').addClass('open');
-					 		vd.heading = message;
-					 		$timeout(closeFlash, 3000);
-					 });
-
-					 /**
-					  * Close the Flash
-					  * @return {DOM} 
-					  */
-					 function closeFlash() {
-					 		el.removeClass('open');
-					 }
-
-                    /**
-                     * When Button is clicked send Allert Mail
-                     * 
-                     */
-					 function actionSubmit() {
-					    
-					     var AlertData = {
-					       name: 'Zack Davis',
-					       email: 'zackd@octopodainteractive',
-					       subject: 'The Alert Button was pressed',
-					       message: 'User saw a error message.   The status code is ' +  vd.actionEvent + '. ' +  errors.getReason().insertedObject,
-					       formType: 'alertMessage',
-					       alertMessage: vd.heading,
-					    }
-
-
-					     return mailService.sendAlert(AlertData)
-                            .then(function (data) {
-                      
-                                if (data.status === 200) {
-                                    closeFlash();
-                                    $timeout(function () {
-                                        flash.success('Thanks for alerting us.  Our team will look into the problem shortly.');
-                                    }, 300);
-                                    
-                                }
-                               
-                                vd.actionButton = false;
-                            });
-
-                            
-                            
-					 }
-        }
-    }
-
-    /* @ngInject */
-    function Controller () {
-
-    }
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.flash')
-        .factory('flash', flash);
-
-    flash.$inject = ['$log', '$rootScope'];
-
-    /* @ngInject */
-    function flash($log, $rootScope) {
-        
-        var service = {
-            error: error,
-            info: info,
-            success: success,
-            warning: warning,
-
-            log: $log.log
-        };
-        return service;
-
-        ////////////////
-
-
-        function error(message, data, title) {
-            $log.error('Error: ' + message, data);
-            $rootScope.$emit('flash.error', message);
-        }
-
-        function info(message, data, title) {
-        	$log.info('Info: ' + message, data);
-            $rootScope.$emit('flash.info', message);
-        }
-
-        function success(message, data, title) {
-        	$log.info('Success: ' + message, data);
-            $rootScope.$emit('flash.success', message);
-        }
-
-        function warning(message, data, title) {
-        	$log.warn('Warning: ' + message, data);
-            $rootScope.$emit('flash.warning', message);
-        }
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.navigation')
-        .directive('blogNavigation', blogNavigation);
-
-    /* @ngInject */
-    function blogNavigation () {
-        // Usage:
-        //  <div blog-navigation></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	var el = element[0];
-        	
-        	var sticky = new Waypoint({
-      			element: el,
-      			handler: function () {
-              		jq('body').toggleClass('nav-fixed');
-      			},
-      			offset: -100
-      		});
-			        	
-
-        	var lastScrollPosition = 0;
-        	
-        	//Detect Scroll Position
-        	jq(window).scroll(function (e) {
-        		var scrollTop = jq(this).scrollTop();
-        		if (scrollTop > lastScrollPosition) {
-        			//Scrolling Down
-        			jq(element[0]).removeClass('visible');
-        		} else {
-        			//Scrolling Up
-        			jq(element[0]).addClass('visible');
-        		}
-
-        		lastScrollPosition = scrollTop;
-        	});
-        }
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Dropdown on click 
-|--------------------------------------------------------------------------
-|
-| Mostly made for mobile but reveals dropdonw on clikc.  
-| Desktop will show on hover;
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.navigation')
-        .directive('dropdown', dropdown);
-
-    /* @ngInject */
-    function dropdown () {
-        // Usage:
-        // <li data-dropdown></li>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	var trigger = jq(element[0]);
-        	var menu = trigger.children('.dropdown-menu');
-
-        	trigger.on('click', function (e) {
-        		
-
-        		if (trigger.hasClass('open')) {
-        			menu.slideUp(500);
-        			trigger.removeClass('open');
-        		} else {
-        			menu.slideDown(500);
-        			trigger.addClass('open');
-        		}
-        	});
-        }
-    }
-
-    
-})();
-/*
-|--------------------------------------------------------------------------
-| Go Home Directive
-|--------------------------------------------------------------------------
-|
-| When someone clicks this directive it takes you back home.
-| 
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.navigation')
-        .directive('goHome', goHome);
-
-    /* @ngInject */
-    function goHome () {
-        // Usage:
-        // <a go-home></a>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-        	var home = jq(element[0]);
-
-        	//Go Home
-        	home.on('click', function () {
-        		window.location = '/'
-        	})
-
-        }
-    }
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.navigation')
-        .directive('mainNavigation', mainNavigation);
-
-    mainNavigation.$inject = ['$document'];
-
-    /* @ngInject */
-    function mainNavigation ($document) {
-        // Usage:
-        // <div class="navigation" main-navigation></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-          var el = element[0],
-              menuButton = jq('.mobile-navigation-button');
-
-          
-          /**
-      		 * Fixed Navigation
-      		 * Waypoints http://imakewebthings.com/waypoints/ 
-      		 */
-      		var sticky = new Waypoint({
-      			element: el,
-      			handler: function () {
-              jq('body').toggleClass('nav-fixed');
-      			},
-      			offset: -100
-      		});
-
-      		menuButton.on('click', function (e) {
-            jq('.mobile-navigation-button').toggleClass('active');
-            jq('.navigation').toggleClass('open');
-            jq('body').toggleClass('nav-open');
-          });
-
-  			}
-    }
-
-
-   
-})();
 /// <reference path="navigationURIWatcherDirective.js" />
 /* 
 |-----------------------------------------------------------------
@@ -3819,6 +3647,188 @@ var jq = $.noConflict();
 		}
     }
 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.navigation')
+        .directive('blogNavigation', blogNavigation);
+
+    /* @ngInject */
+    function blogNavigation () {
+        // Usage:
+        //  <div blog-navigation></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var el = element[0];
+        	
+        	var sticky = new Waypoint({
+      			element: el,
+      			handler: function () {
+              		jq('body').toggleClass('nav-fixed');
+      			},
+      			offset: -100
+      		});
+			        	
+
+        	var lastScrollPosition = 0;
+        	
+        	//Detect Scroll Position
+        	jq(window).scroll(function (e) {
+        		var scrollTop = jq(this).scrollTop();
+        		if (scrollTop > lastScrollPosition) {
+        			//Scrolling Down
+        			jq(element[0]).removeClass('visible');
+        		} else {
+        			//Scrolling Up
+        			jq(element[0]).addClass('visible');
+        		}
+
+        		lastScrollPosition = scrollTop;
+        	});
+        }
+    }
+})();
+/*
+|--------------------------------------------------------------------------
+| Dropdown on click 
+|--------------------------------------------------------------------------
+|
+| Mostly made for mobile but reveals dropdonw on clikc.  
+| Desktop will show on hover;
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.navigation')
+        .directive('dropdown', dropdown);
+
+    /* @ngInject */
+    function dropdown () {
+        // Usage:
+        // <li data-dropdown></li>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var trigger = jq(element[0]);
+        	var menu = trigger.children('.dropdown-menu');
+
+        	trigger.on('click', function (e) {
+        		
+
+        		if (trigger.hasClass('open')) {
+        			menu.slideUp(500);
+        			trigger.removeClass('open');
+        		} else {
+        			menu.slideDown(500);
+        			trigger.addClass('open');
+        		}
+        	});
+        }
+    }
+
+    
+})();
+/*
+|--------------------------------------------------------------------------
+| Go Home Directive
+|--------------------------------------------------------------------------
+|
+| When someone clicks this directive it takes you back home.
+| 
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.navigation')
+        .directive('goHome', goHome);
+
+    /* @ngInject */
+    function goHome () {
+        // Usage:
+        // <a go-home></a>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var home = jq(element[0]);
+
+        	//Go Home
+        	home.on('click', function () {
+        		window.location = '/'
+        	})
+
+        }
+    }
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.navigation')
+        .directive('mainNavigation', mainNavigation);
+
+    mainNavigation.$inject = ['$document'];
+
+    /* @ngInject */
+    function mainNavigation ($document) {
+        // Usage:
+        // <div class="navigation" main-navigation></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+          var el = element[0],
+              menuButton = jq('.mobile-navigation-button');
+
+          
+          /**
+      		 * Fixed Navigation
+      		 * Waypoints http://imakewebthings.com/waypoints/ 
+      		 */
+      		var sticky = new Waypoint({
+      			element: el,
+      			handler: function () {
+              jq('body').toggleClass('nav-fixed');
+      			},
+      			offset: -100
+      		});
+
+      		menuButton.on('click', function (e) {
+            jq('.mobile-navigation-button').toggleClass('active');
+            jq('.navigation').toggleClass('open');
+            jq('body').toggleClass('nav-open');
+          });
+
+  			}
+    }
+
+
+   
 })();
 (function() {
     'use strict';

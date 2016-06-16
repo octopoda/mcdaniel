@@ -24,7 +24,7 @@ $header = [
 		<div class="row">
 			<div class="get-started__price tablet-up" >
 				<div data-fixed-asset data-wrapper="getStarted">
-					<h3>Individualized <br> Consultation</h3>
+					<h3 data-ng-cloak>{!  vm.name  !}</h3>
 					<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
 					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 				</div>
@@ -36,7 +36,7 @@ $header = [
 				<p>Purchase one of our packages for long-term results or get started with an initial consultation. Please contact us to discuss your individual needs. </p>
 
 				<div class="get-started__price phone-only">
-					<h3>Individualized Consultation</h3>
+					<h3 data-ng-cloak>{!  vm.name  !}</h3>
 					<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
 					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 				</div>
