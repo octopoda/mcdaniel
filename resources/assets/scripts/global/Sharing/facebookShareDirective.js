@@ -53,7 +53,7 @@
         // return 'http://www.facebook.com/dialog/feed?app_id=556572864519365&caption=' + title + '&display=popup&link=' + url;
         
         return 'https://www.facebook.com/dialog/share?' +
-                  'app_id=145634995501895' +
+                  'app_id=1557556577872786' +
                   '&display=popup' +
                   '&href=' + url + 
                   '&redirect_uri=' + url;
