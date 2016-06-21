@@ -69,23 +69,23 @@
   <![endif]-->
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
-    <script>
-      // window.fbAsyncInit = function() {
-      //   FB.init({
-      //     appId      : '556572864519365',
-      //     xfbml      : true,
-      //     version    : 'v2.5'
-      //   });
-      // };
+  <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1557556577872786',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
 
-      // (function(d, s, id){
-      //    var js, fjs = d.getElementsByTagName(s)[0];
-      //    if (d.getElementById(id)) {return;}
-      //    js = d.createElement(s); js.id = id;
-      //    js.src = "//connect.facebook.net/en_US/sdk.js";
-      //    fjs.parentNode.insertBefore(js, fjs);
-      //  }(document, 'script', 'facebook-jssdk'));
-    </script>
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
 
 </head>
 

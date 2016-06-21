@@ -51,15 +51,12 @@
     function buildLink(url, title) {
         //TODO: add description 
         // return 'http://www.facebook.com/dialog/feed?app_id=556572864519365&caption=' + title + '&display=popup&link=' + url;
-
-        var url = 'https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2F';
-        var uri = 'https%3A%2F%2Fdevelopers.facebook.com%2Ftools%2Fexplorer';
-
+        
         return 'https://www.facebook.com/dialog/share?' +
                   'app_id=145634995501895' +
                   '&display=popup' +
                   '&href=' + url + 
-                  '&redirect_uri=' + uri;
+                  '&redirect_uri=' + url;
     }
 
     
