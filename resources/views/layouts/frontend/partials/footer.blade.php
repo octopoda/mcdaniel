@@ -13,6 +13,13 @@
 			<address>
 				230 S. Bemiston Ave. Suite #430 Clayton, MO 63105
 			</address>
+
+			<div
+  class="fb-like"
+  data-share="true"
+  data-width="450"
+  data-show-faces="true">
+</div>
 		</div>
 		<div class="row">
 			<p>Ph: 314-413-1996</p>
