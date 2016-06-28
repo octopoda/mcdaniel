@@ -25,7 +25,6 @@ $header = [
 	<div class="get-started">
 		<div class="row">
 			<div class="get-started__index" data-ng-controller="ThanksController as vm">
-				{! vm.service !}
 				<div data-ng-if="vm.service != 'corporate'">
 					<div>
 						<h2>You’ve made a decision to improve the quality of your life through nutrition therapy.</h2>

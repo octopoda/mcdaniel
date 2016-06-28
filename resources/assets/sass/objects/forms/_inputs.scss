@@ -202,6 +202,7 @@ textarea {
 [type="checkbox"]:checked {
   position: absolute;
   left:-9999px;
+  visibility: hidden;
 }
 
 
@@ -216,6 +217,8 @@ textarea {
     height: 25px;
     line-height: 25px;
     user-select: none; 
+
+    
   }
 
   /* checkbox aspect */
@@ -331,6 +334,8 @@ textarea {
       z-index: 0;
     }
   }
+
+
   // Disabled style
   &:disabled:not(:checked) + label:before {
 		background-color: transparent;
@@ -433,14 +438,4 @@ input.ng-untouched {
 }
 
 
-.currency-input {
-	background:url('#{$icon}input-dollar-sign.jpg') center left no-repeat $white;
-	padding-left:rem-calc(25);
-	
-	
-	@include breakpoint('retina') {
-		background-image:url('#{$icon}input-dollar-sign@2x.jpg');
-		background-size:28px 27px;
-	}
-}
 

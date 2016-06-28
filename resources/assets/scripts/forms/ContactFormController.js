@@ -96,8 +96,6 @@
                 name: name
             };
 
-            console.dir(data);
-
             $rootScope.$emit('updatePrice', data);
         }
 
@@ -140,7 +138,7 @@
                     vm.success = true;
 
                     if (vm.getStarted) {
-                        // window.location = '/get-started/thanks'
+                        window.location = '/get-started/thanks'
                     }
                 }
             }

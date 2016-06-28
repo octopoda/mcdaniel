@@ -70,19 +70,19 @@
 			<p class=" form-group label">When is the best time to call</p>	
 			<ul class="contact-address__form__checkboxes form-group">
 				<li>
-					<input type="checkbox" class="" name="best_contact_time" id="best-contact-time_morning" ng-model="fc.formData.bestContactTime.morning" value="morning">
+					<input type="checkbox" class="" name="best_contact_time" id="best_contact_time_morning" ng-model="fc.formData.bestContactTime.morning" value="morning">
 					<label for="best_contact_time_morning">Morning</label>
 				</li>
 				<li>
-					<input type="checkbox" class="" name="best_contact_time" id="best-contact-time_daytime" ng-model="fc.formData.bestContactTime.daytime" value="daytime">
+					<input type="checkbox" class="" name="best_contact_time" id="best_contact_time_daytime" ng-model="fc.formData.bestContactTime.daytime" value="daytime">
 					<label for="best_contact_time_daytime">Daytime</label>
 				</li>
 				<li>
-					<input type="checkbox" class="" name="best_contact_time" id="best-contact-time_afternoon" ng-model="fc.formData.bestContactTime.afternoon" value="afternoon">
+					<input type="checkbox" checked class="" name="best_contact_time" id="best_contact_time_afternoon" ng-model="fc.formData.bestContactTime.afternoon" value="afternoon">
 					<label for="best_contact_time_afternoon">Afternoon</label>
 				</li>
 				<li>
-					<input type="checkbox" class="" name="best_contact_time" id="best-contact-time_night" ng-model="fc.formData.bestContactTime.night" value="night">
+					<input type="checkbox" class="" name="best_contact_time" id="best_contact_time_night" ng-model="fc.formData.bestContactTime.night" value="night">
 					<label for="best_contact_time_night">Night</label>
 				</li>
 			</ul>
