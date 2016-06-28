@@ -7,7 +7,7 @@
 			
 			<div class="row">
 				<h1>Join Us To Sustain <br>A Healthier Life</h1>
-				<p class="large">We arre  your nutrition experts committed to help you SUSTAIN the healthiest version of you or your company.  We specialize in weight loss, sports nutrition, maternal nutrition and corporate wellness. </p>
+				<p class="large">We are  your nutrition experts committed to help you SUSTAIN the healthiest version of you or your company.  We specialize in weight loss, sports nutrition, maternal nutrition and corporate wellness. </p>
 			</div>
 		</div>
 		
@@ -39,7 +39,7 @@
 					<div class="m-square-left"></div>
 					<section class="m-square-left__text">
 						<h2>Corporate<br> Wellness</h2>
-						<p>McDaniel Nutrition can help your employees sustain a healthier life through our programs services such as our: signature weight loss program “SUSTAIN,” interactive Lunch &amp; Learn seminars, Teach &amp; Taste cooking demonstrations, and virtual learning webinars. </p>
+						<p>McDaniel Nutrition can help your employees sustain a healthier life through our programs services such as our: signature weight loss program “SUSTAIN,” interactive Lunch &amp; Learn seminars, Teach &amp; Taste cooking demonstrations, and online learning webinars. </p>
 						<div class="button">
 							<a href="{{ route('corporate') }}">Get Your Team Healthy</a>
 						</div>

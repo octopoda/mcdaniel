@@ -4369,108 +4369,6 @@ var jq = $.noConflict();
 
     angular
         .module('global.modal')
-        .directive('alertModal', alertModal);
-
-    alertModal.$inject = ['$rootScope', 'modalService'];
-
-    /* @ngInject */
-    function alertModal ($rootScope, modalService) {
-        // Usage:
-        // <div alert-modal title="" message="" action=""></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	var promise;
-        	var params =  {
-        		title: attrs.title,
-        		message: attrs.message,
-        		action: attrs.action
-        	};
- 
-        	
-
-            // scope.alertModal = function () {
-                 
-            // }
-
-            angular.element(element).bind('click', function () {
-                promise = modalService.open('alert', params);
-
-                promise.then(function handleResolve(response) {
-                    
-                }, function handleReject(error) {
-                    
-                });                   
-            })
-
-        	/**
-        	 * Resolve or Reject the Promise;
-        	*/
-        	
-        }
-    
-    }
-
-    
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
-        .directive('abModal', abModal);
-
-    abModal.$inject = ['$rootScope', 'modalService']
-
-    /* @ngInject */
-    function abModal ($rootScope, modalService) {
-        // Usage:
-        // <div ab-modal>
-        var directive = {
-            link: link,
-            templateUrl: '/ngViews/global/modal.html'
-        };
-        
-        return directive;
-
-        
-        function link(scope, element, attrs) {
-        	scope.subview = null;
-
-
-            //click on background to reject
-            jq('.m-modal__background').on("click", function handleClickEvent( event ) {
-				cope.$apply( modalService.reject );
-			});
-
-            
-			
-			//Modal Open - Blur Background throw approriate modal
-			$rootScope.$on("modalService.open", function handleModalOpenEvent( event, modalType ) {
-				scope.subview = modalType;
-                scope.$apply( scope.subview );
-                jq('body').addClass('m-modal-open');
-			});
-
-			//Clost the modal
-			$rootScope.$on("modalService.close", function handleModalCloseEvent( event ) {
-				scope.subview = null;
-                jq('body').removeClass('m-modal-open');
-			});
-        }
-    }
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
         .controller('AlertModalController', AlertModalController);
 
     AlertModalController.$inject = ['$scope', 'modalService'];
@@ -4586,6 +4484,108 @@ var jq = $.noConflict();
 				};
 
     }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .directive('alertModal', alertModal);
+
+    alertModal.$inject = ['$rootScope', 'modalService'];
+
+    /* @ngInject */
+    function alertModal ($rootScope, modalService) {
+        // Usage:
+        // <div alert-modal title="" message="" action=""></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var promise;
+        	var params =  {
+        		title: attrs.title,
+        		message: attrs.message,
+        		action: attrs.action
+        	};
+ 
+        	
+
+            // scope.alertModal = function () {
+                 
+            // }
+
+            angular.element(element).bind('click', function () {
+                promise = modalService.open('alert', params);
+
+                promise.then(function handleResolve(response) {
+                    
+                }, function handleReject(error) {
+                    
+                });                   
+            })
+
+        	/**
+        	 * Resolve or Reject the Promise;
+        	*/
+        	
+        }
+    
+    }
+
+    
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .directive('abModal', abModal);
+
+    abModal.$inject = ['$rootScope', 'modalService']
+
+    /* @ngInject */
+    function abModal ($rootScope, modalService) {
+        // Usage:
+        // <div ab-modal>
+        var directive = {
+            link: link,
+            templateUrl: '/ngViews/global/modal.html'
+        };
+        
+        return directive;
+
+        
+        function link(scope, element, attrs) {
+        	scope.subview = null;
+
+
+            //click on background to reject
+            jq('.m-modal__background').on("click", function handleClickEvent( event ) {
+				cope.$apply( modalService.reject );
+			});
+
+            
+			
+			//Modal Open - Blur Background throw approriate modal
+			$rootScope.$on("modalService.open", function handleModalOpenEvent( event, modalType ) {
+				scope.subview = modalType;
+                scope.$apply( scope.subview );
+                jq('body').addClass('m-modal-open');
+			});
+
+			//Clost the modal
+			$rootScope.$on("modalService.close", function handleModalCloseEvent( event ) {
+				scope.subview = null;
+                jq('body').removeClass('m-modal-open');
+			});
+        }
+    }
+
 })();
 (function() {
     'use strict';
