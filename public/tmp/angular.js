@@ -34,17 +34,17 @@ var jq = $.noConflict();
     angular.module('mcdaniel.blog', []);
 })();
 (function() {
-   'use strict';
-
-    angular.module('mcdaniel.faq', []); 
-
- })();
-(function() {
     'use strict';
 
     angular .module('mcdaniel.forms', []); 
 
   })();
+(function() {
+   'use strict';
+
+    angular.module('mcdaniel.faq', []); 
+
+ })();
 (function() {
     'use strict';
 
@@ -1050,6 +1050,226 @@ var jq = $.noConflict();
 })();
 /*
 |--------------------------------------------------------------------------
+| Contact Form Controller
+|--------------------------------------------------------------------------
+|
+| This controller should be used for all contacts forms on the AssetBuilder 6.0 site
+| By adding more variables to the formData object it should allow anything
+| to be sent to the mailService
+| 
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.forms')
+        .controller('ContactFormController', ContactFormController);
+
+    ContactFormController.$inject = ['$scope', '$rootScope', 'mailService', 'flash', 'common', 'localStorageService'];
+
+    /* @ngInject */
+    function ContactFormController($scope, $rootScope, mailService, flash, common, localStorageService) {
+        var vm = this;
+        vm.title = 'ContactFormController';
+        
+        /** @type {Vars} Scope Vars */
+        vm.loading = false;
+        vm.success = false;
+        vm.service = 'all'
+
+        /** @type {Methods} Scope Methods */
+        vm.submitForm = submitForm;
+        vm.updatePrice = updatePrice;
+        vm.getStarted = false;
+
+        /** @type {String} Success Message */
+        vm.successMessage = "Thanks for Contacting Us. Your email is important to us and we will get back to you in 1 to 2 business days.";
+
+
+        /**
+         * Data for All contact Forms.  Just add to here if not in form already. 
+         * @type {Object}
+         */
+        vm.formData = {
+        	customerName: null,
+        	email: null, 
+        	phone: null,
+        	bestContactTime: null,
+        	subject: null,
+        	contactMessage: null,
+            formType: null,
+            question: null,
+            interestedService: null,
+            lastArticleRead: null
+        }
+
+        /**
+         * If Testing Fill out form
+         * @param  {boolean} common.isTesting 
+         */
+        if (common.isTesting) {
+            fillForm();
+        }
+
+        activate();
+
+        ////////////////
+
+        /*
+        |--------------------------------------------------------------------------
+        | Startup Methods
+        |--------------------------------------------------------------------------
+        |
+        */
+
+        /**
+         * Active Controller if needed
+         * @return {[type]} [description]
+         */
+        function activate() {
+            vm.formData.interestedService = localStorageService.get('interestedService');
+            vm.service = localStorageService.get('interestedService');
+
+            if (vm.formData.interestedService == null) vm.service = 'all';
+            if (vm.formData.interestedService == 'weight-loss') vm.formData.interestedService = 'sustain';
+            if (vm.formData.interestedService == null) vm.formData.interestedService = 'sustain';
+            
+        }
+
+        
+        function updatePrice() {
+            var price = jq("#interestedService").find(':selected').attr('data-item-price');
+            var name = jq("#interestedService").find(':selected').attr('data-item-name');
+            var data = {
+                price: price,
+                name: name
+            };
+
+            console.dir(data);
+
+            $rootScope.$emit('updatePrice', data);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Submit Methods
+        |--------------------------------------------------------------------------
+        |
+        */
+
+
+
+        /**
+         * Submit the Mail Form
+         * @param PortfolioNAme  name of last viewed portfolio.  Set null for most forms. 
+         * @return {[type]} [description]
+         */
+        function submitForm() {
+            
+            vm.loading = 'loading'
+
+            vm.formData.subject = setupEmailSubject();
+            vm.formData.interestedService = vm.formData.interestedService.replace("-", " ");
+            vm.formData.lastArticleRead = localStorageService.get('lastArticleRead');
+            
+            
+            
+            mailService.sendToMailer(vm.formData)
+                .then(function (data) {
+                    mailSent(data);
+                });
+
+            function mailSent(data) {
+                if (data.status == 200) {
+                    localStorageService.set('submittedService', localStorageService.get('interestedService'));
+
+                    console.dir(localStorageService.get('submittedService'));
+
+                    clearForm();
+                    vm.success = true;
+
+                    if (vm.getStarted) {
+                        // window.location = '/get-started/thanks'
+                    }
+                }
+            }
+        }
+
+
+        /**
+         * Change the subject out based on the formType
+         * @return {string} subject
+         */
+        function setupEmailSubject() {
+            switch (vm.formData.formType) {
+                case "get-started-page":
+                    return 'The Get Started Contact Page was submitted';
+                    break;
+                case "faqForm":
+                    return 'A Question has been submitted';
+                    break;
+                case "contactForm":
+                    return 'A customer has submitted a Contact Request';
+                    break;
+                default: 
+                    return 'A form was submitted on the site';
+                    break;
+            }
+        }
+    
+
+
+        /**
+         * Clear the Form for next submission
+         * @return {DOM} 
+         */
+        function clearForm() {
+            vm.loading = false
+
+            vm.formData =  {
+                customerName: null,
+                email: null, 
+                phone: null,
+                bestContactTime: null,
+                subject: null,
+                contactMessage: null,
+                formType: null,
+                question: null,
+
+            }
+        }
+
+       
+        /*
+        |--------------------------------------------------------------------------
+        | Testing Methods
+        |--------------------------------------------------------------------------
+        |
+        */
+
+        function fillForm() {
+           vm.formData = { 
+                customerName: 'Bob Dole',
+                email: 'bobd@2721west.com', 
+                phone: '972.535.4040',
+                bestContactTime: {
+                    'afternoon' : true,
+                    'morning' : true
+                },
+                subject: "Big Gulp Huh?",
+                contactMessage: 'alright\' ... we\'ll see you later',
+                formType: null,
+                question: 'Big Gulps Huh?',
+                interestedService: 'teach-and-taste'
+            }
+        }
+
+
+    }
+})();
+/*
+|--------------------------------------------------------------------------
 | FAQ controller.  
 |--------------------------------------------------------------------------
 |
@@ -1144,216 +1364,6 @@ var jq = $.noConflict();
 
     }
 })();
-/*
-|--------------------------------------------------------------------------
-| Contact Form Controller
-|--------------------------------------------------------------------------
-|
-| This controller should be used for all contacts forms on the AssetBuilder 6.0 site
-| By adding more variables to the formData object it should allow anything
-| to be sent to the mailService
-| 
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.forms')
-        .controller('ContactFormController', ContactFormController);
-
-    ContactFormController.$inject = ['$scope', '$rootScope', 'mailService', 'flash', 'common', 'localStorageService'];
-
-    /* @ngInject */
-    function ContactFormController($scope, $rootScope, mailService, flash, common, localStorageService) {
-        var vm = this;
-        vm.title = 'ContactFormController';
-        
-        /** @type {Vars} Scope Vars */
-        vm.loading = false;
-        vm.success = false;
-        vm.service = 'all'
-
-        /** @type {Methods} Scope Methods */
-        vm.submitForm = submitForm;
-        vm.updatePrice = updatePrice;
-        vm.getStarted = false;
-
-        /** @type {String} Success Message */
-        vm.successMessage = "Thanks for Contacting Us. Your email is important to us and we will get back to you in 1 to 2 business days.";
-
-
-        /**
-         * Data for All contact Forms.  Just add to here if not in form already. 
-         * @type {Object}
-         */
-        vm.formData = {
-        	customerName: null,
-        	email: null, 
-        	phone: null,
-        	bestContactTime: null,
-        	subject: null,
-        	contactMessage: null,
-            formType: null,
-            question: null,
-            interestedService: null,
-            lastArticleRead: null
-        }
-
-        /**
-         * If Testing Fill out form
-         * @param  {boolean} common.isTesting 
-         */
-        if (common.isTesting) {
-            fillForm();
-        }
-
-        activate();
-
-        ////////////////
-
-        /*
-        |--------------------------------------------------------------------------
-        | Startup Methods
-        |--------------------------------------------------------------------------
-        |
-        */
-
-        /**
-         * Active Controller if needed
-         * @return {[type]} [description]
-         */
-        function activate() {
-            vm.formData.interestedService = localStorageService.get('interestedService');
-            vm.service = localStorageService.get('interestedService');
-
-            if (vm.formData.interestedService == null) vm.service = 'all';
-            if (vm.formData.interestedService == 'weight-loss') vm.formData.interestedService = 'sustain';
-            if (vm.formData.interestedService == null) vm.formData.interestedService = 'sustain';
-            
-        }
-
-        
-        function updatePrice() {
-            var price = jq("#interestedService").find(':selected').attr('data-item-price');
-            $rootScope.$emit('updatePrice', price);
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Submit Methods
-        |--------------------------------------------------------------------------
-        |
-        */
-
-
-
-        /**
-         * Submit the Mail Form
-         * @param PortfolioNAme  name of last viewed portfolio.  Set null for most forms. 
-         * @return {[type]} [description]
-         */
-        function submitForm() {
-            
-            vm.loading = 'loading'
-
-            vm.formData.subject = setupEmailSubject();
-            vm.formData.interestedService = vm.formData.interestedService.replace("-", " ");
-            vm.formData.lastArticleRead = localStorageService.get('lastArticleRead');
-            
-            
-            
-            mailService.sendToMailer(vm.formData)
-                .then(function (data) {
-                    mailSent(data);
-                });
-
-            function mailSent(data) {
-                if (data.status == 200) {
-                    localStorageService.set('submittedService', localStorageService.get('interestedService'));
-
-                    clearForm();
-                    vm.success = true;
-
-                    if (vm.getStarted) {
-                        window.location = '/get-started/thanks'
-                    }
-                }
-            }
-        }
-
-
-        /**
-         * Change the subject out based on the formType
-         * @return {string} subject
-         */
-        function setupEmailSubject() {
-            switch (vm.formData.formType) {
-                case "get-started-page":
-                    return 'The Get Started Contact Page was submitted';
-                    break;
-                case "faqForm":
-                    return 'A Question has been submitted';
-                    break;
-                case "contactForm":
-                    return 'A customer has submitted a Contact Request';
-                    break;
-                default: 
-                    return 'A form was submitted on the site';
-                    break;
-            }
-        }
-    
-
-
-        /**
-         * Clear the Form for next submission
-         * @return {DOM} 
-         */
-        function clearForm() {
-            vm.loading = false
-
-            vm.formData =  {
-                customerName: null,
-                email: null, 
-                phone: null,
-                bestContactTime: null,
-                subject: null,
-                contactMessage: null,
-                formType: null,
-                question: null,
-
-            }
-        }
-
-       
-        /*
-        |--------------------------------------------------------------------------
-        | Testing Methods
-        |--------------------------------------------------------------------------
-        |
-        */
-
-        function fillForm() {
-           vm.formData = { 
-                customerName: 'Bob Dole',
-                email: 'bobd@2721west.com', 
-                phone: '972.535.4040',
-                bestContactTime: {
-                    'afternoon' : true,
-                    'morning' : true
-                },
-                subject: "Big Gulp Huh?",
-                contactMessage: 'alright\' ... we\'ll see you later',
-                formType: null,
-                question: 'Big Gulps Huh?',
-                interestedService: 'teach-and-taste'
-            }
-        }
-
-
-    }
-})();
 (function() {
     'use strict';
 
@@ -1399,7 +1409,7 @@ var jq = $.noConflict();
                     break;
                 case 'weight-loss-sustain' : 
                     vm.price = "$150.00";
-                    vm.name = "Individual Consultation";
+                    vm.name = "Weight Loss <br> Individual Consultation";
                     break;
                 case 'weight-loss-sustain-premium' : 
                     vm.price = "$450.00";
@@ -1410,11 +1420,11 @@ var jq = $.noConflict();
                     vm.name = "Sustain Weight Loss Online";
                     break;
                 case 'sports-nutrition' :
-                    vm.name = "Individual Consultation";
+                    vm.name = "Sports Nutrition <br> Individual Consultation";
                     vm.price = "$180.00";
                     break;
                 case 'maternal-nutrition' :
-                    vm.name = "Individual Consultation";
+                    vm.name = "Maternal Nutrition <br> Individual Consultation";
                     vm.price = "$150.00";
                     break;
                 case 'rmr-testing' :
@@ -1455,9 +1465,10 @@ var jq = $.noConflict();
 
         }
 
-        $rootScope.$on('updatePrice', function handlePrice(event, price) {
-            if (price !== "null") {
-                vm.price = "$" + price  + '.00';    
+        $rootScope.$on('updatePrice', function handlePrice(event, data) {
+            if (data !== "null") {
+                vm.price = "$" + data.price  + '.00';    
+                vm.name = data.name;
             }
             
         });
@@ -1483,7 +1494,7 @@ var jq = $.noConflict();
         ////////////////
 
         function activate() {
-        	 switch ('lunch-and-learn') {
+        	 switch (localStorageService.get('submittedService')) {
                 case 'lunch-and-learn' :
                     vm.service = 'corporate';
                     break;
@@ -1859,6 +1870,180 @@ var jq = $.noConflict();
         return query.length ? query.substr(0, query.length - 1) : query;
 	}
 
+})();
+/*
+|--------------------------------------------------------------------------
+| Directive for Phone Input
+|--------------------------------------------------------------------------
+|
+| Validates and creates slide downs for Phone Input
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.forms')
+        .directive('phoneInput', phoneInput);
+
+    /* @ngInject */
+    function phoneInput () {
+        // Usage:
+        // <input phone-input type="tel">
+        var directive = {
+            link: link,
+            restrict: 'A',
+            require: 'ngModel',
+            scope: {
+            	targetId: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs, ngModel) {
+        	var tar = jq('#' + scope.targetId);
+            
+
+        	/**
+             * On focus check for validation and then add best time to call. 
+             */
+            jq(element).on('focusout', function () {
+        		if (jq(this).val() != '') {
+        			tar.slideDown(500);
+        		} else {
+        			tar.slideUp(500);
+        		}
+        	});
+
+
+
+            /**
+             * Validate the Phone
+             * @param  {string} value 
+             * @return {boolean}       
+             * @note - not validating phone number.  going to trust the user will need it. 
+             */
+            // function phoneValidator(value) {
+            //     var reg = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
+            //     valid = reg.test(value)
+            //     if (!ngModel.$isEmpty(value) && valid) {
+            //         ngModel.$setValidity('phone', true);
+            //         return value;
+            //     } else {
+            //         ngModel.$setValidity('phone')
+            //     }
+            // }
+
+            
+
+        }
+    }
+
+    
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqBlock', faqBlock);
+
+    /* @ngInject */
+    function faqBlock () {
+        // Usage:
+        // <div faq-block></div>
+        var directive = {
+            bindToController: true,
+            controller: FaqBlockController,
+            controllerAs: 'vd',
+            link: link,
+            restrict: 'A',
+            templateUrl: '/templates/faqs/faq-block.html',
+            scope: {
+                faqs: "="
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+            
+        }
+    }
+
+    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
+
+    /* @ngInject */
+    function FaqBlockController ($scope, $element, $attrs) {
+        var vd = $scope.vd;
+
+        vd.openAnswer = openAnswer;
+
+
+
+        //Open the Answers
+        function openAnswer($event) {
+            var self = jq($event.currentTarget),
+                answer = self.children('.faq__answer');
+
+            if (self.hasClass('open')) {
+                answer.slideUp(200);
+                self.toggleClass('open');
+            } else {
+                answer.slideDown(200);
+                self.toggleClass('open');
+            }
+        }
+    }
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqSearchInput', faqSearchInput);
+
+    faqSearchInput.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function faqSearchInput ($rootScope) {
+        // Usage:
+        // <input type="text" name="search" faq-search-input>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	/** @type {DOM} element  */
+        	var el = jq(element[0]);
+
+        	/**
+        	 * On Key up search
+        	 * @param  {event}
+        	 * @return {function} 
+        	 */
+        	el.on('keyup', function (e) {
+        		if (timer) clearTimeout(timer);
+        		var timer = setTimeout(broadcastSearch, 400);
+        	});
+
+
+        	/**
+        	 * Broadcast to the Root
+        	 * @param  {string} query 
+        	 * @return {null}       
+        	 */
+        	function broadcastSearch() {
+        		var query = el.val();
+        		$rootScope.$emit('faqSearch', query)
+        	}
+        }
+    }
 })();
 (function() {
     'use strict';
@@ -2534,180 +2719,6 @@ var jq = $.noConflict();
 
     
 })();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqBlock', faqBlock);
-
-    /* @ngInject */
-    function faqBlock () {
-        // Usage:
-        // <div faq-block></div>
-        var directive = {
-            bindToController: true,
-            controller: FaqBlockController,
-            controllerAs: 'vd',
-            link: link,
-            restrict: 'A',
-            templateUrl: '/templates/faqs/faq-block.html',
-            scope: {
-                faqs: "="
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-            
-        }
-    }
-
-    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
-
-    /* @ngInject */
-    function FaqBlockController ($scope, $element, $attrs) {
-        var vd = $scope.vd;
-
-        vd.openAnswer = openAnswer;
-
-
-
-        //Open the Answers
-        function openAnswer($event) {
-            var self = jq($event.currentTarget),
-                answer = self.children('.faq__answer');
-
-            if (self.hasClass('open')) {
-                answer.slideUp(200);
-                self.toggleClass('open');
-            } else {
-                answer.slideDown(200);
-                self.toggleClass('open');
-            }
-        }
-    }
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqSearchInput', faqSearchInput);
-
-    faqSearchInput.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function faqSearchInput ($rootScope) {
-        // Usage:
-        // <input type="text" name="search" faq-search-input>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	/** @type {DOM} element  */
-        	var el = jq(element[0]);
-
-        	/**
-        	 * On Key up search
-        	 * @param  {event}
-        	 * @return {function} 
-        	 */
-        	el.on('keyup', function (e) {
-        		if (timer) clearTimeout(timer);
-        		var timer = setTimeout(broadcastSearch, 400);
-        	});
-
-
-        	/**
-        	 * Broadcast to the Root
-        	 * @param  {string} query 
-        	 * @return {null}       
-        	 */
-        	function broadcastSearch() {
-        		var query = el.val();
-        		$rootScope.$emit('faqSearch', query)
-        	}
-        }
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Directive for Phone Input
-|--------------------------------------------------------------------------
-|
-| Validates and creates slide downs for Phone Input
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.forms')
-        .directive('phoneInput', phoneInput);
-
-    /* @ngInject */
-    function phoneInput () {
-        // Usage:
-        // <input phone-input type="tel">
-        var directive = {
-            link: link,
-            restrict: 'A',
-            require: 'ngModel',
-            scope: {
-            	targetId: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs, ngModel) {
-        	var tar = jq('#' + scope.targetId);
-            
-
-        	/**
-             * On focus check for validation and then add best time to call. 
-             */
-            jq(element).on('focusout', function () {
-        		if (jq(this).val() != '') {
-        			tar.slideDown(500);
-        		} else {
-        			tar.slideUp(500);
-        		}
-        	});
-
-
-
-            /**
-             * Validate the Phone
-             * @param  {string} value 
-             * @return {boolean}       
-             * @note - not validating phone number.  going to trust the user will need it. 
-             */
-            // function phoneValidator(value) {
-            //     var reg = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
-            //     valid = reg.test(value)
-            //     if (!ngModel.$isEmpty(value) && valid) {
-            //         ngModel.$setValidity('phone', true);
-            //         return value;
-            //     } else {
-            //         ngModel.$setValidity('phone')
-            //     }
-            // }
-
-            
-
-        }
-    }
-
-    
-})();
 
 /*
 |--------------------------------------------------------------------------
@@ -2763,7 +2774,7 @@ var jq = $.noConflict();
         // return 'http://www.facebook.com/dialog/feed?app_id=556572864519365&caption=' + title + '&display=popup&link=' + url;
         
         return 'https://www.facebook.com/dialog/share?' +
-                  'app_id=145634995501895' +
+                  'app_id=1557556577872786' +
                   '&display=popup' +
                   '&href=' + url + 
                   '&redirect_uri=' + url;
@@ -3826,6 +3837,44 @@ var jq = $.noConflict();
 		}
     }
 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.pages')
+        .directive('removeServicesButton', removeServicesButton);
+
+   	removeServicesButton.$inject = ['localStorageService'];
+
+    /* @ngInject */	
+    function removeServicesButton (localStorageService) {
+        // Usage:
+        // <div class="button" data-remove-services-button"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+   			var el = jq(element[0]);
+            var clicked = false;
+
+
+  			     
+            el.on('click', function (e) {
+                e.preventDefault();
+                localStorageService.set('interestedService', null);
+                window.location = el.attr('href');
+            });
+        }
+    }
+
+  
+
+ 
 })();
 (function() {
     'use strict';

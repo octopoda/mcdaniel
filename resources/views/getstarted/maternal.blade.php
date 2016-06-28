@@ -25,7 +25,7 @@ $header = [
 		<div class="row">
 			<div class="get-started__price tablet-up" >
 				<div data-fixed-asset data-wrapper="getStarted">
-					<h3 data-ng-cloak>{!  vm.name  !}</h3>
+					<h3 data-ng-cloak data-ng-bind-html="vm.name"></h3>
 					<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
 					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 				</div>
@@ -37,7 +37,7 @@ $header = [
 				<p>With children of our own, our nutrition experts can give you evidence-based recommendations with real-life understanding.</p>
 
 				<div class="get-started__price phone-only">
-						<h3 data-ng-cloak>{!  vm.name  !}</h3>
+						<h3 data-ng-cloak data-ng-bind-html="vm.name"></h3>
 						<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
 						<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 				</div>

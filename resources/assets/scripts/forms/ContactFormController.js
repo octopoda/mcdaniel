@@ -90,7 +90,15 @@
         
         function updatePrice() {
             var price = jq("#interestedService").find(':selected').attr('data-item-price');
-            $rootScope.$emit('updatePrice', price);
+            var name = jq("#interestedService").find(':selected').attr('data-item-name');
+            var data = {
+                price: price,
+                name: name
+            };
+
+            console.dir(data);
+
+            $rootScope.$emit('updatePrice', data);
         }
 
         /*
@@ -126,11 +134,13 @@
                 if (data.status == 200) {
                     localStorageService.set('submittedService', localStorageService.get('interestedService'));
 
+                    console.dir(localStorageService.get('submittedService'));
+
                     clearForm();
                     vm.success = true;
 
                     if (vm.getStarted) {
-                        window.location = '/get-started/thanks'
+                        // window.location = '/get-started/thanks'
                     }
                 }
             }

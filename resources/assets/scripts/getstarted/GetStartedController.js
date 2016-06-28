@@ -43,7 +43,7 @@
                     break;
                 case 'weight-loss-sustain' : 
                     vm.price = "$150.00";
-                    vm.name = "Individual Consultation";
+                    vm.name = "Weight Loss <br> Individual Consultation";
                     break;
                 case 'weight-loss-sustain-premium' : 
                     vm.price = "$450.00";
@@ -54,11 +54,11 @@
                     vm.name = "Sustain Weight Loss Online";
                     break;
                 case 'sports-nutrition' :
-                    vm.name = "Individual Consultation";
+                    vm.name = "Sports Nutrition <br> Individual Consultation";
                     vm.price = "$180.00";
                     break;
                 case 'maternal-nutrition' :
-                    vm.name = "Individual Consultation";
+                    vm.name = "Maternal Nutrition <br> Individual Consultation";
                     vm.price = "$150.00";
                     break;
                 case 'rmr-testing' :
@@ -99,9 +99,10 @@
 
         }
 
-        $rootScope.$on('updatePrice', function handlePrice(event, price) {
-            if (price !== "null") {
-                vm.price = "$" + price  + '.00';    
+        $rootScope.$on('updatePrice', function handlePrice(event, data) {
+            if (data !== "null") {
+                vm.price = "$" + data.price  + '.00';    
+                vm.name = data.name;
             }
             
         });

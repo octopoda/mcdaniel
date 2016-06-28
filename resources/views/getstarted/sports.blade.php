@@ -23,7 +23,7 @@ $header = [
 	<div class="get-started">
 		<div class="row">
 			<div class="get-started__price tablet-up">
-				<h3 data-ng-cloak>{!  vm.name  !}</h3>
+				<h3 data-ng-cloak data-ng-bind-html="vm.name"></h3>
 				<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
 				<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 			</div>
@@ -33,7 +33,7 @@ $header = [
 				<p>The rise to your athletic performance goals and new levels of competition is easier with support. Our services are tailored to your period of training, body composition goals, and lifestyle habits. Nutrition consults can also address pre-, during-, and post-nutrition recommendations.</p>
 
 				<div class="get-started__price phone-only">
-					<h3 data-ng-cloak>{!  vm.name  !}</h3>
+					<h3 data-ng-cloak data-ng-bind-html="vm.name"></h3>
 					<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
 					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 				</div>

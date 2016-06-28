@@ -40,7 +40,7 @@
 
           <ul class="main-navigation__cta blog">
             <li class="navigation_search"><div data-search-input data-always-open="true"></div></li>
-            <li class="button get_started"> <a href="{{ route('get-started') }}">Get Started</a> </li> 
+            <li class="button get_started"> <a   data-remove-services-button  href="{{ route('get-started') }}">Get Started</a> </li> 
           </ul>
     </div>
   </div>
