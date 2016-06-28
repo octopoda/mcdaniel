@@ -134,7 +134,7 @@
 
                     console.dir(localStorageService.get('submittedService'));
 
-                    clearForm();
+                    //clearForm();
                     vm.success = true;
 
                     if (vm.getStarted) {

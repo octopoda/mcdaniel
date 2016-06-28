@@ -5,7 +5,7 @@ namespace App\Repositories\Criteria\Appearance;
 use Bosnadev\Repositories\Criteria\Criteria;
 use Bosnadev\Repositories\Contracts\RepositoryInterface as Repository;
 
-class published extends Criteria {
+class Published extends Criteria {
 
 	/**
 	 * @param $model

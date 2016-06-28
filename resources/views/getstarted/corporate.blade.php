@@ -31,7 +31,7 @@ $header = [
 			</div>
 
 			<div class="get-started__content">
-				<h2>Build Your Companies Health</h2>
+				<h2>Build Your Company's Health</h2>
 				<p>You know what a difference good health can make to your personal life. Now find out what a difference it can make to your company. </p>
 				<p>Our team can help you design, develop, and implement a corporate wellness program that empowers your workforce. By helping your employees realize personal change, you’ll be setting them up to be more effective professionals and happier through their days in the office. </p>
 

@@ -5,8 +5,9 @@
 			<div class="form-group" data-ng-switch-when="all">
 				<label for="service">Our Services:</label>
 				<select id="interestedService" name="interestedService" data-ng-model="fc.formData.interestedService" data-ng-change="fc.updatePrice()" >
-					<option value="sustain" selected="selected" data-item-price="150">Sustain Weight Loss</option>
-					<option value="sustain-premium" data-item-price="450">Sustain Weight Loss Premium</option>
+					<option value="weight-loss-sustain" selected="selected" data-item-price="150">Sustain Weight Loss</option>
+					<option value="weight-loss-sustain-premium" data-item-price="450">Sustain Weight Loss Premium</option>
+					<option value="weight-loss-sustain-online" data-item-price="400">Sustain Weight Loss Online</option>
 					<option value="sports" data-item-price="180">Sports Nutrition</option>
 					<option value="maternal" data-item-price="150">Maternal Nutrition</option>
 					<option value="rmr-testing" data-item-price="75">RMR Testing</option>
@@ -33,7 +34,7 @@
 				<label for="service">Online Service:</label>
 				<select id="interestedService" name="interestedService" data-ng-model="fc.formData.interestedService" data-ng-change="fc.updatePrice()">
 					<option value="sustain-corporate" data-item-price=null>In-Office</option>
-					<option value="sustain-virtual" data-item-price=null>Online</option>
+					<option value="sustain-online" data-item-price=null>Online</option>
 				</select>
 			</div>
 
