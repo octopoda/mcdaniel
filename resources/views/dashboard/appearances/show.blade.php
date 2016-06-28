@@ -14,22 +14,28 @@
         <div class="col s12 m8">
           <div class="card">
             <div class="card-image">
-              @if ($appearance->video_url) 
-			 	<div class="video-container">
-        			{!! $appearance->video_url !!}
-      			</div>
-      		  @else 
+            @if ($appearance->video_url) 
+  			 	     <div class="video-container" >
+          			{!! $appearance->video_url !!}
+        			</div>
+            @else 
       		  	<div class="dashboard__content--no-video-container"></div>
-			 @endif
+			     @endif
               <span class="card-title">{{ $appearance->title }}</span>
             </div>
             <div class="card-content">
               <p>{{ $appearance->date }}</p>
             </div>
             <div class="card-action">
-              <a href="{{ $appearance->link }}" target="_blank">View Appearanace</a>
+              <a href="{{ $appearance->link }}" target="_blank">View Appearance</a>
             </div>
           </div>
+
+          <div>
+              <h5>Thumbnail Image</h5>
+              <img src="{{ $appearance->thumbnail }}">
+          </div>
+        
         </div>
       </div>
 

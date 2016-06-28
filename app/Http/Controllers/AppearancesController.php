@@ -77,6 +77,13 @@ class AppearancesController extends Controller
     public function store(AppearanceRequest $request)
     {
         $appearance = $this->appearance->create($request->all());
+        
+        if ($request->hasfile('thumbnail')) {
+            $filePath = $this->appearance->saveImageForAppearance($request, 'thumbnail');
+            $appearance->thumbnail = $filePath;
+            $appearance->update();
+        }
+
         flash()->success('', 'The Appearance was created');
         return view('dashboard.appearances.show', compact('appearance'));
     }
@@ -118,6 +125,14 @@ class AppearancesController extends Controller
     {
         $appearance = $this->appearance->find($id);
         $appearance->update($request->all());
+
+         if ($request->hasfile('thumbnail')) {
+            $filePath = $this->appearance->saveImageForAppearance($request, 'thumbnail');
+            $appearance->thumbnail = $filePath;
+            $appearance->update();
+        }
+
+        
         flash()->success('', 'The appearance was updated');
         return view('dashboard.appearances.show', compact('appearance'));
     }

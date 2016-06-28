@@ -11,7 +11,7 @@
 	@include('errors.errors')
 
 	<section class="dashboard__form">
-		 {!! Form::open(['route'=>'dashboard.appearances.store', 'method'=>'POST']) !!}
+		 {!! Form::open(['route'=>'dashboard.appearances.store', 'method'=>'POST',  "enctype"=>"multipart/form-data"]) !!}
 		 	@include('dashboard.appearances._form', ['submitButtonText' => 'Create Appearance'])
 		  {!! Form::close() !!}
 	</section>

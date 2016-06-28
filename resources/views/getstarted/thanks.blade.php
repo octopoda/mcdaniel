@@ -33,7 +33,7 @@ $header = [
 					</div>
 					
 					<h4>Please download the following forms</h4>
-					
+					{! vm.service  !}
 					<ol>
 						<li><a href=https://s3-us-west-2.amazonaws.com/mcdaniel-staging/forms/WelcomeLetterClientContract2016.docx>Welcome Letter and Client Contract</a></li>
 						<li data-ng-if="vm.service == 'sports'"><a href="https://s3-us-west-2.amazonaws.com/mcdaniel-staging/forms/AthleteAsessmentForm16.doc">Athlete Assessment Form</a></li>

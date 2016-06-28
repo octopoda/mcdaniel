@@ -28,10 +28,10 @@ $header = [
 			<div class="row">
 				<ul class="appearances__list">
 				@foreach($appearances as $appearance)
-					<li>
+					<li @if (!empty($appearance->thumbnail)) style="background-image:url({{ $appearance->thumbnail }}) @endif">
 						<a href="{{ route('appearanceByTitle', ['title' => $appearance->direct_link ]) }}">
 							<span class="appearances__list--title" >{{ $appearance->title }}</span>
-							<span class="appearances__list--date">{{ date("F d, Y", strtotime($appearance->created_at)) }}</span>
+							<span class="appearances__list--date">{{ $appearance->appearance_date }}</span>
 						</a>
 					</li>
 				@endforeach

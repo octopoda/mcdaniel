@@ -846,6 +846,81 @@ var jq = $.noConflict();
         }
     }
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.api')
+        .factory('servicesService', servicesService);
+
+     servicesService.$inject = ['$http', 'common', 'errors'];
+
+    /* @ngInject */
+    function servicesService($http, common,  errors) {
+        var apiUrl = '/assets/data/services.json';
+        
+        var service = {
+            // getAllServices : getAllServices, 
+            getWeightServices : getWeightServices,
+        //     // getMaternalServices : getMaternalServices
+        };
+
+
+        return service;
+
+        ////////////////
+
+        function getServices() {
+            return $http.get(apiUrl)    
+                .then(servicesComplete)
+                .catch(function (message) {
+                    errors.catcher('Cannot Download Services right now.  Please contact us')(message);
+                });
+
+                function servicesComplete(data, status, headers, config) {
+                    return data;
+                }  
+        }
+
+        
+        function getAllServices () {
+           
+            // getServices.then(function (data) {
+            //     return data;
+            // } 
+        }
+
+
+        function getWeightServices() {
+            return getServices.then(function (data) {
+                return data.services.weight;
+            });
+           // getServices.then(function (data) {
+           //      return data.services.weight;
+           // });
+        }
+
+
+        // function getMaternalServices() {
+        //     getServices.then(function (data) {
+        //         return data.services.maternal;   
+        //     })
+        // }
+
+        
+        // function getSportsServices() {
+        //     getServices.then(function (data) {
+        //         return data.services.sports;
+        //     })
+        // }
+
+        // function getCoporateServices() {
+        //     getServices.then(function data () {
+        //         return data.services.corporate;
+        //     });
+        // }
+    }
+})();
 /*
 |--------------------------------------------------------------------------
 | Service to get Topics for Article Sidbar
@@ -1162,10 +1237,10 @@ var jq = $.noConflict();
         .module('mcdaniel.forms')
         .controller('ContactFormController', ContactFormController);
 
-    ContactFormController.$inject = ['$scope', '$rootScope', 'mailService', 'flash', 'common', 'localStorageService'];
+    ContactFormController.$inject = ['$scope', '$rootScope', 'mailService', 'flash', 'common', 'localStorageService', 'servicesService'];
 
     /* @ngInject */
-    function ContactFormController($scope, $rootScope, mailService, flash, common, localStorageService) {
+    function ContactFormController($scope, $rootScope, mailService, flash, common, localStorageService, servicesService) {
         var vm = this;
         vm.title = 'ContactFormController';
         
@@ -1228,9 +1303,8 @@ var jq = $.noConflict();
             vm.service = localStorageService.get('interestedService');
 
             if (vm.formData.interestedService == null) vm.service = 'all';
-            if (vm.formData.interestedService == 'weight-loss') vm.formData.interestedService = 'sustain';
-            if (vm.formData.interestedService == null) vm.formData.interestedService = 'sustain';
-            
+            if (vm.formData.interestedService == 'weight-loss') vm.formData.interestedService = 'weight-loss-sustain';
+            if (vm.formData.interestedService == null) vm.formData.interestedService = 'weight-loss-sustain';
         }
 
         
@@ -1278,8 +1352,6 @@ var jq = $.noConflict();
                 if (data.status == 200) {
                     localStorageService.set('submittedService', localStorageService.get('interestedService'));
 
-                    console.dir(localStorageService.get('submittedService'));
-
                     //clearForm();
                     vm.success = true;
 
@@ -1298,7 +1370,7 @@ var jq = $.noConflict();
         function setupEmailSubject() {
             switch (vm.formData.formType) {
                 case "get-started-page":
-                    return 'The Get Started Contact Page was submitted';
+                    return 'The Get Started Page was submitted';
                     break;
                 case "faqForm":
                     return 'A Question has been submitted';
@@ -1333,6 +1405,7 @@ var jq = $.noConflict();
 
             }
         }
+
 
        
         /*
@@ -1391,13 +1464,14 @@ var jq = $.noConflict();
         function activate() {
             clearServiceIfNeeded();
 
+            console.dir(vm.service);
             
             switch (vm.service) {
                 case 'lunch-and-learn' :
                     vm.price = '$300.00';
                     vm.name = "Lunch and Learn Session";
                     break;
-                case 'teach-and-taste' : 
+                case "teach-and-taste" : 
                     vm.price = '$400.00';
                     vm.name = "Teach and Taste Session";
                     break;
@@ -1443,7 +1517,7 @@ var jq = $.noConflict();
             } 
 
             if (path === 'corporate-wellness' ) {
-                if (vm.service != 'lunch-and-learn' && vm.service != 'taste-and-teach' && vm.service != 'webinars')  {
+                if (vm.service != 'lunch-and-learn' && vm.service != 'teach-and-taste' && vm.service != 'webinars')  {
                     vm.service = null
                 }
             } 
@@ -1492,7 +1566,9 @@ var jq = $.noConflict();
         ////////////////
 
         function activate() {
-        	 switch (localStorageService.get('submittedService')) {
+            console.dir(localStorageService.get('submittedService'));
+        	 
+             switch (localStorageService.get('submittedService')) {
                 case 'lunch-and-learn' :
                     vm.service = 'corporate';
                     break;
@@ -1509,6 +1585,9 @@ var jq = $.noConflict();
                     vm.service = "weight";
                     break;
                 case 'weight-loss-sustain-online' : 
+                    vm.service = "weight";
+                    break;
+                case 'weight-loss' :
                     vm.service = "weight";
                     break;
                 case 'sports-nutrition' :
@@ -1585,7 +1664,7 @@ var jq = $.noConflict();
     /* @ngInject */
     function common($location, $q, $rootScope, $timeout, flash) {
         var dev = false;
-        var testing = false;
+        var testing = true;
 
 
         var service = {
@@ -4490,6 +4569,86 @@ var jq = $.noConflict();
 
     angular
         .module('global.modal')
+        .service('modalService', modalService);
+
+    modalService.$inject = ['$rootScope', '$q'];
+
+    /* @ngInject */
+    function modalService($rootScope, $q) {
+        var modal = {
+					deferred: null,
+					params: null
+				};
+
+				this.open = open;
+				this.params = params;
+				this.proceedTo = proceedTo;
+				this.reject = reject;
+				this.resolve = resolve;
+
+        ////////////////
+
+        function open( type, params, pipeResponse ) {
+					var previousDeferred = modal.deferred;
+					
+					modal.deferred = $q.defer();
+					modal.params = params;
+
+					if ( previousDeferred && pipeResponse ) {
+						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
+					} else if ( previousDeferred ) {
+						previousDeferred.reject();
+					}
+
+					$rootScope.$emit( "modalService.open", type );
+					return modal.deferred.promise;
+				}
+
+
+				
+				function params() {
+					return ( modal.params || {} );
+				}
+
+
+				function proceedTo( type, params ) {
+					return open(type, params, true) ;
+				}
+
+
+				
+				function reject( reason ) {
+					if ( ! modal.deferred ) {return; }
+					modal.deferred.reject( reason );
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+
+				
+				function resolve( response ) {
+					if (!modal.deferred) {return; }
+					
+					modal.deferred.resolve(response);
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+    }
+})();
+
+
+
+
+
+
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
         .directive('alertModal', alertModal);
 
     alertModal.$inject = ['$rootScope', 'modalService'];
@@ -4587,86 +4746,6 @@ var jq = $.noConflict();
     }
 
 })();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
-        .service('modalService', modalService);
-
-    modalService.$inject = ['$rootScope', '$q'];
-
-    /* @ngInject */
-    function modalService($rootScope, $q) {
-        var modal = {
-					deferred: null,
-					params: null
-				};
-
-				this.open = open;
-				this.params = params;
-				this.proceedTo = proceedTo;
-				this.reject = reject;
-				this.resolve = resolve;
-
-        ////////////////
-
-        function open( type, params, pipeResponse ) {
-					var previousDeferred = modal.deferred;
-					
-					modal.deferred = $q.defer();
-					modal.params = params;
-
-					if ( previousDeferred && pipeResponse ) {
-						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
-					} else if ( previousDeferred ) {
-						previousDeferred.reject();
-					}
-
-					$rootScope.$emit( "modalService.open", type );
-					return modal.deferred.promise;
-				}
-
-
-				
-				function params() {
-					return ( modal.params || {} );
-				}
-
-
-				function proceedTo( type, params ) {
-					return open(type, params, true) ;
-				}
-
-
-				
-				function reject( reason ) {
-					if ( ! modal.deferred ) {return; }
-					modal.deferred.reject( reason );
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-
-				
-				function resolve( response ) {
-					if (!modal.deferred) {return; }
-					
-					modal.deferred.resolve(response);
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-    }
-})();
-
-
-
-
-
-
 /*
 |--------------------------------------------------------------------------
 | Loading Directive

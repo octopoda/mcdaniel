@@ -57,6 +57,22 @@
 		</div>
 	</div>
 
+
+	<h4>Images for Appearance </h4>
+	
+
+	<div class="row">
+		<div class="file-field input-field">
+	      	<div class="btn blue">
+	        	<span><i class="material-icons right">cloud</i> Upload Appearance Thumbnail Image (w: 265px X h: 205px) </span>
+	        	<input type="file" name="thumbnail" id="thumbnail">
+	      	</div>
+	      	<div class="file-path-wrapper">
+		        <input class="file-path validate" type="text" value="{{ (isset($appearamce->thumbnail)) ? $appearamce->thumbnail  : null }}">
+	    	</div>
+    	</div>
+	</div>
+
 	
 
 	<div class="row">

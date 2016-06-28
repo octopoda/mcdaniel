@@ -23,11 +23,28 @@ class AppearanceRequest extends Request {
 	 */
 	public function rules()
 	{
-		return [
-			'link' => 'required|min:3',
-			'title' => 'required|min:3',
-			'publication' => 'required'
-		];
+		  switch($this->method()) {
+			case 'GET':
+		        case 'DELETE': {
+		            return [];
+		        }
+		        case 'POST': {
+					return [
+						'link' => 'required|min:3',
+						'title' => 'required|min:3|unique:appearances',
+						'publication' => 'required'
+					];
+				}
+				case 'PUT' :
+				case 'PATCH' : {
+					return [
+						'link' => 'required|min:3',
+						'title' => 'required|min:3',
+						'publication' => 'required'
+					];
+				}
+				default:break;
+			}
 	}
 
 }

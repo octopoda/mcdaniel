@@ -4,7 +4,7 @@
 	@include('errors.errors')
 
 	<section class="dashboard__form">
-		 {!! Form::model($appearance, ['route'=>['dashboard.appearances.update', $appearance->id], 'method'=>'PATCH']) !!}
+		 {!! Form::model($appearance, ['route'=>['dashboard.appearances.update', $appearance->id], 'method'=>'PATCH',  "enctype"=>"multipart/form-data"]) !!}
 		 	@include('dashboard.appearances._form', ['submitButtonText' => 'Edit Appearance'])
 		  {!! Form::close() !!}
 	</section>

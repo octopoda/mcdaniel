@@ -15,7 +15,7 @@ class Appearance extends Model
      * Fillable Attributes
      * @var [type]
      */
-    protected $fillable = ['link', 'video_url', 'title', 'published', 'publication', 'user_id', 'appearance_date'];
+    protected $fillable = ['link', 'video_url', 'title', 'published', 'publication', 'user_id', 'appearance_date', 'thumbnail'];
 
 
     /**
@@ -54,7 +54,12 @@ class Appearance extends Model
      * @return [string]
      */
     public function getAppearanceDateAttribute($value) {
-        return date('F d Y, H:i', strtotime($value)); 
+        if ($value == null) {
+            return date('F d Y', strtotime($this->attributes['created_at']));
+        } else {
+            return date('F d Y', strtotime($value)); 
+        }
+        
     }
 
 

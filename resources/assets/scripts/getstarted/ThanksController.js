@@ -18,7 +18,9 @@
         ////////////////
 
         function activate() {
-        	 switch (localStorageService.get('submittedService')) {
+            console.dir(localStorageService.get('submittedService'));
+        	 
+             switch (localStorageService.get('submittedService')) {
                 case 'lunch-and-learn' :
                     vm.service = 'corporate';
                     break;
@@ -35,6 +37,9 @@
                     vm.service = "weight";
                     break;
                 case 'weight-loss-sustain-online' : 
+                    vm.service = "weight";
+                    break;
+                case 'weight-loss' :
                     vm.service = "weight";
                     break;
                 case 'sports-nutrition' :

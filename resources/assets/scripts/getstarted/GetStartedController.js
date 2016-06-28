@@ -27,13 +27,14 @@
         function activate() {
             clearServiceIfNeeded();
 
+            console.dir(vm.service);
             
             switch (vm.service) {
                 case 'lunch-and-learn' :
                     vm.price = '$300.00';
                     vm.name = "Lunch and Learn Session";
                     break;
-                case 'teach-and-taste' : 
+                case "teach-and-taste" : 
                     vm.price = '$400.00';
                     vm.name = "Teach and Taste Session";
                     break;
@@ -79,7 +80,7 @@
             } 
 
             if (path === 'corporate-wellness' ) {
-                if (vm.service != 'lunch-and-learn' && vm.service != 'taste-and-teach' && vm.service != 'webinars')  {
+                if (vm.service != 'lunch-and-learn' && vm.service != 'teach-and-taste' && vm.service != 'webinars')  {
                     vm.service = null
                 }
             } 

@@ -1,0 +1,84 @@
+{
+	"services" : {
+		"weight": [
+			{
+				"name" : "Individual Weight Loss Consultation",
+				"code" : "IWLC",
+				"price": 150,
+				"html" : "Weight Loss <br> Individual Consultation"
+			}, 
+			{
+				"name" : "Weight Loss Program",
+				"code" : "WLP",
+				"price": 450,
+				"html" : "Weight Loss<br> Program"
+			},
+			{
+				"name" : "Weight Loss Program Online",
+				"code" : "WLPO",
+				"price": 400,
+				"html" : "Weight Loss <br> Program Online"
+		 	}
+		],
+		"sports" : [
+			{
+				"name" : "Individual Sports Nutrition Consultation",
+				"code" : "ISNC",
+				"price": 180,
+				"html" : "Sports Nutrition <br> Individual Consultation"
+			}
+		],
+		"maternal" : [
+			{
+				"name" : "Individual Maternal Nutrition Consultation",
+				"code" : "IMNC",
+				"price": 150,
+				"html" : "Maternal Nutrition <br> Individual Consultation"
+			}
+		],
+		"rmr" : [
+			{
+				"name" : "Metabolic Rate Testing",
+				"code" : "RMR",
+				"price": 75,
+				"html" : "Metabolic Rate <br> Testing"
+			}
+		],
+		"sustain" : [
+			{
+				"name" : "Sustain Program",
+				"code" : "CSP",
+				"price": null,
+				"html" : "Sustain In Office Program"
+			},
+			{
+				"name" : "Sustain Online Program",
+				"code" : "CSOP",
+				"price": null,
+				"html" : "Sustain Online Program"
+			}
+		],
+		"corporate" : [
+			{
+				"name" : "Lunch & Learn",
+				"code" : "LNL",
+				"price": 300,
+				"html" : "Lunch &amp; Learn Session"
+			},
+			{
+				"name" : "Taste & Teach",
+				"code" : "TNT",
+				"price": 400,
+				"html" : "Taste &amp; Teach Session"
+			},
+			{
+				"name" : "Company Webinar",
+				"code" : "CW",
+				"price": 300,
+				"html" : "Company Nutrition Webinar"
+			}
+		]
+	}
+}
+
+

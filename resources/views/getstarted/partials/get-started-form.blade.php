@@ -1,4 +1,5 @@
 <div data-ng-controller="ContactFormController as fc">
+	{! fc.service !}
 	<form name="contactForm" class="top-errors m-contact-form" data-ng-submit="fc.submitForm()" data-ng-init="fc.formData.formType = 'get-started-page'; fc.getStarted = true">
 		<!-- Dynamic Form -->
 		<div data-ng-switch="fc.service">
@@ -23,9 +24,9 @@
 			<div class="form-group" data-ng-switch-when="weight-loss">
 				<label for="service">Weight Loss Services:</label>
 				<select id="interestedService" name="interestedService" data-ng-model="fc.formData.interestedService" data-ng-change="fc.updatePrice()">
-					<option value="sustain" selected="selected" data-item-price="150" data-item-name="Weight Loss <br> Individual Consultation">Sustain</option>
-					<option value="sustain-premium" data-item-price="450" data-item-name="Premium Sustain Weight Loss Consultation">Sustain Premium</option>
-					<option value="sustain-online" data-item-price="400" data-item-name="Sustain Weight Loss Online">Sustain Online</option>
+					<option value="weight-loss-sustain" selected="selected" data-item-price="150" data-item-name="Weight Loss <br> Individual Consultation">Sustain</option>
+					<option value="weight-loss-sustain-premium" data-item-price="450" data-item-name="Premium Sustain Weight Loss Consultation">Sustain Premium</option>
+					<option value="weight-loss-sustain-online" data-item-price="400" data-item-name="Sustain Weight Loss Online">Sustain Online</option>
 				</select>
 			</div>
 

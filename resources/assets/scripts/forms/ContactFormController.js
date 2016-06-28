@@ -16,10 +16,10 @@
         .module('mcdaniel.forms')
         .controller('ContactFormController', ContactFormController);
 
-    ContactFormController.$inject = ['$scope', '$rootScope', 'mailService', 'flash', 'common', 'localStorageService'];
+    ContactFormController.$inject = ['$scope', '$rootScope', 'mailService', 'flash', 'common', 'localStorageService', 'servicesService'];
 
     /* @ngInject */
-    function ContactFormController($scope, $rootScope, mailService, flash, common, localStorageService) {
+    function ContactFormController($scope, $rootScope, mailService, flash, common, localStorageService, servicesService) {
         var vm = this;
         vm.title = 'ContactFormController';
         
@@ -82,9 +82,8 @@
             vm.service = localStorageService.get('interestedService');
 
             if (vm.formData.interestedService == null) vm.service = 'all';
-            if (vm.formData.interestedService == 'weight-loss') vm.formData.interestedService = 'sustain';
-            if (vm.formData.interestedService == null) vm.formData.interestedService = 'sustain';
-            
+            if (vm.formData.interestedService == 'weight-loss') vm.formData.interestedService = 'weight-loss-sustain';
+            if (vm.formData.interestedService == null) vm.formData.interestedService = 'weight-loss-sustain';
         }
 
         
@@ -132,8 +131,6 @@
                 if (data.status == 200) {
                     localStorageService.set('submittedService', localStorageService.get('interestedService'));
 
-                    console.dir(localStorageService.get('submittedService'));
-
                     //clearForm();
                     vm.success = true;
 
@@ -152,7 +149,7 @@
         function setupEmailSubject() {
             switch (vm.formData.formType) {
                 case "get-started-page":
-                    return 'The Get Started Contact Page was submitted';
+                    return 'The Get Started Page was submitted';
                     break;
                 case "faqForm":
                     return 'A Question has been submitted';
@@ -187,6 +184,7 @@
 
             }
         }
+
 
        
         /*
