@@ -12,7 +12,7 @@
 					<option value="maternal" data-item-price="150">Maternal Nutrition</option>
 					<option value="rmr-testing" data-item-price="75">RMR Testing</option>
 					<option value="sustain-coporate" data-item-price="null">Sustain </option>
-					<option value="sustain-virtual" data-item-price="null">Sustain Virtual</option>
+					<option value="sustain-virtual" data-item-price="null">Sustain Online</option>
 					<option value="lunch-and-learn" data-item-price="300">Lunch &amp; Learn</option>
 					<option value="teach-and-taste" data-item-price="400">Taste &amp; Teach</option>
 					<option value="webinars">Webinars</option>
