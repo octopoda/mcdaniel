@@ -42,17 +42,17 @@
                     vm.price = '$300.00';
                     vm.name = "Company Webinar";
                     break;
-                case 'weight-loss-sustain' : 
+                case 'weight-loss-consult' : 
                     vm.price = "$150.00";
                     vm.name = "Weight Loss <br> Individual Consultation";
                     break;
-                case 'weight-loss-sustain-premium' : 
+                case 'weight-loss-premium' : 
                     vm.price = "$450.00";
-                    vm.name = "Premium Sustain Weight Loss Consultation";
+                    vm.name = "Weight Loss<br> Packages";
                     break;
                 case 'weight-loss-sustain-online' : 
                     vm.price = "$400.00";
-                    vm.name = "Sustain Weight Loss Online";
+                    vm.name = "Sustain <br>Weight Loss Online";
                     break;
                 case 'sports-nutrition' :
                     vm.name = "Sports Nutrition <br> Individual Consultation";
@@ -73,8 +73,8 @@
             
             //Multiples
             if (path === 'weight-loss' ) {
-                if (vm.service != 'weight-loss-sustain' && vm.service != 'weight-loss-sustain-premium' && vm.service != 'weight-loss-sustain-online')  {
-                    vm.service = "weight-loss-sustain";
+                if (vm.service != 'weight-loss-consult' && vm.service != 'weight-loss-premium' && vm.service != 'weight-loss-sustain-online')  {
+                    vm.service = "weight-loss-consult";
                 }
 
             } 

@@ -1,18 +1,19 @@
 <div data-ng-controller="ContactFormController as fc">
 	<form name="contactForm" class="top-errors m-contact-form" data-ng-submit="fc.submitForm()" data-ng-init="fc.formData.formType = 'get-started-page'; fc.getStarted = true">
+		{! vm.service !}
 		<!-- Dynamic Form -->
 		<div data-ng-switch="fc.service">
 			<div class="form-group" data-ng-switch-when="all">
 				<label for="service">Our Services:</label>
 				<select id="interestedService" name="interestedService" data-ng-model="fc.formData.interestedService" data-ng-change="fc.updatePrice()" >
-					<option value="weight-loss-sustain" selected="selected" data-item-price="150">Sustain Weight Loss</option>
-					<option value="weight-loss-sustain-premium" data-item-price="450">Sustain Weight Loss Premium</option>
+					<option value="weight-loss-consult" selected="selected" data-item-price="150">Weight Loss Consultation</option>
+					<option value="weight-loss-premium" data-item-price="450">Weight Loss Packages</option>
 					<option value="weight-loss-sustain-online" data-item-price="400">Sustain Weight Loss Online</option>
 					<option value="sports" data-item-price="180">Sports Nutrition</option>
 					<option value="maternal" data-item-price="150">Maternal Nutrition</option>
 					<option value="rmr-testing" data-item-price="75">RMR Testing</option>
-					<option value="sustain-coporate" data-item-price="null">Sustain </option>
-					<option value="sustain-virtual" data-item-price="null">Sustain Online</option>
+					<option value="sustain-coporate" data-item-price="null">Corporate Sustain </option>
+					<option value="sustain-virtual" data-item-price="null">Corporate Sustain Online</option>
 					<option value="lunch-and-learn" data-item-price="300">Lunch &amp; Learn</option>
 					<option value="teach-and-taste" data-item-price="400">Taste &amp; Teach</option>
 					<option value="webinars">Webinars</option>
@@ -23,9 +24,9 @@
 			<div class="form-group" data-ng-switch-when="weight-loss">
 				<label for="service">Weight Loss Services:</label>
 				<select id="interestedService" name="interestedService" data-ng-model="fc.formData.interestedService" data-ng-change="fc.updatePrice()">
-					<option value="weight-loss-sustain" selected="selected" data-item-price="150" data-item-name="Weight Loss <br> Individual Consultation">Sustain</option>
-					<option value="weight-loss-sustain-premium" data-item-price="450" data-item-name="Premium Sustain Weight Loss Consultation">Sustain Premium</option>
-					<option value="weight-loss-sustain-online" data-item-price="400" data-item-name="Sustain Weight Loss Online">Sustain Online</option>
+					<option value="weight-loss-consult" selected="selected" data-item-price="150" data-item-name="Weight Loss <br> Individual Consultation">Weight Loss Consultation</option>
+					<option value="weight-loss-premium" data-item-price="450" data-item-name="Premium Sustain Weight Loss Consultation">Weight Loss Packages</option>
+					<option value="weight-loss-sustain-online" data-item-price="400" data-item-name="Sustain Weight Loss Online">Sustain Weight Loss Online</option>
 				</select>
 			</div>
 

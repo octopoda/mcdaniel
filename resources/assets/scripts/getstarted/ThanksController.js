@@ -30,10 +30,10 @@
                 case 'webinars' : 
                     vm.service = 'corporate';
                     break;
-                case 'weight-loss-sustain' : 
+                case 'weight-loss-consult' : 
                     vm.service = "weight";
                     break;
-                case 'weight-loss-sustain-premium' : 
+                case 'weight-loss-premium' : 
                     vm.service = "weight";
                     break;
                 case 'weight-loss-sustain-online' : 

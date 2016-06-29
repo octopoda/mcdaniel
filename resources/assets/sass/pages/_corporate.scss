@@ -84,6 +84,8 @@
 	background-position:center right;
 
 
+
+
 	@include breakpoint('tablet') {
 		background-image: url('#{$page}corporate/lunch-and-learn-med.jpg');
 
@@ -100,6 +102,13 @@
 .corporate-lunch__text {
 	@extend %green-gradient;
   	position: relative;
+
+  	.topic-title {
+		color:black;
+		font-size:rem-calc(18);
+		font-weight:bolder;
+		display: block;
+	}
 
 	@include angle(before);
 	padding-bottom:rem-calc(40);
@@ -136,6 +145,13 @@
 	@extend %green-gradient;
   	position: relative;
   	padding-bottom:rem-calc(40);
+
+  	.topic-title {
+		color:black;
+		font-size:rem-calc(18);
+		font-weight:bolder;
+		display: block;
+	}
 
 	@include angle(before, true);
 }

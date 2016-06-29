@@ -91,9 +91,15 @@ $header = [
 				</section>
 				<section>
 					<h3>Popular Topics</h3>
-					<p><strong>Mindful Eating:</strong> Understand how the environment influences your food choices. Empower yourself with mindful eating strategies. And understand how to achieve health goals without stress.</p>
-					<p><strong>Making the Most of Your Metabolism: </strong>Are there strategies you can control to rev up or slow down your metabolism? Learn the facts and become an expert on your own human furnace.</p>
-					<p><strong>Eating Real Food on the Fly: Our lives are busy.</strong> Learn simple, easy ways to incorporate whole, natural foods into everyday meals that everyone will love.</p>
+					<p>
+						<span class="topic-title">Mindful Eating:</span>
+						Understand how the environment influences your food choices. Empower yourself with mindful eating strategies. And understand how to achieve health goals without stress.</p>
+					<p>
+						<span class="topic-title">Making the Most of Your Metabolism:</span>
+						Are there strategies you can control to rev up or slow down your metabolism? Learn the facts and become an expert on your own human furnace.</p>
+					<p>
+						<span class="topic-title">Eating Real Food on the Fly: Our lives are busy.</span>
+						Learn simple, easy ways to incorporate whole, natural foods into everyday meals that everyone will love.</p>
 				</section>
 			</div>
 			<div class="row  text-center">
@@ -122,8 +128,12 @@ $header = [
 				</section>
 				<section>
 					<h3>Popular Topics</h3>
-					<p><strong>Secret Strategies of a Smart Snacker:</strong> Do your snack habits support or sabotage your health? In this Teach &amp; Taste, learn how to plan &amp; prepare fresh and nutritious snacks while understanding how to snack smartly to support your health goals. </p>
-					<p><strong>Time Saving Strategies for Meal Planning:</strong> The main barrier to meal planning is TIME! In this Teach &amp; Taste, you will learn time-saving strategies for putting healthy meals on the table – PLUS fresh menu and recipe ideas that the whole family will devour! </p>
+					<p>
+						<span class="topic-title">Secret Strategies of a Smart Snacker:</span>
+						Do your snack habits support or sabotage your health? In this Teach &amp; Taste, learn how to plan &amp; prepare fresh and nutritious snacks while understanding how to snack smartly to support your health goals. </p>
+					<p>
+						<span class="topic-title">Time Saving Strategies for Meal Planning:</span> 
+						The main barrier to meal planning is TIME! In this Teach &amp; Taste, you will learn time-saving strategies for putting healthy meals on the table – PLUS fresh menu and recipe ideas that the whole family will devour! </p>
 				</section>
 			</div>
 			<div class="row  text-center">

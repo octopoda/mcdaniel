@@ -53,12 +53,12 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular.module('mcdaniel.navigation', []);
+    angular.module('mcdaniel.pages', []);
 })();
 (function() {
     'use strict';
 
-    angular.module('mcdaniel.pages', []);
+    angular.module('mcdaniel.navigation', []);
 })();
 /**
  * All Shared Modules inserted here. 
@@ -1303,8 +1303,8 @@ var jq = $.noConflict();
             vm.service = localStorageService.get('interestedService');
 
             if (vm.formData.interestedService == null) vm.service = 'all';
-            if (vm.formData.interestedService == 'weight-loss') vm.formData.interestedService = 'weight-loss-sustain';
-            if (vm.formData.interestedService == null) vm.formData.interestedService = 'weight-loss-sustain';
+            if (vm.formData.interestedService == 'weight-loss') vm.formData.interestedService = 'weight-loss-consult';
+            if (vm.formData.interestedService == null) vm.formData.interestedService = 'weight-loss-consult';
         }
 
         
@@ -1479,17 +1479,17 @@ var jq = $.noConflict();
                     vm.price = '$300.00';
                     vm.name = "Company Webinar";
                     break;
-                case 'weight-loss-sustain' : 
+                case 'weight-loss-consult' : 
                     vm.price = "$150.00";
                     vm.name = "Weight Loss <br> Individual Consultation";
                     break;
-                case 'weight-loss-sustain-premium' : 
+                case 'weight-loss-premium' : 
                     vm.price = "$450.00";
-                    vm.name = "Premium Sustain Weight Loss Consultation";
+                    vm.name = "Weight Loss<br> Packages";
                     break;
                 case 'weight-loss-sustain-online' : 
                     vm.price = "$400.00";
-                    vm.name = "Sustain Weight Loss Online";
+                    vm.name = "Sustain <br>Weight Loss Online";
                     break;
                 case 'sports-nutrition' :
                     vm.name = "Sports Nutrition <br> Individual Consultation";
@@ -1510,8 +1510,8 @@ var jq = $.noConflict();
             
             //Multiples
             if (path === 'weight-loss' ) {
-                if (vm.service != 'weight-loss-sustain' && vm.service != 'weight-loss-sustain-premium' && vm.service != 'weight-loss-sustain-online')  {
-                    vm.service = "weight-loss-sustain";
+                if (vm.service != 'weight-loss-consult' && vm.service != 'weight-loss-premium' && vm.service != 'weight-loss-sustain-online')  {
+                    vm.service = "weight-loss-consult";
                 }
 
             } 
@@ -1578,10 +1578,10 @@ var jq = $.noConflict();
                 case 'webinars' : 
                     vm.service = 'corporate';
                     break;
-                case 'weight-loss-sustain' : 
+                case 'weight-loss-consult' : 
                     vm.service = "weight";
                     break;
-                case 'weight-loss-sustain-premium' : 
+                case 'weight-loss-premium' : 
                     vm.service = "weight";
                     break;
                 case 'weight-loss-sustain-online' : 
@@ -1947,180 +1947,6 @@ var jq = $.noConflict();
         return query.length ? query.substr(0, query.length - 1) : query;
 	}
 
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqBlock', faqBlock);
-
-    /* @ngInject */
-    function faqBlock () {
-        // Usage:
-        // <div faq-block></div>
-        var directive = {
-            bindToController: true,
-            controller: FaqBlockController,
-            controllerAs: 'vd',
-            link: link,
-            restrict: 'A',
-            templateUrl: '/templates/faqs/faq-block.html',
-            scope: {
-                faqs: "="
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-            
-        }
-    }
-
-    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
-
-    /* @ngInject */
-    function FaqBlockController ($scope, $element, $attrs) {
-        var vd = $scope.vd;
-
-        vd.openAnswer = openAnswer;
-
-
-
-        //Open the Answers
-        function openAnswer($event) {
-            var self = jq($event.currentTarget),
-                answer = self.children('.faq__answer');
-
-            if (self.hasClass('open')) {
-                answer.slideUp(200);
-                self.toggleClass('open');
-            } else {
-                answer.slideDown(200);
-                self.toggleClass('open');
-            }
-        }
-    }
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqSearchInput', faqSearchInput);
-
-    faqSearchInput.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function faqSearchInput ($rootScope) {
-        // Usage:
-        // <input type="text" name="search" faq-search-input>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	/** @type {DOM} element  */
-        	var el = jq(element[0]);
-
-        	/**
-        	 * On Key up search
-        	 * @param  {event}
-        	 * @return {function} 
-        	 */
-        	el.on('keyup', function (e) {
-        		if (timer) clearTimeout(timer);
-        		var timer = setTimeout(broadcastSearch, 400);
-        	});
-
-
-        	/**
-        	 * Broadcast to the Root
-        	 * @param  {string} query 
-        	 * @return {null}       
-        	 */
-        	function broadcastSearch() {
-        		var query = el.val();
-        		$rootScope.$emit('faqSearch', query)
-        	}
-        }
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Directive for Phone Input
-|--------------------------------------------------------------------------
-|
-| Validates and creates slide downs for Phone Input
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.forms')
-        .directive('phoneInput', phoneInput);
-
-    /* @ngInject */
-    function phoneInput () {
-        // Usage:
-        // <input phone-input type="tel">
-        var directive = {
-            link: link,
-            restrict: 'A',
-            require: 'ngModel',
-            scope: {
-            	targetId: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs, ngModel) {
-        	var tar = jq('#' + scope.targetId);
-            
-
-        	/**
-             * On focus check for validation and then add best time to call. 
-             */
-            jq(element).on('focusout', function () {
-        		if (jq(this).val() != '') {
-        			tar.slideDown(500);
-        		} else {
-        			tar.slideUp(500);
-        		}
-        	});
-
-
-
-            /**
-             * Validate the Phone
-             * @param  {string} value 
-             * @return {boolean}       
-             * @note - not validating phone number.  going to trust the user will need it. 
-             */
-            // function phoneValidator(value) {
-            //     var reg = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
-            //     valid = reg.test(value)
-            //     if (!ngModel.$isEmpty(value) && valid) {
-            //         ngModel.$setValidity('phone', true);
-            //         return value;
-            //     } else {
-            //         ngModel.$setValidity('phone')
-            //     }
-            // }
-
-            
-
-        }
-    }
-
-    
 })();
 (function() {
     'use strict';
@@ -2796,6 +2622,180 @@ var jq = $.noConflict();
 
     
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqBlock', faqBlock);
+
+    /* @ngInject */
+    function faqBlock () {
+        // Usage:
+        // <div faq-block></div>
+        var directive = {
+            bindToController: true,
+            controller: FaqBlockController,
+            controllerAs: 'vd',
+            link: link,
+            restrict: 'A',
+            templateUrl: '/templates/faqs/faq-block.html',
+            scope: {
+                faqs: "="
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+            
+        }
+    }
+
+    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
+
+    /* @ngInject */
+    function FaqBlockController ($scope, $element, $attrs) {
+        var vd = $scope.vd;
+
+        vd.openAnswer = openAnswer;
+
+
+
+        //Open the Answers
+        function openAnswer($event) {
+            var self = jq($event.currentTarget),
+                answer = self.children('.faq__answer');
+
+            if (self.hasClass('open')) {
+                answer.slideUp(200);
+                self.toggleClass('open');
+            } else {
+                answer.slideDown(200);
+                self.toggleClass('open');
+            }
+        }
+    }
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqSearchInput', faqSearchInput);
+
+    faqSearchInput.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function faqSearchInput ($rootScope) {
+        // Usage:
+        // <input type="text" name="search" faq-search-input>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	/** @type {DOM} element  */
+        	var el = jq(element[0]);
+
+        	/**
+        	 * On Key up search
+        	 * @param  {event}
+        	 * @return {function} 
+        	 */
+        	el.on('keyup', function (e) {
+        		if (timer) clearTimeout(timer);
+        		var timer = setTimeout(broadcastSearch, 400);
+        	});
+
+
+        	/**
+        	 * Broadcast to the Root
+        	 * @param  {string} query 
+        	 * @return {null}       
+        	 */
+        	function broadcastSearch() {
+        		var query = el.val();
+        		$rootScope.$emit('faqSearch', query)
+        	}
+        }
+    }
+})();
+/*
+|--------------------------------------------------------------------------
+| Directive for Phone Input
+|--------------------------------------------------------------------------
+|
+| Validates and creates slide downs for Phone Input
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.forms')
+        .directive('phoneInput', phoneInput);
+
+    /* @ngInject */
+    function phoneInput () {
+        // Usage:
+        // <input phone-input type="tel">
+        var directive = {
+            link: link,
+            restrict: 'A',
+            require: 'ngModel',
+            scope: {
+            	targetId: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs, ngModel) {
+        	var tar = jq('#' + scope.targetId);
+            
+
+        	/**
+             * On focus check for validation and then add best time to call. 
+             */
+            jq(element).on('focusout', function () {
+        		if (jq(this).val() != '') {
+        			tar.slideDown(500);
+        		} else {
+        			tar.slideUp(500);
+        		}
+        	});
+
+
+
+            /**
+             * Validate the Phone
+             * @param  {string} value 
+             * @return {boolean}       
+             * @note - not validating phone number.  going to trust the user will need it. 
+             */
+            // function phoneValidator(value) {
+            //     var reg = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
+            //     valid = reg.test(value)
+            //     if (!ngModel.$isEmpty(value) && valid) {
+            //         ngModel.$setValidity('phone', true);
+            //         return value;
+            //     } else {
+            //         ngModel.$setValidity('phone')
+            //     }
+            // }
+
+            
+
+        }
+    }
+
+    
+})();
 
 /*
 |--------------------------------------------------------------------------
@@ -3445,6 +3445,127 @@ var jq = $.noConflict();
     'use strict';
 
     angular
+        .module('mcdaniel.pages')
+        .directive('removeServicesButton', removeServicesButton);
+
+   	removeServicesButton.$inject = ['localStorageService'];
+
+    /* @ngInject */	
+    function removeServicesButton (localStorageService) {
+        // Usage:
+        // <div class="button" data-remove-services-button"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+   			var el = jq(element[0]);
+            var clicked = false;
+
+
+  			     
+            el.on('click', function (e) {
+                e.preventDefault();
+                localStorageService.set('interestedService', null);
+                window.location = el.attr('href');
+            });
+        }
+    }
+
+  
+
+ 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.pages')
+        .directive('servicesButton', servicesButton);
+
+   	servicesButton.$inject = ['localStorageService'];
+
+    /* @ngInject */	
+    function servicesButton (localStorageService) {
+        // Usage:
+        // <div class="button" data-services-button data-service="weight-loss"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	service: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+   			    var el = jq(element[0]);
+            var clicked = false;
+  			     
+            el.on('click', function (e) {
+                e.preventDefault();
+                localStorageService.set('interestedService', scope.service);
+                window.location = el.attr('href');
+            });
+        }
+    }
+
+  
+
+ 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.pages')
+        .directive('tabbedServices', tabbedServices);
+
+    /* @ngInject */
+    function tabbedServices () {
+        // Usage:
+        //
+        // Creates:
+        //
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	target: "@"
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var el = jq(element);
+        	var target = jq('#' + scope.target);
+            var indicator = jq('.tab-indicator');
+
+
+        	el.on('click', function (e) {
+        		e.preventDefault();
+				target.addClass('open').siblings('.m-tabbed-info').removeClass('open');
+        		el.addClass('active').siblings('.active').removeClass('active');
+
+                jq.each(indicator, function () {
+                    if (jq(this).hasClass(scope.target)) {
+                        jq(this).addClass('active').siblings('.active').removeClass('active')
+                    }
+                });
+        	});
+        }
+    }
+
+    
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('mcdaniel.navigation')
         .directive('blogNavigation', blogNavigation);
 
@@ -3914,127 +4035,6 @@ var jq = $.noConflict();
 		}
     }
 
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.pages')
-        .directive('removeServicesButton', removeServicesButton);
-
-   	removeServicesButton.$inject = ['localStorageService'];
-
-    /* @ngInject */	
-    function removeServicesButton (localStorageService) {
-        // Usage:
-        // <div class="button" data-remove-services-button"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-   			var el = jq(element[0]);
-            var clicked = false;
-
-
-  			     
-            el.on('click', function (e) {
-                e.preventDefault();
-                localStorageService.set('interestedService', null);
-                window.location = el.attr('href');
-            });
-        }
-    }
-
-  
-
- 
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.pages')
-        .directive('servicesButton', servicesButton);
-
-   	servicesButton.$inject = ['localStorageService'];
-
-    /* @ngInject */	
-    function servicesButton (localStorageService) {
-        // Usage:
-        // <div class="button" data-services-button data-service="weight-loss"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	service: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-   			    var el = jq(element[0]);
-            var clicked = false;
-  			     
-            el.on('click', function (e) {
-                e.preventDefault();
-                localStorageService.set('interestedService', scope.service);
-                window.location = el.attr('href');
-            });
-        }
-    }
-
-  
-
- 
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.pages')
-        .directive('tabbedServices', tabbedServices);
-
-    /* @ngInject */
-    function tabbedServices () {
-        // Usage:
-        //
-        // Creates:
-        //
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	target: "@"
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-        	var el = jq(element);
-        	var target = jq('#' + scope.target);
-            var indicator = jq('.tab-indicator');
-
-
-        	el.on('click', function (e) {
-        		e.preventDefault();
-				target.addClass('open').siblings('.m-tabbed-info').removeClass('open');
-        		el.addClass('active').siblings('.active').removeClass('active');
-
-                jq.each(indicator, function () {
-                    if (jq(this).hasClass(scope.target)) {
-                        jq(this).addClass('active').siblings('.active').removeClass('active')
-                    }
-                });
-        	});
-        }
-    }
-
-    
 })();
 (function() {
     'use strict';
@@ -4569,6 +4569,86 @@ var jq = $.noConflict();
 
     angular
         .module('global.modal')
+        .service('modalService', modalService);
+
+    modalService.$inject = ['$rootScope', '$q'];
+
+    /* @ngInject */
+    function modalService($rootScope, $q) {
+        var modal = {
+					deferred: null,
+					params: null
+				};
+
+				this.open = open;
+				this.params = params;
+				this.proceedTo = proceedTo;
+				this.reject = reject;
+				this.resolve = resolve;
+
+        ////////////////
+
+        function open( type, params, pipeResponse ) {
+					var previousDeferred = modal.deferred;
+					
+					modal.deferred = $q.defer();
+					modal.params = params;
+
+					if ( previousDeferred && pipeResponse ) {
+						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
+					} else if ( previousDeferred ) {
+						previousDeferred.reject();
+					}
+
+					$rootScope.$emit( "modalService.open", type );
+					return modal.deferred.promise;
+				}
+
+
+				
+				function params() {
+					return ( modal.params || {} );
+				}
+
+
+				function proceedTo( type, params ) {
+					return open(type, params, true) ;
+				}
+
+
+				
+				function reject( reason ) {
+					if ( ! modal.deferred ) {return; }
+					modal.deferred.reject( reason );
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+
+				
+				function resolve( response ) {
+					if (!modal.deferred) {return; }
+					
+					modal.deferred.resolve(response);
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+    }
+})();
+
+
+
+
+
+
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
         .directive('alertModal', alertModal);
 
     alertModal.$inject = ['$rootScope', 'modalService'];
@@ -4666,86 +4746,6 @@ var jq = $.noConflict();
     }
 
 })();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
-        .service('modalService', modalService);
-
-    modalService.$inject = ['$rootScope', '$q'];
-
-    /* @ngInject */
-    function modalService($rootScope, $q) {
-        var modal = {
-					deferred: null,
-					params: null
-				};
-
-				this.open = open;
-				this.params = params;
-				this.proceedTo = proceedTo;
-				this.reject = reject;
-				this.resolve = resolve;
-
-        ////////////////
-
-        function open( type, params, pipeResponse ) {
-					var previousDeferred = modal.deferred;
-					
-					modal.deferred = $q.defer();
-					modal.params = params;
-
-					if ( previousDeferred && pipeResponse ) {
-						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
-					} else if ( previousDeferred ) {
-						previousDeferred.reject();
-					}
-
-					$rootScope.$emit( "modalService.open", type );
-					return modal.deferred.promise;
-				}
-
-
-				
-				function params() {
-					return ( modal.params || {} );
-				}
-
-
-				function proceedTo( type, params ) {
-					return open(type, params, true) ;
-				}
-
-
-				
-				function reject( reason ) {
-					if ( ! modal.deferred ) {return; }
-					modal.deferred.reject( reason );
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-
-				
-				function resolve( response ) {
-					if (!modal.deferred) {return; }
-					
-					modal.deferred.resolve(response);
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-    }
-})();
-
-
-
-
-
-
 /*
 |--------------------------------------------------------------------------
 | Loading Directive

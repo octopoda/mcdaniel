@@ -82,8 +82,8 @@
             vm.service = localStorageService.get('interestedService');
 
             if (vm.formData.interestedService == null) vm.service = 'all';
-            if (vm.formData.interestedService == 'weight-loss') vm.formData.interestedService = 'weight-loss-sustain';
-            if (vm.formData.interestedService == null) vm.formData.interestedService = 'weight-loss-sustain';
+            if (vm.formData.interestedService == 'weight-loss') vm.formData.interestedService = 'weight-loss-consult';
+            if (vm.formData.interestedService == null) vm.formData.interestedService = 'weight-loss-consult';
         }
 
         
