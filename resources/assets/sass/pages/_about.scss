@@ -164,3 +164,24 @@
 		padding-top:rem-calc(50);
 	}
 }
+
+.about__awards {
+	ul  {
+		@include clearMP;
+
+		li {
+			list-style-type: none;
+			
+			img {
+				width:100%;
+			}
+		}
+
+	}
+
+	@include breakpoint('tablet') {
+		ul li {
+			@include span(2 of 12);
+		}
+	}
+}

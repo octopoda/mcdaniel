@@ -41,9 +41,9 @@ $header = [
 				<h5>Owner</h5>
 			</section>
 			<ul class="about__jen-bio--header-social">
-				<li><a href=""><i class="fa fa-instagram"></i></a></li>
-				<li><a href=""><i class="fa fa-facebook"></i></a></li>
-				<li><a href=""><i class="fa fa-twitter"></i></a></li>
+				<li><a target="_blank" href="https://www.instagram.com/mcdanielrdn/"><i class="fa fa-instagram"></i></a></li>
+				<li><a target="_blank" href="https://www.facebook.com/mcdanielnutrition/"><i class="fa fa-facebook"></i></a></li>
+				<li><a target="_blank" href="https://twitter.com/mcdanielrdn"><i class="fa fa-twitter"></i></a></li>
 			</ul>
 		</div>
 
@@ -57,6 +57,13 @@ $header = [
 				<p>My promise to each client I work with is to provide them with evidence-based, credible, up-to-date nutrition advice with a personalized and genuine approach.  My rigorous training to become a Registered Dietitian, earning a B.S. in Nutrition & Dietetics, and M.S. in Nutrition and Physical Performance all have been priceless in giving me the solid foundation I need to face the abundance of misinformation in nutrition my clients are faced with daily.</p>
 				<p>I would love to break you free from the roadblocks that are holding you back from achieving your goals.  Contact me to schedule an appointment. </p>
 			</section>
+		</div>
+
+		<div class="row about__awards">
+			<h4>Awards</h4>
+			<ul>
+				<li><img src="https://s3-us-west-2.amazonaws.com/mcdaniel-staging/images/pages/about/slm0714.jpg" alt="A-List Award"></li>
+			</ul>
 		</div>
 	</div>
 
