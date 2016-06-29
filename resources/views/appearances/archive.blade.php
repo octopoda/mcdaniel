@@ -29,7 +29,7 @@ $header = [
 				<ul class="appearances__list">
 				@foreach($appearances as $appearance)
 					<li @if (!empty($appearance->thumbnail)) style="background-image:url({{ $appearance->thumbnail }}) @endif">
-						<a href="{{ route('appearanceByTitle', ['title' => $appearance->direct_link ]) }}">
+						<a  @if (empty($appearance->video_url)) href="{{ $appearance->link }}" target="_blank" @else href="{{ route('appearanceByTitle', ['title' => $appearance->direct_link ]) }}" @endif>
 							<span class="appearances__list--title" >{{ $appearance->title }}</span>
 							<span class="appearances__list--date">{{ $appearance->appearance_date }}</span>
 						</a>

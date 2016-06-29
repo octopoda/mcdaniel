@@ -68,7 +68,7 @@ $header = [
 				<ul class="appearances__videos">
 				@foreach($appearances as $appearance)
 					<li class="appearances__videos-thumb" @if (!empty($appearance->thumbnail)) style="background-image:url({{ $appearance->thumbnail }}) @endif">
-						<a href="{{ route('appearanceByTitle', ['title' => $appearance->direct_link ]) }}">
+						<a  @if (empty($appearance->video_url)) href="{{ $appearance->link }}" target="_blank" @else href="{{ route('appearanceByTitle', ['title' => $appearance->direct_link ]) }}" @endif>
 							<span class="posterImage" >{{ $appearance->title }}</span>
 						</a>
 					</li>
