@@ -181,7 +181,13 @@
 
 	@include breakpoint('tablet') {
 		ul li {
-			@include span(2 of 12);
+			@include span(3 of 12);
+
+			&:first-child {
+				img {
+					width:70%;
+				}
+			}
 		}
 	}
 }

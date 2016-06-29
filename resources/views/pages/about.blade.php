@@ -63,6 +63,7 @@ $header = [
 			<h4>Awards</h4>
 			<ul>
 				<li><img src="https://s3-us-west-2.amazonaws.com/mcdaniel-staging/images/pages/about/slm0714.jpg" alt="A-List Award"></li>
+				<li><img src="https://s3-us-west-2.amazonaws.com/mcdaniel-staging/images/pages/about/year-award.png" alt="2015 Missiouri Dietitian of the Year"></li>
 			</ul>
 		</div>
 	</div>

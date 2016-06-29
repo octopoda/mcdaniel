@@ -53,12 +53,12 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular.module('mcdaniel.pages', []);
+    angular.module('mcdaniel.navigation', []);
 })();
 (function() {
     'use strict';
 
-    angular.module('mcdaniel.navigation', []);
+    angular.module('mcdaniel.pages', []);
 })();
 /**
  * All Shared Modules inserted here. 
@@ -2569,16 +2569,18 @@ var jq = $.noConflict();
         function link(scope, element, attrs) {
         	var el = jq(element[0]),
 				html = el.html(),
-				tiny = jq('meta[name="tiny"]').attr('content'),
+                tiny = jq('meta[name="tiny"]').attr('content'),
                 url = 'http://mcdanielnutrition.com/p/' + tiny,
 				via = '- @mcdanielrdn',
 				twitterLink = buildLink(url, via, html);
+            
+            el.append('<div class="m-post-content__callout--logo"><i class="fa fa-twitter"></i></div>')
 
-			el.append('<div class="m-post-content__callout--logo"><i class="fa fa-twitter"></i></div>')
+            console.dir(twitterLink);
 
         	el.on('click', function () {
         		popup(twitterLink, 700, 500);
-        	})
+        	});
         
         }
     }
@@ -2591,6 +2593,7 @@ var jq = $.noConflict();
      * @return {string}     
      */
     function buildLink(url, via, html) {
+        html = decodeHTML(html);
     	var text = truncateHTML(url, via, html);
     	return 'http://twitter.com/intent/tweet?url='+ url + '&text=' + text + via;
     }
@@ -2604,9 +2607,21 @@ var jq = $.noConflict();
      * @return {string}
      */
     function truncateHTML(url, via, html) {
-    	var full = url.length + via.length + 4;
-    	var text = html.substr(0, (140-full));
-    	return text + '...'
+        var full = url.length + via.length + 4;
+        var text = html.substr(0, (140-full));
+        return text + '...'
+    }
+
+    /**
+     * REmove HTML entiies for TEst
+     * @param  {html} html 
+     * @return {string}      
+     */
+    function decodeHTML(html) {
+        var elem = document.createElement('textarea');
+        elem.innerHTML = html;
+        var decoded = elem.value;
+        return decoded;
     }
 
      /**
@@ -3445,127 +3460,6 @@ var jq = $.noConflict();
     'use strict';
 
     angular
-        .module('mcdaniel.pages')
-        .directive('removeServicesButton', removeServicesButton);
-
-   	removeServicesButton.$inject = ['localStorageService'];
-
-    /* @ngInject */	
-    function removeServicesButton (localStorageService) {
-        // Usage:
-        // <div class="button" data-remove-services-button"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-   			var el = jq(element[0]);
-            var clicked = false;
-
-
-  			     
-            el.on('click', function (e) {
-                e.preventDefault();
-                localStorageService.set('interestedService', null);
-                window.location = el.attr('href');
-            });
-        }
-    }
-
-  
-
- 
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.pages')
-        .directive('servicesButton', servicesButton);
-
-   	servicesButton.$inject = ['localStorageService'];
-
-    /* @ngInject */	
-    function servicesButton (localStorageService) {
-        // Usage:
-        // <div class="button" data-services-button data-service="weight-loss"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	service: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-   			    var el = jq(element[0]);
-            var clicked = false;
-  			     
-            el.on('click', function (e) {
-                e.preventDefault();
-                localStorageService.set('interestedService', scope.service);
-                window.location = el.attr('href');
-            });
-        }
-    }
-
-  
-
- 
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.pages')
-        .directive('tabbedServices', tabbedServices);
-
-    /* @ngInject */
-    function tabbedServices () {
-        // Usage:
-        //
-        // Creates:
-        //
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: {
-            	target: "@"
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-        	var el = jq(element);
-        	var target = jq('#' + scope.target);
-            var indicator = jq('.tab-indicator');
-
-
-        	el.on('click', function (e) {
-        		e.preventDefault();
-				target.addClass('open').siblings('.m-tabbed-info').removeClass('open');
-        		el.addClass('active').siblings('.active').removeClass('active');
-
-                jq.each(indicator, function () {
-                    if (jq(this).hasClass(scope.target)) {
-                        jq(this).addClass('active').siblings('.active').removeClass('active')
-                    }
-                });
-        	});
-        }
-    }
-
-    
-})();
-(function() {
-    'use strict';
-
-    angular
         .module('mcdaniel.navigation')
         .directive('blogNavigation', blogNavigation);
 
@@ -4035,6 +3929,127 @@ var jq = $.noConflict();
 		}
     }
 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.pages')
+        .directive('removeServicesButton', removeServicesButton);
+
+   	removeServicesButton.$inject = ['localStorageService'];
+
+    /* @ngInject */	
+    function removeServicesButton (localStorageService) {
+        // Usage:
+        // <div class="button" data-remove-services-button"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+   			var el = jq(element[0]);
+            var clicked = false;
+
+
+  			     
+            el.on('click', function (e) {
+                e.preventDefault();
+                localStorageService.set('interestedService', null);
+                window.location = el.attr('href');
+            });
+        }
+    }
+
+  
+
+ 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.pages')
+        .directive('servicesButton', servicesButton);
+
+   	servicesButton.$inject = ['localStorageService'];
+
+    /* @ngInject */	
+    function servicesButton (localStorageService) {
+        // Usage:
+        // <div class="button" data-services-button data-service="weight-loss"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	service: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+   			    var el = jq(element[0]);
+            var clicked = false;
+  			     
+            el.on('click', function (e) {
+                e.preventDefault();
+                localStorageService.set('interestedService', scope.service);
+                window.location = el.attr('href');
+            });
+        }
+    }
+
+  
+
+ 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.pages')
+        .directive('tabbedServices', tabbedServices);
+
+    /* @ngInject */
+    function tabbedServices () {
+        // Usage:
+        //
+        // Creates:
+        //
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: {
+            	target: "@"
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+        	var el = jq(element);
+        	var target = jq('#' + scope.target);
+            var indicator = jq('.tab-indicator');
+
+
+        	el.on('click', function (e) {
+        		e.preventDefault();
+				target.addClass('open').siblings('.m-tabbed-info').removeClass('open');
+        		el.addClass('active').siblings('.active').removeClass('active');
+
+                jq.each(indicator, function () {
+                    if (jq(this).hasClass(scope.target)) {
+                        jq(this).addClass('active').siblings('.active').removeClass('active')
+                    }
+                });
+        	});
+        }
+    }
+
+    
 })();
 (function() {
     'use strict';
@@ -4569,86 +4584,6 @@ var jq = $.noConflict();
 
     angular
         .module('global.modal')
-        .service('modalService', modalService);
-
-    modalService.$inject = ['$rootScope', '$q'];
-
-    /* @ngInject */
-    function modalService($rootScope, $q) {
-        var modal = {
-					deferred: null,
-					params: null
-				};
-
-				this.open = open;
-				this.params = params;
-				this.proceedTo = proceedTo;
-				this.reject = reject;
-				this.resolve = resolve;
-
-        ////////////////
-
-        function open( type, params, pipeResponse ) {
-					var previousDeferred = modal.deferred;
-					
-					modal.deferred = $q.defer();
-					modal.params = params;
-
-					if ( previousDeferred && pipeResponse ) {
-						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
-					} else if ( previousDeferred ) {
-						previousDeferred.reject();
-					}
-
-					$rootScope.$emit( "modalService.open", type );
-					return modal.deferred.promise;
-				}
-
-
-				
-				function params() {
-					return ( modal.params || {} );
-				}
-
-
-				function proceedTo( type, params ) {
-					return open(type, params, true) ;
-				}
-
-
-				
-				function reject( reason ) {
-					if ( ! modal.deferred ) {return; }
-					modal.deferred.reject( reason );
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-
-				
-				function resolve( response ) {
-					if (!modal.deferred) {return; }
-					
-					modal.deferred.resolve(response);
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-    }
-})();
-
-
-
-
-
-
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
         .directive('alertModal', alertModal);
 
     alertModal.$inject = ['$rootScope', 'modalService'];
@@ -4746,6 +4681,86 @@ var jq = $.noConflict();
     }
 
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .service('modalService', modalService);
+
+    modalService.$inject = ['$rootScope', '$q'];
+
+    /* @ngInject */
+    function modalService($rootScope, $q) {
+        var modal = {
+					deferred: null,
+					params: null
+				};
+
+				this.open = open;
+				this.params = params;
+				this.proceedTo = proceedTo;
+				this.reject = reject;
+				this.resolve = resolve;
+
+        ////////////////
+
+        function open( type, params, pipeResponse ) {
+					var previousDeferred = modal.deferred;
+					
+					modal.deferred = $q.defer();
+					modal.params = params;
+
+					if ( previousDeferred && pipeResponse ) {
+						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
+					} else if ( previousDeferred ) {
+						previousDeferred.reject();
+					}
+
+					$rootScope.$emit( "modalService.open", type );
+					return modal.deferred.promise;
+				}
+
+
+				
+				function params() {
+					return ( modal.params || {} );
+				}
+
+
+				function proceedTo( type, params ) {
+					return open(type, params, true) ;
+				}
+
+
+				
+				function reject( reason ) {
+					if ( ! modal.deferred ) {return; }
+					modal.deferred.reject( reason );
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+
+				
+				function resolve( response ) {
+					if (!modal.deferred) {return; }
+					
+					modal.deferred.resolve(response);
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+    }
+})();
+
+
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Loading Directive
