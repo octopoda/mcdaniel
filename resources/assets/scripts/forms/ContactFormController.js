@@ -131,7 +131,7 @@
                 if (data.status == 200) {
                     localStorageService.set('submittedService', localStorageService.get('interestedService'));
 
-                    //clearForm();
+                    clearForm();
                     vm.success = true;
 
                     if (vm.getStarted) {
@@ -172,7 +172,8 @@
         function clearForm() {
             vm.loading = false
 
-            vm.formData =  {
+
+              vm.formData =  {
                 customerName: null,
                 email: null, 
                 phone: null,
@@ -183,6 +184,13 @@
                 question: null,
 
             }
+
+            $scope.contactForm.$setPristine();
+        }
+
+
+        function slideForm() {
+
         }
 
 
