@@ -18,8 +18,6 @@
         ////////////////
 
         function activate() {
-            console.dir(localStorageService.get('submittedService'));
-        	 
              switch (localStorageService.get('submittedService')) {
                 case 'lunch-and-learn' :
                     vm.service = 'corporate';

@@ -8,8 +8,8 @@
 					<option value="weight-loss-consult" selected="selected" data-item-price="150">Weight Loss Consultation</option>
 					<option value="weight-loss-premium" data-item-price="450">Weight Loss Packages</option>
 					<option value="weight-loss-sustain-online" data-item-price="400">Sustain Weight Loss Online</option>
-					<option value="sports" data-item-price="180">Sports Nutrition</option>
-					<option value="maternal" data-item-price="150">Maternal Nutrition</option>
+					<option value="sports-nutrition" data-item-price="180">Sports Nutrition</option>
+					<option value="maternal-nutrition" data-item-price="150">Maternal Nutrition</option>
 					<option value="rmr-testing" data-item-price="75">RMR Testing</option>
 					<option value="sustain-coporate" data-item-price="null">Corporate Sustain </option>
 					<option value="sustain-virtual" data-item-price="null">Corporate Sustain Online</option>

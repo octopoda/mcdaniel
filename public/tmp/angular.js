@@ -95,24 +95,24 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
+    angular.module('global.share', []);
+})();
+(function() {
+    'use strict';
+
     angular.module('global.modal', []); 
 
 })();
 (function() {
     'use strict';
 
-    angular.module('global.sidemenu', []);
-})();
-(function() {
-    'use strict';
-
-    angular.module('global.share', []);
-})();
-(function() {
-    'use strict';
-
     angular
         .module('global.errors', []);
+})();
+(function() {
+    'use strict';
+
+    angular.module('global.sidemenu', []);
 })();
 (function() {
     'use strict';
@@ -1272,7 +1272,8 @@ var jq = $.noConflict();
             formType: null,
             question: null,
             interestedService: null,
-            lastArticleRead: null
+            lastArticleRead: null,
+            serviceType: null
         }
 
         /**
@@ -1338,10 +1339,13 @@ var jq = $.noConflict();
             vm.loading = 'loading'
 
             vm.formData.subject = setupEmailSubject();
-            vm.formData.interestedService = vm.formData.interestedService.replace("-", " ");
             vm.formData.lastArticleRead = localStorageService.get('lastArticleRead');
+            vm.formData.serviceType = pickServiceType(vm.formData.interestedService);
             
+            vm.formData.interestedService = vm.formData.interestedService.replace(/\-/g, " ");
+
             
+
             
             mailService.sendToMailer(vm.formData)
                 .then(function (data) {
@@ -1350,7 +1354,7 @@ var jq = $.noConflict();
 
             function mailSent(data) {
                 if (data.status == 200) {
-                    localStorageService.set('submittedService', localStorageService.get('interestedService'));
+                    localStorageService.set('submittedService', vm.formData.interestedService);
 
                     clearForm();
                     vm.success = true;
@@ -1403,15 +1407,45 @@ var jq = $.noConflict();
                 contactMessage: null,
                 formType: null,
                 question: null,
-
+                interestedService: null,
+                lastArticleRead: null,
+                submittedService: null,
             }
 
             $scope.contactForm.$setPristine();
         }
 
 
-        function slideForm() {
-
+        function pickServiceType(service) {
+            switch (service) {
+                case 'lunch-and-learn' :
+                    return 'corporate';
+                    break;
+                case "teach-and-taste" : 
+                    return 'corporate';
+                    break;
+                case 'webinars' : 
+                    return 'corporate';
+                    break;
+                case 'weight-loss-consult' : 
+                    return 'weight';
+                    break;
+                case 'weight-loss-premium' : 
+                    return 'weight';
+                    break;
+                case 'weight-loss-sustain-online' : 
+                    return 'weight';
+                    break;
+                case 'sports-nutrition' :
+                    return 'sports';
+                    break;
+                case 'maternal-nutrition' :
+                    return 'maternal';
+                    break;
+                case 'rmr-testing' :
+                    return 'rmr';
+                    
+            }
         }
 
 
@@ -1426,7 +1460,7 @@ var jq = $.noConflict();
         function fillForm() {
            vm.formData = { 
                 customerName: 'Bob Dole',
-                email: 'bobd@2721west.com', 
+                email: 'zack@2721west.com', 
                 phone: '972.535.4040',
                 bestContactTime: {
                     'afternoon' : true,
@@ -1574,8 +1608,6 @@ var jq = $.noConflict();
         ////////////////
 
         function activate() {
-            console.dir(localStorageService.get('submittedService'));
-        	 
              switch (localStorageService.get('submittedService')) {
                 case 'lunch-and-learn' :
                     vm.service = 'corporate';
@@ -1672,7 +1704,7 @@ var jq = $.noConflict();
     /* @ngInject */
     function common($location, $q, $rootScope, $timeout, flash) {
         var dev = false;
-        var testing = false;
+        var testing = true;
 
 
         var service = {
@@ -1955,6 +1987,180 @@ var jq = $.noConflict();
         return query.length ? query.substr(0, query.length - 1) : query;
 	}
 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqBlock', faqBlock);
+
+    /* @ngInject */
+    function faqBlock () {
+        // Usage:
+        // <div faq-block></div>
+        var directive = {
+            bindToController: true,
+            controller: FaqBlockController,
+            controllerAs: 'vd',
+            link: link,
+            restrict: 'A',
+            templateUrl: '/templates/faqs/faq-block.html',
+            scope: {
+                faqs: "="
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+            
+        }
+    }
+
+    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
+
+    /* @ngInject */
+    function FaqBlockController ($scope, $element, $attrs) {
+        var vd = $scope.vd;
+
+        vd.openAnswer = openAnswer;
+
+
+
+        //Open the Answers
+        function openAnswer($event) {
+            var self = jq($event.currentTarget),
+                answer = self.children('.faq__answer');
+
+            if (self.hasClass('open')) {
+                answer.slideUp(200);
+                self.toggleClass('open');
+            } else {
+                answer.slideDown(200);
+                self.toggleClass('open');
+            }
+        }
+    }
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqSearchInput', faqSearchInput);
+
+    faqSearchInput.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function faqSearchInput ($rootScope) {
+        // Usage:
+        // <input type="text" name="search" faq-search-input>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	/** @type {DOM} element  */
+        	var el = jq(element[0]);
+
+        	/**
+        	 * On Key up search
+        	 * @param  {event}
+        	 * @return {function} 
+        	 */
+        	el.on('keyup', function (e) {
+        		if (timer) clearTimeout(timer);
+        		var timer = setTimeout(broadcastSearch, 400);
+        	});
+
+
+        	/**
+        	 * Broadcast to the Root
+        	 * @param  {string} query 
+        	 * @return {null}       
+        	 */
+        	function broadcastSearch() {
+        		var query = el.val();
+        		$rootScope.$emit('faqSearch', query)
+        	}
+        }
+    }
+})();
+/*
+|--------------------------------------------------------------------------
+| Directive for Phone Input
+|--------------------------------------------------------------------------
+|
+| Validates and creates slide downs for Phone Input
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.forms')
+        .directive('phoneInput', phoneInput);
+
+    /* @ngInject */
+    function phoneInput () {
+        // Usage:
+        // <input phone-input type="tel">
+        var directive = {
+            link: link,
+            restrict: 'A',
+            require: 'ngModel',
+            scope: {
+            	targetId: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs, ngModel) {
+        	var tar = jq('#' + scope.targetId);
+            
+
+        	/**
+             * On focus check for validation and then add best time to call. 
+             */
+            jq(element).on('focusout', function () {
+        		if (jq(this).val() != '') {
+        			tar.slideDown(500);
+        		} else {
+        			tar.slideUp(500);
+        		}
+        	});
+
+
+
+            /**
+             * Validate the Phone
+             * @param  {string} value 
+             * @return {boolean}       
+             * @note - not validating phone number.  going to trust the user will need it. 
+             */
+            // function phoneValidator(value) {
+            //     var reg = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
+            //     valid = reg.test(value)
+            //     if (!ngModel.$isEmpty(value) && valid) {
+            //         ngModel.$setValidity('phone', true);
+            //         return value;
+            //     } else {
+            //         ngModel.$setValidity('phone')
+            //     }
+            // }
+
+            
+
+        }
+    }
+
+    
 })();
 (function() {
     'use strict';
@@ -2645,244 +2851,6 @@ var jq = $.noConflict();
 
     
 })();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqBlock', faqBlock);
-
-    /* @ngInject */
-    function faqBlock () {
-        // Usage:
-        // <div faq-block></div>
-        var directive = {
-            bindToController: true,
-            controller: FaqBlockController,
-            controllerAs: 'vd',
-            link: link,
-            restrict: 'A',
-            templateUrl: '/templates/faqs/faq-block.html',
-            scope: {
-                faqs: "="
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-            
-        }
-    }
-
-    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
-
-    /* @ngInject */
-    function FaqBlockController ($scope, $element, $attrs) {
-        var vd = $scope.vd;
-
-        vd.openAnswer = openAnswer;
-
-
-
-        //Open the Answers
-        function openAnswer($event) {
-            var self = jq($event.currentTarget),
-                answer = self.children('.faq__answer');
-
-            if (self.hasClass('open')) {
-                answer.slideUp(200);
-                self.toggleClass('open');
-            } else {
-                answer.slideDown(200);
-                self.toggleClass('open');
-            }
-        }
-    }
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqSearchInput', faqSearchInput);
-
-    faqSearchInput.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function faqSearchInput ($rootScope) {
-        // Usage:
-        // <input type="text" name="search" faq-search-input>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	/** @type {DOM} element  */
-        	var el = jq(element[0]);
-
-        	/**
-        	 * On Key up search
-        	 * @param  {event}
-        	 * @return {function} 
-        	 */
-        	el.on('keyup', function (e) {
-        		if (timer) clearTimeout(timer);
-        		var timer = setTimeout(broadcastSearch, 400);
-        	});
-
-
-        	/**
-        	 * Broadcast to the Root
-        	 * @param  {string} query 
-        	 * @return {null}       
-        	 */
-        	function broadcastSearch() {
-        		var query = el.val();
-        		$rootScope.$emit('faqSearch', query)
-        	}
-        }
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Directive for Phone Input
-|--------------------------------------------------------------------------
-|
-| Validates and creates slide downs for Phone Input
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.forms')
-        .directive('phoneInput', phoneInput);
-
-    /* @ngInject */
-    function phoneInput () {
-        // Usage:
-        // <input phone-input type="tel">
-        var directive = {
-            link: link,
-            restrict: 'A',
-            require: 'ngModel',
-            scope: {
-            	targetId: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs, ngModel) {
-        	var tar = jq('#' + scope.targetId);
-            
-
-        	/**
-             * On focus check for validation and then add best time to call. 
-             */
-            jq(element).on('focusout', function () {
-        		if (jq(this).val() != '') {
-        			tar.slideDown(500);
-        		} else {
-        			tar.slideUp(500);
-        		}
-        	});
-
-
-
-            /**
-             * Validate the Phone
-             * @param  {string} value 
-             * @return {boolean}       
-             * @note - not validating phone number.  going to trust the user will need it. 
-             */
-            // function phoneValidator(value) {
-            //     var reg = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
-            //     valid = reg.test(value)
-            //     if (!ngModel.$isEmpty(value) && valid) {
-            //         ngModel.$setValidity('phone', true);
-            //         return value;
-            //     } else {
-            //         ngModel.$setValidity('phone')
-            //     }
-            // }
-
-            
-
-        }
-    }
-
-    
-})();
-/*
-|--------------------------------------------------------------------------
-| Menu Toggle Directive
-|--------------------------------------------------------------------------
-|
-| Adds the class to open any id that you specify in the menu-toggle attribute
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('global.sidemenu')
-        .directive('menuToggle', menuToggle);
-
-    menuToggle.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function menuToggle ($rootScope) {
-        // Usage:
-        // <div menu-toggle="{id of element you wish to toggle}"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	jq(element).on('click', function () {
-               toggleMenu(attrs.menuToggle);
-               jq(this).toggleClass('active');
-            });
-
-            $rootScope.$on('menu.close', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-
-            $rootScope.$on('menu.open', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-		}
-    }
-
-    /**
-     * Toggle Menu Element
-     * @param  {string}  attr   
-     * @param  {Boolean} isOpen 
-     * @return {Boolean}         
-     */
-    function toggleMenu(attr) {
-    	var target = jq('#'+attr);
-
-        if (target.hasClass('open')) {
-    		target.removeClass('open');
-            return false;
-        } else {
-    	   target.addClass('open');	
-           return true;
-    	}
-    };
-
-
-})();
 
 /*
 |--------------------------------------------------------------------------
@@ -3287,6 +3255,70 @@ var jq = $.noConflict();
     }
 
    
+})();
+/*
+|--------------------------------------------------------------------------
+| Menu Toggle Directive
+|--------------------------------------------------------------------------
+|
+| Adds the class to open any id that you specify in the menu-toggle attribute
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('global.sidemenu')
+        .directive('menuToggle', menuToggle);
+
+    menuToggle.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function menuToggle ($rootScope) {
+        // Usage:
+        // <div menu-toggle="{id of element you wish to toggle}"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	jq(element).on('click', function () {
+               toggleMenu(attrs.menuToggle);
+               jq(this).toggleClass('active');
+            });
+
+            $rootScope.$on('menu.close', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+
+            $rootScope.$on('menu.open', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+		}
+    }
+
+    /**
+     * Toggle Menu Element
+     * @param  {string}  attr   
+     * @param  {Boolean} isOpen 
+     * @return {Boolean}         
+     */
+    function toggleMenu(attr) {
+    	var target = jq('#'+attr);
+
+        if (target.hasClass('open')) {
+    		target.removeClass('open');
+            return false;
+        } else {
+    	   target.addClass('open');	
+           return true;
+    	}
+    };
+
+
 })();
 (function() {
     'use strict';
@@ -4471,6 +4503,127 @@ var jq = $.noConflict();
 
     angular
         .module('global.modal')
+        .controller('AlertModalController', AlertModalController);
+
+    AlertModalController.$inject = ['$scope', 'modalService'];
+
+    /* @ngInject */
+    function AlertModalController($scope, modalService) {
+        var vm = this;
+        vm.title = 'AlertModalController';
+
+        // Modal Prameters
+        vm.title = ( modalService.params().title || "Whoa!" );
+       	vm.message = ( modalService.params().message || "Whoa!" );
+        vm.action = ( modalService.params().action || "Whoa!" );
+
+        //Close the Modal
+        vm.close = modalService.resolve;
+    }
+
+
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .controller('ConfirmModalController', ConfirmModalController);
+
+    ConfirmModalController.$inject = ['$scope', 'modalService'];
+
+    /* @ngInject */
+    function ConfirmModalController($scope, modalService) {
+        var vm = this;
+        var params = modalService.params();
+        
+    	vm.title = ( params.title || "" );
+        vm.message = ( params.message || "" );
+    	vm.confirmButton = ( params.confirmButton || "Confirm" );
+    	vm.denyButton = ( params.denyButton || "Deny" );
+
+    	vm.confirm = modalService.resolve;
+    	vm.deny = modalService.reject;
+    }
+})();
+/*
+|--------------------------------------------------------------------------
+| HTML Modal Controller
+|--------------------------------------------------------------------------
+|
+| Controller to Insert HTML into a Modal
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .controller('HTMLModalController', HTMLModalController);
+
+    HTMLModalController.$inject = ['$scope', 'modalService'];
+
+    /* @ngInject */
+    function HTMLModalController($scope, modalService) {
+        var vm = this;
+        vm.title = 'HTMLModalController';
+
+        vm.code;
+        vm.close = modalService.resolve;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+            return modalService.getTemplate(modalService.params().htmlTemplate)
+                .then(function (data) {
+                    vm.code = data;
+                    return vm.code;
+                })
+        }
+
+        
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .controller('PromptModalController', PromptModalController);
+
+    PromptModalController.$inject = ['$scope', 'modalService'];
+
+    /* @ngInject */
+    function PromptModalController($scope, modalService) {
+        var vm = this;
+        vm.title = 'PromptModalController';
+
+				vm.message = ( modalService.params().message || "Give me." );
+				vm.form = {
+					input: ( modalService.params().placeholder || "" )
+				};
+
+				vm.errorMessage = null;
+				vm.cancel = modalService.reject;
+
+				$scope.submit = function() {
+					if (!vm.form.input) { 
+						return $scope.errorMessage = "Please provide something!"; 
+					}
+					modalService.resolve($scope.form.input);
+				};
+
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
         .directive('alertModal', alertModal);
 
     alertModal.$inject = ['$rootScope', 'modalService'];
@@ -4648,127 +4801,6 @@ var jq = $.noConflict();
 
 
 
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
-        .controller('AlertModalController', AlertModalController);
-
-    AlertModalController.$inject = ['$scope', 'modalService'];
-
-    /* @ngInject */
-    function AlertModalController($scope, modalService) {
-        var vm = this;
-        vm.title = 'AlertModalController';
-
-        // Modal Prameters
-        vm.title = ( modalService.params().title || "Whoa!" );
-       	vm.message = ( modalService.params().message || "Whoa!" );
-        vm.action = ( modalService.params().action || "Whoa!" );
-
-        //Close the Modal
-        vm.close = modalService.resolve;
-    }
-
-
-})();
-
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
-        .controller('ConfirmModalController', ConfirmModalController);
-
-    ConfirmModalController.$inject = ['$scope', 'modalService'];
-
-    /* @ngInject */
-    function ConfirmModalController($scope, modalService) {
-        var vm = this;
-        var params = modalService.params();
-        
-    	vm.title = ( params.title || "" );
-        vm.message = ( params.message || "" );
-    	vm.confirmButton = ( params.confirmButton || "Confirm" );
-    	vm.denyButton = ( params.denyButton || "Deny" );
-
-    	vm.confirm = modalService.resolve;
-    	vm.deny = modalService.reject;
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| HTML Modal Controller
-|--------------------------------------------------------------------------
-|
-| Controller to Insert HTML into a Modal
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
-        .controller('HTMLModalController', HTMLModalController);
-
-    HTMLModalController.$inject = ['$scope', 'modalService'];
-
-    /* @ngInject */
-    function HTMLModalController($scope, modalService) {
-        var vm = this;
-        vm.title = 'HTMLModalController';
-
-        vm.code;
-        vm.close = modalService.resolve;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-            return modalService.getTemplate(modalService.params().htmlTemplate)
-                .then(function (data) {
-                    vm.code = data;
-                    return vm.code;
-                })
-        }
-
-        
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
-        .controller('PromptModalController', PromptModalController);
-
-    PromptModalController.$inject = ['$scope', 'modalService'];
-
-    /* @ngInject */
-    function PromptModalController($scope, modalService) {
-        var vm = this;
-        vm.title = 'PromptModalController';
-
-				vm.message = ( modalService.params().message || "Give me." );
-				vm.form = {
-					input: ( modalService.params().placeholder || "" )
-				};
-
-				vm.errorMessage = null;
-				vm.cancel = modalService.reject;
-
-				$scope.submit = function() {
-					if (!vm.form.input) { 
-						return $scope.errorMessage = "Please provide something!"; 
-					}
-					modalService.resolve($scope.form.input);
-				};
-
-    }
-})();
 /*
 |--------------------------------------------------------------------------
 | Loading Directive

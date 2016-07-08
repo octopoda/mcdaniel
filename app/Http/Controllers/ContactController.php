@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Event;
 use App\Events\ContactFormSubmitted;
 use App\Events\AlertSubmitted;
+use App\Events\ServiceFormSubmited;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -66,8 +67,14 @@ class ContactController extends Controller
 
         $request['message'] = $request->except('_token');
         $contact = $this->contact->create($request->except('_token'));
-        Event::fire(new contactFormSubmitted( $request->except('_token', 'message') )); 
+        
+        // dd($request->all());
 
+        Event::fire(new contactFormSubmitted( $request->except('_token', 'message', 'serviceType') )); 
+
+        if ($request->get('formType') == 'get-started-page') {
+            Event::fire(new ServiceFormSubmited( $request->except('_token', 'message') ));             
+        }
         // return view('forms.formTest');
     }
 

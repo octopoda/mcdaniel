@@ -51,7 +51,8 @@
             formType: null,
             question: null,
             interestedService: null,
-            lastArticleRead: null
+            lastArticleRead: null,
+            serviceType: null
         }
 
         /**
@@ -117,10 +118,13 @@
             vm.loading = 'loading'
 
             vm.formData.subject = setupEmailSubject();
-            vm.formData.interestedService = vm.formData.interestedService.replace("-", " ");
             vm.formData.lastArticleRead = localStorageService.get('lastArticleRead');
+            vm.formData.serviceType = pickServiceType(vm.formData.interestedService);
             
+            vm.formData.interestedService = vm.formData.interestedService.replace(/\-/g, " ");
+
             
+
             
             mailService.sendToMailer(vm.formData)
                 .then(function (data) {
@@ -129,7 +133,7 @@
 
             function mailSent(data) {
                 if (data.status == 200) {
-                    localStorageService.set('submittedService', localStorageService.get('interestedService'));
+                    localStorageService.set('submittedService', vm.formData.interestedService);
 
                     clearForm();
                     vm.success = true;
@@ -182,15 +186,45 @@
                 contactMessage: null,
                 formType: null,
                 question: null,
-
+                interestedService: null,
+                lastArticleRead: null,
+                submittedService: null,
             }
 
             $scope.contactForm.$setPristine();
         }
 
 
-        function slideForm() {
-
+        function pickServiceType(service) {
+            switch (service) {
+                case 'lunch-and-learn' :
+                    return 'corporate';
+                    break;
+                case "teach-and-taste" : 
+                    return 'corporate';
+                    break;
+                case 'webinars' : 
+                    return 'corporate';
+                    break;
+                case 'weight-loss-consult' : 
+                    return 'weight';
+                    break;
+                case 'weight-loss-premium' : 
+                    return 'weight';
+                    break;
+                case 'weight-loss-sustain-online' : 
+                    return 'weight';
+                    break;
+                case 'sports-nutrition' :
+                    return 'sports';
+                    break;
+                case 'maternal-nutrition' :
+                    return 'maternal';
+                    break;
+                case 'rmr-testing' :
+                    return 'rmr';
+                    
+            }
         }
 
 
@@ -205,7 +239,7 @@
         function fillForm() {
            vm.formData = { 
                 customerName: 'Bob Dole',
-                email: 'bobd@2721west.com', 
+                email: 'zack@2721west.com', 
                 phone: '972.535.4040',
                 bestContactTime: {
                     'afternoon' : true,
