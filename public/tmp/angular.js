@@ -95,24 +95,24 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular.module('global.share', []);
-})();
-(function() {
-    'use strict';
-
     angular.module('global.modal', []); 
 
 })();
 (function() {
     'use strict';
 
-    angular
-        .module('global.errors', []);
+    angular.module('global.share', []);
 })();
 (function() {
     'use strict';
 
     angular.module('global.sidemenu', []);
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.errors', []);
 })();
 (function() {
     'use strict';
@@ -1704,7 +1704,7 @@ var jq = $.noConflict();
     /* @ngInject */
     function common($location, $q, $rootScope, $timeout, flash) {
         var dev = false;
-        var testing = true;
+        var testing = false;
 
 
         var service = {
@@ -1987,180 +1987,6 @@ var jq = $.noConflict();
         return query.length ? query.substr(0, query.length - 1) : query;
 	}
 
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqBlock', faqBlock);
-
-    /* @ngInject */
-    function faqBlock () {
-        // Usage:
-        // <div faq-block></div>
-        var directive = {
-            bindToController: true,
-            controller: FaqBlockController,
-            controllerAs: 'vd',
-            link: link,
-            restrict: 'A',
-            templateUrl: '/templates/faqs/faq-block.html',
-            scope: {
-                faqs: "="
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-            
-        }
-    }
-
-    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
-
-    /* @ngInject */
-    function FaqBlockController ($scope, $element, $attrs) {
-        var vd = $scope.vd;
-
-        vd.openAnswer = openAnswer;
-
-
-
-        //Open the Answers
-        function openAnswer($event) {
-            var self = jq($event.currentTarget),
-                answer = self.children('.faq__answer');
-
-            if (self.hasClass('open')) {
-                answer.slideUp(200);
-                self.toggleClass('open');
-            } else {
-                answer.slideDown(200);
-                self.toggleClass('open');
-            }
-        }
-    }
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqSearchInput', faqSearchInput);
-
-    faqSearchInput.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function faqSearchInput ($rootScope) {
-        // Usage:
-        // <input type="text" name="search" faq-search-input>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	/** @type {DOM} element  */
-        	var el = jq(element[0]);
-
-        	/**
-        	 * On Key up search
-        	 * @param  {event}
-        	 * @return {function} 
-        	 */
-        	el.on('keyup', function (e) {
-        		if (timer) clearTimeout(timer);
-        		var timer = setTimeout(broadcastSearch, 400);
-        	});
-
-
-        	/**
-        	 * Broadcast to the Root
-        	 * @param  {string} query 
-        	 * @return {null}       
-        	 */
-        	function broadcastSearch() {
-        		var query = el.val();
-        		$rootScope.$emit('faqSearch', query)
-        	}
-        }
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| Directive for Phone Input
-|--------------------------------------------------------------------------
-|
-| Validates and creates slide downs for Phone Input
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.forms')
-        .directive('phoneInput', phoneInput);
-
-    /* @ngInject */
-    function phoneInput () {
-        // Usage:
-        // <input phone-input type="tel">
-        var directive = {
-            link: link,
-            restrict: 'A',
-            require: 'ngModel',
-            scope: {
-            	targetId: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs, ngModel) {
-        	var tar = jq('#' + scope.targetId);
-            
-
-        	/**
-             * On focus check for validation and then add best time to call. 
-             */
-            jq(element).on('focusout', function () {
-        		if (jq(this).val() != '') {
-        			tar.slideDown(500);
-        		} else {
-        			tar.slideUp(500);
-        		}
-        	});
-
-
-
-            /**
-             * Validate the Phone
-             * @param  {string} value 
-             * @return {boolean}       
-             * @note - not validating phone number.  going to trust the user will need it. 
-             */
-            // function phoneValidator(value) {
-            //     var reg = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
-            //     valid = reg.test(value)
-            //     if (!ngModel.$isEmpty(value) && valid) {
-            //         ngModel.$setValidity('phone', true);
-            //         return value;
-            //     } else {
-            //         ngModel.$setValidity('phone')
-            //     }
-            // }
-
-            
-
-        }
-    }
-
-    
 })();
 (function() {
     'use strict';
@@ -2851,6 +2677,180 @@ var jq = $.noConflict();
 
     
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqBlock', faqBlock);
+
+    /* @ngInject */
+    function faqBlock () {
+        // Usage:
+        // <div faq-block></div>
+        var directive = {
+            bindToController: true,
+            controller: FaqBlockController,
+            controllerAs: 'vd',
+            link: link,
+            restrict: 'A',
+            templateUrl: '/templates/faqs/faq-block.html',
+            scope: {
+                faqs: "="
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+            
+        }
+    }
+
+    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
+
+    /* @ngInject */
+    function FaqBlockController ($scope, $element, $attrs) {
+        var vd = $scope.vd;
+
+        vd.openAnswer = openAnswer;
+
+
+
+        //Open the Answers
+        function openAnswer($event) {
+            var self = jq($event.currentTarget),
+                answer = self.children('.faq__answer');
+
+            if (self.hasClass('open')) {
+                answer.slideUp(200);
+                self.toggleClass('open');
+            } else {
+                answer.slideDown(200);
+                self.toggleClass('open');
+            }
+        }
+    }
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqSearchInput', faqSearchInput);
+
+    faqSearchInput.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function faqSearchInput ($rootScope) {
+        // Usage:
+        // <input type="text" name="search" faq-search-input>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	/** @type {DOM} element  */
+        	var el = jq(element[0]);
+
+        	/**
+        	 * On Key up search
+        	 * @param  {event}
+        	 * @return {function} 
+        	 */
+        	el.on('keyup', function (e) {
+        		if (timer) clearTimeout(timer);
+        		var timer = setTimeout(broadcastSearch, 400);
+        	});
+
+
+        	/**
+        	 * Broadcast to the Root
+        	 * @param  {string} query 
+        	 * @return {null}       
+        	 */
+        	function broadcastSearch() {
+        		var query = el.val();
+        		$rootScope.$emit('faqSearch', query)
+        	}
+        }
+    }
+})();
+/*
+|--------------------------------------------------------------------------
+| Directive for Phone Input
+|--------------------------------------------------------------------------
+|
+| Validates and creates slide downs for Phone Input
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.forms')
+        .directive('phoneInput', phoneInput);
+
+    /* @ngInject */
+    function phoneInput () {
+        // Usage:
+        // <input phone-input type="tel">
+        var directive = {
+            link: link,
+            restrict: 'A',
+            require: 'ngModel',
+            scope: {
+            	targetId: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs, ngModel) {
+        	var tar = jq('#' + scope.targetId);
+            
+
+        	/**
+             * On focus check for validation and then add best time to call. 
+             */
+            jq(element).on('focusout', function () {
+        		if (jq(this).val() != '') {
+        			tar.slideDown(500);
+        		} else {
+        			tar.slideUp(500);
+        		}
+        	});
+
+
+
+            /**
+             * Validate the Phone
+             * @param  {string} value 
+             * @return {boolean}       
+             * @note - not validating phone number.  going to trust the user will need it. 
+             */
+            // function phoneValidator(value) {
+            //     var reg = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
+            //     valid = reg.test(value)
+            //     if (!ngModel.$isEmpty(value) && valid) {
+            //         ngModel.$setValidity('phone', true);
+            //         return value;
+            //     } else {
+            //         ngModel.$setValidity('phone')
+            //     }
+            // }
+
+            
+
+        }
+    }
+
+    
+})();
 
 /*
 |--------------------------------------------------------------------------
@@ -3152,6 +3152,70 @@ var jq = $.noConflict();
 
     
 })();
+/*
+|--------------------------------------------------------------------------
+| Menu Toggle Directive
+|--------------------------------------------------------------------------
+|
+| Adds the class to open any id that you specify in the menu-toggle attribute
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('global.sidemenu')
+        .directive('menuToggle', menuToggle);
+
+    menuToggle.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function menuToggle ($rootScope) {
+        // Usage:
+        // <div menu-toggle="{id of element you wish to toggle}"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	jq(element).on('click', function () {
+               toggleMenu(attrs.menuToggle);
+               jq(this).toggleClass('active');
+            });
+
+            $rootScope.$on('menu.close', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+
+            $rootScope.$on('menu.open', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+		}
+    }
+
+    /**
+     * Toggle Menu Element
+     * @param  {string}  attr   
+     * @param  {Boolean} isOpen 
+     * @return {Boolean}         
+     */
+    function toggleMenu(attr) {
+    	var target = jq('#'+attr);
+
+        if (target.hasClass('open')) {
+    		target.removeClass('open');
+            return false;
+        } else {
+    	   target.addClass('open');	
+           return true;
+    	}
+    };
+
+
+})();
 (function() {
     'use strict';
 
@@ -3255,70 +3319,6 @@ var jq = $.noConflict();
     }
 
    
-})();
-/*
-|--------------------------------------------------------------------------
-| Menu Toggle Directive
-|--------------------------------------------------------------------------
-|
-| Adds the class to open any id that you specify in the menu-toggle attribute
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('global.sidemenu')
-        .directive('menuToggle', menuToggle);
-
-    menuToggle.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function menuToggle ($rootScope) {
-        // Usage:
-        // <div menu-toggle="{id of element you wish to toggle}"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	jq(element).on('click', function () {
-               toggleMenu(attrs.menuToggle);
-               jq(this).toggleClass('active');
-            });
-
-            $rootScope.$on('menu.close', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-
-            $rootScope.$on('menu.open', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-		}
-    }
-
-    /**
-     * Toggle Menu Element
-     * @param  {string}  attr   
-     * @param  {Boolean} isOpen 
-     * @return {Boolean}         
-     */
-    function toggleMenu(attr) {
-    	var target = jq('#'+attr);
-
-        if (target.hasClass('open')) {
-    		target.removeClass('open');
-            return false;
-        } else {
-    	   target.addClass('open');	
-           return true;
-    	}
-    };
-
-
 })();
 (function() {
     'use strict';
