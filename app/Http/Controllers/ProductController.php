@@ -60,11 +60,14 @@ class ProductController extends Controller
     public function create()
     {
         $product = \App\Product::orderBy('id', 'desc')->limit('1')->get();
-        if (!$product) {
-            $id = ($product[0]->id + 1);    
+        
+        if ($product) {
+            $id = $product[0]->id + 1;   
         } else {
             $id = 1;
         }
+
+        dd($id);
         
         return view('dashboard.products.create', compact('id'));
     }
