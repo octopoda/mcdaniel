@@ -67,7 +67,7 @@ class ProductController extends Controller
             $id = 1;
         }
 
-        dd($id);
+        
         
         return view('dashboard.products.create', compact('id'));
     }
