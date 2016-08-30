@@ -148,14 +148,14 @@ $header = [
 					<div class="g-two-columns row">
 						<section class="sports-description__right">
 							<h2>Sustain Online Weight Loss Program</h2>
-							<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our online Sustain Weight Loss Program is a 16-week weight management program that allows you to listen, learn and transform in the comfort of your own home. Listen live or use the option to listen to the live recordings at a later time. </p>
+							<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our online Sustain Weight Loss Program is a 12-week weight management program that allows you to listen, learn and transform in the comfort of your own home. Listen live or use the option to listen to the live recordings at a later time. </p>
 						</section>
 						<section class="sports-description__left">
 							<h4>How we help set you up for sustainable success: </h4>
 
 							<h5>Weight Loss Recommendations you can TRUST</h5>
 									<ul>
-										<li>16 weeks of evidence-based weight loss guidance conducted by a Registered Dietitian </li>
+										<li>12 weeks of evidence-based weight loss guidance conducted by a Registered Dietitian </li>
 										<li>Weight loss counsel based on thousands of successful McDaniel Nutrition clients </li>
 										<li>Weight loss information that leads to more than just weight loss, but also addresses disease prevention and longevity promotion</li>
 									</ul>
