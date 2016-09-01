@@ -44,7 +44,7 @@ $header = [
 
 
 				<div class="get-started__articles">
-					<h3>Recent Articles For Sports Nurtition</h3>
+					<h3>Recent Articles For Sports Nutrition</h3>
 					<ul>
 						@foreach($posts as $post)
 						<li>

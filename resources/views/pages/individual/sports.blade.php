@@ -51,7 +51,10 @@ $header = [
 			<section class="sports-description__right">
 				<h3>Sport Nutrition</h3>
 				<p>The rise to your athletic performance goals and new levels of competition is easier with support. Our services are tailored to your period of training, body composition goals, and lifestyle habits. Nutrition consults can also address pre-, during-, and post-nutrition recommendations.</p>
+
+				<h5>Initial Consultation - $180.00</h5>
 			</section>
+			
 			<section class="sports-description__left">
 				<h5>How we can help fuel your best.</h5>
 
@@ -64,12 +67,14 @@ $header = [
 				</ul>
 
 				<p class="legal">Prior to your consultation, you will need to complete a client contract and comprehensive nutritional assessment. Please bring the completed paperwork to your initial consultation. If you desire a computerized nutritional analysis of your 3-day food journal, we will complete this prior to the consult for an additional fee of $30. During our initial consult, we will review your information to glean insights into your unique eating habits, lifestyle needs, experience with weight loss, and areas of focus.</p>
-				<p class="legal">Follow-up visits are highly recommended. These sessions support your success and allow us to support your goals set in the inital consultation. These sessions can be completed by phone/skype or in-person. </p>
+				<p class="legal">Follow-up visits are highly recommended. These sessions support your success and allow us to support your goals set in the initial consultation. These sessions can be completed by phone/skype or in-person. </p>
+
+
 			</section>
 		</div>
 		<div class="row sales-button">
 			<div class="button">
-				<a href="{{ route('get-started-sports') }}" data-services-button data-service="sports-nutrition" >Set up An Individual Consulation</a>
+				<a href="{{ route('get-started-sports') }}" data-services-button data-service="sports-nutrition" >Set up An Individual Consultation</a>
 			</div>
 		</div>
 	</div>

@@ -87,6 +87,7 @@ $header = [
 						<section class="sports-description__right">
 							<h2>Get Started with Your Initial Consultation</h2>
 							<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past and what allows us to give you the most personally tailored consultations.</p>
+							<h5>Initial Consultation - $150.00</h5>
 						</section>
 						<section class="sports-description__left">
 							<h4>How We Help Empower You:</h4>
@@ -102,6 +103,8 @@ $header = [
 
 									<p class="legal">Prior to your consultation, you will need to complete a client contract and comprehensive nutritional assessment. You will be directed to the paperwork when you sign up. Please bring the completed paperwork to your initial consultation. If you desire a computerized nutritional analysis of your 3-day food journal, we will complete this prior to the consult for an additional fee of $30. During our initial consult, we will review your information to glean insights into your unique eating habits, lifestyle needs, experience with weight loss, and areas of focus.</p>
 									<p class="legal">Follow-up visits are highly recommended. These sessions support your success and allow us to support your goals set in the initial consultation. These sessions can be completed by phone/skype or in-person. </p>
+
+									
 						</section>
 					</div>
 					<section class="row sales-button">
@@ -117,6 +120,7 @@ $header = [
 						<section class="sports-description__right">
 							<h2>Weight Loss Package</h2>
 							<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past and what allows us to give you the most personally tailored consultations.</p>
+							<h5>Premium Sustain Weight Loss Package - $450.00</h5>
 						</section>
 						<section class="sports-description__left">
 							<h4>Setting you up for Success</h4>
@@ -131,7 +135,7 @@ $header = [
 									</ul>
 
 									<p>Follow-Up Sessions can also be scheduled on an as needed basis. You and your dietitian will discuss your personalized follow-up plan. </p>
-
+									
 									<p class="legal">Prior to consultation, you will need to complete a client contract and comprehensive nutritional assessment.  You will be directed to the paperwork when you sign up. Please bring the completed paperwork to your initial consultation. If you desire a computerized nutritional analysis of your 3-day food journal, we will complete this prior to the consult for an additional fee of $30. During our initial consult, we will review your information to glean insights into your unique eating habits, lifestyle needs, experience with weight loss, and areas of focus.</p>
 									
 						</section>
@@ -149,6 +153,7 @@ $header = [
 						<section class="sports-description__right">
 							<h2>Sustain Online Weight Loss Program</h2>
 							<p>The journey toward weight loss, body composition changes, and lasting good eating habits is easier with support. Our online Sustain Weight Loss Program is a 12-week weight management program that allows you to listen, learn and transform in the comfort of your own home. Listen live or use the option to listen to the live recordings at a later time. </p>
+							<h5>Sustain Weight Loss Online - $400.00</h5>
 						</section>
 						<section class="sports-description__left">
 							<h4>How we help set you up for sustainable success: </h4>

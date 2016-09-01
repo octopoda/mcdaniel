@@ -31,7 +31,7 @@ $header = [
 			</section>
 			<section>
 				<h2>Eating for 2(+)</h2>
-				<p>Pregnancy is a precious moment of life, but the do’s and don’s can be overwhelming. The right diet can improve your chances of conception, nourish your growing baby, and get you back on track post-pregnancy.</p>
+				<p>Pregnancy is a precious moment of life, but the do’s and dont’s can be overwhelming. The right diet can improve your chances of conception, nourish your growing baby, and get you back on track post-pregnancy.</p>
 				<p>With children of our own, our nutrition experts can give you evidence-based recommendations with real-life understanding.</p>
 
 				<ul class="maternal__text--list">
@@ -40,6 +40,7 @@ $header = [
 					<li>After pregnancy, we can help you safely return to your pre-pregnancy weight, ensure you’re getting the necessary nutrients for breast feeding, and ease postpartum fatigue, mood swings, or depression.</li>
 				</ul>
 			
+				<h5>Initial Consultation - $150.00</h5>
 				<div class="button">
 					<a href="{{ route('get-started-maternal') }}" data-services-button data-service="maternal-nutrition" >Support Your Maternal Health </a>
 				</div>
@@ -72,12 +73,12 @@ $header = [
 				</ul>
 
 				<p class="legal">Prior to your consultation, you will need to complete a client contract and comprehensive nutritional assessment. Please bring the completed paperwork to your initial consultation. If you desire a computerized nutritional analysis of your 3-day food journal, we will complete this prior to the consult for an additional fee of $30. During our initial consult, we will review your information to glean insights into your unique eating habits, lifestyle needs, experience with weight loss, and areas of focus.</p>
-				<p class="legal">Follow-up visits are highly recommended. These sessions support your success and allow us to support your goals set in the inital consultation. These sessions can be completed by phone/skype or in-person. </p>
+				<p class="legal">Follow-up visits are highly recommended. These sessions support your success and allow us to support your goals set in the initial consultation. These sessions can be completed by phone/skype or in-person. </p>
 			</section>
 		</div>
 		<div class="row sales-button">
 			<div class="button">
-				<a href="{{ route('get-started-maternal') }}" data-services-button data-service="maternal-nutrition" >Set up An Indiviudal Consultation</a>
+				<a href="{{ route('get-started-maternal') }}" data-services-button data-service="maternal-nutrition" >Set up An Individual Consultation</a>
 			</div>
 		</div>
 	</div>

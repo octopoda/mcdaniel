@@ -62,7 +62,7 @@ $header = [
 			<section class="article-list__articles-remaining category row">
 				@if(count($posts) == 0) 
 					<div class="article-list__none">
-						<h3>Sorry there are no post for that search term</h3>
+						<h3>Sorry there are no posts for that search term</h3>
 						<p>Please select a different category</p>
 					</div>
 				@else 

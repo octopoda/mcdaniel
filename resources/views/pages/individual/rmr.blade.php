@@ -43,6 +43,8 @@ $header = [
 					<li>Total Daily Calories based on your RMR and activity/exercise calories</li>
 					<li>Comparison of total calories to others in same age and gender to determine if you have a normal, low or high metabolism</li>
 				</ul>
+
+				<h5>RMR Testing - $75.00</h5>
 				
 				<div class="button">
 					<a href="{{ route('get-started-rmr') }}" data-services-button data-service="rmr-testing" >Measure Your Metabolism Today</a>

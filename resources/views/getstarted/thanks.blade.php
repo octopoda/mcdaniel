@@ -29,7 +29,7 @@ $header = [
 					<div>
 						<h2>You’ve made a decision to improve the quality of your life through nutrition therapy.</h2>
 						<p> This involves not only addressing what you eat, but also how you think and feel about food and your body. As you may have already read on my website, this is not a one size fits all approach. I will strive understand your needs, preferences, and goals in order to offer realistic and personalized solutions for your nutrition and health concerns. </p>
-						<p> Because our habits are deeply engrained, making changes that will last a life time occurs in stages and often takes time. Please be patient. People often wonder how many times we’ll need to meet. That entirely depends on the purpose of our meeting, your goals, your readiness to change, what support systems you have in place, and many other factors. </p>
+						<p> Because our habits are deeply ingrained, making changes that will last a life time occurs in stages and often takes time. Please be patient. People often wonder how many times we’ll need to meet. That entirely depends on the purpose of our meeting, your goals, your readiness to change, what support systems you have in place, and many other factors. </p>
 					</div>
 					
 					<h4>Please download the following forms</h4>
