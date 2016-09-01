@@ -30,7 +30,6 @@ class EmailAdminContactForm
     {
         Mail::send('mail.contactForm', ['mailRequest' => $event->mailRequest], function ($message) use ($event) {
             $message->to(env('MAIL_SEND'))
-                    ->to('zack@octopodainteractive.com')
                     ->from('no-reply@mcdanielnutrition.com')
                     ->subject($event->mailRequest['subject']);
         });
