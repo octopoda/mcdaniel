@@ -23,6 +23,7 @@ $header = [
 	<div class="get-started">
 		<div class="row">
 			<div class="get-started__index">
+				<h2>We Support Change.</h2>
 				<p>We’re dedicated to your unique possibilities. Whether you’re an individual, athlete, or organization, we want to see you empowered to change.  </p>
 				<p>We’ve worked with thousands of nutrition clients in a range of specialties and bring years of education in the science of dietetics and nutrition to all of our clients. Beyond our credentials, we are marathoners, mothers, wives, entrepreneurs, and foodies ourselves, so we know first-hand what it means to make health a priority in the midst of a busy lifestyle. </p>
 

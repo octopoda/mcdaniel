@@ -26,20 +26,21 @@ $header = [
 			<div class="get-started__price tablet-up" >
 				<div data-fixed-asset data-wrapper="getStarted">
 					<h3 data-ng-cloak data-ng-bind-html="vm.name"></h3>
+					<h4 data-ng-cloak data-ng-bind-html="vm.description"></h4>
 					<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
 					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 				</div>
 			</div>
 
 			<div class="get-started__content">
-				<h2>Protect Your Child</h2>
-				<p>Pregnancy is a precious moment of life. But it can also be daunting. The right diet can improve your chances of conception, nourish your growing baby, and get you back on track post-pregnancy. </p>
-				<p>With children of our own, our nutrition experts can give you evidence-based recommendations with real-life understanding.</p>
+				<h2>We Support Change.</h2>
+				<p>Thank you for your interest in the Maternal Health Package. Please complete this sign-up form and the Client Contract and Nutrition Assessment Form. Feel free to email paperwork ahead of time or bring in to your initial consultation. </p>
 
 				<div class="get-started__price phone-only">
-						<h3 data-ng-cloak data-ng-bind-html="vm.name"></h3>
-						<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
-						<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
+					<h3 data-ng-cloak data-ng-bind-html="vm.name"></h3>
+					<h4 data-ng-cloak data-ng-bind-html="vm.description"></h4>
+					<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
+					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 				</div>
 
 

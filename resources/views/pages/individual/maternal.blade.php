@@ -42,7 +42,7 @@ $header = [
 			
 				<h5>Initial Consultation - $150.00</h5>
 				<div class="button">
-					<a href="{{ route('get-started-maternal') }}" data-services-button data-service="maternal-nutrition" >Support Your Maternal Health </a>
+					<a href="{{ route('get-started-maternal') }}" data-services-button data-service="MTHP" data-category="maternal" >Support Your Maternal Health </a>
 				</div>
 			</section>
 		</div>
@@ -60,25 +60,29 @@ $header = [
 		<div class="row g-two-columns">
 			<section class="maternal-description__right">
 				<h3>Maternal Nutrition</h3>
-				<p class="large">Keeping nutrition a priority near or during your pregnancy is easier with support. Our services will give you the most personally tailored consultations which are best for both you and baby. </p>
+				<p>Keeping nutrition a priority near or during your pregnancy is easier with support. Our services will give you the most personally tailored consultations, which are best for both you and baby.</p>
+				<h5>70 Minute Initial Consultation + 30 Minute Follow-Up <br> $250.00</h5>
 			</section>
+		
 			<section class="maternal-description__left">
-				<h5>How we can support you and baby:</h5>
+				<h5>Maternal Health Package Includes: </h5>
 				
 				<ul>
 					<li>Detailed evaluation of your unique maternal nutrition needs</li>
 					<li>Personalized eating strategies and meal plans for optimal results and health</li>
 					<li>Development of your foundational action plan</li>
 					<li>Tailored follow-up plan</li>
+					<li>Can be conducted in office or by phone/skype </li>
 				</ul>
 
-				<p class="legal">Prior to your consultation, you will need to complete a client contract and comprehensive nutritional assessment. Please bring the completed paperwork to your initial consultation. If you desire a computerized nutritional analysis of your 3-day food journal, we will complete this prior to the consult for an additional fee of $30. During our initial consult, we will review your information to glean insights into your unique eating habits, lifestyle needs, experience with weight loss, and areas of focus.</p>
-				<p class="legal">Follow-up visits are highly recommended. These sessions support your success and allow us to support your goals set in the initial consultation. These sessions can be completed by phone/skype or in-person. </p>
+				<p>Prior to your consultation, you will need to complete a client contract and comprehensive nutritional assessment. Please bring the completed paperwork to your initial consultation. During our initial consult, we will review your information to glean insights into your unique eating habits, lifestyle needs, experience with weight loss, and areas of focus.</p>
+				<p>The follow-up session is necessary to support your goals established in the initial consultation. These sessions can be completed by phone/skype or in-person.</p>
+
 			</section>
 		</div>
 		<div class="row sales-button">
 			<div class="button">
-				<a href="{{ route('get-started-maternal') }}" data-services-button data-service="maternal-nutrition" >Set up An Individual Consultation</a>
+				<a href="{{ route('get-started-maternal') }}" data-services-button data-service="MTHP" data-category="maternal" >Set up An Individual Consultation</a>
 			</div>
 		</div>
 	</div>

@@ -29,7 +29,7 @@ class EmailUserTransaction
     public function handle(StoreTransactionComplete $event)
     {
      
-        Mail::send('mail.userTransaction', ['transaction' => $event->transaction, 'products' => $event->products], function ($message) use ($event) {
+        Mail::send('mail.toCustomer.transaction', ['transaction' => $event->transaction, 'products' => $event->products], function ($message) use ($event) {
             $message->to($event->transaction->email)
                     ->from('no-reply@mcdanielnutrition.com')
                     ->subject('Thank You for Your Purchase');

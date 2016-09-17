@@ -1,11 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/xhtml" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="viewport" content="width=device-width" />
-  
-    
-  
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width" />
+	
+		
+	
 </head>
 <body style="-moz-hyphens: none; -ms-hyphens: none; -ms-text-size-adjust: 100%; -webkit-hyphens: none; -webkit-text-size-adjust: 100%; background: #d9d9d9; color: #222222; font-family: serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 19px; margin: 0; min-width: 100%; padding: 30px 0 0; text-align: left; width: 100% !important; word-wrap: normal" bgcolor="#d9d9d9"><style type="text/css">
 body {
@@ -359,9 +359,9 @@ background-color: #d9d9d9; padding-top: 30px; font-family: serif;
   }
 }
 </style>
-  <table class="body" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; border-collapse: collapse; border-spacing: 0; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; height: 100%; hyphens: none; line-height: 19px; margin: 0; padding: 0; text-align: left; vertical-align: top; width: 100%; word-wrap: normal">
-    <tr style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; padding: 0; text-align: left; vertical-align: top; word-wrap: normal" align="left">
-      <td class="center" align="center" valign="top" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; text-align: center; vertical-align: top; word-break: break-word; word-wrap: normal">
+	<table class="body" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; border-collapse: collapse; border-spacing: 0; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; height: 100%; hyphens: none; line-height: 19px; margin: 0; padding: 0; text-align: left; vertical-align: top; width: 100%; word-wrap: normal">
+		<tr style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; padding: 0; text-align: left; vertical-align: top; word-wrap: normal" align="left">
+			<td class="center" align="center" valign="top" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; text-align: center; vertical-align: top; word-break: break-word; word-wrap: normal">
         <center style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; min-width: 580px; width: 100%; word-wrap: normal">
           
           <!-- Main Email Body -->
@@ -375,7 +375,7 @@ background-color: #d9d9d9; padding-top: 30px; font-family: serif;
                       <table style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; border-collapse: collapse; border-spacing: 0; hyphens: none; padding: 0; text-align: left; vertical-align: top; word-wrap: normal">
                           <tr style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; padding: 0; text-align: left; vertical-align: top; word-wrap: normal" align="left">
                             <td style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; text-align: left; vertical-align: top; word-break: break-word; word-wrap: normal" align="left" valign="top">
-                              <img src="https://s3-us-west-2.amazonaws.com/mcdaniel-staging/emails/new-transaction.jpg" alt="Yea! You Got A New Customer" style="-moz-hyphens: none; -ms-hyphens: none; -ms-interpolation-mode: bicubic; -webkit-hyphens: none; clear: both; display: block; float: left; hyphens: none; max-width: 100%; outline: none; text-decoration: none; width: auto; word-wrap: normal" align="left" />
+                              <img src="https://s3-us-west-2.amazonaws.com/mcdaniel-staging/emails/transaction.jpg" alt="Thank's for your purchase" style="-moz-hyphens: none; -ms-hyphens: none; -ms-interpolation-mode: bicubic; -webkit-hyphens: none; clear: both; display: block; float: left; hyphens: none; max-width: 100%; outline: none; text-decoration: none; width: auto; word-wrap: normal" align="left" />
                             </td>
                             <td class="expander" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; text-align: left; vertical-align: top; visibility: hidden; width: 0px; word-break: break-word; word-wrap: normal" align="left" valign="top"></td>
                         </tr>
@@ -391,17 +391,30 @@ background-color: #d9d9d9; padding-top: 30px; font-family: serif;
                       <table class="twelve columns" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; border-collapse: collapse; border-spacing: 0; hyphens: none; margin: 0 auto; padding: 0; text-align: left; vertical-align: top; width: 580px; word-wrap: normal">
                         <tr style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; padding: 0; text-align: left; vertical-align: top; word-wrap: normal" align="left">
                           <td class="text" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 25px; text-align: left; vertical-align: top; word-break: break-word; word-wrap: normal" align="left" valign="top">
-                            <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left">Jen,</p>
-                            
-                            <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left">You just made {{ $transaction-&gt;total }}!</p>
-                            
-                            <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left">Woohoo! {{ $transaction-&gt;email }} just bought {{ count($transaction-&gt;items) }} items from your store. </p>
+                            <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left">Thank you for your purchase. Your transaction has been processed.  Here are the details for your records.</p>
+                           
+                            <dl style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">
+                              <dt style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">Transaction Id:</dt>
+                              <dd style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">{{ $transaction-&gt;transaction_id }}</dd>
+                              <dt style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">Purchased On:</dt>
+                              <dd style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">{{ date('M d, Y h:i a', strtotime($transaction-&gt;created_at)) }}</dd>
 
-                            <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left">Check out your <a href="{{ route('transactionDetail', $transaction-&gt;id) }}" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #78A22E; hyphens: none; text-decoration: none; word-wrap: normal">transaction Details</a> to learn more about who bought what.</p>
+                              <dt style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">Products Purchased</dt>
+                              <dd class="dashboard__content--list" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">
+                                <ul style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">
+                                  @foreach ($products as $product)
+                                    <li style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; font-size: 16px; hyphens: none; list-style: none; margin-bottom: 20px; word-wrap: normal"><a href="{{ route('getDownloads', $transaction-&gt;transaction_id) }}" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #78A22E; hyphens: none; text-decoration: none; word-wrap: normal">{{ $product-&gt;title }}</a></li>
+                                  @endforeach
+                                </ul>
+                              </dd>
 
-                            <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left">I hope you have an amazing day!</p>
-                            <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left"> </p>
-                            <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left">Your Friendly Octopoda Robot</p>
+                            </dl>
+
+                            <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left">Please feel free to contact us with any questions you might have. </p>
+
+
+                            <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left">Have a great day,</p>
+                            <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left">The McDaniel Nutrition Team </p>
                           </td>
                           <td class="expander" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; text-align: left; vertical-align: top; visibility: hidden; width: 0px; word-break: break-word; word-wrap: normal" align="left" valign="top"></td>
                         </tr>
@@ -414,11 +427,63 @@ background-color: #d9d9d9; padding-top: 30px; font-family: serif;
                 
 
                   
+                  <table class="row footer-social no-padding" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; background: #EFF3E5; border-collapse: collapse; border-spacing: 0; display: block; hyphens: none; padding: 0; position: relative; text-align: left; vertical-align: top; width: 100%; word-wrap: normal" bgcolor="#EFF3E5">
+                    <tr style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; padding: 0; text-align: left; vertical-align: top; word-wrap: normal" align="left">
+                      <td class="wrapper last" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; position: relative; text-align: left; vertical-align: top; word-break: break-word; word-wrap: normal" align="left" valign="top">
+                      <table class="four columns center" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; border-collapse: collapse; border-spacing: 0; hyphens: none; margin: 0 auto; padding: 0; text-align: center; vertical-align: top; width: 180px; word-wrap: normal">
+                      <tr style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; padding: 0; text-align: left; vertical-align: top; word-wrap: normal" align="left">
+                      <td class="center" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; text-align: center; vertical-align: top; word-break: break-word; word-wrap: normal" align="center" valign="top">
+                      <center style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; min-width: 180px; width: 100%; word-wrap: normal">
+                      
+                      <td class="wrapper" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; position: relative; text-align: left; vertical-align: top; word-break: break-word; word-wrap: normal" align="left" valign="top">
+                        <table class="two" columns="" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; border-collapse: collapse; border-spacing: 0; hyphens: none; padding: 0; text-align: left; vertical-align: top; width: 80px; word-wrap: normal">
+                          <tr style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; padding: 0; text-align: left; vertical-align: top; word-wrap: normal" align="left">
+                            <td class="text" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; text-align: left; vertical-align: top; word-break: break-word; word-wrap: normal" align="left" valign="top">
+                              <a href="https://twitter.com/mcdanielrdn" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #2ba6cb; hyphens: none; text-decoration: none; word-wrap: normal"><img src="https://s3-us-west-2.amazonaws.com/mcdaniel-staging/emails/twitter.jpg" alt="Join me on Twitter" style="-moz-hyphens: none; -ms-hyphens: none; -ms-interpolation-mode: bicubic; -webkit-hyphens: none; border: none; clear: both; display: block; float: left; hyphens: none; max-width: 100%; outline: none; text-decoration: none; width: auto; word-wrap: normal" align="left" /></a>
+                            </td>
+                            <td class="expander" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; text-align: left; vertical-align: top; visibility: hidden; width: 0px; word-break: break-word; word-wrap: normal" align="left" valign="top"></td>
+                          </tr>
+                        </table>
+                      </td>
+                      <td class="wrapper" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; position: relative; text-align: left; vertical-align: top; word-break: break-word; word-wrap: normal" align="left" valign="top">
+                        <table class="two columns" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; border-collapse: collapse; border-spacing: 0; hyphens: none; margin: 0 auto; padding: 0; text-align: left; vertical-align: top; width: 80px; word-wrap: normal">
+                          <tr style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; padding: 0; text-align: left; vertical-align: top; word-wrap: normal" align="left">
+                            <td class="text" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; text-align: left; vertical-align: top; word-break: break-word; word-wrap: normal" align="left" valign="top">
+                              <a href="https://www.instagram.com/mcdanielrdn/" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #2ba6cb; hyphens: none; text-decoration: none; word-wrap: normal"><img src="https://s3-us-west-2.amazonaws.com/mcdaniel-staging/emails/instagram.jpg" alt="Join me on Instagram" style="-moz-hyphens: none; -ms-hyphens: none; -ms-interpolation-mode: bicubic; -webkit-hyphens: none; border: none; clear: both; display: block; float: left; hyphens: none; max-width: 100%; outline: none; text-decoration: none; width: auto; word-wrap: normal" align="left" /></a>
+                            </td>
+                            <td class="expander" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; text-align: left; vertical-align: top; visibility: hidden; width: 0px; word-break: break-word; word-wrap: normal" align="left" valign="top"></td>
+                          </tr>
+                        </table>
+                      </td>
+                      <td class="wrapper" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; position: relative; text-align: left; vertical-align: top; word-break: break-word; word-wrap: normal" align="left" valign="top">
+                        <table class="two columns" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; border-collapse: collapse; border-spacing: 0; hyphens: none; margin: 0 auto; padding: 0; text-align: left; vertical-align: top; width: 80px; word-wrap: normal">
+                          <tr style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; padding: 0; text-align: left; vertical-align: top; word-wrap: normal" align="left">
+                            <td class="text" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; text-align: left; vertical-align: top; word-break: break-word; word-wrap: normal" align="left" valign="top">
+                              <a href="https://www.facebook.com/mcdanielnutrition/" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #2ba6cb; hyphens: none; text-decoration: none; word-wrap: normal"><img src="https://s3-us-west-2.amazonaws.com/mcdaniel-staging/emails/facebook.jpg" alt="Join me on Facebook" style="-moz-hyphens: none; -ms-hyphens: none; -ms-interpolation-mode: bicubic; -webkit-hyphens: none; border: none; clear: both; display: block; float: left; hyphens: none; max-width: 100%; outline: none; text-decoration: none; width: auto; word-wrap: normal" align="left" /></a>
+                            </td>
+                            <td class="expander" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; text-align: left; vertical-align: top; visibility: hidden; width: 0px; word-break: break-word; word-wrap: normal" align="left" valign="top"></td>
+                          </tr>
+                        </table>
+                      </td>
+                      <td class="wrapper last" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; position: relative; text-align: left; vertical-align: top; word-break: break-word; word-wrap: normal" align="left" valign="top">
+                        <table class="two columns" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; border-collapse: collapse; border-spacing: 0; hyphens: none; margin: 0 auto; padding: 0; text-align: left; vertical-align: top; width: 80px; word-wrap: normal">
+                          <tr style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; padding: 0; text-align: left; vertical-align: top; word-wrap: normal" align="left">
+                            <td class="text" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; text-align: left; vertical-align: top; word-break: break-word; word-wrap: normal" align="left" valign="top">
+                              <a href="https://www.linkedin.com/in/jennifer-mcdaniel-ms-rd-cssd-ld-14a1787" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #2ba6cb; hyphens: none; text-decoration: none; word-wrap: normal"><img src="https://s3-us-west-2.amazonaws.com/mcdaniel-staging/emails/linkedin.jpg" alt="Join me on Linked In" style="-moz-hyphens: none; -ms-hyphens: none; -ms-interpolation-mode: bicubic; -webkit-hyphens: none; border: none; clear: both; display: block; float: left; hyphens: none; max-width: 100%; outline: none; text-decoration: none; width: auto; word-wrap: normal" align="left" /></a>
+                            </td>
+                            <td class="expander" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 0; text-align: left; vertical-align: top; visibility: hidden; width: 0px; word-break: break-word; word-wrap: normal" align="left" valign="top"></td>
+                          </tr>
+                        </table>
+                      </td>
+                    </center></td></tr>
+                  </table>
+
+                  
                   </td>
                   </tr>
                   </table>
                   
-                  <table class="row footer-city" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; background: #D8D8D8; border-collapse: collapse; border-spacing: 0; hyphens: none; padding: 0px; position: relative; text-align: center; vertical-align: top; width: 100%; word-wrap: normal" bgcolor="#D8D8D8">
+                  <table class="row footer-city" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; background: #D8D8D8; border-collapse: collapse; border-spacing: 0; display: block; hyphens: none; padding: 0px; position: relative; text-align: center; vertical-align: top; width: 100%; word-wrap: normal" bgcolor="#D8D8D8">
                     <tr style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; padding: 0; text-align: left; vertical-align: top; word-wrap: normal" align="left">
                       <td class="wrapper last center" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 10px 0px 0px; position: relative; text-align: center; vertical-align: top; word-break: break-word; word-wrap: normal" align="center" valign="top">
                         <table class="twelve columns" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; border-collapse: collapse; border-spacing: 0; hyphens: none; margin: 0 auto; padding: 0; text-align: left; vertical-align: top; width: 580px; word-wrap: normal">
@@ -440,15 +505,15 @@ background-color: #d9d9d9; padding-top: 30px; font-family: serif;
               
                 
                 <!-- container end below -->
-              </center></td>
+              </td>
             </tr>
           </table>
 
         
 
-        
-      
-    
-  
+        </center>
+			</td>
+		</tr>
+	</table>
 </body>
 </html>

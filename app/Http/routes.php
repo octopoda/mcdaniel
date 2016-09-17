@@ -97,6 +97,7 @@ Route::group(["prefix" => "api/v1"], function () {
 		"uses" => "AjaxController@fireEvent"
 	]);
 
+	
 	Route::post('/mailchimp/subscribe', [
 		"as" => "mailChimpSubscribe",
 		"uses" => "MailChimpController@subscribeToMailChimp"

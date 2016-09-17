@@ -1,44 +1,25 @@
-<div data-ng-controller="ContactFormController as fc">
+<div data-ng-controller="ContactFormController as fc" id="replace">
 	<form name="contactForm" class="top-errors m-contact-form" data-ng-submit="fc.submitForm()" data-ng-init="fc.formData.formType = 'get-started-page'; fc.getStarted = true">
-		<!-- Dynamic Form -->
-		<div data-ng-switch="fc.service">
+		{{-- Dynamic Form  --}}
+		<div data-ng-switch="fc.dropdownType">
+			
+			{{-- All Services --}}
 			<div class="form-group" data-ng-switch-when="all">
 				<label for="service">Our Services:</label>
-				<select id="interestedService" name="interestedService" data-ng-model="fc.formData.interestedService" data-ng-change="fc.updatePrice()" >
-					<option value="weight-loss-consult" selected="selected" data-item-price="150">Weight Loss Consultation</option>
-					<option value="weight-loss-premium" data-item-price="450">Weight Loss Packages</option>
-					<option value="weight-loss-sustain-online" data-item-price="400">Sustain Weight Loss Online</option>
-					<option value="sports-nutrition" data-item-price="180">Sports Nutrition</option>
-					<option value="maternal-nutrition" data-item-price="150">Maternal Nutrition</option>
-					<option value="rmr-testing" data-item-price="75">RMR Testing</option>
-					<option value="sustain-coporate" data-item-price="null">Corporate Sustain </option>
-					<option value="sustain-virtual" data-item-price="null">Corporate Sustain Online</option>
-					<option value="lunch-and-learn" data-item-price="300">Lunch &amp; Learn</option>
-					<option value="teach-and-taste" data-item-price="400">Taste &amp; Teach</option>
-					<option value="webinars">Webinars</option>
+				<select data-ng-model="fc.formData.interestedService" name="interestedService" id="interestedService" data-ng-change="fc.updatePrice()" data-ng-required="true">
+					<option data-ng-repeat="service in fc.allServices" value="{! service.code !}" data-item-category="{! service.category !}">{! service.name !}</option>
 				</select>
 			</div>
 
-			<!-- Weight Loss -->
-			<div class="form-group" data-ng-switch-when="weight-loss">
-				<label for="service">Weight Loss Services:</label>
-				<select id="interestedService" name="interestedService" data-ng-model="fc.formData.interestedService" data-ng-change="fc.updatePrice()">
-					<option value="weight-loss-consult" selected="selected" data-item-price="150" data-item-name="Weight Loss <br> Individual Consultation">Weight Loss Consultation</option>
-					<option value="weight-loss-premium" data-item-price="450" data-item-name="Premium Sustain Weight Loss Consultation">Weight Loss Packages</option>
-					<option value="weight-loss-sustain-online" data-item-price="400" data-item-name="Sustain Weight Loss Online">Sustain Weight Loss Online</option>
+			{{-- Service Based on Category --}}
+			<div class="form-group" data-ng-switch-when="category">
+				<label for="service">Services Offered:</label>
+				<select data-ng-model="fc.formData.interestedService" name="interestedService" id="interestedService" data-ng-required="true" data-ng-change="fc.updatePrice()">
+					<option data-ng-repeat="service in fc.categoryServices" value="{! service.code !}" data-item-category="{! fc.service.category !}">{! service.name !}</option>
 				</select>
 			</div>
 
-			<!-- Sustain Corporate -->
-			<div class="form-group" data-ng-switch-when="sustain-corporate">
-				<label for="service">Online Service:</label>
-				<select id="interestedService" name="interestedService" data-ng-model="fc.formData.interestedService" data-ng-change="fc.updatePrice()">
-					<option value="sustain-corporate" data-item-price=null>In-Office</option>
-					<option value="sustain-online" data-item-price=null>Online</option>
-				</select>
-			</div>
-
-
+			{{-- Single Service --}}
 			<div class="form-group" data-ng-switch-default>
 				<input type="hidden" id="interestedService" name="interestedService" data-ng-model="fc.formData.interestedService">
 			</div>
@@ -97,6 +78,7 @@
 		
 		<div class="form-group__center">
 			<input type="hidden" name="form_type" data-ng-model="fc.formData.formType" value="get-started-page">
+			<input type="hidden" name="category" data-ng-model="fc.formData.category" value="{! fc.formData.category !}">
 			<button class="button__loading {! fc.loading !}" ng-disabled="contactForm.$invalid">
 				<div class="progress-spinner"></div>
 				<div class="button-text">Get Started</div> 

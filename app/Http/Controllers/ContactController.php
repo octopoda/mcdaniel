@@ -60,16 +60,19 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
+
+
         if ($request['formType'] == 'alertMessage') {
             Event::fire(new AlertSubmitted($request->except('_token')));
             return;
         }
 
-        $request['message'] = $request->except('_token');
-        $contact = $this->contact->create($request->except('_token'));
-        
         // dd($request->all());
 
+        $request['message'] = $request->except('_token', 'interestedService', 'category');
+        $contact = $this->contact->create($request->except('_token', 'interestedService', 'category'));
+        
+        
         Event::fire(new contactFormSubmitted( $request->except('_token', 'message', 'serviceType') )); 
 
         if ($request->get('formType') == 'get-started-page') {

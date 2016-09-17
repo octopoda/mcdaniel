@@ -5,14 +5,15 @@
         .module('mcdaniel.getstarted')
         .controller('GetStartedController', GetStartedController);
 
-    GetStartedController.$inject = ['$rootScope', 'localStorageService', '$location'];
+    GetStartedController.$inject = ['$rootScope', 'localStorageService', 'servicesService', 'common'];
 
     /* @ngInject */
-    function GetStartedController($rootScope, localStorageService, $location) {
+    function GetStartedController($rootScope, localStorageService, servicesService, common) {
         var vm = this;
         vm.title = 'GetStartedController';
         vm.price = null;
         vm.service = localStorageService.get('interestedService');
+        vm.AllServices = null;
         vm.name = null;
 
         activate();
@@ -20,92 +21,130 @@
         ////////////////
         
         
-        
-        
-
-
+        /**
+         * Activate the Service
+         * @return 
+         */
         function activate() {
-            clearServiceIfNeeded();
+            // console.log('activate', vm.service)
 
-            console.dir(vm.service);
-            
-            switch (vm.service) {
-                case 'lunch-and-learn' :
-                    vm.price = '$300.00';
-                    vm.name = "Lunch and Learn Session";
-                    break;
-                case "teach-and-taste" : 
-                    vm.price = '$400.00';
-                    vm.name = "Teach and Taste Session";
-                    break;
-                case 'webinars' : 
-                    vm.price = '$300.00';
-                    vm.name = "Company Webinar";
-                    break;
-                case 'weight-loss-consult' : 
-                    vm.price = "$150.00";
-                    vm.name = "Weight Loss <br> Individual Consultation";
-                    break;
-                case 'weight-loss-premium' : 
-                    vm.price = "$450.00";
-                    vm.name = "Weight Loss<br> Packages";
-                    break;
-                case 'weight-loss-sustain-online' : 
-                    vm.price = "$400.00";
-                    vm.name = "Sustain <br>Weight Loss Online";
-                    break;
-                case 'sports-nutrition' :
-                    vm.name = "Sports Nutrition <br> Individual Consultation";
-                    vm.price = "$180.00";
-                    break;
-                case 'maternal-nutrition' :
-                    vm.name = "Maternal Nutrition <br> Individual Consultation";
-                    vm.price = "$150.00";
-                    break;
-                case 'rmr-testing' :
-                    vm.name = "Metabolic Test";
-                    vm.price = "$75.00"
+            if (vm.service == null) {
+                vm.service = {
+                    category: null,
+                    code: null
+                };
             }
+
+            vm.service = servicesService.clearServiceFromURL(vm.service);
+
+            
+            if (vm.service.category == null) {
+                getAllServices();
+            } else if (vm.service.code === null) {
+                //Get the Service for Categories
+                getServices();
+            } else {
+                //Get the Indiviudal Service
+                getService();    
+            }
+        }
+
+        function getAllServices() {
+            servicesService.getServices().then(function (data) {
+                for (var key in data.services) {
+                    if (!data.services.hasOwnProperty(key))  continue;
+                    data.services[key].forEach(function (service) {
+                        if (service.code !== null) {
+                            service.category = key;
+                            vm.allServices.push(service);    
+                        }
+                    });
+                }
+
+                vm.service = vm.AllServices[0].code;
+            });
+        }
+
+        /**
+         * Get the First from and Indivdual   Service
+         * @return {object} 
+         */
+        function getServices() {
+            servicesService.getServiceCategory(vm.service.category).then(function (data) {
+                vm.service = data[0];
+                populateHTML(vm.service);
+            });
+        }
+
+        /**
+         * Get Indivdual Servic
+         * @return {object} 
+         */
+        function getService() {
+            servicesService.getService(vm.service.category, vm.service.code).then(function (data) {
+                vm.service = data[0];
+                populateHTML(vm.service);
+            });
+        }
+
+
+        function populateHTML(service) {
+            vm.name = service.html;
+            vm.price  = (service.price !== null) ? '$' + common.addZeroes(service.price) : null;
+            vm.code = service.code;
+            vm.description = service.description;
+        }
+
+        /**
+         * Filter the Service that are returned. 
+         * @param  {[type]} object [description]
+         * @return {[type]}        [description]
+         */
+        function filterCode(object) {
+            
         }
 
         function clearServiceIfNeeded() {
-            var path = $location.absUrl().split('/')[4]
             
-            //Multiples
-            if (path === 'weight-loss' ) {
-                if (vm.service != 'weight-loss-consult' && vm.service != 'weight-loss-premium' && vm.service != 'weight-loss-sustain-online')  {
-                    vm.service = "weight-loss-consult";
-                }
+            var corporateArray = ['corporate', 'sustain'];
+            var category = null;
+            
+            /** Reset Weight */
+            
 
-            } 
-
-            if (path === 'corporate-wellness' ) {
-                if (vm.service != 'lunch-and-learn' && vm.service != 'teach-and-taste' && vm.service != 'webinars')  {
-                    vm.service = null
-                }
-            } 
-
-            //Singles
-            if (path === 'maternal-nutrition' && vm.service != 'maternal-nutrition')  {
-              vm.service = "maternal-nutrition";  
-            } 
-
-            if (path === 'sports-nutrition' && vm.service != 'sports-nutrition')  {
-              vm.service = "sports-nutrition";  
-            }     
-
-            if (path === 'rmr-testing' && vm.service != 'rmr-testing')  {
-              vm.service = "rmr-testing";  
-            } 
-
+            
         }
+
+
+        /**
+         * Send Service Object to 
+         * @param  {[type]} serviceObject [description]
+         * @return {[type]}               [description]
+         */
+        function updateService(serviceObject) {
+            $rootscope.$emit('updateService', serviceObject);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Scope Functions
+        |--------------------------------------------------------------------------
+        |
+        | Description 1
+        |  Description 2
+        | 
+        |
+        */
 
         $rootScope.$on('updatePrice', function handlePrice(event, data) {
             if (data !== "null") {
-                vm.price = "$" + data.price  + '.00';    
-                vm.name = data.name;
+               vm.service = data;
+               getService(); 
             }
             
         });
+
+
+        
     }
 })();

@@ -101,12 +101,12 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular.module('global.sidemenu', []);
+    angular.module('global.share', []);
 })();
 (function() {
     'use strict';
 
-    angular.module('global.share', []);
+    angular.module('global.sidemenu', []);
 })();
 (function() {
     'use strict';
@@ -777,6 +777,7 @@ var jq = $.noConflict();
         	return $http.post(apiUrl, data)
                 .then(mailSent)
                 .catch(function (message) {
+                    jq('#replace').html(message);
                     errors.catcher('Mail cannot be sent at this time.')(message);
                 });
 
@@ -853,16 +854,18 @@ var jq = $.noConflict();
         .module('mcdaniel.api')
         .factory('servicesService', servicesService);
 
-     servicesService.$inject = ['$http', 'common', 'errors'];
+     servicesService.$inject = ['$http', 'common', 'errors', '$location'];
 
     /* @ngInject */
-    function servicesService($http, common,  errors) {
+    function servicesService($http, common,  errors, $location) {
         var apiUrl = '/assets/data/services.json';
+        var serviceCode = null;
         
         var service = {
-            // getAllServices : getAllServices, 
-            getWeightServices : getWeightServices,
-        //     // getMaternalServices : getMaternalServices
+            getServices : getServices,
+            getServiceCategory  : getServiceCategory,
+            getService : getService,
+            clearServiceFromURL: clearServiceFromURL
         };
 
 
@@ -878,47 +881,171 @@ var jq = $.noConflict();
                 });
 
                 function servicesComplete(data, status, headers, config) {
-                    return data;
+                    return data.data;
                 }  
         }
 
-        
-        function getAllServices () {
-           
-            // getServices.then(function (data) {
-            //     return data;
-            // } 
+        /**
+         * Get all Services under type
+         * @param  {string} category 
+         * @return {object}          
+         */
+        function getServiceCategory(category) {
+            return getServices().then(function (data) {
+                var array = [];
+                switch(category) {
+                    case 'weight' :
+                        return removeAllService(data.services.weight);
+                    case 'sports' :
+                        return removeAllService(data.services.sports);
+                    case 'maternal' :
+                        return removeAllService(data.services.maternal);
+                    case "metabolic" : 
+                        return removeAllService(data.services.metabolic);
+                    case "sustain" : 
+                        return removeAllService(data.services.sustain);
+                    case "corporate" :
+                        return removeAllService(data.services.corporate);
+                }
+
+                return array;
+           })
         }
 
 
-        function getWeightServices() {
-            return getServices.then(function (data) {
-                return data.services.weight;
-            });
-           // getServices.then(function (data) {
-           //      return data.services.weight;
-           // });
+        /**
+         * Remove the All Services Services from the Data
+         * @param  {array} array 
+         * @return {aray}       
+         */
+        function removeAllService(array) {
+            var data = [];
+            array.forEach(function (object) {
+                if (object.code !== null) {
+                    data.push(object);
+                }
+            })
+            return data;
+        }
+
+        /**
+         * Get a Specific Service inside a category
+         * @param  {string} category 
+         * @param  {string} code     
+         * @return {array}          
+         */
+        function getService(category, code) {
+            serviceCode = code;
+            
+            return getServiceCategory(category).then(function (data) {
+                return data.filter(filterCode);
+            })
+        }
+
+        /**
+         * Filter the Object Array based on the code of the service (uses polyfill below)
+         * @param  {object} object 
+         * @param  {string} code   
+         * @return {object}        
+         */
+        function filterCode(object) {
+            if (object.code === serviceCode) {
+                return object;
+            } else {
+                return false;
+            }
+        }
+
+        /**
+         * Check the URL and clear the category if needed
+         * @param  {object} service 
+         * @return {object}         
+         */
+        function clearServiceFromURL(service) {
+            var path = $location.absUrl().split('/')[4]
+            var corporateArray = ['corporate', 'sustain'];
+            var category = null;
+
+            /** Reset Weight */
+            if (path === 'weight-loss' && (service.category !== "weight" || service.category === null )) {
+                category = "weight";
+            } 
+            
+            /** Rest Corporate Wellness */
+            if (path === 'corporate-wellness'  && (corporateArray.indexOf(service.category) === -1 || service.category === null)) {
+                category = "corporate";
+            } 
+
+            /** Reset Matenal */
+            if (path === 'maternal-nutrition' && (service.category !== 'maternal' || service.category === null))  {
+                category = "maternal";
+            } 
+
+            /** Reset Sports Nutition */
+            if (path === 'sports-nutrition' && (service.category !== 'sports' || service.category === null))  {
+                  category = "sports";
+            }     
+
+            /** Reset RMR Testing */
+            if (path === 'rmr-testing' && (service.category !== 'metabolic' || service.category === null))  {
+                category = "rmr";
+            } 
+
+            
+            return service =  {
+              category: (category === null) ? service.category : category,
+              code: service.code
+            }
         }
 
 
-        // function getMaternalServices() {
-        //     getServices.then(function (data) {
-        //         return data.services.maternal;   
-        //     })
-        // }
 
-        
-        // function getSportsServices() {
-        //     getServices.then(function (data) {
-        //         return data.services.sports;
-        //     })
-        // }
+        /*
+        |--------------------------------------------------------------------------
+        | PolyFill
+        |--------------------------------------------------------------------------
+        |
+        | Adding a filter Polyfill since this is ES5
+        |
+        */
+       
+       if (!Array.prototype.filter) {
+          Array.prototype.filter = function(fun/*, thisArg */) {
+            'use strict';
 
-        // function getCoporateServices() {
-        //     getServices.then(function data () {
-        //         return data.services.corporate;
-        //     });
-        // }
+            if (this === void 0 || this === null) {
+              throw new TypeError();
+            }
+
+            var t = Object(this);
+            var len = t.length >>> 0;
+            if (typeof fun !== 'function') {
+              throw new TypeError();
+            }
+
+            var res = [];
+            var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
+            for (var i = 0; i < len; i++) {
+              if (i in t) {
+                var val = t[i];
+
+                // NOTE: Technically this should Object.defineProperty at
+                //       the next index, as push can be affected by
+                //       properties on Object.prototype and Array.prototype.
+                //       But that method's new, and collisions should be
+                //       rare, so use the more-compatible alternative.
+                if (fun.call(thisArg, val, i, t)) {
+                  res.push(val);
+                }
+              }
+            }
+
+            return res;
+          };
+        }
+
+
+
     }
 })();
 /*
@@ -1247,7 +1374,10 @@ var jq = $.noConflict();
         /** @type {Vars} Scope Vars */
         vm.loading = false;
         vm.success = false;
-        vm.service = 'all'
+        vm.service = localStorageService.get('interestedService');
+        vm.categoryServices = null;
+        vm.allServices = [];
+        vm.dropdownType = null;
 
         /** @type {Methods} Scope Methods */
         vm.submitForm = submitForm;
@@ -1256,6 +1386,7 @@ var jq = $.noConflict();
 
         /** @type {String} Success Message */
         vm.successMessage = "Thanks for Contacting Us. Your email is important to us and we will get back to you in 1 to 2 business days.";
+
 
 
         /**
@@ -1273,7 +1404,7 @@ var jq = $.noConflict();
             question: null,
             interestedService: null,
             lastArticleRead: null,
-            serviceType: null
+            service: null
         }
 
         /**
@@ -1300,25 +1431,104 @@ var jq = $.noConflict();
          * @return {[type]} [description]
          */
         function activate() {
-            vm.formData.interestedService = localStorageService.get('interestedService');
-            vm.service = localStorageService.get('interestedService');
+            
 
-            if (vm.formData.interestedService == null) vm.service = 'all';
-            if (vm.formData.interestedService == 'weight-loss') vm.formData.interestedService = 'weight-loss-consult';
-            if (vm.formData.interestedService == null) vm.formData.interestedService = 'weight-loss-consult';
+            if(vm.service === null) {
+                vm.service = {
+                    category: null,
+                    code: null
+                }
+            }
+
+            // console.log('from form', vm.service);
+
+            vm.service = servicesService.clearServiceFromURL(vm.service);
+            
+
+            
+
+            //Need a Dropdown of All Services
+            if (vm.service.category === null) {
+                getAllServices();
+            
+            //Not a specific services so need drop down on services per cateogry
+            } else if (vm.service.category !== null && vm.service.code === null) {
+                getServiceCategory(vm.service.category);
+            
+            //Came for a single service
+            } else {
+                vm.formData.interestedService = vm.service.code;
+                vm.formData.category = vm.service.category;
+            }
         }
 
         
+        /**
+         * Get all the Services and prepare for select box
+         * @return {array} 
+         */
+        function getAllServices() {
+            servicesService.getServices().then(function (data) {
+                for (var key in data.services) {
+                    if (!data.services.hasOwnProperty(key))  continue;
+                    data.services[key].forEach(function (service) {
+                        if (service.code !== null) {
+                            service.category = key;
+                            vm.allServices.push(service);    
+                        }
+                    });
+                }
+
+                vm.formData.interestedService = vm.allServices[0].code;
+                vm.dropdownType = 'all';
+            });
+        }
+
+        /**
+         * Get Services in service category and prepare for select box
+         * @param  {string} category 
+         * @return {array}          
+         */
+        function getServiceCategory(category) {
+            servicesService.getServiceCategory(category).then(function (data) {
+                vm.categoryServices = data;
+                vm.formData.interestedService = data[0].code;
+                vm.formData.category = vm.service.category;
+                if (data.length === 1) return;
+                vm.dropdownType = 'category'
+            });
+        }
+
+
+
+
+        
+
+        
+        /**
+         * Update the Price based on Selection of Service
+         * @return {object} 
+         */
         function updatePrice() {
-            var price = jq("#interestedService").find(':selected').attr('data-item-price');
-            var name = jq("#interestedService").find(':selected').attr('data-item-name');
+            var code = jq("#interestedService").find(':selected').val();
+            var category = jq("#interestedService").find(':selected').attr('data-item-category');
+
+            vm.formData.category = category;
+
             var data = {
-                price: price,
-                name: name
+                category : category,
+                code: code
             };
 
             $rootScope.$emit('updatePrice', data);
         }
+
+        $rootScope.$on('updateService', function (event, data) {
+            if (data !== "null") {
+               vm.service = data;
+               activate(); 
+            }
+        })
 
         /*
         |--------------------------------------------------------------------------
@@ -1340,30 +1550,30 @@ var jq = $.noConflict();
 
             vm.formData.subject = setupEmailSubject();
             vm.formData.lastArticleRead = localStorageService.get('lastArticleRead');
-            vm.formData.serviceType = pickServiceType(vm.formData.interestedService);
-            
-            vm.formData.interestedService = vm.formData.interestedService.replace(/\-/g, " ");
-
             
 
-            
-            mailService.sendToMailer(vm.formData)
-                .then(function (data) {
-                    mailSent(data);
+            servicesService.getService(vm.formData.category, vm.formData.interestedService).then(function (data) {
+                vm.formData.service = data[0];   
+                
+                mailService.sendToMailer(vm.formData).then(function (data) {
+                        mailSent(data);
                 });
 
-            function mailSent(data) {
-                if (data.status == 200) {
-                    localStorageService.set('submittedService', vm.formData.interestedService);
+                function mailSent(data) {
+                    if (data.status == 200) {
+                        vm.formData.service.category = vm.formData.category;
+                        localStorageService.set('submittedService', vm.formData.service);
 
-                    clearForm();
-                    vm.success = true;
+                        clearForm();
+                        vm.success = true;
 
-                    if (vm.getStarted) {
-                        window.location = '/get-started/thanks'
+                        if (vm.getStarted) {
+                            // console.dir(data);
+                            window.location = '/get-started/thanks'
+                        }
                     }
                 }
-            }
+            });
         }
 
 
@@ -1374,6 +1584,7 @@ var jq = $.noConflict();
         function setupEmailSubject() {
             switch (vm.formData.formType) {
                 case "get-started-page":
+                    vm.getStarted = true;
                     return 'The Get Started Page was submitted';
                     break;
                 case "faqForm":
@@ -1416,40 +1627,7 @@ var jq = $.noConflict();
         }
 
 
-        function pickServiceType(service) {
-            switch (service) {
-                case 'lunch-and-learn' :
-                    return 'corporate';
-                    break;
-                case "teach-and-taste" : 
-                    return 'corporate';
-                    break;
-                case 'webinars' : 
-                    return 'corporate';
-                    break;
-                case 'weight-loss-consult' : 
-                    return 'weight';
-                    break;
-                case 'weight-loss-premium' : 
-                    return 'weight';
-                    break;
-                case 'weight-loss-sustain-online' : 
-                    return 'weight';
-                    break;
-                case 'sports-nutrition' :
-                    return 'sports';
-                    break;
-                case 'maternal-nutrition' :
-                    return 'maternal';
-                    break;
-                case 'rmr-testing' :
-                    return 'rmr';
-                    
-            }
-        }
 
-
-       
         /*
         |--------------------------------------------------------------------------
         | Testing Methods
@@ -1465,12 +1643,12 @@ var jq = $.noConflict();
                 bestContactTime: {
                     'afternoon' : true,
                     'morning' : true
+                    // 'evening' : true
                 },
                 subject: "Big Gulp Huh?",
                 contactMessage: 'alright\' ... we\'ll see you later',
                 formType: null,
                 question: 'Big Gulps Huh?',
-                interestedService: 'teach-and-taste'
             }
         }
 
@@ -1484,14 +1662,15 @@ var jq = $.noConflict();
         .module('mcdaniel.getstarted')
         .controller('GetStartedController', GetStartedController);
 
-    GetStartedController.$inject = ['$rootScope', 'localStorageService', '$location'];
+    GetStartedController.$inject = ['$rootScope', 'localStorageService', 'servicesService', 'common'];
 
     /* @ngInject */
-    function GetStartedController($rootScope, localStorageService, $location) {
+    function GetStartedController($rootScope, localStorageService, servicesService, common) {
         var vm = this;
         vm.title = 'GetStartedController';
         vm.price = null;
         vm.service = localStorageService.get('interestedService');
+        vm.AllServices = null;
         vm.name = null;
 
         activate();
@@ -1499,93 +1678,131 @@ var jq = $.noConflict();
         ////////////////
         
         
-        
-        
-
-
+        /**
+         * Activate the Service
+         * @return 
+         */
         function activate() {
-            clearServiceIfNeeded();
+            // console.log('activate', vm.service)
 
-            console.dir(vm.service);
-            
-            switch (vm.service) {
-                case 'lunch-and-learn' :
-                    vm.price = '$300.00';
-                    vm.name = "Lunch and Learn Session";
-                    break;
-                case "teach-and-taste" : 
-                    vm.price = '$400.00';
-                    vm.name = "Teach and Taste Session";
-                    break;
-                case 'webinars' : 
-                    vm.price = '$300.00';
-                    vm.name = "Company Webinar";
-                    break;
-                case 'weight-loss-consult' : 
-                    vm.price = "$150.00";
-                    vm.name = "Weight Loss <br> Individual Consultation";
-                    break;
-                case 'weight-loss-premium' : 
-                    vm.price = "$450.00";
-                    vm.name = "Weight Loss<br> Packages";
-                    break;
-                case 'weight-loss-sustain-online' : 
-                    vm.price = "$400.00";
-                    vm.name = "Sustain <br>Weight Loss Online";
-                    break;
-                case 'sports-nutrition' :
-                    vm.name = "Sports Nutrition <br> Individual Consultation";
-                    vm.price = "$180.00";
-                    break;
-                case 'maternal-nutrition' :
-                    vm.name = "Maternal Nutrition <br> Individual Consultation";
-                    vm.price = "$150.00";
-                    break;
-                case 'rmr-testing' :
-                    vm.name = "Metabolic Test";
-                    vm.price = "$75.00"
+            if (vm.service == null) {
+                vm.service = {
+                    category: null,
+                    code: null
+                };
             }
+
+            vm.service = servicesService.clearServiceFromURL(vm.service);
+
+            
+            if (vm.service.category == null) {
+                getAllServices();
+            } else if (vm.service.code === null) {
+                //Get the Service for Categories
+                getServices();
+            } else {
+                //Get the Indiviudal Service
+                getService();    
+            }
+        }
+
+        function getAllServices() {
+            servicesService.getServices().then(function (data) {
+                for (var key in data.services) {
+                    if (!data.services.hasOwnProperty(key))  continue;
+                    data.services[key].forEach(function (service) {
+                        if (service.code !== null) {
+                            service.category = key;
+                            vm.allServices.push(service);    
+                        }
+                    });
+                }
+
+                vm.service = vm.AllServices[0].code;
+            });
+        }
+
+        /**
+         * Get the First from and Indivdual   Service
+         * @return {object} 
+         */
+        function getServices() {
+            servicesService.getServiceCategory(vm.service.category).then(function (data) {
+                vm.service = data[0];
+                populateHTML(vm.service);
+            });
+        }
+
+        /**
+         * Get Indivdual Servic
+         * @return {object} 
+         */
+        function getService() {
+            servicesService.getService(vm.service.category, vm.service.code).then(function (data) {
+                vm.service = data[0];
+                populateHTML(vm.service);
+            });
+        }
+
+
+        function populateHTML(service) {
+            vm.name = service.html;
+            vm.price  = (service.price !== null) ? '$' + common.addZeroes(service.price) : null;
+            vm.code = service.code;
+            vm.description = service.description;
+        }
+
+        /**
+         * Filter the Service that are returned. 
+         * @param  {[type]} object [description]
+         * @return {[type]}        [description]
+         */
+        function filterCode(object) {
+            
         }
 
         function clearServiceIfNeeded() {
-            var path = $location.absUrl().split('/')[4]
             
-            //Multiples
-            if (path === 'weight-loss' ) {
-                if (vm.service != 'weight-loss-consult' && vm.service != 'weight-loss-premium' && vm.service != 'weight-loss-sustain-online')  {
-                    vm.service = "weight-loss-consult";
-                }
+            var corporateArray = ['corporate', 'sustain'];
+            var category = null;
+            
+            /** Reset Weight */
+            
 
-            } 
-
-            if (path === 'corporate-wellness' ) {
-                if (vm.service != 'lunch-and-learn' && vm.service != 'teach-and-taste' && vm.service != 'webinars')  {
-                    vm.service = null
-                }
-            } 
-
-            //Singles
-            if (path === 'maternal-nutrition' && vm.service != 'maternal-nutrition')  {
-              vm.service = "maternal-nutrition";  
-            } 
-
-            if (path === 'sports-nutrition' && vm.service != 'sports-nutrition')  {
-              vm.service = "sports-nutrition";  
-            }     
-
-            if (path === 'rmr-testing' && vm.service != 'rmr-testing')  {
-              vm.service = "rmr-testing";  
-            } 
-
+            
         }
+
+
+        /**
+         * Send Service Object to 
+         * @param  {[type]} serviceObject [description]
+         * @return {[type]}               [description]
+         */
+        function updateService(serviceObject) {
+            $rootscope.$emit('updateService', serviceObject);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Scope Functions
+        |--------------------------------------------------------------------------
+        |
+        | Description 1
+        |  Description 2
+        | 
+        |
+        */
 
         $rootScope.$on('updatePrice', function handlePrice(event, data) {
             if (data !== "null") {
-                vm.price = "$" + data.price  + '.00';    
-                vm.name = data.name;
+               vm.service = data;
+               getService(); 
             }
             
         });
+
+
+        
     }
 })();
 (function() {
@@ -1608,41 +1825,8 @@ var jq = $.noConflict();
         ////////////////
 
         function activate() {
-             switch (localStorageService.get('submittedService')) {
-                case 'lunch-and-learn' :
-                    vm.service = 'corporate';
-                    break;
-                case 'teach-and-taste' : 
-                    vm.service = 'corporate';
-                    break;
-                case 'webinars' : 
-                    vm.service = 'corporate';
-                    break;
-                case 'weight-loss-consult' : 
-                    vm.service = "weight";
-                    break;
-                case 'weight-loss-premium' : 
-                    vm.service = "weight";
-                    break;
-                case 'weight-loss-sustain-online' : 
-                    vm.service = "weight";
-                    break;
-                case 'weight-loss' :
-                    vm.service = "weight";
-                    break;
-                case 'sports-nutrition' :
-                    vm.service = "sports";
-                    break;
-                case 'maternal-nutrition' :
-                    vm.service = "maternal";
-                    break;
-                case 'rmr-testing' :
-                    vm.service = "rmr"
-                case 'default' :
-                	vm.service = "default"
-            }
-
-            console.log(vm.service);
+            vm.service = localStorageService.get('submittedService');
+            console.dir(vm.service);
         }
     }
 })();
@@ -1704,7 +1888,7 @@ var jq = $.noConflict();
     /* @ngInject */
     function common($location, $q, $rootScope, $timeout, flash) {
         var dev = false;
-        var testing = false;
+        var testing = true;
 
 
         var service = {
@@ -1721,6 +1905,7 @@ var jq = $.noConflict();
             isNumber: isNumber,
             addCommas: addCommas,
             removeCommas: removeCommas,
+            addZeroes: addZeroes,
             toTitleCase : toTitleCase,
             scrollToElement : scrollToElement,
             debounce: debounce,
@@ -1814,6 +1999,27 @@ var jq = $.noConflict();
             parts[0] = parts[0].replace(/,/g, '');
             return parseFloat(parts[0]);
         };
+
+        /**
+         * Add Zeros to the Number to make it a price.
+         * @param {int/string} num 
+         */
+        function addZeroes( num ) {
+           // Cast as number
+           var num = Number(num);
+           // If not a number, return 0
+           
+           if (isNaN(num)) {
+                return 0;
+           }
+           // If there is no decimal, or the decimal is less than 2 digits, toFixed
+           if (String(num).split(".").length < 2 || String(num).split(".")[1].length<=2 ){
+               num = num.toFixed(2);
+           }
+           
+           // Return the number
+           return num;
+        }
 
         /**
          * Turn String to Title Case
@@ -2851,70 +3057,6 @@ var jq = $.noConflict();
 
     
 })();
-/*
-|--------------------------------------------------------------------------
-| Menu Toggle Directive
-|--------------------------------------------------------------------------
-|
-| Adds the class to open any id that you specify in the menu-toggle attribute
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('global.sidemenu')
-        .directive('menuToggle', menuToggle);
-
-    menuToggle.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function menuToggle ($rootScope) {
-        // Usage:
-        // <div menu-toggle="{id of element you wish to toggle}"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	jq(element).on('click', function () {
-               toggleMenu(attrs.menuToggle);
-               jq(this).toggleClass('active');
-            });
-
-            $rootScope.$on('menu.close', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-
-            $rootScope.$on('menu.open', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-		}
-    }
-
-    /**
-     * Toggle Menu Element
-     * @param  {string}  attr   
-     * @param  {Boolean} isOpen 
-     * @return {Boolean}         
-     */
-    function toggleMenu(attr) {
-    	var target = jq('#'+attr);
-
-        if (target.hasClass('open')) {
-    		target.removeClass('open');
-            return false;
-        } else {
-    	   target.addClass('open');	
-           return true;
-    	}
-    };
-
-
-})();
 
 /*
 |--------------------------------------------------------------------------
@@ -3215,6 +3357,70 @@ var jq = $.noConflict();
     }
 
     
+})();
+/*
+|--------------------------------------------------------------------------
+| Menu Toggle Directive
+|--------------------------------------------------------------------------
+|
+| Adds the class to open any id that you specify in the menu-toggle attribute
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('global.sidemenu')
+        .directive('menuToggle', menuToggle);
+
+    menuToggle.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function menuToggle ($rootScope) {
+        // Usage:
+        // <div menu-toggle="{id of element you wish to toggle}"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	jq(element).on('click', function () {
+               toggleMenu(attrs.menuToggle);
+               jq(this).toggleClass('active');
+            });
+
+            $rootScope.$on('menu.close', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+
+            $rootScope.$on('menu.open', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+		}
+    }
+
+    /**
+     * Toggle Menu Element
+     * @param  {string}  attr   
+     * @param  {Boolean} isOpen 
+     * @return {Boolean}         
+     */
+    function toggleMenu(attr) {
+    	var target = jq('#'+attr);
+
+        if (target.hasClass('open')) {
+    		target.removeClass('open');
+            return false;
+        } else {
+    	   target.addClass('open');	
+           return true;
+    	}
+    };
+
+
 })();
 (function() {
     'use strict';
@@ -3975,6 +4181,30 @@ var jq = $.noConflict();
 
     angular
         .module('mcdaniel.pages')
+        .controller('WeightlossController', WeightlossController);
+
+    /* @ngInject */
+    function WeightlossController(servicesService) {
+        var vm = this;
+        vm.title = 'WeightlossController';
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+        	servicesService.getServices().then(function (data) {
+        		console.dir(data.data.services.weight);
+        	})
+        }
+    }
+    WeightlossController.$inject = ["servicesService"];
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.pages')
         .directive('removeServicesButton', removeServicesButton);
 
    	removeServicesButton.$inject = ['localStorageService'];
@@ -4025,27 +4255,29 @@ var jq = $.noConflict();
             link: link,
             restrict: 'A',
             scope: {
-            	service: "@"
+            	service: "@",
+                category: "@"
             }
         };
         
         return directive;
 
         function link(scope, element, attrs) {
-   			    var el = jq(element[0]);
+   			var el = jq(element[0]);
             var clicked = false;
-  			     
+            
+            var serviceSelected = {
+                category: scope.category,
+                code: (scope.service === '') ? null : scope.service
+            }
+
             el.on('click', function (e) {
                 e.preventDefault();
-                localStorageService.set('interestedService', scope.service);
+                localStorageService.set('interestedService', serviceSelected);
                 window.location = el.attr('href');
             });
         }
     }
-
-  
-
- 
 })();
 (function() {
     'use strict';
@@ -4057,9 +4289,7 @@ var jq = $.noConflict();
     /* @ngInject */
     function tabbedServices () {
         // Usage:
-        //
-        // Creates:
-        //
+        // <div tabbed-services target=""></div>
         var directive = {
             link: link,
             restrict: 'A',
@@ -4071,11 +4301,10 @@ var jq = $.noConflict();
 
         function link(scope, element, attrs) {
         	var el = jq(element);
-        	var target = jq('#' + scope.target);
+            var target = jq('#' + scope.target);
             var indicator = jq('.tab-indicator');
 
-
-        	el.on('click', function (e) {
+            el.on('click', function (e) {
         		e.preventDefault();
 				target.addClass('open').siblings('.m-tabbed-info').removeClass('open');
         		el.addClass('active').siblings('.active').removeClass('active');

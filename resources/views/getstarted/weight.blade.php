@@ -25,18 +25,33 @@ $header = [
 			<div class="get-started__price tablet-up" >
 				<div data-fixed-asset data-wrapper="getStarted">
 					<h3 data-ng-cloak data-ng-bind-html="vm.name"></h3>
+					<h4 data-ng-cloak data-ng-bind-html="vm.description"></h4>
 					<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
 					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 				</div>
 			</div>
 
-			<div class="get-started__content">
+			<div class="get-started__content" data-ng-switch="vm.service.code">
+				
 				<h2>We Support Change</h2>
-				<p>The journey toward weight loss, body composition change, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen be most effective in the past and what allows us to give you the most personally tailored consultations.</p>
-				<p>Purchase one of our packages for long-term results or get started with an initial consultation. Please contact us to discuss your individual needs. </p>
+				<div data-ng-switch-when="WLSP">
+					<p>Thank you for your interest in the Start Up Package. Please complete this sign-up form and the Client Contract and Nutrition Assessment Form. Feel free to email paperwork ahead of time or bring in to your initial consultation. </p>
+				</div>
+				<div data-ng-switch-when="WLPP">
+					<p>Thank you for your interest in the Premium Package. Please complete this sign-up form and the Client Contract and Nutrition Assessment Form. Feel free to email paperwork ahead of time or bring in to your initial consultation. </p>
+				</div>
+				<div data-ng-switch-when="WLOM">
+					<p>Thank you for your interest in the Online Monitoring Package. Please complete this sign-up form and the Client Contract and Nutrition Assessment Form. Feel free to email paperwork ahead of time or bring in to your initial consultation. </p>
+				</div>
+				<div data-ng-switch-default>
+					<p>Thank you for your interest in our weight loss services. Please select a service below and complete this sign-up form and the Client Contract and Nutrition Assessment Form. Feel free to email paperwork ahead of time or bring in to your initial consultation. </p>
+				</div>
 
+
+				
 				<div class="get-started__price phone-only">
 					<h3 data-ng-cloak data-ng-bind-html="vm.name"></h3>
+					<h4 data-ng-cloak data-ng-bind-html="vm.description"></h4>
 					<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
 					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 				</div>

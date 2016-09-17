@@ -15,25 +15,27 @@
             link: link,
             restrict: 'A',
             scope: {
-            	service: "@"
+            	service: "@",
+                category: "@"
             }
         };
         
         return directive;
 
         function link(scope, element, attrs) {
-   			    var el = jq(element[0]);
+   			var el = jq(element[0]);
             var clicked = false;
-  			     
+            
+            var serviceSelected = {
+                category: scope.category,
+                code: (scope.service === '') ? null : scope.service
+            }
+
             el.on('click', function (e) {
                 e.preventDefault();
-                localStorageService.set('interestedService', scope.service);
+                localStorageService.set('interestedService', serviceSelected);
                 window.location = el.attr('href');
             });
         }
     }
-
-  
-
- 
 })();

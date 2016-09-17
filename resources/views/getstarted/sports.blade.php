@@ -24,16 +24,27 @@ $header = [
 		<div class="row">
 			<div class="get-started__price tablet-up">
 				<h3 data-ng-cloak data-ng-bind-html="vm.name"></h3>
+				<h4 data-ng-cloak data-ng-bind-html="vm.description"></h4>
 				<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
 				<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 			</div>
 
-			<div class="get-started__content">
+			<div class="get-started__content" data-ng-switch="vm.services.code">
 				<h2>Perform Beyond Your Best</h2>
-				<p>The rise to your athletic performance goals and new levels of competition is easier with support. Our services are tailored to your period of training, body composition goals, and lifestyle habits. Nutrition consults can also address pre-, during-, and post-nutrition recommendations.</p>
+				
+				<div data-ng-switch-when="SPA">
+					<p>The rise to your athletic performance goals and new levels of competition is easier with support. Our adult services are tailored to your period of training, body composition goals, and lifestyle habits. Nutrition consults can also address pre-, during-, and post-nutrition recommendations.</p>
+				</div>
+				<div data-ng-switch-when="SPY">
+					<p>The rise to your athletic performance goals and new levels of competition is easier with support. Our youth services are tailored to your period of training, body composition goals, and lifestyle habits. Nutrition consults can also address pre-, during-, and post-nutrition recommendations.</p>
+				</div>
+				<div data-ng-switch-default>
+					<p>The rise to your athletic performance goals and new levels of competition is easier with support. Our adult services are tailored to your period of training, body composition goals, and lifestyle habits. Nutrition consults can also address pre-, during-, and post-nutrition recommendations.</p>
+				</div>
 
 				<div class="get-started__price phone-only">
 					<h3 data-ng-cloak data-ng-bind-html="vm.name"></h3>
+					<h4 data-ng-cloak data-ng-bind-html="vm.description"></h4>
 					<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
 					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 				</div>

@@ -34,7 +34,7 @@ $header = [
 				<p>We also provide personalized sports nutrition advice for athlete-specific bone mineral disturbances, vegetarian diets, infertility, and iron deficiency anemia.</p>
 				<p>Get started with an initial consultation and you and your dietitian will formulate a game plan for follow-up needs. Please contact us for individual questions. </p>
 				<div class="button">
-					<a href="{{ route('get-started-sports') }}" data-services-button data-service="sports-nutrition" >Sign Up Now</a>
+					<a href="{{ route('get-started-sports') }}" data-services-button data-service="" data-category="sports" >Sign Up Now</a>
 				</div>
 			</section>
 		</div>
@@ -49,32 +49,35 @@ $header = [
 	<div class="sports__packages green-gradient">
 		<div class="row g-two-columns">
 			<section class="sports-description__right">
-				<h3>Sport Nutrition</h3>
-				<p>The rise to your athletic performance goals and new levels of competition is easier with support. Our services are tailored to your period of training, body composition goals, and lifestyle habits. Nutrition consults can also address pre-, during-, and post-nutrition recommendations.</p>
+				<h3>Sports Nutrition</h3>
+				<p>The rise to your athletic performance goals and new levels of competition is easier with support. Our Sports Fuel Package is tailored to your period of training, body composition goals, and lifestyle habits. Nutrition consultations can also address pre-, during-, and post-nutrition recommendations. Additional follow-up sessions can be purchased and set based on your individual needs. </p>
 
-				<h5>Initial Consultation - $180.00</h5>
+				<h5>70-Minute Initial Consultation + 30-Minute Follow-Up - $250.00</h5>
 			</section>
 			
 			<section class="sports-description__left">
-				<h5>How we can help fuel your best.</h5>
+				<h5>Package includes: </h5>
 
 				<ul>
 					<li>Detailed evaluation of your food journal using a computerized nutritional analysis program</li>
-					<li>Nutrition plan geared for body comp optimization </li>
+					<li>Nutrition plan geared for body comp optimization</li>
 					<li>Evaluation of how fuel intake supports your training program</li>
 					<li>Pre-, during-, and post-training nutrition guidelines</li>
 					<li>Creation of tailored eating strategies and personalized meal plans for optimal results</li>
+					<li>Can be conducted in office or by phone/skype</li>
 				</ul>
 
-				<p class="legal">Prior to your consultation, you will need to complete a client contract and comprehensive nutritional assessment. Please bring the completed paperwork to your initial consultation. If you desire a computerized nutritional analysis of your 3-day food journal, we will complete this prior to the consult for an additional fee of $30. During our initial consult, we will review your information to glean insights into your unique eating habits, lifestyle needs, experience with weight loss, and areas of focus.</p>
-				<p class="legal">Follow-up visits are highly recommended. These sessions support your success and allow us to support your goals set in the initial consultation. These sessions can be completed by phone/skype or in-person. </p>
+				<p class="legal">Prior to your consultation, you will need to complete a client contract and comprehensive nutritional assessment. Please bring the completed paperwork to your initial consultation. During our initial consult, we will review your information to glean insights into your unique eating habits, lifestyle needs, experience with weight loss, and areas of focus.</p>
 
 
 			</section>
 		</div>
 		<div class="row sales-button">
 			<div class="button">
-				<a href="{{ route('get-started-sports') }}" data-services-button data-service="sports-nutrition" >Set up An Individual Consultation</a>
+				<a href="{{ route('get-started-sports') }}" data-services-button data-service="SPA" data-category="sports">Set up An Adult Consultation</a>
+			</div>
+			<div class="button">
+				<a href="{{ route('get-started-sports') }}" data-services-button data-service="SPY" data-category="sports">Set up A Youth Consultation</a>
 			</div>
 		</div>
 	</div>

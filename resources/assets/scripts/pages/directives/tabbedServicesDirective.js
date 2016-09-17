@@ -8,9 +8,7 @@
     /* @ngInject */
     function tabbedServices () {
         // Usage:
-        //
-        // Creates:
-        //
+        // <div tabbed-services target=""></div>
         var directive = {
             link: link,
             restrict: 'A',
@@ -22,11 +20,10 @@
 
         function link(scope, element, attrs) {
         	var el = jq(element);
-        	var target = jq('#' + scope.target);
+            var target = jq('#' + scope.target);
             var indicator = jq('.tab-indicator');
 
-
-        	el.on('click', function (e) {
+            el.on('click', function (e) {
         		e.preventDefault();
 				target.addClass('open').siblings('.m-tabbed-info').removeClass('open');
         		el.addClass('active').siblings('.active').removeClass('active');

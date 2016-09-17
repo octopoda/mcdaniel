@@ -25,6 +25,7 @@ $header = [
 			<div class="get-started__price tablet-up">
 				<div data-fixed-asset data-wrapper="getStarted">
 					<h3 data-ng-cloak data-ng-bind-html="vm.name"></h3>
+					<h4 data-ng-cloak data-ng-bind-html="vm.description"></h4>
 					<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
 					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 				</div>
@@ -37,9 +38,10 @@ $header = [
 
 
 				<div class="get-started__price phone-only">
-					<h2>Build Your Company's Health</h2>
-					<p>You know what a difference good health can make to your personal life. Now find out what a difference it can make to your company. </p>
-					<p>Our team can help you design, develop, and implement a corporate wellness program that empowers your workforce. By helping your employees realize personal change, you’ll be setting them up to be more effective professionals and happier through their days in the office. </p>
+					<h3 data-ng-cloak data-ng-bind-html="vm.name"></h3>
+					<h4 data-ng-cloak data-ng-bind-html="vm.description"></h4>
+					<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
+					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 				</div>
 
 				<div class="get-started__contact">

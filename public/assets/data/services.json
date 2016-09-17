@@ -2,60 +2,89 @@
 	"services" : {
 		"weight": [
 			{
-				"name" : "Individual Weight Loss Consultation",
-				"code" : "IWLC",
-				"price": 150,
-				"html" : "Weight Loss <br> Individual Consultation"
+				"name" : "Weight Loss Start-Up Package",
+				"code" : "WLSP",
+				"price": 250,
+				"html" : "Weight Loss <br> Start-Up Package",
+				"description" : "70-Minute Initial Consultation +<br> 30-Minute Follow-Up <br>"
 			}, 
 			{
-				"name" : "Weight Loss Program",
-				"code" : "WLP",
-				"price": 450,
-				"html" : "Weight Loss<br> Program"
+				"name" : "Weight Loss Premium Package",
+				"code" : "WLPP",
+				"price": "475",
+				"html" : "Weight Loss <br> Premium Package",
+				"description" : "70-Minute Initial Consultation +<br> 4, 30-Minute Follow-Up Sessions"
 			},
 			{
-				"name" : "Weight Loss Program Online",
-				"code" : "WLPO",
-				"price": 400,
-				"html" : "Weight Loss <br> Program Online"
+				"name" : "Weight Loss Online Monitoring",
+				"code" : "WLOM",
+				"price": "375",
+				"html" : "Weight Loss <br> Online Monitoring",
+				"description" : "70-Minute Initial Consultation +<br> One Month of Online Monitoring"
+		 	},
+		 	{
+		 		"name" : "Sustain Online Weight Loss Program",
+				"code" : "WLSO",
+				"price": "400",
+				"html" : "Sustain Online Weight Loss Program",
+				"description" : "12 weeks of evidence-based weight loss guidance conducted by a Registered Dietitian"	
+		 	},
+		 	{
+		 		"name" : "Weight Loss Services/Packages",
+		 		"code" : null,
+		 		"price" : null,
+		 		"html" : "Select a package and contact us to get more information",
+		 		"description" : null
 		 	}
 		],
 		"sports" : [
 			{
-				"name" : "Individual Sports Nutrition Consultation",
-				"code" : "ISNC",
-				"price": 180,
-				"html" : "Sports Nutrition <br> Individual Consultation"
+				"name" : "Adult Sports Fuel Package",
+				"code" : "SPA",
+				"price": 250,
+				"html" : "Sports Fuel <br> Adult Package",
+				"description" : "70-Minute Initial Consultation +<Br> 30-Minute Follow-Up"
+			},
+			{
+				"name" : "Youth Sports Fuel Package",
+				"code" : "SPY",
+				"price": 250,
+				"html" : "Sports Fuel <br> Youth Package",
+				"description" : "70-Minute Initial Consultation +<br> 30-Minute Follow-Up"
 			}
 		],
 		"maternal" : [
 			{
-				"name" : "Individual Maternal Nutrition Consultation",
-				"code" : "IMNC",
-				"price": 150,
-				"html" : "Maternal Nutrition <br> Individual Consultation"
+				"name" : "Maternal Health Package",
+				"code" : "MTHP",
+				"price": 250,
+				"html" : "Maternal Health <br> Package",
+				"description" : "70 Minute Initial Consultation + <br> 30 Minute Follow-Up"
 			}
 		],
-		"rmr" : [
+		"metabolic" : [
 			{
 				"name" : "Metabolic Rate Testing",
 				"code" : "RMR",
 				"price": 75,
-				"html" : "Metabolic Rate <br> Testing"
+				"html" : "Metabolic Rate <br> Testing",
+				"description" : null
 			}
 		],
 		"sustain" : [
 			{
-				"name" : "Sustain Program",
+				"name" : "Sustain In Office Program",
 				"code" : "CSP",
 				"price": null,
-				"html" : "Sustain In Office Program"
+				"html" : "Sustain In Office Program",
+				"description" : null
 			},
 			{
 				"name" : "Sustain Online Program",
 				"code" : "CSOP",
 				"price": null,
-				"html" : "Sustain Online Program"
+				"html" : "Sustain Online Program",
+				"description" : null
 			}
 		],
 		"corporate" : [
@@ -63,19 +92,22 @@
 				"name" : "Lunch & Learn",
 				"code" : "LNL",
 				"price": 300,
-				"html" : "Lunch &amp; Learn Session"
+				"html" : "Lunch &amp; Learn Session",
+				"description" : null
 			},
 			{
 				"name" : "Taste & Teach",
 				"code" : "TNT",
 				"price": 400,
-				"html" : "Taste &amp; Teach Session"
+				"html" : "Taste &amp; Teach Session",
+				"description" : null
 			},
 			{
 				"name" : "Company Webinar",
 				"code" : "CW",
 				"price": 300,
-				"html" : "Company Nutrition Webinar"
+				"html" : "Company Nutrition Webinar",
+				"description" : null
 			}
 		]
 	}

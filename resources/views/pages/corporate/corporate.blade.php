@@ -49,19 +49,20 @@ $header = [
 					<p class="large">You know what a difference good health can make to your personal life. Now find out what a difference it can make to your company.</p>
 					<p class="large">Our team can help you design, develop, and implement a corporate wellness program that empowers your workforce. By helping your employees realize personal change, you’ll be setting them up to be more effective professionals and happier through their days in the office.</p>
 
+
 					<blockquote class="testimonial">
 						<p>
-							&ldquo;The SUSTAIN class and Jennifer helped me be successful for the FIRST time in my life in losing weight! I love that the philosophy is not a diet, but a sustainable life change.  I really thought it would be harder! I learned so much!&rdquo;
+							&ldquo;The SUSTAIN class and Jennifer helped me be successful for the FIRST time in my life in losing weight! I love that the philosophy is not a diet, but a sustainable life change. I really thought it would be harder! I learned so much!”&rdquo;
 							<span class="author"> &mdash; Solae</span> 
 						</p>
 					</blockquote>
 				</section>
 				<section>
-					<p>The Sustain Weight Loss program can be conducted on-site or in online version of the program. Your nutrition expert will lead a 16-week journey for those looking to lose weight, improve their nutrition, or build healthy eating habits. The SUSTAIN program teaches fundamental habits for maintaining a good diet, losing weight for good, and creating personal change. </p>
+					<p>The Sustain Weight Loss program can be conducted on-site or in online version of the program. Your nutrition expert will lead a 12-week journey for those looking to lose weight, improve their nutrition, or build healthy eating habits. The SUSTAIN program teaches fundamental habits for maintaining a good diet, losing weight for good, and creating personal change.</p>
 					<ul>
-						<li>SUSTAIN weight loss topic of the week (example topics include: mindful eating, characteristics of people who lose weight and keep it off, examining the right &ldquo;plan&rdquo; for you) </li>
-						<li>Examination of current habits related to the topic of the week </li>
-						<li>Personalized analysis and feedback of online food journal   </li>
+						<li>SUSTAIN weight loss topic of the week (example topics include: mindful eating, characteristics of people who lose weight and keep it off, examining the right “plan” for you)</li>
+						<li>Examination of current habits related to the topic of the week</li>
+						<li>Personalized analysis and feedback of online food journal</li>
 						<li>Weekly weigh-ins &amp; body fat measurements (optional)</li>
 					</ul>
 				</section>
@@ -69,7 +70,7 @@ $header = [
 			<div class="row  text-center corporate-sustain__text--cta ">
 				<h3>Bring the Sustain Program to Your Company</h3>
 				<div class="button">
-					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="sustain-corporate" >Help your Company reach its health goals</a>
+					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="" data-category="sustain">Help your Company reach its health goals</a>
 				</div>
 			</div>
 		</div>
@@ -104,7 +105,7 @@ $header = [
 			</div>
 			<div class="row  text-center">
 				<div class="button">
-					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="lunch-and-learn" >Set up Your Next Lunch &amp; Learn</a>
+					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="LNL" data-category="corporate" >Set up Your Next Lunch &amp; Learn</a>
 				</div>
 			</div>
 		</div>
@@ -138,7 +139,7 @@ $header = [
 			</div>
 			<div class="row  text-center">
 				<div class="button">
-					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="teach-and-taste" >Set up Your Next Taste &amp; Teach</a>
+					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="TNT" data-category="corporate" >Set up Your Next Taste &amp; Teach</a>
 				</div>
 			</div>
 		</div>
@@ -155,7 +156,7 @@ $header = [
 				<h3>Webinars:</h3>
 				<p>McDaniel Nutrition offers Lunch and Learn seminars in a webinar format making it convenient for your employees to better their health on their own time. Choose from over 30 nutrition seminars or let us tailor the education to the individual interests of your employees. </p>
 				<div class="button">
-					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="webinars" >Set up Your Next Webinar</a>
+					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="CW" data-category="corporate" >Set up Your Next Webinar</a>
 				</div>
 			</section>
 			<section class="tablet-up ">

@@ -28,9 +28,16 @@ class EmailAdminContactForm
      */
     public function handle(ContactFormSubmitted $event)
     {
-        Mail::send('mail.contactForm', ['mailRequest' => $event->mailRequest], function ($message) use ($event) {
+        
+        $template = 'mail.contactForm';
+
+        if ($event->mailRequest['formType'] == 'faqForm') {
+            $template = 'mail.contactQuestion';
+        }
+
+        Mail::send($template, ['mailRequest' => $event->mailRequest], function ($message) use ($event) {
             $message->to(env('MAIL_SEND'))
-                    ->from('no-reply@mcdanielnutrition.com')
+                    ->from($event->mailRequest['email'])
                     ->subject($event->mailRequest['subject']);
         });
     }

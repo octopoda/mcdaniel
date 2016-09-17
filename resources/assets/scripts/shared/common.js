@@ -27,6 +27,7 @@
             isNumber: isNumber,
             addCommas: addCommas,
             removeCommas: removeCommas,
+            addZeroes: addZeroes,
             toTitleCase : toTitleCase,
             scrollToElement : scrollToElement,
             debounce: debounce,
@@ -120,6 +121,27 @@
             parts[0] = parts[0].replace(/,/g, '');
             return parseFloat(parts[0]);
         };
+
+        /**
+         * Add Zeros to the Number to make it a price.
+         * @param {int/string} num 
+         */
+        function addZeroes( num ) {
+           // Cast as number
+           var num = Number(num);
+           // If not a number, return 0
+           
+           if (isNaN(num)) {
+                return 0;
+           }
+           // If there is no decimal, or the decimal is less than 2 digits, toFixed
+           if (String(num).split(".").length < 2 || String(num).split(".")[1].length<=2 ){
+               num = num.toFixed(2);
+           }
+           
+           // Return the number
+           return num;
+        }
 
         /**
          * Turn String to Title Case

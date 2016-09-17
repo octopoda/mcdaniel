@@ -18,41 +18,8 @@
         ////////////////
 
         function activate() {
-             switch (localStorageService.get('submittedService')) {
-                case 'lunch-and-learn' :
-                    vm.service = 'corporate';
-                    break;
-                case 'teach-and-taste' : 
-                    vm.service = 'corporate';
-                    break;
-                case 'webinars' : 
-                    vm.service = 'corporate';
-                    break;
-                case 'weight-loss-consult' : 
-                    vm.service = "weight";
-                    break;
-                case 'weight-loss-premium' : 
-                    vm.service = "weight";
-                    break;
-                case 'weight-loss-sustain-online' : 
-                    vm.service = "weight";
-                    break;
-                case 'weight-loss' :
-                    vm.service = "weight";
-                    break;
-                case 'sports-nutrition' :
-                    vm.service = "sports";
-                    break;
-                case 'maternal-nutrition' :
-                    vm.service = "maternal";
-                    break;
-                case 'rmr-testing' :
-                    vm.service = "rmr"
-                case 'default' :
-                	vm.service = "default"
-            }
-
-            console.log(vm.service);
+            vm.service = localStorageService.get('submittedService');
+            console.dir(vm.service);
         }
     }
 })();

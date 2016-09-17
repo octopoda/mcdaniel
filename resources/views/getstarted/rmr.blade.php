@@ -26,8 +26,8 @@ $header = [
 		<div class="row">
 			<div class="get-started__price tablet-up">
 				<h3 data-ng-cloak data-ng-bind-html="vm.name"></h3>
+				<h4 data-ng-cloak data-ng-bind-html="vm.description"></h4>
 				<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
-				<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 			</div>
 
 			<div class="get-started__content">
@@ -39,8 +39,8 @@ $header = [
 
 				<div class="get-started__price phone-only">
 					<h3 data-ng-cloak data-ng-bind-html="vm.name"></h3>
+					<h4 data-ng-cloak data-ng-bind-html="vm.description"></h4>
 					<h2 data-ng-if="vm.price != null" data-ng-cloak>{! vm.price !}</h2>
-					<h4 data-ng-if="vm.price == null" data-ng-cloak>Please Contact Us for Pricing</h4>
 				</div>
 				
 				<div class="get-started__contact">

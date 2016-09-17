@@ -47,7 +47,7 @@ $header = [
 				<h5>RMR Testing - $75.00</h5>
 				
 				<div class="button">
-					<a href="{{ route('get-started-rmr') }}" data-services-button data-service="rmr-testing" >Measure Your Metabolism Today</a>
+					<a href="{{ route('get-started-rmr') }}" data-services-button data-service="RMR" data-category="metabolic" >Measure Your Metabolism Today</a>
 				</div>
 			</section>
 		</div>
