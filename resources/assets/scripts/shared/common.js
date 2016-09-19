@@ -10,7 +10,7 @@
     /* @ngInject */
     function common($location, $q, $rootScope, $timeout, flash) {
         var dev = false;
-        var testing = true;
+        var testing = false;
 
 
         var service = {

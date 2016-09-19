@@ -47,7 +47,7 @@
             return $http.post(apiUrl, data)
                 .then(alertSent)
                 .catch(function (message) {
-                    errors.catcher('Our Alert Service is down.  Please contact us by phone at 972.535.4040')(message);
+                    errors.catcher('Our Alert Service is down.  Please contact us by phone at 314.413.1996')(message);
                 });
 
             //Mark hides the status inside the data.

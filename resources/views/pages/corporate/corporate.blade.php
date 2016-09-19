@@ -70,7 +70,7 @@ $header = [
 			<div class="row  text-center corporate-sustain__text--cta ">
 				<h3>Bring the Sustain Program to Your Company</h3>
 				<div class="button">
-					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="CSOP" data-category="sustain">Help your Company reach its health goals</a>
+					<a href="{{ route('get-started-corporate') }}" data-services-button data-service="CSP" data-category="sustain">Help your Company reach its health goals</a>
 				</div>
 			</div>
 		</div>

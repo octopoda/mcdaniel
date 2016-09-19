@@ -213,14 +213,13 @@
 
                 function mailSent(data) {
                     if (data.status == 200) {
-                        vm.formData.service.category = vm.formData.category;
-                        localStorageService.set('submittedService', vm.formData.service);
-
                         clearForm();
                         vm.success = true;
 
                         if (vm.getStarted) {
-                            // console.dir(data);
+                            vm.formData.service.category = vm.formData.category;
+                            localStorageService.set('submittedService', vm.formData.service);
+
                             window.location = '/get-started/thanks'
                         }
                     }
