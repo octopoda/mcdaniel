@@ -38,7 +38,7 @@ $header = [
 
 
 				<div class="button" >
-					<a href="{{ route('get-started-weight') }}" data-services-button data-service="null" data-category="weight" >Sustain Your Goals Today</a>
+					<a href="{{ route('get-started-weight') }}" data-services-button data-service="" data-category="weight" >Sustain Your Goals Today</a>
 				</div>
 			</section>
 		</div>

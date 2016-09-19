@@ -83,7 +83,7 @@
          * @return {[type]} [description]
          */
         function activate() {
-            
+            console.log('form', vm.service);
 
             if(vm.service === null) {
                 vm.service = {
