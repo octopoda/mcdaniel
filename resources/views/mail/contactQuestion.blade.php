@@ -113,9 +113,7 @@ background-color: #d9d9d9; padding-top: 30px; font-family: serif;
 
                             
                             <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left"></p>
-                            <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left">They left some additional comments too:  </p>
-                            <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left">“<i style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">{{ $mailRequest['contactMessage'] }}</i>”</p>
-
+                            
         
 
                             <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left">Best of Luck in helping them reach their goals,</p>

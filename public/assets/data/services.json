@@ -78,14 +78,14 @@
 				"price": null,
 				"html" : "Sustain In Office Program",
 				"description" : null
-			},
-			{
-				"name" : "Sustain Online Program",
-				"code" : "CSOP",
-				"price": null,
-				"html" : "Sustain Online Program",
-				"description" : null
 			}
+			// {
+			// 	"name" : "Sustain Online Program",
+			// 	"code" : "CSOP",
+			// 	"price": null,
+			// 	"html" : "Sustain Online Program",
+			// 	"description" : null
+			// }
 		],
 		"corporate" : [
 			{
