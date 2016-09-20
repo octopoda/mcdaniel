@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Event;
 use App\Events\ContactFormSubmitted;
+use App\Events\ContactFormResend;
 use App\Events\AlertSubmitted;
 use App\Events\ServiceFormSubmited;
 
@@ -13,6 +14,7 @@ use App\Http\Controllers\Controller;
 
 use App\Repositories\ContactRepository as Contact;
 use App\Repositories\Criteria\Contact\AscendingOrder;
+use App\Repositories\Criteria\Contact\GetNumberOfContacts;
 
 class ContactController extends Controller
 {
@@ -126,10 +128,24 @@ class ContactController extends Controller
         //
     }
 
+    public function getLatest() {
+        $contacts = $this->contact->pushCriteria(new GetNumberOfContacts(40))->all();
+
+        $allContacts = [];
+        foreach ($contacts as $contact) {
+            if ($contact->email == "zack@2721west.com" || $contact->email == 'jennifer@mcdanielnutrition.com' || $contact->email == "zack@octopodamedia.com" || $contact->email == "zack@octopodainteractive.com") continue;
+            Event::fire(new ContactFormResend(json_decode($contact->message, true))); 
+            
+        }
+        
+        echo 'done';
+    }
 
 
 
     public function testContact() {
         return view('forms.formTest');
     }
+
+
 }

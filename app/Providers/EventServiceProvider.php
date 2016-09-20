@@ -6,11 +6,14 @@ use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 use App\Events\ContactFormSubmitted;
+use App\Events\ContactFormResend;
 use App\Events\StoreTransactionComplete;
 use App\Events\AlertSubmitted;
 use App\Events\ServiceFormSubmited;
 
+
 use App\Listeners\EmailAdminContactForm;
+use App\Listeners\EmailAdminResend;
 use App\Listeners\EmailAdminTransaction;
 use App\Listeners\EmailUserTransaction;
 use App\Listeners\EmailWebMaster;
@@ -27,6 +30,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         ContactFormSubmitted::class => [
             EmailAdminContactForm::class
+        ],
+        ContactFormResend::class => [
+            EmailAdminResend::class
         ],
         StoreTransactionComplete::class => [
             EmailAdminTransaction::class,

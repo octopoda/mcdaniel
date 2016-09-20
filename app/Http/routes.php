@@ -92,6 +92,12 @@ Route::group(["prefix" => "api/v1"], function () {
 		"uses" => 'ContactController@store'
 	]);
 
+	
+	Route::get('/contact/resendLatest', [
+		"as" => 'resendLatestContacts',
+		"uses" => "ContactController@getLatest"
+	]);
+
 	Route::get('/fireContactEvent',  [
 		'as' => 'fireContactEvent',
 		"uses" => "AjaxController@fireEvent"
