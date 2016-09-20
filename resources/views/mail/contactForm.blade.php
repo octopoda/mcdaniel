@@ -392,10 +392,14 @@ background-color: #d9d9d9; padding-top: 30px; font-family: serif;
                         <tr style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; padding: 0; text-align: left; vertical-align: top; word-wrap: normal" align="left">
                           <td class="text" style="-moz-hyphens: auto; -ms-hyphens: auto; -webkit-hyphens: auto; border-collapse: collapse !important; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: auto; line-height: 19px; margin: 0; padding: 25px; text-align: left; vertical-align: top; word-break: break-word; word-wrap: normal" align="left" valign="top">
                             <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left">Jen,</p>
-                            <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left"><strong style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">{{ $mailRequest['customerName'] }}</strong> has contacted you about <strong style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">{{ $mailRequest['service']['name'] }}</strong> 
-                            
-                            @if(isset($mailRequest['service']['price']))
-                              at the price of ${{ $mailRequest['service']['price'] }}.</p>
+                            @if (isset($mailRequest['service']))
+                              <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left"><strong style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">{{ $mailRequest['customerName'] }}</strong> has contacted you about <strong style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">{{ $mailRequest['service']['name'] }}</strong> 
+                              
+                              @if(isset($mailRequest['service']['price']))
+                                at the price of ${{ $mailRequest['service']['price'] }}.</p>
+                              @endif
+                            @else 
+                              <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left"><strong style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">{{ $mailRequest['customerName'] }}</strong> has contacted you</p>
                             @endif
                             
                             @if(isset($mailRequest['email']))
@@ -425,8 +429,10 @@ background-color: #d9d9d9; padding-top: 30px; font-family: serif;
                             </p>
                             @endif
                             <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left"></p>
-                            <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left">They left some additional comments too:  </p>
-                            <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left">“<i style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">{{ $mailRequest['contactMessage'] }}</i>”</p>
+                            @if (isset($mailRequest['contactMessage']))
+                              <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left">They left some additional comments too:  </p>
+                              <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left">“<i style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">{{ $mailRequest['contactMessage'] }}</i>”</p>
+                            @endif
 
         
 
