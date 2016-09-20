@@ -73,10 +73,17 @@
 		],
 		"sustain" : [
 			{
-				"name" : "Sustain In Office Program",
+				"name" : "Corporate Sustain In Office Program",
 				"code" : "CSP",
 				"price": null,
-				"html" : "Sustain In Office Program",
+				"html" : "Corporate Sustain In Office Program",
+				"description" : null
+			},
+			{
+				"name" : "Corporate Sustain Online Program",
+				"code" : "CSOP",
+				"price": null,
+				"html" : "Corporate Sustain Online Program",
 				"description" : null
 			}
 		],

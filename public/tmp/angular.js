@@ -101,6 +101,11 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
+    angular.module('global.share', []);
+})();
+(function() {
+    'use strict';
+
     angular.module('global.sidemenu', []);
 })();
 (function() {
@@ -108,11 +113,6 @@ var jq = $.noConflict();
 
     angular
         .module('global.errors', []);
-})();
-(function() {
-    'use strict';
-
-    angular.module('global.share', []);
 })();
 (function() {
     'use strict';
@@ -1346,7 +1346,7 @@ var jq = $.noConflict();
 
     }
 })();
-/*
+    /*
 |--------------------------------------------------------------------------
 | Contact Form Controller
 |--------------------------------------------------------------------------
@@ -1471,6 +1471,8 @@ var jq = $.noConflict();
             servicesService.getServices().then(function (data) {
                 for (var key in data.services) {
                     if (!data.services.hasOwnProperty(key))  continue;
+                    vm.allServices.push(data.services[key]);
+
                     data.services[key].forEach(function (service) {
                         if (service.code !== null) {
                             service.category = key;
@@ -1478,7 +1480,6 @@ var jq = $.noConflict();
                         }
                     });
                 }
-
                 vm.formData.interestedService = vm.allServices[0].code;
                 vm.dropdownType = 'all';
             });
@@ -1565,9 +1566,10 @@ var jq = $.noConflict();
                         vm.success = true;
 
                         if (vm.getStarted) {
-                            vm.formData.service.category = vm.formData.category;
+                            if (vm.formData.category !== undefined) {
+                                vm.formData.service.category = vm.formData.category;
+                            }
                             localStorageService.set('submittedService', vm.formData.service);
-
                             window.location = '/get-started/thanks'
                         }
                     }
@@ -1669,7 +1671,7 @@ var jq = $.noConflict();
         vm.title = 'GetStartedController';
         vm.price = null;
         vm.service = localStorageService.get('interestedService');
-        vm.AllServices = null;
+        vm.allServices = [];
         vm.name = null;
 
         activate();
@@ -1717,7 +1719,7 @@ var jq = $.noConflict();
                     });
                 }
 
-                vm.service = vm.AllServices[0].code;
+                vm.service = vm.allServices[0].code;
             });
         }
 
@@ -3056,174 +3058,6 @@ var jq = $.noConflict();
 
     
 })();
-/*
-|--------------------------------------------------------------------------
-| Menu Toggle Directive
-|--------------------------------------------------------------------------
-|
-| Adds the class to open any id that you specify in the menu-toggle attribute
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('global.sidemenu')
-        .directive('menuToggle', menuToggle);
-
-    menuToggle.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function menuToggle ($rootScope) {
-        // Usage:
-        // <div menu-toggle="{id of element you wish to toggle}"></div>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	jq(element).on('click', function () {
-               toggleMenu(attrs.menuToggle);
-               jq(this).toggleClass('active');
-            });
-
-            $rootScope.$on('menu.close', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-
-            $rootScope.$on('menu.open', function handleClose( event ) { 
-                toggleMenu(attrs.menuToggle);
-            });
-		}
-    }
-
-    /**
-     * Toggle Menu Element
-     * @param  {string}  attr   
-     * @param  {Boolean} isOpen 
-     * @return {Boolean}         
-     */
-    function toggleMenu(attr) {
-    	var target = jq('#'+attr);
-
-        if (target.hasClass('open')) {
-    		target.removeClass('open');
-            return false;
-        } else {
-    	   target.addClass('open');	
-           return true;
-    	}
-    };
-
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.errors')
-        .factory('errors', errors);
-
-    errors.$inject = ['flash'];
-
-    /* @ngInject */
-    function errors(flash) {
-        var errorReason = null;
-
-        var service = {
-            catcher: catcher,
-            getReason: getReason
-        };
-        
-        return service;
-
-        ////////////////
-
-        /**
-         * Catch the Error and Display a Error Flash
-         * @param {string} Message to display
-         * @param {string} reason for Console.
-         */
-        function catcher(message) {
-           return function (reason) {
-                reason.insertedObject = (reason.insertedObject == null) ? 'none' : reason.insertedObject;
-                errorReason = reason;
-        		flash.error(message, reason);
-        	}
-        }
-
-        /**
-         * Get reason for mailing
-         * @return {string} 
-         */
-        function getReason() {
-            return errorReason;
-        }
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.errors')
-        .provider('errorHandler', exceptionHandlerProvider)
-        .config(config);
-
-    
-    /**
-     * Must Configure the exception handling
-     */
-     function exceptionHandlerProvider() {
-        /* jshint validthis:true */
-        this.config = {
-            appErrorPrefix: undefined
-        };
-
-        this.configure = function (appErrorPrefix) {
-            this.config.appErrorPrefix = appErrorPrefix;
-        };
-
-        this.$get = function() {
-            return {config: this.config};
-        };
-    }
-
-    config.$inject = ['$provide'];
-
-	/**
-     * Configure by setting an optional string value for appErrorPrefix
-     * @param  {object} $provide 
-     * @ngInject
-     */
-    function config($provide) {
-        $provide.decorator('$exceptionHandler', extendExceptionHandler);
-    }
-
-
-    extendExceptionHandler.$inject = ['$delegate', 'errorHandler'];
-
-    /**
-     * Extend the $exceptionHandler servie to also display our Flash
-     * @param  {Object} $delegate        
-     * @param  {Object} exceptionHandler 
-     * @param  {Object} flash            
-     * @return {function} the decorated $exceptionHandler service
-     */
-     function extendExceptionHandler($delegate, errorHandler) {
-        return function(exception, cause) {
-            var appErrorPrefix = errorHandler.config.appErrorPrefix || '';
-            var errorData = {exception: exception, cause: cause};
-            exception.message = appErrorPrefix + exception.message;
-            $delegate(exception, cause);
-           // flash.error(exception.message, errorData);
-        };
-    }
-
-   
-})();
 
 /*
 |--------------------------------------------------------------------------
@@ -3524,6 +3358,174 @@ var jq = $.noConflict();
     }
 
     
+})();
+/*
+|--------------------------------------------------------------------------
+| Menu Toggle Directive
+|--------------------------------------------------------------------------
+|
+| Adds the class to open any id that you specify in the menu-toggle attribute
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('global.sidemenu')
+        .directive('menuToggle', menuToggle);
+
+    menuToggle.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function menuToggle ($rootScope) {
+        // Usage:
+        // <div menu-toggle="{id of element you wish to toggle}"></div>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	jq(element).on('click', function () {
+               toggleMenu(attrs.menuToggle);
+               jq(this).toggleClass('active');
+            });
+
+            $rootScope.$on('menu.close', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+
+            $rootScope.$on('menu.open', function handleClose( event ) { 
+                toggleMenu(attrs.menuToggle);
+            });
+		}
+    }
+
+    /**
+     * Toggle Menu Element
+     * @param  {string}  attr   
+     * @param  {Boolean} isOpen 
+     * @return {Boolean}         
+     */
+    function toggleMenu(attr) {
+    	var target = jq('#'+attr);
+
+        if (target.hasClass('open')) {
+    		target.removeClass('open');
+            return false;
+        } else {
+    	   target.addClass('open');	
+           return true;
+    	}
+    };
+
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.errors')
+        .factory('errors', errors);
+
+    errors.$inject = ['flash'];
+
+    /* @ngInject */
+    function errors(flash) {
+        var errorReason = null;
+
+        var service = {
+            catcher: catcher,
+            getReason: getReason
+        };
+        
+        return service;
+
+        ////////////////
+
+        /**
+         * Catch the Error and Display a Error Flash
+         * @param {string} Message to display
+         * @param {string} reason for Console.
+         */
+        function catcher(message) {
+           return function (reason) {
+                reason.insertedObject = (reason.insertedObject == null) ? 'none' : reason.insertedObject;
+                errorReason = reason;
+        		flash.error(message, reason);
+        	}
+        }
+
+        /**
+         * Get reason for mailing
+         * @return {string} 
+         */
+        function getReason() {
+            return errorReason;
+        }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.errors')
+        .provider('errorHandler', exceptionHandlerProvider)
+        .config(config);
+
+    
+    /**
+     * Must Configure the exception handling
+     */
+     function exceptionHandlerProvider() {
+        /* jshint validthis:true */
+        this.config = {
+            appErrorPrefix: undefined
+        };
+
+        this.configure = function (appErrorPrefix) {
+            this.config.appErrorPrefix = appErrorPrefix;
+        };
+
+        this.$get = function() {
+            return {config: this.config};
+        };
+    }
+
+    config.$inject = ['$provide'];
+
+	/**
+     * Configure by setting an optional string value for appErrorPrefix
+     * @param  {object} $provide 
+     * @ngInject
+     */
+    function config($provide) {
+        $provide.decorator('$exceptionHandler', extendExceptionHandler);
+    }
+
+
+    extendExceptionHandler.$inject = ['$delegate', 'errorHandler'];
+
+    /**
+     * Extend the $exceptionHandler servie to also display our Flash
+     * @param  {Object} $delegate        
+     * @param  {Object} exceptionHandler 
+     * @param  {Object} flash            
+     * @return {function} the decorated $exceptionHandler service
+     */
+     function extendExceptionHandler($delegate, errorHandler) {
+        return function(exception, cause) {
+            var appErrorPrefix = errorHandler.config.appErrorPrefix || '';
+            var errorData = {exception: exception, cause: cause};
+            exception.message = appErrorPrefix + exception.message;
+            $delegate(exception, cause);
+           // flash.error(exception.message, errorData);
+        };
+    }
+
+   
 })();
 (function() {
     'use strict';
@@ -4852,6 +4854,86 @@ var jq = $.noConflict();
 
     angular
         .module('global.modal')
+        .service('modalService', modalService);
+
+    modalService.$inject = ['$rootScope', '$q'];
+
+    /* @ngInject */
+    function modalService($rootScope, $q) {
+        var modal = {
+					deferred: null,
+					params: null
+				};
+
+				this.open = open;
+				this.params = params;
+				this.proceedTo = proceedTo;
+				this.reject = reject;
+				this.resolve = resolve;
+
+        ////////////////
+
+        function open( type, params, pipeResponse ) {
+					var previousDeferred = modal.deferred;
+					
+					modal.deferred = $q.defer();
+					modal.params = params;
+
+					if ( previousDeferred && pipeResponse ) {
+						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
+					} else if ( previousDeferred ) {
+						previousDeferred.reject();
+					}
+
+					$rootScope.$emit( "modalService.open", type );
+					return modal.deferred.promise;
+				}
+
+
+				
+				function params() {
+					return ( modal.params || {} );
+				}
+
+
+				function proceedTo( type, params ) {
+					return open(type, params, true) ;
+				}
+
+
+				
+				function reject( reason ) {
+					if ( ! modal.deferred ) {return; }
+					modal.deferred.reject( reason );
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+
+				
+				function resolve( response ) {
+					if (!modal.deferred) {return; }
+					
+					modal.deferred.resolve(response);
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+    }
+})();
+
+
+
+
+
+
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
         .directive('alertModal', alertModal);
 
     alertModal.$inject = ['$rootScope', 'modalService'];
@@ -4949,86 +5031,6 @@ var jq = $.noConflict();
     }
 
 })();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
-        .service('modalService', modalService);
-
-    modalService.$inject = ['$rootScope', '$q'];
-
-    /* @ngInject */
-    function modalService($rootScope, $q) {
-        var modal = {
-					deferred: null,
-					params: null
-				};
-
-				this.open = open;
-				this.params = params;
-				this.proceedTo = proceedTo;
-				this.reject = reject;
-				this.resolve = resolve;
-
-        ////////////////
-
-        function open( type, params, pipeResponse ) {
-					var previousDeferred = modal.deferred;
-					
-					modal.deferred = $q.defer();
-					modal.params = params;
-
-					if ( previousDeferred && pipeResponse ) {
-						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
-					} else if ( previousDeferred ) {
-						previousDeferred.reject();
-					}
-
-					$rootScope.$emit( "modalService.open", type );
-					return modal.deferred.promise;
-				}
-
-
-				
-				function params() {
-					return ( modal.params || {} );
-				}
-
-
-				function proceedTo( type, params ) {
-					return open(type, params, true) ;
-				}
-
-
-				
-				function reject( reason ) {
-					if ( ! modal.deferred ) {return; }
-					modal.deferred.reject( reason );
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-
-				
-				function resolve( response ) {
-					if (!modal.deferred) {return; }
-					
-					modal.deferred.resolve(response);
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-    }
-})();
-
-
-
-
-
-
 /*
 |--------------------------------------------------------------------------
 | Loading Directive

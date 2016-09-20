@@ -1,4 +1,4 @@
-/*
+    /*
 |--------------------------------------------------------------------------
 | Contact Form Controller
 |--------------------------------------------------------------------------
@@ -123,6 +123,8 @@
             servicesService.getServices().then(function (data) {
                 for (var key in data.services) {
                     if (!data.services.hasOwnProperty(key))  continue;
+                    vm.allServices.push(data.services[key]);
+
                     data.services[key].forEach(function (service) {
                         if (service.code !== null) {
                             service.category = key;
@@ -130,7 +132,6 @@
                         }
                     });
                 }
-
                 vm.formData.interestedService = vm.allServices[0].code;
                 vm.dropdownType = 'all';
             });
@@ -217,9 +218,10 @@
                         vm.success = true;
 
                         if (vm.getStarted) {
-                            vm.formData.service.category = vm.formData.category;
+                            if (vm.formData.category !== undefined) {
+                                vm.formData.service.category = vm.formData.category;
+                            }
                             localStorageService.set('submittedService', vm.formData.service);
-
                             window.location = '/get-started/thanks'
                         }
                     }

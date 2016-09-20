@@ -13,7 +13,7 @@
         vm.title = 'GetStartedController';
         vm.price = null;
         vm.service = localStorageService.get('interestedService');
-        vm.AllServices = null;
+        vm.allServices = [];
         vm.name = null;
 
         activate();
@@ -61,7 +61,7 @@
                     });
                 }
 
-                vm.service = vm.AllServices[0].code;
+                vm.service = vm.allServices[0].code;
             });
         }
 

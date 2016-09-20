@@ -9,6 +9,9 @@
 				<select data-ng-model="fc.formData.interestedService" name="interestedService" id="interestedService" data-ng-change="fc.updatePrice()" data-ng-required="true">
 					<option data-ng-repeat="service in fc.allServices" value="{! service.code !}" data-item-category="{! service.category !}">{! service.name !}</option>
 				</select>
+
+				{{-- <select data-ng-options="c as c.label group by c.group for c in fc.allServices | orderBy:['-group','+label']" data-ng-model="fc.formData.interestedService"> </select> --}}
+
 			</div>
 
 			{{-- Service Based on Category --}}

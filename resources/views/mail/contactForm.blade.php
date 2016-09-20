@@ -406,8 +406,10 @@ background-color: #d9d9d9; padding-top: 30px; font-family: serif;
                               <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left">or</p>
                             @endif
                             
-                           @if($mailRequest['phone'])
-                            <p>Please feel free to call them back at <strong>{{ $mailRequest['phone'] }}</strong> during the 
+                           @if(isset($mailRequest['phone']))
+                            <p>Please feel free to call them back at <strong>{{ $mailRequest['phone'] }}</strong> 
+                               @if (isset($mailRequest['bestContactTime']))
+                               during the 
                                <?php $nTimes = 1 ?>
                                 @foreach($mailRequest['bestContactTime'] as $time=>$index)
                                     @if (count($mailRequest['bestContactTime']) > 2 && $nTimes < count($mailRequest['bestContactTime'])) 
@@ -416,9 +418,10 @@ background-color: #d9d9d9; padding-top: 30px; font-family: serif;
                                       {{ $time }} or
                                     @else
                                       {{ $time }}.
-                                @endif
+                                    @endif
                                     <?php $nTimes++  ?>
                                 @endforeach
+                              @endif
                             </p>
                             @endif
                             <p style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #222222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; hyphens: none; line-height: 26px; margin: rem-calc(20) 0 10px; padding: 0; text-align: left; word-wrap: normal" align="left"></p>
