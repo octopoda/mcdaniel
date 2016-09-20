@@ -129,7 +129,7 @@ class ContactController extends Controller
     }
 
     public function getLatest() {
-        $contacts = $this->contact->pushCriteria(new GetNumberOfContacts(20))->all();
+        $contacts = $this->contact->pushCriteria(new GetNumberOfContacts(40))->all();
 
         $allContacts = [];
         foreach ($contacts as $contact) {
