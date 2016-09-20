@@ -26,7 +26,7 @@
          * @return 
          */
         function activate() {
-            console.log('activate', vm.service)
+            // console.log('activate', vm.service)
 
             if (vm.service == null) {
                 vm.service = {

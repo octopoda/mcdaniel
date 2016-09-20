@@ -19,7 +19,7 @@
 
         function activate() {
             vm.service = localStorageService.get('submittedService');
-            console.dir(vm.service);
+            // console.dir(vm.service);
         }
     }
 })();

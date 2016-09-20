@@ -83,7 +83,7 @@
          * @return {[type]} [description]
          */
         function activate() {
-            console.log('form', vm.service);
+            // console.log('form', vm.service);
 
             if(vm.service === null) {
                 vm.service = {
@@ -204,10 +204,14 @@
             vm.formData.subject = setupEmailSubject();
             vm.formData.lastArticleRead = localStorageService.get('lastArticleRead');
             
+            
+
 
             servicesService.getService(vm.formData.category, vm.formData.interestedService).then(function (data) {
                 vm.formData.service = data[0];   
-                
+                vm.formData.service.category = vm.formData.category;
+                localStorageService.set('submittedService', vm.formData.service);
+
                 mailService.sendToMailer(vm.formData).then(function (data) {
                         mailSent(data);
                 });
@@ -218,10 +222,6 @@
                         vm.success = true;
 
                         if (vm.getStarted) {
-                            if (vm.formData.category !== undefined) {
-                                vm.formData.service.category = vm.formData.category;
-                            }
-                            localStorageService.set('submittedService', vm.formData.service);
                             window.location = '/get-started/thanks'
                         }
                     }

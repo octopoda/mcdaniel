@@ -1431,7 +1431,7 @@ var jq = $.noConflict();
          * @return {[type]} [description]
          */
         function activate() {
-            console.log('form', vm.service);
+            // console.log('form', vm.service);
 
             if(vm.service === null) {
                 vm.service = {
@@ -1552,10 +1552,14 @@ var jq = $.noConflict();
             vm.formData.subject = setupEmailSubject();
             vm.formData.lastArticleRead = localStorageService.get('lastArticleRead');
             
+            
+
 
             servicesService.getService(vm.formData.category, vm.formData.interestedService).then(function (data) {
                 vm.formData.service = data[0];   
-                
+                vm.formData.service.category = vm.formData.category;
+                localStorageService.set('submittedService', vm.formData.service);
+
                 mailService.sendToMailer(vm.formData).then(function (data) {
                         mailSent(data);
                 });
@@ -1566,10 +1570,6 @@ var jq = $.noConflict();
                         vm.success = true;
 
                         if (vm.getStarted) {
-                            if (vm.formData.category !== undefined) {
-                                vm.formData.service.category = vm.formData.category;
-                            }
-                            localStorageService.set('submittedService', vm.formData.service);
                             window.location = '/get-started/thanks'
                         }
                     }
@@ -1684,7 +1684,7 @@ var jq = $.noConflict();
          * @return 
          */
         function activate() {
-            console.log('activate', vm.service)
+            // console.log('activate', vm.service)
 
             if (vm.service == null) {
                 vm.service = {
@@ -1827,7 +1827,7 @@ var jq = $.noConflict();
 
         function activate() {
             vm.service = localStorageService.get('submittedService');
-            console.dir(vm.service);
+            // console.dir(vm.service);
         }
     }
 })();
@@ -2194,6 +2194,108 @@ var jq = $.noConflict();
         return query.length ? query.substr(0, query.length - 1) : query;
 	}
 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqBlock', faqBlock);
+
+    /* @ngInject */
+    function faqBlock () {
+        // Usage:
+        // <div faq-block></div>
+        var directive = {
+            bindToController: true,
+            controller: FaqBlockController,
+            controllerAs: 'vd',
+            link: link,
+            restrict: 'A',
+            templateUrl: '/templates/faqs/faq-block.html',
+            scope: {
+                faqs: "="
+            }
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+            
+        }
+    }
+
+    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
+
+    /* @ngInject */
+    function FaqBlockController ($scope, $element, $attrs) {
+        var vd = $scope.vd;
+
+        vd.openAnswer = openAnswer;
+
+
+
+        //Open the Answers
+        function openAnswer($event) {
+            var self = jq($event.currentTarget),
+                answer = self.children('.faq__answer');
+
+            if (self.hasClass('open')) {
+                answer.slideUp(200);
+                self.toggleClass('open');
+            } else {
+                answer.slideDown(200);
+                self.toggleClass('open');
+            }
+        }
+    }
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .directive('faqSearchInput', faqSearchInput);
+
+    faqSearchInput.$inject = ['$rootScope'];
+
+    /* @ngInject */
+    function faqSearchInput ($rootScope) {
+        // Usage:
+        // <input type="text" name="search" faq-search-input>
+        var directive = {
+            link: link,
+            restrict: 'A',
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs) {
+        	/** @type {DOM} element  */
+        	var el = jq(element[0]);
+
+        	/**
+        	 * On Key up search
+        	 * @param  {event}
+        	 * @return {function} 
+        	 */
+        	el.on('keyup', function (e) {
+        		if (timer) clearTimeout(timer);
+        		var timer = setTimeout(broadcastSearch, 400);
+        	});
+
+
+        	/**
+        	 * Broadcast to the Root
+        	 * @param  {string} query 
+        	 * @return {null}       
+        	 */
+        	function broadcastSearch() {
+        		var query = el.val();
+        		$rootScope.$emit('faqSearch', query)
+        	}
+        }
+    }
 })();
 (function() {
     'use strict';
@@ -2883,108 +2985,6 @@ var jq = $.noConflict();
     }
 
     
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqBlock', faqBlock);
-
-    /* @ngInject */
-    function faqBlock () {
-        // Usage:
-        // <div faq-block></div>
-        var directive = {
-            bindToController: true,
-            controller: FaqBlockController,
-            controllerAs: 'vd',
-            link: link,
-            restrict: 'A',
-            templateUrl: '/templates/faqs/faq-block.html',
-            scope: {
-                faqs: "="
-            }
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-            
-        }
-    }
-
-    FaqBlockController.$inject = ['$scope', '$element', '$attrs'];
-
-    /* @ngInject */
-    function FaqBlockController ($scope, $element, $attrs) {
-        var vd = $scope.vd;
-
-        vd.openAnswer = openAnswer;
-
-
-
-        //Open the Answers
-        function openAnswer($event) {
-            var self = jq($event.currentTarget),
-                answer = self.children('.faq__answer');
-
-            if (self.hasClass('open')) {
-                answer.slideUp(200);
-                self.toggleClass('open');
-            } else {
-                answer.slideDown(200);
-                self.toggleClass('open');
-            }
-        }
-    }
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .directive('faqSearchInput', faqSearchInput);
-
-    faqSearchInput.$inject = ['$rootScope'];
-
-    /* @ngInject */
-    function faqSearchInput ($rootScope) {
-        // Usage:
-        // <input type="text" name="search" faq-search-input>
-        var directive = {
-            link: link,
-            restrict: 'A',
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs) {
-        	/** @type {DOM} element  */
-        	var el = jq(element[0]);
-
-        	/**
-        	 * On Key up search
-        	 * @param  {event}
-        	 * @return {function} 
-        	 */
-        	el.on('keyup', function (e) {
-        		if (timer) clearTimeout(timer);
-        		var timer = setTimeout(broadcastSearch, 400);
-        	});
-
-
-        	/**
-        	 * Broadcast to the Root
-        	 * @param  {string} query 
-        	 * @return {null}       
-        	 */
-        	function broadcastSearch() {
-        		var query = el.val();
-        		$rootScope.$emit('faqSearch', query)
-        	}
-        }
-    }
 })();
 /*
 |--------------------------------------------------------------------------
@@ -4854,86 +4854,6 @@ var jq = $.noConflict();
 
     angular
         .module('global.modal')
-        .service('modalService', modalService);
-
-    modalService.$inject = ['$rootScope', '$q'];
-
-    /* @ngInject */
-    function modalService($rootScope, $q) {
-        var modal = {
-					deferred: null,
-					params: null
-				};
-
-				this.open = open;
-				this.params = params;
-				this.proceedTo = proceedTo;
-				this.reject = reject;
-				this.resolve = resolve;
-
-        ////////////////
-
-        function open( type, params, pipeResponse ) {
-					var previousDeferred = modal.deferred;
-					
-					modal.deferred = $q.defer();
-					modal.params = params;
-
-					if ( previousDeferred && pipeResponse ) {
-						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
-					} else if ( previousDeferred ) {
-						previousDeferred.reject();
-					}
-
-					$rootScope.$emit( "modalService.open", type );
-					return modal.deferred.promise;
-				}
-
-
-				
-				function params() {
-					return ( modal.params || {} );
-				}
-
-
-				function proceedTo( type, params ) {
-					return open(type, params, true) ;
-				}
-
-
-				
-				function reject( reason ) {
-					if ( ! modal.deferred ) {return; }
-					modal.deferred.reject( reason );
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-
-				
-				function resolve( response ) {
-					if (!modal.deferred) {return; }
-					
-					modal.deferred.resolve(response);
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-    }
-})();
-
-
-
-
-
-
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
         .directive('alertModal', alertModal);
 
     alertModal.$inject = ['$rootScope', 'modalService'];
@@ -5031,6 +4951,86 @@ var jq = $.noConflict();
     }
 
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .service('modalService', modalService);
+
+    modalService.$inject = ['$rootScope', '$q'];
+
+    /* @ngInject */
+    function modalService($rootScope, $q) {
+        var modal = {
+					deferred: null,
+					params: null
+				};
+
+				this.open = open;
+				this.params = params;
+				this.proceedTo = proceedTo;
+				this.reject = reject;
+				this.resolve = resolve;
+
+        ////////////////
+
+        function open( type, params, pipeResponse ) {
+					var previousDeferred = modal.deferred;
+					
+					modal.deferred = $q.defer();
+					modal.params = params;
+
+					if ( previousDeferred && pipeResponse ) {
+						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
+					} else if ( previousDeferred ) {
+						previousDeferred.reject();
+					}
+
+					$rootScope.$emit( "modalService.open", type );
+					return modal.deferred.promise;
+				}
+
+
+				
+				function params() {
+					return ( modal.params || {} );
+				}
+
+
+				function proceedTo( type, params ) {
+					return open(type, params, true) ;
+				}
+
+
+				
+				function reject( reason ) {
+					if ( ! modal.deferred ) {return; }
+					modal.deferred.reject( reason );
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+
+				
+				function resolve( response ) {
+					if (!modal.deferred) {return; }
+					
+					modal.deferred.resolve(response);
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+    }
+})();
+
+
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Loading Directive
