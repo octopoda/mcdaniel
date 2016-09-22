@@ -123,8 +123,7 @@
             servicesService.getServices().then(function (data) {
                 for (var key in data.services) {
                     if (!data.services.hasOwnProperty(key))  continue;
-                    vm.allServices.push(data.services[key]);
-
+                    
                     data.services[key].forEach(function (service) {
                         if (service.code !== null) {
                             service.category = key;
@@ -132,6 +131,7 @@
                         }
                     });
                 }
+
                 vm.formData.interestedService = vm.allServices[0].code;
                 vm.dropdownType = 'all';
             });
@@ -205,30 +205,53 @@
             vm.formData.lastArticleRead = localStorageService.get('lastArticleRead');
             
             
-
-
-            servicesService.getService(vm.formData.category, vm.formData.interestedService).then(function (data) {
-                vm.formData.service = data[0];   
-                vm.formData.service.category = vm.formData.category;
-                localStorageService.set('submittedService', vm.formData.service);
-
-                mailService.sendToMailer(vm.formData).then(function (data) {
-                        mailSent(data);
+            if (vm.formData.category && vm.formData.interestedService)  {
+                console.dir('here');
+                getServiceForEmail(vm.formData.category, vm.formData.interestedService).then(function () {
+                    localStorageService.set('submittedService', vm.formData.service);
+                    mailForm();
                 });
+            } else {
+                console.dir('there');
+                mailForm();
+            }
 
-                function mailSent(data) {
-                    if (data.status == 200) {
-                        clearForm();
-                        vm.success = true;
+        }
 
-                        if (vm.getStarted) {
-                            window.location = '/get-started/thanks'
-                        }
-                    }
-                }
+        /**
+         * If the user has looked or is interested in the product go grab that product info
+         * @param  {string} category 
+         * @param  {string} service  
+         * @return {object}          
+         */
+        function getServiceForEmail(category, service) {
+           return servicesService.getService(category, service).then(function (data) {
+                vm.formData.service = data[0];   
+                vm.formData.service.category = category;
             });
         }
 
+
+        /**
+         * Mail the Form
+         * @return {promise} 
+         */
+        function mailForm() {
+            return mailService.sendToMailer(vm.formData).then(function (data) {
+                mailSent(data);
+            })
+
+            function mailSent(data) {
+                if (data.status === 200) {
+                    clearForm();
+                    vm.success = true;
+
+                    if (vm.getStarted) {
+                        window.location = '/get-started/thanks';
+                    }
+                }
+            }
+        }
 
         /**
          * Change the subject out based on the formType
@@ -292,16 +315,16 @@
            vm.formData = { 
                 customerName: 'Bob Dole',
                 email: 'zack@2721west.com', 
-                phone: '972.535.4040',
-                bestContactTime: {
-                    'afternoon' : true,
-                    'morning' : true
-                    // 'evening' : true
-                },
+                // phone: '972.535.4040',
+                // bestContactTime: {
+                //     'afternoon' : true,
+                //     'morning' : true
+                //     // 'evening' : true
+                // },
                 subject: "Big Gulp Huh?",
-                contactMessage: 'alright\' ... we\'ll see you later',
+                // contactMessage: 'alright\' ... we\'ll see you later',
                 formType: null,
-                question: 'Big Gulps Huh?',
+                question: 'What do you think nutritionally about big gulps?',
             }
         }
 

@@ -67,13 +67,40 @@ $header = [
 			</ul>
 		</div>
 	</div>
+	{{-- Our Team Sectoin --}}
+	<div class="row l-section">
+		<h2>Our Team</h2>
+		<hr>
+	</div>
+	<div class="about__mary l-section row">
+		<div class="about__mary--left">
+			<img src="https://s3-us-west-2.amazonaws.com/mcdaniel-staging/images/pages/about/MaryWissmannRD.jpg" alt="Mary Wissmann, MS, RD, LD">
+		</div>
+		<div class="about__mary--right">
+			<section class="about__mary--header row">
+				<h2>Mary Wissmann <small>MS, RD, LD</small></h2>
+				<h5>Dietitian</h5>
+			</section>
+			<section class="row">
+				<p>Hello! My name is Mary Wissman. I am a Registered and Licensed Dietitian with a Master’s Degree in Nutritional Sciences. I have always loved to prepare healthy and delicious food, and I recognized at a young age that good food and an active lifestyle made a difference in the way I felt, both physically and mentally. Helping others has always given me such joy, so I fell naturally into a career as a dietitian.</p>
+				<p> I have been a practicing dietitian for 11 years, and in that time I have worked with individual clients, conducted research, taught community nutrition and health programs, and led many community health initiatives. I spent 7 years as a university faculty member, which provided me with extensive experience reading and interpreting the latest nutrition and health research.</p> 
+				<p>What does that mean for you? No hype, no fad diets, and no outdated recommendations.</p>
+				<p> I am focused on all aspects of health, including stress management, mindfulness, all forms of physical activity, and food choices that make you feel good from the inside out. I don’t believe in a one-size-fits-all approach. I spend time with each individual client to ensure you meet your goals for lasting health and wellness. To this day, I still get so excited for each and every client as they embark on a journey toward a healthier way of life. There is so much waiting for you, and I cannot wait to help you get there.</p>
+			</section>
+		</div>
+		
+	</div>
 
 
+{{-- Form Section --}}
+<div class="row l-section">
+		<h2>Email Us</h2>
+		<hr>
+	</div>
 	
 	<!-- Contact Form -->
  <section class="contact-form  l-section" id="contactForm" ng-controller="ContactFormController as fc" data-ng-init="fc.formData.formType = 'contactForm'">
 	<div class="contact-address__form row">
-			<h3>Email Jennifer</h3>
 			<form name="contactForm" class="l-section__small top-errors" ng-submit="fc.submitForm()">
 				
 				<div class="form-group">
@@ -123,12 +150,12 @@ $header = [
 				
 				<div class="form-group">
 					<label for="message">Message</label>
-					<textarea name="contact_message" id="contactMessage" cols="30" rows="10" ng-model="fc.formData.contactMessage"></textarea>
+					<textarea name="contact_message" id="contactMessage" cols="30" rows="10" ng-model="fc.formData.contactMessage" required></textarea>
 				</div>
 				
 				<div class="form-group__center">
 					<input type="hidden" name="form_type" ng-model="fc.formData.formType" value="contact_page_form">
-					<button class="button__loading {! fc.loading !}" ng-disabled="contactForm.$invalid" google-click category="forms" action="contact-form" name="contact-us" value="4">
+					<button class="button__loading {! fc.loading !}" ng-disabled="contactForm.$invalid">
 						<div class="progress-spinner"></div>
 						<div class="button-text">Send Message</div> 
 					</button>	

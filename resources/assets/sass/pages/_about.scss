@@ -191,3 +191,53 @@
 		}
 	}
 }
+
+/*
+|--------------------------------------------------------------------------
+| Mary Bio
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+.about__mary--left {
+	img {
+		width:80%;
+	}
+
+	@include breakpoint('tablet') {
+		@include span(4 of 12);
+		
+		img {
+			margin-top:rem-calc(40);
+		}
+	}
+	
+}
+
+
+.about__mary--right {
+	@include breakpoint('tablet') {
+		@include span(8 of 12 last);
+	}
+}
+
+
+.about__mary--header {
+	@include breakpoint('phone-only') {
+		h2 small {
+			display: block;
+		}
+	}
+	
+	
+	h2 {
+		margin-top:rem-calc(30);
+		margin-bottom:0;
+	}
+
+	h5 {
+		margin-top:0;
+		color:lighten($gray, 10%);
+	}
+}

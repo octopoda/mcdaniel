@@ -29,10 +29,12 @@ class EmailAdminContactForm
     public function handle(ContactFormSubmitted $event)
     {
         
-        $template = 'mail.contactForm';
+        $template = 'mail.contactForm'; //Service Contact
 
         if ($event->mailRequest['formType'] == 'faqForm') {
-            $template = 'mail.contactQuestion';
+            $template = 'mail.contactQuestion'; //FAq Contact
+        } else if ($event->mailRequest['formType'] == 'contactForm') {
+            $template = 'mail.contactRequest'; //Normal Contact
         }
 
         Mail::send($template, ['mailRequest' => $event->mailRequest], function ($message) use ($event) {

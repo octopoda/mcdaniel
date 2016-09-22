@@ -86,7 +86,7 @@ $header = [
 				
 				<div class="form-group">
 					<label for="message">Message</label>
-					<textarea name="contact_message" id="contactMessage" cols="30" rows="10" ng-model="fc.formData.contactMessage"></textarea>
+					<textarea name="contact_message" id="contactMessage" cols="30" rows="10" ng-model="fc.formData.contactMessage" required></textarea>
 				</div>
 				
 				<div class="form-group__center">

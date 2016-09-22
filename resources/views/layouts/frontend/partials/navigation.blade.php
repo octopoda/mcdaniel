@@ -29,7 +29,7 @@
         		<li class="dropdown-trigger" data-dropdown>
                 <a href="#" title="About" >About</a>
                 <ul class="dropdown-menu">
-                  <li><a href="{{ route('about') }}">Jennifer McDaniel</a></li>
+                  <li><a href="{{ route('about') }}">Our Team</a></li>
                   <li><a href="{{ route('allFAQs') }}">FAQs</a></li>
                 </ul>
             </li>

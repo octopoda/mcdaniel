@@ -76,7 +76,7 @@ $header = [
 					
 					<div class="form-group">
 						<label for="question">Question:</label>
-						<textarea name="question" id="question" cols="30" rows="10" ng-model="fc.formData.question"></textarea>
+						<textarea name="question" id="question" cols="30" rows="10" ng-model="fc.formData.question" required></textarea>
 					</div>
 					
 					<div class="form-group__center">

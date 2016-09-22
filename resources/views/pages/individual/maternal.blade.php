@@ -40,7 +40,6 @@ $header = [
 					<li>After pregnancy, we can help you safely return to your pre-pregnancy weight, ensure you’re getting the necessary nutrients for breast feeding, and ease postpartum fatigue, mood swings, or depression.</li>
 				</ul>
 			
-				<h5>Initial Consultation - $150.00</h5>
 				<div class="button">
 					<a href="{{ route('get-started-maternal') }}" data-services-button data-service="MTHP" data-category="maternal" >Support Your Maternal Health </a>
 				</div>
