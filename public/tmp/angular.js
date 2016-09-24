@@ -101,12 +101,6 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular
-        .module('global.errors', []);
-})();
-(function() {
-    'use strict';
-
     angular.module('global.share', []);
 })();
 (function() {
@@ -117,12 +111,18 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular.module('global.loading', []);
+    angular
+        .module('global.errors', []);
 })();
 (function() {
     'use strict';
 
     angular.module('global.flash', []);
+})();
+(function() {
+    'use strict';
+
+    angular.module('global.loading', []);
 })();
 (function() {
     'use strict';
@@ -1912,7 +1912,7 @@ var jq = $.noConflict();
     /* @ngInject */
     function common($location, $q, $rootScope, $timeout, flash) {
         var dev = false;
-        var testing = true;
+        var testing = false;
 
 
         var service = {
@@ -3081,110 +3081,6 @@ var jq = $.noConflict();
 
     
 })();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.errors')
-        .factory('errors', errors);
-
-    errors.$inject = ['flash'];
-
-    /* @ngInject */
-    function errors(flash) {
-        var errorReason = null;
-
-        var service = {
-            catcher: catcher,
-            getReason: getReason
-        };
-        
-        return service;
-
-        ////////////////
-
-        /**
-         * Catch the Error and Display a Error Flash
-         * @param {string} Message to display
-         * @param {string} reason for Console.
-         */
-        function catcher(message) {
-           return function (reason) {
-                reason.insertedObject = (reason.insertedObject == null) ? 'none' : reason.insertedObject;
-                errorReason = reason;
-        		flash.error(message, reason);
-        	}
-        }
-
-        /**
-         * Get reason for mailing
-         * @return {string} 
-         */
-        function getReason() {
-            return errorReason;
-        }
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.errors')
-        .provider('errorHandler', exceptionHandlerProvider)
-        .config(config);
-
-    
-    /**
-     * Must Configure the exception handling
-     */
-     function exceptionHandlerProvider() {
-        /* jshint validthis:true */
-        this.config = {
-            appErrorPrefix: undefined
-        };
-
-        this.configure = function (appErrorPrefix) {
-            this.config.appErrorPrefix = appErrorPrefix;
-        };
-
-        this.$get = function() {
-            return {config: this.config};
-        };
-    }
-
-    config.$inject = ['$provide'];
-
-	/**
-     * Configure by setting an optional string value for appErrorPrefix
-     * @param  {object} $provide 
-     * @ngInject
-     */
-    function config($provide) {
-        $provide.decorator('$exceptionHandler', extendExceptionHandler);
-    }
-
-
-    extendExceptionHandler.$inject = ['$delegate', 'errorHandler'];
-
-    /**
-     * Extend the $exceptionHandler servie to also display our Flash
-     * @param  {Object} $delegate        
-     * @param  {Object} exceptionHandler 
-     * @param  {Object} flash            
-     * @return {function} the decorated $exceptionHandler service
-     */
-     function extendExceptionHandler($delegate, errorHandler) {
-        return function(exception, cause) {
-            var appErrorPrefix = errorHandler.config.appErrorPrefix || '';
-            var errorData = {exception: exception, cause: cause};
-            exception.message = appErrorPrefix + exception.message;
-            $delegate(exception, cause);
-           // flash.error(exception.message, errorData);
-        };
-    }
-
-   
-})();
 
 /*
 |--------------------------------------------------------------------------
@@ -3549,6 +3445,110 @@ var jq = $.noConflict();
     };
 
 
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.errors')
+        .factory('errors', errors);
+
+    errors.$inject = ['flash'];
+
+    /* @ngInject */
+    function errors(flash) {
+        var errorReason = null;
+
+        var service = {
+            catcher: catcher,
+            getReason: getReason
+        };
+        
+        return service;
+
+        ////////////////
+
+        /**
+         * Catch the Error and Display a Error Flash
+         * @param {string} Message to display
+         * @param {string} reason for Console.
+         */
+        function catcher(message) {
+           return function (reason) {
+                reason.insertedObject = (reason.insertedObject == null) ? 'none' : reason.insertedObject;
+                errorReason = reason;
+        		flash.error(message, reason);
+        	}
+        }
+
+        /**
+         * Get reason for mailing
+         * @return {string} 
+         */
+        function getReason() {
+            return errorReason;
+        }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.errors')
+        .provider('errorHandler', exceptionHandlerProvider)
+        .config(config);
+
+    
+    /**
+     * Must Configure the exception handling
+     */
+     function exceptionHandlerProvider() {
+        /* jshint validthis:true */
+        this.config = {
+            appErrorPrefix: undefined
+        };
+
+        this.configure = function (appErrorPrefix) {
+            this.config.appErrorPrefix = appErrorPrefix;
+        };
+
+        this.$get = function() {
+            return {config: this.config};
+        };
+    }
+
+    config.$inject = ['$provide'];
+
+	/**
+     * Configure by setting an optional string value for appErrorPrefix
+     * @param  {object} $provide 
+     * @ngInject
+     */
+    function config($provide) {
+        $provide.decorator('$exceptionHandler', extendExceptionHandler);
+    }
+
+
+    extendExceptionHandler.$inject = ['$delegate', 'errorHandler'];
+
+    /**
+     * Extend the $exceptionHandler servie to also display our Flash
+     * @param  {Object} $delegate        
+     * @param  {Object} exceptionHandler 
+     * @param  {Object} flash            
+     * @return {function} the decorated $exceptionHandler service
+     */
+     function extendExceptionHandler($delegate, errorHandler) {
+        return function(exception, cause) {
+            var appErrorPrefix = errorHandler.config.appErrorPrefix || '';
+            var errorData = {exception: exception, cause: cause};
+            exception.message = appErrorPrefix + exception.message;
+            $delegate(exception, cause);
+           // flash.error(exception.message, errorData);
+        };
+    }
+
+   
 })();
 (function() {
     'use strict';
@@ -4877,6 +4877,86 @@ var jq = $.noConflict();
 
     angular
         .module('global.modal')
+        .service('modalService', modalService);
+
+    modalService.$inject = ['$rootScope', '$q'];
+
+    /* @ngInject */
+    function modalService($rootScope, $q) {
+        var modal = {
+					deferred: null,
+					params: null
+				};
+
+				this.open = open;
+				this.params = params;
+				this.proceedTo = proceedTo;
+				this.reject = reject;
+				this.resolve = resolve;
+
+        ////////////////
+
+        function open( type, params, pipeResponse ) {
+					var previousDeferred = modal.deferred;
+					
+					modal.deferred = $q.defer();
+					modal.params = params;
+
+					if ( previousDeferred && pipeResponse ) {
+						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
+					} else if ( previousDeferred ) {
+						previousDeferred.reject();
+					}
+
+					$rootScope.$emit( "modalService.open", type );
+					return modal.deferred.promise;
+				}
+
+
+				
+				function params() {
+					return ( modal.params || {} );
+				}
+
+
+				function proceedTo( type, params ) {
+					return open(type, params, true) ;
+				}
+
+
+				
+				function reject( reason ) {
+					if ( ! modal.deferred ) {return; }
+					modal.deferred.reject( reason );
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+
+				
+				function resolve( response ) {
+					if (!modal.deferred) {return; }
+					
+					modal.deferred.resolve(response);
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+    }
+})();
+
+
+
+
+
+
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
         .directive('alertModal', alertModal);
 
     alertModal.$inject = ['$rootScope', 'modalService'];
@@ -4974,86 +5054,6 @@ var jq = $.noConflict();
     }
 
 })();
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
-        .service('modalService', modalService);
-
-    modalService.$inject = ['$rootScope', '$q'];
-
-    /* @ngInject */
-    function modalService($rootScope, $q) {
-        var modal = {
-					deferred: null,
-					params: null
-				};
-
-				this.open = open;
-				this.params = params;
-				this.proceedTo = proceedTo;
-				this.reject = reject;
-				this.resolve = resolve;
-
-        ////////////////
-
-        function open( type, params, pipeResponse ) {
-					var previousDeferred = modal.deferred;
-					
-					modal.deferred = $q.defer();
-					modal.params = params;
-
-					if ( previousDeferred && pipeResponse ) {
-						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
-					} else if ( previousDeferred ) {
-						previousDeferred.reject();
-					}
-
-					$rootScope.$emit( "modalService.open", type );
-					return modal.deferred.promise;
-				}
-
-
-				
-				function params() {
-					return ( modal.params || {} );
-				}
-
-
-				function proceedTo( type, params ) {
-					return open(type, params, true) ;
-				}
-
-
-				
-				function reject( reason ) {
-					if ( ! modal.deferred ) {return; }
-					modal.deferred.reject( reason );
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-
-				
-				function resolve( response ) {
-					if (!modal.deferred) {return; }
-					
-					modal.deferred.resolve(response);
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-    }
-})();
-
-
-
-
-
-
 /*
 |--------------------------------------------------------------------------
 | Loading Directive
