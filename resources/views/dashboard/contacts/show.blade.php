@@ -10,15 +10,19 @@
 			font-weight:bold;
 		}
 	</style>
-	<?php $message = json_decode($contact->message, true); ?>
+	
 	<section class="dashboard__show">
 	
 	<div class="dashboard__content--show-wrapper">
-		<h1>{{ $message['customerName'] }}</h1>
+		@if (isset($contact->message['customerName']))
+			<h1>{{ $contact->message['customerName'] }}</h1>
+		@else 
+			<h1>No name was given.</h1>
+		@endif
 		<p><strong>Contact Time:</strong> {{ date('M d Y - h:i:s A', strtotime($contact->created_at)) }}</p>
 		
 		<h3>Message</h3>
-		@foreach($message as $k=>$v) 
+		@foreach($contact->message as $k=>$v) 
 			
 			@if(is_array($v))
 				@foreach($v as $a=>$b)
