@@ -6,21 +6,18 @@ use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class ContactFormSubmitted extends Event
+class TestEmail extends Event
 {
     use SerializesModels;
-
-    public $mailRequest;
-    public $contactId;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($mailRequest)
+    public function __construct()
     {
-        $this->mailRequest = $mailRequest;
+        //
     }
 
     /**

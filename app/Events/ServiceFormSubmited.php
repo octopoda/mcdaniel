@@ -11,7 +11,7 @@ class ServiceFormSubmited extends Event
     use SerializesModels;
 
     public $mailRequest;
-
+    
     /**
      * Create a new event instance.
      *

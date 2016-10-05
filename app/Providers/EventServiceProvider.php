@@ -10,6 +10,7 @@ use App\Events\ContactFormResend;
 use App\Events\StoreTransactionComplete;
 use App\Events\AlertSubmitted;
 use App\Events\ServiceFormSubmited;
+use App\Events\TestEmail;
 
 
 use App\Listeners\EmailAdminContactForm;
@@ -18,6 +19,7 @@ use App\Listeners\EmailAdminTransaction;
 use App\Listeners\EmailUserTransaction;
 use App\Listeners\EmailWebMaster;
 use App\Listeners\EmailCustomerServiceForms;
+use App\Listeners\SendTestEmail;
 
 
 class EventServiceProvider extends ServiceProvider
@@ -43,6 +45,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ServiceFormSubmited::class => [
             EmailCustomerServiceForms::class
+        ],
+        TestEmail::class => [
+            SendTestEmail::class
         ]
     ];
 

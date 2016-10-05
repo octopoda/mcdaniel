@@ -5,11 +5,11 @@ namespace App\Listeners;
 use App\Events\ServiceFormSubmited;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-
 use Mail;
 
 class EmailCustomerServiceForms
 {
+    
     /**
      * Create the event listener.
      *
@@ -17,7 +17,7 @@ class EmailCustomerServiceForms
      */
     public function __construct()
     {
-        //
+
     }
 
     /**
@@ -54,7 +54,9 @@ class EmailCustomerServiceForms
                 break;
         }
 
-        
+        /**
+         * Send the Mail
+         */
         Mail::send($template, ['mailRequest' => $event->mailRequest], function ($message) use ($event) {
             $message->to($event->mailRequest['email'])
                     ->from('jennifer@mcdanielnutrition.com')

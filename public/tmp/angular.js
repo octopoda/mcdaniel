@@ -777,7 +777,6 @@ var jq = $.noConflict();
         	return $http.post(apiUrl, data)
                 .then(mailSent)
                 .catch(function (message) {
-                    jq('#replace').html(message);
                     errors.catcher('Mail cannot be sent at this time.')(message);
                 });
 
@@ -1554,13 +1553,11 @@ var jq = $.noConflict();
             
             
             if (vm.formData.category && vm.formData.interestedService)  {
-                console.dir('here');
                 getServiceForEmail(vm.formData.category, vm.formData.interestedService).then(function () {
                     localStorageService.set('submittedService', vm.formData.service);
                     mailForm();
                 });
             } else {
-                console.dir('there');
                 mailForm();
             }
 
@@ -1587,7 +1584,9 @@ var jq = $.noConflict();
         function mailForm() {
             return mailService.sendToMailer(vm.formData).then(function (data) {
                 mailSent(data);
-            })
+            }).catch(function (data) {
+                vm.loading = false;
+            });
 
             function mailSent(data) {
                 if (data.status === 200) {
@@ -1595,8 +1594,10 @@ var jq = $.noConflict();
                     vm.success = true;
 
                     if (vm.getStarted) {
-                        window.location = '/get-started/thanks';
+                        // window.location = '/get-started/thanks';
                     }
+                } else {
+                    vm.loading = false
                 }
             }
         }
@@ -1663,14 +1664,14 @@ var jq = $.noConflict();
            vm.formData = { 
                 customerName: 'Bob Dole',
                 email: 'zack@2721west.com', 
-                // phone: '972.535.4040',
-                // bestContactTime: {
-                //     'afternoon' : true,
-                //     'morning' : true
-                //     // 'evening' : true
-                // },
+                phone: '972.535.4040',
+                bestContactTime: {
+                    'afternoon' : true,
+                    'morning' : true
+                    // 'evening' : true
+                },
                 subject: "Big Gulp Huh?",
-                // contactMessage: 'alright\' ... we\'ll see you later',
+                contactMessage: 'alright\' ... we\'ll see you later',
                 formType: null,
                 question: 'What do you think nutritionally about big gulps?',
             }
@@ -1911,8 +1912,8 @@ var jq = $.noConflict();
 
     /* @ngInject */
     function common($location, $q, $rootScope, $timeout, flash) {
-        var dev = false;
-        var testing = false;
+        var dev = true;
+        var testing = true;
 
 
         var service = {
@@ -3477,7 +3478,7 @@ var jq = $.noConflict();
            return function (reason) {
                 reason.insertedObject = (reason.insertedObject == null) ? 'none' : reason.insertedObject;
                 errorReason = reason;
-        		flash.error(message, reason);
+                flash.error(message, reason);
         	}
         }
 
@@ -4877,86 +4878,6 @@ var jq = $.noConflict();
 
     angular
         .module('global.modal')
-        .service('modalService', modalService);
-
-    modalService.$inject = ['$rootScope', '$q'];
-
-    /* @ngInject */
-    function modalService($rootScope, $q) {
-        var modal = {
-					deferred: null,
-					params: null
-				};
-
-				this.open = open;
-				this.params = params;
-				this.proceedTo = proceedTo;
-				this.reject = reject;
-				this.resolve = resolve;
-
-        ////////////////
-
-        function open( type, params, pipeResponse ) {
-					var previousDeferred = modal.deferred;
-					
-					modal.deferred = $q.defer();
-					modal.params = params;
-
-					if ( previousDeferred && pipeResponse ) {
-						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
-					} else if ( previousDeferred ) {
-						previousDeferred.reject();
-					}
-
-					$rootScope.$emit( "modalService.open", type );
-					return modal.deferred.promise;
-				}
-
-
-				
-				function params() {
-					return ( modal.params || {} );
-				}
-
-
-				function proceedTo( type, params ) {
-					return open(type, params, true) ;
-				}
-
-
-				
-				function reject( reason ) {
-					if ( ! modal.deferred ) {return; }
-					modal.deferred.reject( reason );
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-
-				
-				function resolve( response ) {
-					if (!modal.deferred) {return; }
-					
-					modal.deferred.resolve(response);
-					modal.deferred = modal.params = null;
-
-					$rootScope.$emit( "modalService.close" );
-				}
-
-    }
-})();
-
-
-
-
-
-
-(function() {
-    'use strict';
-
-    angular
-        .module('global.modal')
         .directive('alertModal', alertModal);
 
     alertModal.$inject = ['$rootScope', 'modalService'];
@@ -5054,6 +4975,86 @@ var jq = $.noConflict();
     }
 
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('global.modal')
+        .service('modalService', modalService);
+
+    modalService.$inject = ['$rootScope', '$q'];
+
+    /* @ngInject */
+    function modalService($rootScope, $q) {
+        var modal = {
+					deferred: null,
+					params: null
+				};
+
+				this.open = open;
+				this.params = params;
+				this.proceedTo = proceedTo;
+				this.reject = reject;
+				this.resolve = resolve;
+
+        ////////////////
+
+        function open( type, params, pipeResponse ) {
+					var previousDeferred = modal.deferred;
+					
+					modal.deferred = $q.defer();
+					modal.params = params;
+
+					if ( previousDeferred && pipeResponse ) {
+						modal.deferred.promise.then( previousDeferred.resolve, previousDeferred.reject );
+					} else if ( previousDeferred ) {
+						previousDeferred.reject();
+					}
+
+					$rootScope.$emit( "modalService.open", type );
+					return modal.deferred.promise;
+				}
+
+
+				
+				function params() {
+					return ( modal.params || {} );
+				}
+
+
+				function proceedTo( type, params ) {
+					return open(type, params, true) ;
+				}
+
+
+				
+				function reject( reason ) {
+					if ( ! modal.deferred ) {return; }
+					modal.deferred.reject( reason );
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+
+				
+				function resolve( response ) {
+					if (!modal.deferred) {return; }
+					
+					modal.deferred.resolve(response);
+					modal.deferred = modal.params = null;
+
+					$rootScope.$emit( "modalService.close" );
+				}
+
+    }
+})();
+
+
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Loading Directive

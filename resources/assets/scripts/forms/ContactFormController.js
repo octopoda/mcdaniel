@@ -206,13 +206,11 @@
             
             
             if (vm.formData.category && vm.formData.interestedService)  {
-                console.dir('here');
                 getServiceForEmail(vm.formData.category, vm.formData.interestedService).then(function () {
                     localStorageService.set('submittedService', vm.formData.service);
                     mailForm();
                 });
             } else {
-                console.dir('there');
                 mailForm();
             }
 
@@ -239,7 +237,9 @@
         function mailForm() {
             return mailService.sendToMailer(vm.formData).then(function (data) {
                 mailSent(data);
-            })
+            }).catch(function (data) {
+                vm.loading = false;
+            });
 
             function mailSent(data) {
                 if (data.status === 200) {
@@ -247,8 +247,10 @@
                     vm.success = true;
 
                     if (vm.getStarted) {
-                        window.location = '/get-started/thanks';
+                        // window.location = '/get-started/thanks';
                     }
+                } else {
+                    vm.loading = false
                 }
             }
         }
@@ -315,14 +317,14 @@
            vm.formData = { 
                 customerName: 'Bob Dole',
                 email: 'zack@2721west.com', 
-                // phone: '972.535.4040',
-                // bestContactTime: {
-                //     'afternoon' : true,
-                //     'morning' : true
-                //     // 'evening' : true
-                // },
+                phone: '972.535.4040',
+                bestContactTime: {
+                    'afternoon' : true,
+                    'morning' : true
+                    // 'evening' : true
+                },
                 subject: "Big Gulp Huh?",
-                // contactMessage: 'alright\' ... we\'ll see you later',
+                contactMessage: 'alright\' ... we\'ll see you later',
                 formType: null,
                 question: 'What do you think nutritionally about big gulps?',
             }

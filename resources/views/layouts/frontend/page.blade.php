@@ -114,7 +114,8 @@
 @if($app->environment(['local']))
   <script src="/tmp/vendor-file.js"></script>
   <script src="/tmp/templates.js"></script>
-  <script src="/tmp/angular.js?v1"></script>
+  <script src="/tmp/angular.js"></script>
+
 @elseif ($app->environment('production')) 
   <script src="https://s3-us-west-2.amazonaws.com/mcdaniel-staging/scripts/app.min.js?v1"></script> 
  @endif

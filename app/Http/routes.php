@@ -103,6 +103,11 @@ Route::group(["prefix" => "api/v1"], function () {
 		"uses" => "AjaxController@fireEvent"
 	]);
 
+	Route::get('/testEmail', [
+		"as" => "testEmail",
+		"uses" => "ContactController@testEmail"
+	]);
+
 	
 	Route::post('/mailchimp/subscribe', [
 		"as" => "mailChimpSubscribe",
@@ -141,6 +146,7 @@ Route::group(['prefix'=>'dashboard',  'middleware'=>['auth']], function () {
 	Route::resource("permissions", "PermissionController");
 	Route::resource("faqs", "FaqController");
 	Route::resource("products", "ProductController");
+	Route::resource("contacts", "ContactController");
 
 	//Individual Routes
 	Route::get('/roles-permissions', [
@@ -148,12 +154,18 @@ Route::group(['prefix'=>'dashboard',  'middleware'=>['auth']], function () {
 		"uses" => "RolesPermissionsController@index"
 	]);
 
-	Route:get('/transactions/{id}', [
+	Route::get('/transactions/{id}', [
 		"as" => "transactionDetail",
 		"uses" => "StoreController@transactionDetail"
 	]);
+
+	Route::get('/all-contacts', [
+		"as" => "dashboard.contacts.all",
+		"uses"	=> "ContactController@allContacts"
+	]);
 	
 	Route::post('/roles-permissions', "RolesPermissionsController@store");
+	
 });
 
 

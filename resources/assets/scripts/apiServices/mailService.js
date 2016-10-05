@@ -29,7 +29,6 @@
         	return $http.post(apiUrl, data)
                 .then(mailSent)
                 .catch(function (message) {
-                    jq('#replace').html(message);
                     errors.catcher('Mail cannot be sent at this time.')(message);
                 });
 

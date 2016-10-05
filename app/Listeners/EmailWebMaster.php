@@ -29,7 +29,7 @@ class EmailWebMaster
     public function handle(AlertSubmitted $event)
     {
         Mail::send('mail.alertSubmitted', ['mailRequest' => $event->mailRequest], function ($message) use ($event) {
-            $message->to(env('MAIL_SEND'))
+            $message->to(env('MAIL_ERROR'))
                     ->from('no-reply@mcdanielnutrition.com')
                     ->subject($event->mailRequest['subject']);
         });

@@ -9,7 +9,7 @@
 
 <div class="col s4 center-align">
 	<div class="logo">
-		<a href="/">McDaniel Nutrition</a>
+		<a href="{{ route('dashboard.index') }}">McDaniel Nutrition</a>
 	</div>
 </div>
 

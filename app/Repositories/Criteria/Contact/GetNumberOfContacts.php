@@ -28,7 +28,16 @@ class GetNumberOfContacts extends Criteria {
 	 * @return mixed
 	 */
 	public function apply( $model, Repository $repository ) {
-		$model = $model->orderBy('created_at', 'desc')->take($this->number);
+		$model = $model
+			->where('email', '!=', 'jennifer@mcdanielnutrition.com')
+			->where('email', "!=", 'zack@octopodainteractive.com')
+			->where('email', "!=", 'zack@octopodamedia.com')
+			->where('email', "!=", 'zack@2721west.com')
+			->where('email', "!=", 'zack@2721west.comt')
+			->where('email', "!=", 'mcdanieljen@me.com')
+			->where('email', "!=", 'bobd@2721west.com')
+			->orderBy('created_at', 'desc')
+			->take($this->number);
 		return $model;
 	}
 

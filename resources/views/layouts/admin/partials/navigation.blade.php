@@ -28,6 +28,8 @@
     @if (Entrust::can('manage_products'))
     	<li><a href="{{ URL::route('dashboard.products.index') }}">Products</a></li>
     @endif 
+
+    <li><a href="{{ URL::route('dashboard.contacts.index') }}">Contacts</a></li>
 </ul>
 	
 

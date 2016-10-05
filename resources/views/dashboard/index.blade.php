@@ -51,10 +51,19 @@
 	</div>
 
 	
-	<div class="row">
+	<div class="row" style="margin-top:90px;">
 		<div class="col l6 m12 s12">
-			 <h4>Latest Contacts</h4>
-			 <table class="striped responsive-table">
+			 <h4 style="float:left;">Latest Contacts</h4>
+			  <a 
+				class="test-email"
+				id="testEmail"
+				data-method="get"
+				data-remote="true"
+				rel="nofollow"
+				href="{{ route('testEmail') }}"
+				style="float:right; color:white; background:#78A22E; padding:8px 6px 8px 6px;"
+			 >Test Email</a>
+			 <table class="striped responsive-table" style="clear:both">
 		        <thead>
 		        <tr>
 		            <th data-field="Email">Email</th>
@@ -74,6 +83,7 @@
 
 		<div class="col l6 m12 s12">
 			 <h4>Latest Transaction</h4>
+			
 			 <table class="striped responsive-table">
 		        <thead>
 		        <tr>

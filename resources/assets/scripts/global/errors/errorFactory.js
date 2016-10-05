@@ -29,7 +29,7 @@
            return function (reason) {
                 reason.insertedObject = (reason.insertedObject == null) ? 'none' : reason.insertedObject;
                 errorReason = reason;
-        		flash.error(message, reason);
+                flash.error(message, reason);
         	}
         }
 

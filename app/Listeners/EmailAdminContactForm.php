@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\ContactFormSubmitted;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Htpp\Controllers\ContactController;
 
 use Mail;
 
@@ -42,5 +43,6 @@ class EmailAdminContactForm
                     ->from($event->mailRequest['email'])
                     ->subject($event->mailRequest['subject']);
         });
+
     }
 }

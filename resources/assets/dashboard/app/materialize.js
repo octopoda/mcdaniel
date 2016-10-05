@@ -39,6 +39,22 @@ $(function () {
 	});
 
 
+	$('.test-email')
+	.bind('ajax:before', function () {
+		$(this).html('setting up....');
+	})
+	.bind('ajax:send', function () {
+		$(this).html('sending...');
+	})
+	.bind('ajax:success', function (e, data, status, xhr) {
+		$(this).html('Test Email');
+		Materialize.toast("Email has been sent", 1400, 'success');
+	})
+	.bind('ajax:error', function (xhr, status, error) {
+		Materialize.toast("Something is wrong: " + error, 2200, 'error');
+	});
+
+
 
 	$('#videoSwitch').on('change', function (e) {
 		if ($(e.target).is(':checked')) {
@@ -47,8 +63,6 @@ $(function () {
 			$('#embedVideoField').slideUp(500);
 		}
 	});
-
-	console.log('message');
 
 	$('.faq-star').bind('ajax:success', function (e, data, status, xhr) {
 		console.dir(data);
