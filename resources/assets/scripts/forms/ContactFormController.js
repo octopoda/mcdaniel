@@ -247,7 +247,7 @@
                     vm.success = true;
 
                     if (vm.getStarted) {
-                        // window.location = '/get-started/thanks';
+                        window.location = '/get-started/thanks';
                     }
                 } else {
                     vm.loading = false

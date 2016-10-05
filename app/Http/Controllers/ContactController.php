@@ -8,6 +8,7 @@ use App\Events\ContactFormResend;
 use App\Events\AlertSubmitted;
 use App\Events\ServiceFormSubmited;
 use App\Events\TestEmail;
+use App\Events\SilentAlert;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -178,6 +179,11 @@ class ContactController extends Controller
 
     public function testEmail() {
         Event::fire(new TestEmail());
+    }
+
+    public function silentAlert(Request $request) {
+        // dd($request->all());
+        Event::fire(new silentAlert($request->all()));
     }
 
     

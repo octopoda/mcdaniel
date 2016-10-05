@@ -5,10 +5,10 @@
         .module('global.flash')
         .directive('mcdanielFlash', mcdanielFlash);
 
-    mcdanielFlash.$inject = ['$rootScope', '$timeout', 'mailService', 'flash', 'errors'];
+    mcdanielFlash.$inject = ['$rootScope', '$timeout', 'mailService', 'flash', 'errors', '$location'];
 
     /* @ngInject */
-    function mcdanielFlash ($rootScope, $timeout, mailService, flash, errors) {
+    function mcdanielFlash ($rootScope, $timeout, mailService, flash, errors, $location) {
         // Usage:
         // <div ab-flash></div>
         var directive = {
@@ -31,6 +31,7 @@
 					 	    vd.close = false;
 					 	    vd.actionButton = false;
 					 	    vd.event = false;
+					 	    vd.errors = false;
 
 
 					 	    vd.actionSubmit = actionSubmit;
@@ -41,13 +42,17 @@
 					  * @note add button in flash to alert technology - will be sent through mailService
 					  * 
 					  */		 
-					 $rootScope.$on('flash.error', function handleErrorFlash( event, message) {
+					 $rootScope.$on('flash.error', function handleErrorFlash( event, message, data) {
 					 		vd.close = true;
 					 		el.addClass('error').addClass('open');
 					 		vd.heading = message;
 					 		vd.actionButton = true;
 					 		vd.actionEvent = errors.getReason().status;
 					 		vd.actionText = 'Alert Us'; 
+					 		vd.errors = data;
+
+					 		console.log('going to alert');
+					 		backgroundAlert();
 					 });
 
 					 /**
@@ -83,7 +88,16 @@
 					  * @return {DOM} 
 					  */
 					 function closeFlash() {
-					 		el.removeClass('open');
+					 	el.removeClass('open');
+					 }
+
+
+					 function backgroundAlert() {
+					 	console.log('alerting');
+
+					 	return mailService.backgroundAlert(vd.errors.data).then(function () {
+					 		console.log('background alert sent');
+					 	})
 					 }
 
                     /**
@@ -96,9 +110,10 @@
 					       name: 'Zack Davis',
 					       email: 'zackd@octopodainteractive',
 					       subject: 'The Alert Button was pressed',
-					       message: 'User saw a error message.   The status code is ' +  vd.actionEvent + '. ' +  errors.getReason().insertedObject,
+					       message: 'User saw a error message.   The status code is ' +  vd.actionEvent + '. ' +  JSON.stringify(vd.errors),
 					       formType: 'alertMessage',
 					       alertMessage: vd.heading,
+					       page: $location.absUrl()
 					    }
 
 

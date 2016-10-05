@@ -27,7 +27,8 @@
          */
         function catcher(message) {
            return function (reason) {
-                reason.insertedObject = (reason.insertedObject == null) ? 'none' : reason.insertedObject;
+                console.dir(reason);
+                reason.insertedObject = (reason.insertedObject == null) ? 'none' : reason.data;
                 errorReason = reason;
                 flash.error(message, reason);
         	}

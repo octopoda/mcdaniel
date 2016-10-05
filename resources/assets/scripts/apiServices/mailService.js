@@ -10,10 +10,12 @@
     /* @ngInject */
     function mailService($http, common,  errors) {
         var apiUrl = common.apiUrl + "/contact/formSubmit";
+        var apiAlert = common.apiUrl + "/contact/silentAlert";
         
         var service = {
             sendToMailer: sendToMailer,
-            sendAlert: sendAlert
+            sendAlert: sendAlert,
+            backgroundAlert : backgroundAlert
         };
         
         return service;
@@ -26,7 +28,7 @@
          * @return {statusCode }
          */
         function sendToMailer(data) {
-        	return $http.post(apiUrl, data)
+            return $http.post(apiUrl, data)
                 .then(mailSent)
                 .catch(function (message) {
                     errors.catcher('Mail cannot be sent at this time.')(message);
@@ -53,6 +55,16 @@
             function alertSent(data, status, headers, config) {
                 return data;
             }
+        }
+
+
+        function backgroundAlert(data) {
+            return $http.post(apiAlert, data)
+                .then(alertSent)
+
+                function alertSent(data,status, headers,config) {
+                    console.log(status);
+                }
         }
 
 

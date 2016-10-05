@@ -25,7 +25,7 @@
 
         function error(message, data, title) {
             $log.error('Error: ' + message, data);
-            $rootScope.$emit('flash.error', message);
+            $rootScope.$emit('flash.error', message, data);
         }
 
         function info(message, data, title) {

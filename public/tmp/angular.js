@@ -758,10 +758,12 @@ var jq = $.noConflict();
     /* @ngInject */
     function mailService($http, common,  errors) {
         var apiUrl = common.apiUrl + "/contact/formSubmit";
+        var apiAlert = common.apiUrl + "/contact/silentAlert";
         
         var service = {
             sendToMailer: sendToMailer,
-            sendAlert: sendAlert
+            sendAlert: sendAlert,
+            backgroundAlert : backgroundAlert
         };
         
         return service;
@@ -774,7 +776,7 @@ var jq = $.noConflict();
          * @return {statusCode }
          */
         function sendToMailer(data) {
-        	return $http.post(apiUrl, data)
+            return $http.post(apiUrl, data)
                 .then(mailSent)
                 .catch(function (message) {
                     errors.catcher('Mail cannot be sent at this time.')(message);
@@ -801,6 +803,16 @@ var jq = $.noConflict();
             function alertSent(data, status, headers, config) {
                 return data;
             }
+        }
+
+
+        function backgroundAlert(data) {
+            return $http.post(apiAlert, data)
+                .then(alertSent)
+
+                function alertSent(data,status, headers,config) {
+                    console.log(status);
+                }
         }
 
 
@@ -1594,7 +1606,7 @@ var jq = $.noConflict();
                     vm.success = true;
 
                     if (vm.getStarted) {
-                        // window.location = '/get-started/thanks';
+                        window.location = '/get-started/thanks';
                     }
                 } else {
                     vm.loading = false
@@ -1912,8 +1924,8 @@ var jq = $.noConflict();
 
     /* @ngInject */
     function common($location, $q, $rootScope, $timeout, flash) {
-        var dev = true;
-        var testing = true;
+        var dev = false;
+        var testing = false;
 
 
         var service = {
@@ -3476,7 +3488,8 @@ var jq = $.noConflict();
          */
         function catcher(message) {
            return function (reason) {
-                reason.insertedObject = (reason.insertedObject == null) ? 'none' : reason.insertedObject;
+                console.dir(reason);
+                reason.insertedObject = (reason.insertedObject == null) ? 'none' : reason.data;
                 errorReason = reason;
                 flash.error(message, reason);
         	}
@@ -3558,10 +3571,10 @@ var jq = $.noConflict();
         .module('global.flash')
         .directive('mcdanielFlash', mcdanielFlash);
 
-    mcdanielFlash.$inject = ['$rootScope', '$timeout', 'mailService', 'flash', 'errors'];
+    mcdanielFlash.$inject = ['$rootScope', '$timeout', 'mailService', 'flash', 'errors', '$location'];
 
     /* @ngInject */
-    function mcdanielFlash ($rootScope, $timeout, mailService, flash, errors) {
+    function mcdanielFlash ($rootScope, $timeout, mailService, flash, errors, $location) {
         // Usage:
         // <div ab-flash></div>
         var directive = {
@@ -3584,6 +3597,7 @@ var jq = $.noConflict();
 					 	    vd.close = false;
 					 	    vd.actionButton = false;
 					 	    vd.event = false;
+					 	    vd.errors = false;
 
 
 					 	    vd.actionSubmit = actionSubmit;
@@ -3594,13 +3608,17 @@ var jq = $.noConflict();
 					  * @note add button in flash to alert technology - will be sent through mailService
 					  * 
 					  */		 
-					 $rootScope.$on('flash.error', function handleErrorFlash( event, message) {
+					 $rootScope.$on('flash.error', function handleErrorFlash( event, message, data) {
 					 		vd.close = true;
 					 		el.addClass('error').addClass('open');
 					 		vd.heading = message;
 					 		vd.actionButton = true;
 					 		vd.actionEvent = errors.getReason().status;
 					 		vd.actionText = 'Alert Us'; 
+					 		vd.errors = data;
+
+					 		console.log('going to alert');
+					 		backgroundAlert();
 					 });
 
 					 /**
@@ -3636,7 +3654,16 @@ var jq = $.noConflict();
 					  * @return {DOM} 
 					  */
 					 function closeFlash() {
-					 		el.removeClass('open');
+					 	el.removeClass('open');
+					 }
+
+
+					 function backgroundAlert() {
+					 	console.log('alerting');
+
+					 	return mailService.backgroundAlert(vd.errors.data).then(function () {
+					 		console.log('background alert sent');
+					 	})
 					 }
 
                     /**
@@ -3649,9 +3676,10 @@ var jq = $.noConflict();
 					       name: 'Zack Davis',
 					       email: 'zackd@octopodainteractive',
 					       subject: 'The Alert Button was pressed',
-					       message: 'User saw a error message.   The status code is ' +  vd.actionEvent + '. ' +  errors.getReason().insertedObject,
+					       message: 'User saw a error message.   The status code is ' +  vd.actionEvent + '. ' +  JSON.stringify(vd.errors),
 					       formType: 'alertMessage',
 					       alertMessage: vd.heading,
+					       page: $location.absUrl()
 					    }
 
 
@@ -3708,7 +3736,7 @@ var jq = $.noConflict();
 
         function error(message, data, title) {
             $log.error('Error: ' + message, data);
-            $rootScope.$emit('flash.error', message);
+            $rootScope.$emit('flash.error', message, data);
         }
 
         function info(message, data, title) {

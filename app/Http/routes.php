@@ -92,6 +92,13 @@ Route::group(["prefix" => "api/v1"], function () {
 		"uses" => 'ContactController@store'
 	]);
 
+		//Form Routes
+	Route::post('/contact/silentAlert', [
+		"as" => 'ajaxFormSubmit',
+		"uses" => 'ContactController@silentAlert'
+	]);
+
+
 	
 	Route::get('/contact/resendLatest', [
 		"as" => 'resendLatestContacts',

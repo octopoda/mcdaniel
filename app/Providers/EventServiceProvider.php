@@ -11,6 +11,7 @@ use App\Events\StoreTransactionComplete;
 use App\Events\AlertSubmitted;
 use App\Events\ServiceFormSubmited;
 use App\Events\TestEmail;
+use App\Events\SilentAlert;
 
 
 use App\Listeners\EmailAdminContactForm;
@@ -20,6 +21,7 @@ use App\Listeners\EmailUserTransaction;
 use App\Listeners\EmailWebMaster;
 use App\Listeners\EmailCustomerServiceForms;
 use App\Listeners\SendTestEmail;
+use App\Listeners\SendSilentAlert;
 
 
 class EventServiceProvider extends ServiceProvider
@@ -48,6 +50,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         TestEmail::class => [
             SendTestEmail::class
+        ],
+        SilentAlert::class => [
+            SendSilentAlert::class
         ]
     ];
 
