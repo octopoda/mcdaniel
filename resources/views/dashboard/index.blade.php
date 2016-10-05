@@ -73,7 +73,7 @@
 		        <tbody>
 		        @foreach($latestContacts as $contact)
 		            <tr>
-		                <td><a href="#">{{ $contact->email }}</a></td>
+		                <td><a href="{{ route('dashboard.contacts.show', $contact->id) }}">{{ $contact->email }}</a></td>
 		                <td>{{ date('M d Y - h:i:s A', strtotime($contact->created_at)) }}</td>
 		            </tr>
 		        @endforeach
