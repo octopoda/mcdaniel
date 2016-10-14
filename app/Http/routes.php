@@ -351,7 +351,7 @@ Route::group(['prefix' => 'store'], function () {
 	]);
 
 	//Product Routes
-	Route::get('/download/{transaction_id}/{id}',  [
+	Route::get('/downloads/{transaction_id}/{id}',  [
 		"as" => 'downloadProduct',
 		"uses" => "StoreController@downloadProduct"
 	]);

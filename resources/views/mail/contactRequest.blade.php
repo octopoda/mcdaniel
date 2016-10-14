@@ -109,7 +109,7 @@ background-color: #d9d9d9; padding-top: 30px; font-family: serif;
                                     @else
                                       {{ $time }}.
                                     @endif
-                                  <?php $nTime++ ?>
+                                  <?php $nTimes++ ?>
                                 @endforeach
                               @endif
                             </p>

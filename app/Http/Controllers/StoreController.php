@@ -138,13 +138,20 @@ class StoreController extends Controller
     public function transactionComplete() {
         $tx = $_GET['tx'];
 
+        $url = 'https://www.paypal.com/cgi-bin/webscr';
+        
+        //Switch to sandbox for testing.
+        if ($app->environment(['local'])) {
+            $url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+        } 
+
         // Init cURL
         $request = curl_init();
 
         // Set request options
         curl_setopt_array($request, array
         (
-          CURLOPT_URL => 'https://www.sandbox.paypal.com/cgi-bin/webscr',
+          CURLOPT_URL => $url, 
           CURLOPT_POST => TRUE,
           CURLOPT_POSTFIELDS => http_build_query(array
             (
@@ -282,6 +289,8 @@ class StoreController extends Controller
             $product = $this->product->find($id);
         }
 
+        dd($product->url);
+        
         $name = (basename($product->url).PHP_EOL);
         header("Content-type: application/pdf");
         header("Content-Disposition: attachment; filename={$name}");

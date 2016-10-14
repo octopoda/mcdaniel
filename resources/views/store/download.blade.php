@@ -20,7 +20,7 @@
 			@else 
 				<ul>
 				@foreach ($products as $product)
-					<li><a href="/store/download/{{ $transaction->transaction_id }}/{{ $product->id }}">{{ $product->title }}</a></li>
+					<li><a href="{{ route('downloadProduct', [$transaction->transaction_id, $product->id]) }}">{{ $product->title }}</a></li>
 				@endforeach
 				</ul>
 			@endif

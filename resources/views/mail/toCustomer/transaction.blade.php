@@ -395,16 +395,20 @@ background-color: #d9d9d9; padding-top: 30px; font-family: serif;
                            
                             <dl style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">
                               <dt style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">Transaction Id:</dt>
-                              <dd style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">{{ $transaction-&gt;transaction_id }}</dd>
+                              <dd style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">{{ $transaction->transaction_id }}</dd>
                               <dt style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">Purchased On:</dt>
-                              <dd style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">{{ date('M d, Y h:i a', strtotime($transaction-&gt;created_at)) }}</dd>
+                              <dd style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">{{ date('M d, Y h:i a', strtotime($transaction->created_at)) }}</dd>
 
                               <dt style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">Products Purchased</dt>
                               <dd class="dashboard__content--list" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">
                                 <ul style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; hyphens: none; word-wrap: normal">
-                                  @foreach ($products as $product)
-                                    <li style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; font-size: 16px; hyphens: none; list-style: none; margin-bottom: 20px; word-wrap: normal"><a href="{{ route('getDownloads', $transaction-&gt;transaction_id) }}" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #78A22E; hyphens: none; text-decoration: none; word-wrap: normal">{{ $product-&gt;title }}</a></li>
-                                  @endforeach
+                                  @if (isset($products))
+                                    @foreach ($products as $product)
+                                      @if ($products != null)
+                                        <li style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; font-size: 16px; hyphens: none; list-style: none; margin-bottom: 20px; word-wrap: normal"><a href="{{ route('getDownloads', $transaction->transaction_id) }}" style="-moz-hyphens: none; -ms-hyphens: none; -webkit-hyphens: none; color: #78A22E; hyphens: none; text-decoration: none; word-wrap: normal">{{ $product->title }}</a></li>
+                                      @endif
+                                    @endforeach
+                                  @endif
                                 </ul>
                               </dd>
 
