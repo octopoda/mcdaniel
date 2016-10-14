@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Event;
 use App\Events\StoreTransactionComplete;
+use App\Events\StoreTransactionError;
 
 use Illuminate\Http\Request;
 
@@ -140,8 +141,10 @@ class StoreController extends Controller
 
         $url = 'https://www.paypal.com/cgi-bin/webscr';
         
+        $env = env('APP_ENV');
+
         //Switch to sandbox for testing.
-        if ($app->environment(['local'])) {
+        if ($env == 'local') {
             $url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
         } 
 
@@ -227,8 +230,14 @@ class StoreController extends Controller
             return redirect('/store/downloads/'. $tx);
 
         } else {
-            return redirect('/store/transaction-error'. $tx);
+            return redirect('/store/transaction-error/'. $tx);
         }
+    }
+
+
+    public function transactionError($tx) {
+        Event::fire(new StoreTransactionError($tx));
+        return view('store.error');
     }
 
     /**
@@ -289,12 +298,10 @@ class StoreController extends Controller
             $product = $this->product->find($id);
         }
 
-        dd($product->url);
-        
         $name = (basename($product->url).PHP_EOL);
         header("Content-type: application/pdf");
         header("Content-Disposition: attachment; filename={$name}");
-        readfile($product->url);
+        readfile(str_replace(" ", "+", $product->url));
     }
 
 

@@ -339,7 +339,7 @@ Route::group(['prefix' => 'store'], function () {
 	]);
 
 
-	Route::get('/transaction-error', [
+	Route::get('/transaction-error/{transaction_id}', [
 		'as' => 'transactionError',
 		'uses' => 'StoreController@transactionError'
 	]);

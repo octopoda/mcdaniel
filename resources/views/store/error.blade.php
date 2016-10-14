@@ -1,31 +1,37 @@
-@extends('layouts.frontend.page')
+<?php
+$header = [
+	"title" => "Oops an error occurred",
+	"description" => "Oops we had an error we cannot fix. Its ok! We have been alerted and will fix it to our best ability.",
+	"Keywords" => "Contact us, St. Louis, Missouri, corporate wellness, weight loss management, sports nutrition, maternal nutrition, dietitian, consultation, nutritionist, speaking, media",
+	"fixed" => true
+	];
+
+?>
+
+@extends('layouts.frontend.page', compact('header'))
 
 @section('content')
-	<h1>An Error Occured With PayPal</h1>
-	<p>Something happened with PayPal that we cannot resolve. Please let us know by clicking the button below</p>
+		<div class="home__hero hero">
+			<div class="row">
+				<h1>An Error Occurred With PayPal and our Site</h1>
+			</div>
+		</div>
+		
+	<div>
+		<div class="row l-section">
+			<section style="margin:auto; width:80%;">
+				<p>Something happened with PayPal that we cannot resolve.  The transaction most likely went through but we are not able to resolve it on our end.</p>   
+				<p>We have been alerted of the error and will contact you shortly with the details.</p>
 
-	<div class="button">
-		<a href="">Alert Us</a>
+				<p>Sorry for the inconvenience,</p>
+
+				<p>The McDaniel Nutrition Team</p>
+			</section>
+		</div>
 	</div>
+
+
+	
 @endsection
 
 
-{{-- https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GP4FT5HCUMXEU --}}
-
-
-
-{{-- <form target="paypal" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
-	<input type="hidden" name="cmd" value="_s-xclick">
-	<input type="hidden" name="hosted_button_id" value="GP4FT5HCUMXEU">
-	<input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_cart_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-	<img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-</form>
- --}}
-
-
-
-{{-- tx=5WN61474F7919662W&st=Completed&amt=13%2e04&cc=USD&cm=&item_number= --}}
-
-
-
-https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8VLDD25UH96P6$item_number=1
