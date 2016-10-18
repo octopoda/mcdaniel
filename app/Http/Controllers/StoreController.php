@@ -187,8 +187,6 @@ class StoreController extends Controller
             // URL decode
             $response = urldecode($response);
             
-            dd($response);
-
             // Turn into associative array
             preg_match_all('/^([^=\s]++)=(.*+)/m', $response, $m, PREG_PATTERN_ORDER);
             $response = array_combine($m[1], $m[2]);
