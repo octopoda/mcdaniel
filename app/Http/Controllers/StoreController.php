@@ -140,14 +140,13 @@ class StoreController extends Controller
         $tx = $_GET['tx'];
 
         $url = 'https://www.paypal.com/cgi-bin/webscr';
-        $token = "a6Q-t2tj1hswo-RY7gzYbsqdIBnvG6jsPFlzzb66IoNvFHxT_rvj8wk2XeG";
+        $token = env('PAYPAL_TOKEN');
         
         $env = env('APP_ENV');
-
+        
         //Switch to sandbox for testing.
         if ($env == 'local') {
             $url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
-            $token = "rwZ1wgfwH_YjPauEhirIRSfM5WoCYvTme7Ik5jknuC___b8Aae_OSP-HLMG";
         } 
 
         // Init cURL
