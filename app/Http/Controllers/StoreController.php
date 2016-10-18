@@ -144,9 +144,9 @@ class StoreController extends Controller
         $env = env('APP_ENV');
 
         //Switch to sandbox for testing.
-        // if ($env == 'local') {
+        if ($env == 'local') {
             $url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
-        // } 
+        } 
 
         // Init cURL
         $request = curl_init();
