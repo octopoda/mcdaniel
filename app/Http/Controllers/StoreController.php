@@ -144,12 +144,13 @@ class StoreController extends Controller
         $env = env('APP_ENV');
 
         //Switch to sandbox for testing.
-        if ($env == 'local') {
+        // if ($env == 'local') {
             $url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
-        } 
+        // } 
 
         // Init cURL
         $request = curl_init();
+        // dd($url);
 
         // Set request options
         curl_setopt_array($request, array
@@ -175,6 +176,7 @@ class StoreController extends Controller
         // Close connection
         curl_close($request);
 
+
         if ($status == 200 and strpos($response, 'SUCCESS') === 0) {
             // Remove SUCCESS part (7 characters long)
             $response = substr($response, 7);
@@ -183,6 +185,7 @@ class StoreController extends Controller
             // URL decode
             $response = urldecode($response);
             
+            dd($response);
 
             // Turn into associative array
             preg_match_all('/^([^=\s]++)=(.*+)/m', $response, $m, PREG_PATTERN_ORDER);
@@ -227,10 +230,10 @@ class StoreController extends Controller
             }
 
             $this->fireEvent($transaction, $products);
-            return redirect('/store/downloads/'. $tx);
+            // return redirect('/store/downloads/'. $tx);
 
         } else {
-            return redirect('/store/transaction-error/'. $tx);
+            // return redirect('/store/transaction-error/'. $tx);
         }
     }
 
