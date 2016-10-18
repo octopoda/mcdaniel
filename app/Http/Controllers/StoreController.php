@@ -230,10 +230,10 @@ class StoreController extends Controller
             }
 
             $this->fireEvent($transaction, $products);
-            // return redirect('/store/downloads/'. $tx);
+            return redirect('/store/downloads/'. $tx);
 
         } else {
-            // return redirect('/store/transaction-error/'. $tx);
+            return redirect('/store/transaction-error/'. $tx);
         }
     }
 
