@@ -183,6 +183,7 @@ class ContactController extends Controller
 
     public function silentAlert(Request $request) {
         // dd($request->all());
+        if (!count($request->all())) { return; }
         Event::fire(new silentAlert($request->all()));
     }
 
