@@ -101,8 +101,11 @@
 
             //Need a Dropdown of All Services
             if (vm.service.category === null) {
-                getAllServices();
-            
+                getAllServices().then(function () {
+                    vm.formData.category = vm.allServices[0].category;
+                });
+                
+
             //Not a specific services so need drop down on services per cateogry
             } else if (vm.service.category !== null && vm.service.code === null) {
                 getServiceCategory(vm.service.category);
@@ -120,7 +123,7 @@
          * @return {array} 
          */
         function getAllServices() {
-            servicesService.getServices().then(function (data) {
+            return servicesService.getServices().then(function (data) {
                 for (var key in data.services) {
                     if (!data.services.hasOwnProperty(key))  continue;
                     
@@ -203,7 +206,6 @@
 
             vm.formData.subject = setupEmailSubject();
             vm.formData.lastArticleRead = localStorageService.get('lastArticleRead');
-            
             
             if (vm.formData.category && vm.formData.interestedService)  {
                 getServiceForEmail(vm.formData.category, vm.formData.interestedService).then(function () {

@@ -49,8 +49,8 @@ class EmailCustomerServiceForms
             case 'sustain' :
                 $template = 'mail.toCustomer.corporate';
                 break;
-            case 'default':
-                $template = "mail.toCustomer.rmr";
+            default:
+                $template = "mail.toCustomer.default";
                 break;
         }
 

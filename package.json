@@ -7,19 +7,18 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/octopoda/mcdaniel.git"
+    "url": "git+https://github.com/assetbuilder/ri-one-pager.git"
   },
   "keywords": [],
   "author": "",
   "private": true,
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/octopoda/mcdaniel/issues"
+    "url": "https://github.com/assetbuilder/ri-one-pager/issues"
   },
   "devDependencies": {
     "browser-sync": "^2.2.3",
@@ -68,7 +67,7 @@
     "gulp-s3": "^0.3.0",
     "merge-stream": "^1.0.0"
   },
-  "homepage": "https://github.com/octopoda/mcdaniel#readme",
+  "homepage": "https://github.com/assetbuilder/ri-one-pager#readme",
   "dependencies": {
     "jquery": "^2.2.1"
   }
