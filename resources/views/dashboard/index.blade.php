@@ -19,10 +19,10 @@
 		        </tr>
 		        </thead>
 		        <tbody>
-		        @foreach($trendingPosts as $post)
+		        @foreach($trendingPosts as $trendingPost)
 		            <tr>
-		                <td><a href="{{ route('dashboard.posts.show', $post->id) }}">{{ $post->title }}</a></td>
-		                <td>{{ $post->reads }}</td>
+		                <td><a href="{{ route('dashboard.posts.show', $trendingPost->id) }}">{{ $trendingPost->title }}</a></td>
+		                <td>{{ $trendingPost->reads }}</td>
 		            </tr>
 		        @endforeach
 		        </tbody>
@@ -39,10 +39,10 @@
 		        </tr>
 		        </thead>
 		        <tbody>
-		        @foreach($topPosts as $post)
-		            <tr>
-		                <td><a href="{{ route('dashboard.posts.show', $post->id) }}">{{ $post->title }}</a></td>
-		                <td>{{ $post->reads }}</td>
+		        @foreach($topPosts as $topPost)
+		        	<tr>
+		                <td><a href="{{ route('dashboard.posts.show', $topPost->id) }}">{{ $topPost->title }}</a></td>
+		                <td>{{ $topPost->reads }}</td>
 		            </tr>
 		        @endforeach
 		        </tbody>

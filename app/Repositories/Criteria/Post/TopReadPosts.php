@@ -16,7 +16,7 @@ class TopReadPosts extends Criteria {
 	}
 
 	public function apply($model, Repository $repository) {
-		$model = $model->orderBy('reads', 'DESC')->take($this->number);
+		$model = $model->orderBy('reads', 'DESC');
 		return $model;
 	}
 }

@@ -43,6 +43,7 @@ class DashboardController extends Controller
         $this->post = $post;
         $this->contact = $contact;
         $this->transaction = $transaction;
+        $this->duh = $post;
     }
 
     /**
@@ -54,7 +55,7 @@ class DashboardController extends Controller
     {
         $latestContacts = $this->contact->pushCriteria(new GetNumberOfContacts(5))->all();
         $trendingPosts = $this->post->pushCriteria(new TrendingPosts(5))->all();
-        $topPosts = $this->post->pushCriteria(new TopReadPosts(5))->all();
+        $topPosts = \App\Post::orderBy('reads', 'DESC')->take(5)->get();
         $latestTransactions = $this->transaction->pushCriteria(new LatestTransactions(5))->all();
         $totalIncome = \App\Transaction::sum('total');
         return view('dashboard.index', compact('topPosts', 'trendingPosts', 'latestContacts', 'latestTransactions', 'totalIncome'));

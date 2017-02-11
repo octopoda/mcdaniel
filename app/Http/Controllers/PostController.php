@@ -152,6 +152,7 @@ class PostController extends Controller
     public function show($id)
     {
         $post = $this->post->find($id);
+       
         return view('dashboard.posts.show', compact('post'));
     }
 
@@ -164,7 +165,7 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = $this->post->find($id);
-        $post->publish_date = date('F d, Y h:m A', strtotime($post->publish_date));
+        $post->ifPublished = date('Y-m-d', strtotime($post->publish_date));
         return view('dashboard.posts.edit', compact('post'));
     }
 

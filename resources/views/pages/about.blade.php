@@ -92,6 +92,27 @@ $header = [
 	</div>
 
 
+
+	<div class="about__mary l-section row">
+		<div class="about__mary--left">
+			<img src="https://s3-us-west-2.amazonaws.com/mcdaniel-staging/images/pages/about/jenni-headshot.jpg" alt="Jenni Leslie MS, RD, LD">
+		</div>
+		<div class="about__mary--right">
+			<section class="about__mary--header row">
+				<h2>Jenni Leslie <small>MS, RD, LD</small></h2>
+				<h5>Dietitian</h5>
+			</section>
+			<section class="row">
+				<p>Hi there! I’m Jenni Leslie, a Registered Dietitian who is passionate about helping individuals re-connect with their bodies to achieve their personal health and wellness goals. </p>
+				<p>Given the amount of inconsistent and confusing nutrition information floating around in today’s society, it’s no wonder individuals become paralyzed when trying to change a habit or reach a goal. My intention is to help you sift through the nonsense while returning to “intuitive eating” which is simply tuning into your body to find what best works for you. </p>
+				<p>I specialize in nutrition counseling for eating disorders of all sorts; anorexia, bulimia, binge eating disorder, orthorexia, and others. Eating disorders are complex and need a foundation of good nutrition to help the individual work through underlying issues that may be contributing to the eating disorder. I strive to guide individuals towards a joyful and calm approach to food instead of a frightened or judgmental one. I’m also passionate about weight loss/management, gut health, and stress management related to nutrition. </p>
+				<p>I find that small decisions build up over time to make major health changes. Belief in oneself and consistency are the main tools needed when working towards a health goal. I hope to empower you to make your own healthy decisions that will be maintainable for life while enjoying the process along the way. </p>
+			</section>
+		</div>
+		
+	</div>
+
+
 {{-- Form Section --}}
 <div class="row l-section">
 		<h2>Email Us</h2>

@@ -28,7 +28,6 @@
  	</div>
 
  	<div class="row">
-		
 		<div class="input-field col s12 l6">
 			{!! Form::select('post_type', $post->post_types, (isset($post)) ? $post->post_type : null, ['class'=>'dashboard-select']) !!} 
 			{!! Form::label('post_type', 'Post Types') !!}
@@ -37,9 +36,8 @@
 
 		<div class="input-field s12 m6 col">
 			{!! Form::label('publish_date', 'Publish Date:') !!}
-			<input type="date" class="datepicker" name="publish_date" id="publish_date" value="{{ (isset($post)) ? $post->publish_date : '' }}">
+			<input type="date" class="datepicker" name="publish_date" id="publish_date" value="{{ (isset($post->ifPublished)) ? $post->ifPublished : '' }}">
 		</div>
-	
  	</div>
 
 

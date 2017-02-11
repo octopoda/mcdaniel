@@ -38,7 +38,7 @@
 
 
         	<ul class="main-navigation__cta">
-            <li class="button"> <a data-remove-services-button href="{{ route('get-started') }}">Get Started</a> </li> 
+            <li class="button"> <a data-remove-services-button href="{{ route('get-started') }}">Get Healthy</a> </li> 
           </ul>
     </div>
   </div>
