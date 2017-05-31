@@ -56,10 +56,10 @@ return [
 
     'from' => ['address' => env('MAIL_FROM', null), 'name' => env('MAIL_NAME', null)],
     
-    'to' => [
-        'address' => 'zack@2721west.com',
-        'name' => 'Zack Davis'
-    ],
+    // 'to' => [
+    //     'address' => 'zack@2721west.com',
+    //     'name' => 'Zack Davis'
+    // ],
 
     /*
     |--------------------------------------------------------------------------
