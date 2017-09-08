@@ -1,12 +1,12 @@
 .m-contact-form {
-	@extend %clearfix;
+	@include clearfix;
 }
 
 
 .contact__success {
 	font-size:rem-calc(16);
 	color:$green; 
-	@extend %clearfix;
+	@include clearfix;
 	text-align: center;
 
 	@include breakpoint('laptop') {

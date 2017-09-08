@@ -20,7 +20,7 @@
 		color:$white;
 	}
 
-	@extend %blackCover;
+	@include blackCover;
 
 	@include breakpoint('tablet') {
 		padding:rem-calc(60);
@@ -62,7 +62,7 @@
 		background-size:cover;
 		background-position:center center;
 
-		@extend %blackCover;
+		@include blackCover;
 	}
 
 	h4 {

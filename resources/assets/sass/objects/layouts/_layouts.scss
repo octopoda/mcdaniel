@@ -63,7 +63,7 @@
 
     h1 {
         text-align: center;
-        @extend %font-light;
+        @include font-light;
         color:$gray;
         font-weight:100;    
         margin:0;

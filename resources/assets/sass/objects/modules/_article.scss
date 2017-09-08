@@ -59,7 +59,7 @@ $article-height: rem-calc(300);
     background-repeat:no-repeat;
     z-index:-1;
 
-    @extend %blackCover;
+    @include blackCover;
 }
 
 .m-article__text {

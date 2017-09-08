@@ -389,6 +389,11 @@ Route::group(['prefix' => 'individuals'], function () {
 		"uses" => 'PageController@maternal'
 	]);
 
+	Route::get('/eating-disorders', [
+		'as' => 'eating-disorders',
+		'uses' => 'PageController@disorders'
+	]);
+
 	Route::get('/rmr-testing', [
 		"as" => "rmr",
 		"uses" => "PageController@rmr"
@@ -465,6 +470,11 @@ Route::group(['prefix' => 'get-started'], function () {
 	Route::get('/maternal-nutrition', [
 		'as' => 'get-started-maternal',
 		'uses' =>  'GetStartedController@maternal'
+	]);
+
+	Route::get('/disordered-eating', [
+		'as' => 'get-started-disorder',
+		'uses' =>  'GetStartedController@disorder'
 	]);
 
 	Route::get('/corporate-wellness', [

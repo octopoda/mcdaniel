@@ -1,0 +1,68 @@
+.disorder__hero {
+	background-image: url('#{$page}disorder/disorder-hero-sm.jpg');
+	background-position:center right;
+
+	@include breakpoint('tablet') {
+		background-image: url('#{$page}disorder/disorder-hero-med.jpg');
+	}
+
+	@include breakpoint('laptop') {
+		background-image: url('#{$page}disorder/disorder-hero-large.jpg');
+	}
+}
+
+
+.disorder__text {
+	 text-align: left;
+  	 background:$off-white;
+  	 position: relative;
+	
+  	 @include angle(before);
+
+  	 &--list {
+		li {
+			margin-top:rem-calc(20);
+		}
+  	 }
+
+  	 @include breakpoint('tablet') {
+  	 	text-align: left;
+
+  	 	&__image  {
+  	 		position: absolute;
+  	 		overflow:hidden;
+			width:span(8 of 12);
+			bottom:0;
+			img {width:80%;}
+		}
+  	 }
+
+  	 @include breakpoint('laptop') {
+  	 	&__image {
+			width:span(6 of 12);
+			img {
+				width:80%;
+			}
+		}
+  	 }
+
+  	 @include breakpoint('medium-desktop') {
+  	 	&__image {
+  	 		img {
+  	 			width:70%;
+  	 		}
+  	 	}
+  	 }
+
+  	 @include breakpoint('large-desktop') {
+  	 	&__image {
+  	 		img {
+  	 			width:65%;
+  	 		}
+  	 	}
+  	 }
+}
+
+.disorder__packages {
+	padding:rem-calc(40) rem-calc(20);
+}

@@ -81,6 +81,7 @@
          * @return {object} 
          */
         function getService() {
+            console.log('service', vm.service);
             servicesService.getService(vm.service.category, vm.service.code).then(function (data) {
                 vm.service = data[0];
                 populateHTML(vm.service);

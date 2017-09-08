@@ -48,7 +48,7 @@ body {
 		}
 	}
 
-	@extend %blackCover;
+	@include blackCover;
 
 	@include breakpoint('desktop') {
 		h1 {

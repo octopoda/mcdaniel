@@ -152,7 +152,7 @@
 	border-top:1px solid $gray-lightest;
 	
 	
-	@extend %clearfix;
+	@include clearfix;
 
 	li {
 		@include clearMP;
@@ -209,7 +209,7 @@
 		border-bottom:1px solid $gray-lightest;
 	}
 
-	@extend %clearfix;
+	@include clearfix;
 
 	ul, ol {
 		@include clearMP;

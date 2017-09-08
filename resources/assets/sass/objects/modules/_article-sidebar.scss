@@ -66,7 +66,7 @@
 		color:$black;
 		font-size:$font-size-xxlarge;
 		text-decoration: none;	
-		@extend %font-medium;
+		@include font-medium;
 	}
 	
 	
@@ -77,7 +77,7 @@
 .m-article-sidebar__search {
 	h4 {
 		color:$black;
-		@extend %font-light;
+		@include font-light;
 		margin-bottom:rem-calc(2);
 	}
 
@@ -85,7 +85,7 @@
 	.form-group {
 		min-height:50px;
 		position: relative;
-		@extend %clearfix;
+		@include clearfix;
 
 		
 		input {
@@ -142,10 +142,10 @@
 	}
 
 	&__author {
-		@extend %font-medium;
+		@include font-medium;
 
 		span {
-			@extend %font-light;
+			@include font-light;
 			display: inline-block;
 			margin-left:rem-calc(10);
 		}
@@ -169,7 +169,7 @@
 .m-article-sidebar__listing {
 	h5 {
 		color:$black;
-		@extend %font-medium;
+		@include font-medium;
 	}
 
 	ul {@include clearMP;}

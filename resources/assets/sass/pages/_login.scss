@@ -28,7 +28,7 @@
 	padding:rem-calc(20);
 
 	h5 {
-		@extend %font-medium;
+		@include font-medium;
 	}
 
 	p {

@@ -88,6 +88,17 @@ class GetStartedController extends Controller
         return view('getstarted.corporate', compact('posts', 'faqs'));
    }
 
+
+   /**
+    * Disordered Eating View
+    * @return \Illuminate\Http\Response
+    */
+   public function disorder() {
+      $posts = $this->grabPosts('Eating Disorders');
+      $faqs = null;
+      return view('getstarted.disorder', compact('posts', 'faqs'));
+   }
+
    /**
     * RMR Testing View
     * @return \Illuminate\Http\Response 

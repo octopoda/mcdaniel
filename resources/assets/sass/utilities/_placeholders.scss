@@ -4,7 +4,7 @@
 |--------------------------------------------------------------------------
 |
 | Placeholder helpers needed for the global scope
-| can be called using @extend %placholdername
+| can be called using @include %placholdername
 | will not be printed in css
 |
 */
@@ -13,7 +13,7 @@
 /**
  * ClearFix
  */
-%clearfix {
+@mixin clearfix {
   &:after {
     content: "";
     display: table;
@@ -28,45 +28,45 @@
  * Font Styling
  */
 
-%font-light {
+@mixin font-light {
 	font-family: $body-font-family;
 	font-style: normal;
 	font-weight:100;
 }
 
-%font-light-italic {
+@mixin font-light-italic {
 	font-family: $body-font-family;
 	font-style:italic;
 	font-weight:100; 
 }
 
-%font-medium {
+@mixin font-medium {
 	font-family: $body-font-family;
 	font-style: normal;
 	font-weight:500;
 }
 
-%font-medium-italic {
+@mixin font-medium-italic {
 	font-family: $body-font-family;
 	font-style:italic;
 	font-weight:500; 
 }
 
 
-%font-heavy {
+@mixin font-heavy {
 	font-family: $body-font-family;
 	font-style: normal;
 	font-weight:700;
 }
 
-%font-heavy-italic {
+@mixin font-heavy-italic {
 	font-family: $body-font-family;
 	font-style:italic;
 	font-weight:700; 
 }
 
 
-%blackCover {
+@mixin blackCover {
 	position: relative;
 
 	h1, h2, h3, h4, h5, h6, p, .button {
@@ -90,7 +90,7 @@
 /**
  * Make Banners for Knowledge Center
  */
-%makeBanner {
+@mixin makeBanner {
 	&:before {
 		display: block;
 		position: absolute;
@@ -134,4 +134,12 @@
 		}
 		
 	}
+}
+
+@mixin greenGradient {
+	background: #f8faf4; /* Old browsers */
+	background: -moz-linear-gradient(-45deg, #f8faf4 0%, #eff3e5 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(-45deg, #f8faf4 0%,#eff3e5 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(135deg, #f8faf4 0%,#eff3e5 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f8faf4', endColorstr='#eff3e5',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }

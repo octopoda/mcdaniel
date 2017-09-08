@@ -51,6 +51,8 @@
                         return removeAllService(data.services.sports);
                     case 'maternal' :
                         return removeAllService(data.services.maternal);
+                    case 'disorder' :
+                        return removeAllService(data.services.disorder);
                     case "metabolic" : 
                         return removeAllService(data.services.metabolic);
                     case "sustain" : 
@@ -132,10 +134,17 @@
                 category = "maternal";
             } 
 
+             /** Reset Disordered Eating */
+            if (path === 'eating-disorders' && (service.category !== 'disorder' || service.category === null))  {
+                category = "disorder";
+            } 
+
             /** Reset Sports Nutition */
             if (path === 'sports-nutrition' && (service.category !== 'sports' || service.category === null))  {
                   category = "sports";
-            }     
+            }    
+
+
 
             /** Reset RMR Testing */
             if (path === 'rmr-testing' && (service.category !== 'metabolic' || service.category === null))  {

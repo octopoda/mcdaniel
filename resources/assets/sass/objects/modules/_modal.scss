@@ -45,7 +45,7 @@
 		margin-top:rc(15);
 	
 		h3 {
-			@extend %font-light;
+			@include font-light;
 		}
 	}
 

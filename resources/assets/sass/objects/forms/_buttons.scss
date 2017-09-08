@@ -260,7 +260,7 @@ button, input[type="submit"] {
 .button__loading {
     position:relative;
 	
-	@extend %clearfix;
+	@include clearfix;
 	text-align: center;
 	
 	.progress-spinner, .button-text {

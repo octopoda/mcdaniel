@@ -63,6 +63,10 @@ class PageController extends Controller
         return view('pages.individual.maternal');
     }
 
+    public function disorders() {
+        return view('pages.individual.disorder');
+    }
+
     public function rmr() {
         return view('pages.individual.rmr');
     }

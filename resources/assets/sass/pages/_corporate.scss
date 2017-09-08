@@ -57,7 +57,7 @@
 }
 
 .corporate-sustain__text {
-	@extend %green-gradient;
+	@include greenGradient;
   	position: relative;
 
 	@include angle(before, true);
@@ -100,7 +100,7 @@
 }
 
 .corporate-lunch__text {
-	@extend %green-gradient;
+	@include greenGradient;
   	position: relative;
 
   	.topic-title {
@@ -142,7 +142,7 @@
 
 
 .corporate-taste__text {
-	@extend %green-gradient;
+	@include greenGradient;
   	position: relative;
   	padding-bottom:rem-calc(40);
 

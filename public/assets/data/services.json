@@ -62,6 +62,36 @@
 				"description" : "70 Minute Initial Consultation + <br> 30 Minute Follow-Up"
 			}
 		],
+		"disorder" : [
+			{
+				"name" : "Disordered Eating Start-Up Package",
+				"code" : "DESP",
+				"price": 250,
+				"html" : "Disordered Eating <br> Start-Up Package",
+				"description" : "70-Minute Initial Consultation +<br> 30-Minute Follow-Up <br>"
+			}, 
+			{
+				"name" : "Disordered Eating Premium Package",
+				"code" : "DEPP",
+				"price": "475",
+				"html" : "Disordered Eating <br> Premium Package",
+				"description" : "70-Minute Initial Consultation +<br> 4, 30-Minute Follow-Up Sessions"
+			},
+			{
+				"name" : "Disordered Eating Virtual Monitoring",
+				"code" : "DEOM",
+				"price": "325",
+				"html" : "Disordered Eating <br> Online Monitoring",
+				"description" : "70-minute Initial Consultation +<br> 30 minute in person follow up + <br>4 weekly check-ins by email"
+		 	},
+		 	{
+		 		"name" : "Disordered Eating Services/Packages",
+		 		"code" : null,
+		 		"price" : null,
+		 		"html" : "Select a package and contact us to get more information",
+		 		"description" : null
+		 	}
+		],
 		"metabolic" : [
 			{
 				"name" : "Metabolic Rate Testing",

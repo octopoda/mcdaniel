@@ -12,7 +12,7 @@
 	width:100%;
 
 	
-	@extend %clearfix;
+	@include clearfix;
 	
 	i {
 		@include span(2 of 12);

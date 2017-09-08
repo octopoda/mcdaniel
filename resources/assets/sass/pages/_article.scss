@@ -120,7 +120,7 @@
 	}
 	
 	@include breakpoint('phone-only') {
-		@extend %clearfix;
+		@include clearfix;
 		
 		li{
 			@include span(3 of 12);

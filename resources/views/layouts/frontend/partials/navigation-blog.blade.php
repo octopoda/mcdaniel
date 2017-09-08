@@ -13,7 +13,8 @@
               <ul class="dropdown-menu">
                 <li><a href="{{ route('weight-loss') }}">Weight Loss</a></li>
                 <li><a href="{{ route('sports-nutrition') }}">Sports Nutrition</a></li>
-                <li><a href="{{ route('maternal-nutrition') }}">Maternal Nutrition</a></li>
+                {{-- <li><a href="{{ route('maternal-nutrition') }}">Maternal Nutrition</a></li> --}}
+                <li><a href="{{ route('eating-disorders') }}">Disordered Eating</a></li>
                 <li><a href="{{ route('rmr') }}">RMR Testing</a></li>
               </ul>
             </li>

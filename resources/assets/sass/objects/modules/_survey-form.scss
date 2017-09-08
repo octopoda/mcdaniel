@@ -21,7 +21,7 @@
 	h2 {
 		color:$gray; 
 		margin-top:0;
-		@extend %font-medium;
+		@include font-medium;
 	}
 
 

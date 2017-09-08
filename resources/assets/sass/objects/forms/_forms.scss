@@ -154,7 +154,7 @@ label, .label {
     
 
     .form-group {
-        @extend %clearfix;
+        @include clearfix;
         
         label {
            display: inline-block;
