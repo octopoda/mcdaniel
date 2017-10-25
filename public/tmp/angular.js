@@ -26,9 +26,8 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular .module('mcdaniel.forms', []); 
-
-  })();
+    angular.module('mcdaniel.api', []);
+})();
 (function() {
    'use strict';
 
@@ -38,13 +37,14 @@ var jq = $.noConflict();
 (function() {
     'use strict';
 
-    angular.module('mcdaniel.api', []);
+    angular.module('mcdaniel.blog', []);
 })();
 (function() {
     'use strict';
 
-    angular.module('mcdaniel.blog', []);
-})();
+    angular .module('mcdaniel.forms', []); 
+
+  })();
 (function() {
     'use strict';
 
@@ -123,439 +123,6 @@ var jq = $.noConflict();
     'use strict';
 
     angular.module('global.loading', []);
-})();
-    /*
-|--------------------------------------------------------------------------
-| Contact Form Controller
-|--------------------------------------------------------------------------
-|
-| This controller should be used for all contacts forms on the AssetBuilder 6.0 site
-| By adding more variables to the formData object it should allow anything
-| to be sent to the mailService
-| 
-|
-*/
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.forms')
-        .controller('ContactFormController', ContactFormController);
-
-    ContactFormController.$inject = ['$scope', '$rootScope', 'mailService', 'flash', 'common', 'localStorageService', 'servicesService'];
-
-    /* @ngInject */
-    function ContactFormController($scope, $rootScope, mailService, flash, common, localStorageService, servicesService) {
-        var vm = this;
-        vm.title = 'ContactFormController';
-        
-        /** @type {Vars} Scope Vars */
-        vm.loading = false;
-        vm.success = false;
-        vm.service = localStorageService.get('interestedService');
-        vm.categoryServices = null;
-        vm.allServices = [];
-        vm.dropdownType = null;
-
-        /** @type {Methods} Scope Methods */
-        vm.submitForm = submitForm;
-        vm.updatePrice = updatePrice;
-        vm.getStarted = false;
-
-        /** @type {String} Success Message */
-        vm.successMessage = "Thanks for Contacting Us. Your email is important to us and we will get back to you in 1 to 2 business days.";
-
-
-
-        /**
-         * Data for All contact Forms.  Just add to here if not in form already. 
-         * @type {Object}
-         */
-        vm.formData = {
-        	customerName: null,
-        	email: null, 
-        	phone: null,
-        	bestContactTime: null,
-        	subject: null,
-        	contactMessage: null,
-            formType: null,
-            question: null,
-            interestedService: null,
-            lastArticleRead: null,
-            service: null
-        }
-
-        /**
-         * If Testing Fill out form
-         * @param  {boolean} common.isTesting 
-         */
-        if (common.isTesting) {
-            fillForm();
-        }
-
-        activate();
-
-        ////////////////
-
-        /*
-        |--------------------------------------------------------------------------
-        | Startup Methods
-        |--------------------------------------------------------------------------
-        |
-        */
-
-        /**
-         * Active Controller if needed
-         * @return {[type]} [description]
-         */
-        function activate() {
-            // console.log('form', vm.service);
-
-            if(vm.service === null) {
-                vm.service = {
-                    category: null,
-                    code: null
-                }
-            }
-
-            // console.log('from form', vm.service);
-
-            vm.service = servicesService.clearServiceFromURL(vm.service);
-            
-
-            
-
-            //Need a Dropdown of All Services
-            if (vm.service.category === null) {
-                getAllServices().then(function () {
-                    vm.formData.category = vm.allServices[0].category;
-                });
-                
-
-            //Not a specific services so need drop down on services per cateogry
-            } else if (vm.service.category !== null && vm.service.code === null) {
-                getServiceCategory(vm.service.category);
-            
-            //Came for a single service
-            } else {
-                vm.formData.interestedService = vm.service.code;
-                vm.formData.category = vm.service.category;
-            }
-        }
-
-        
-        /**
-         * Get all the Services and prepare for select box
-         * @return {array} 
-         */
-        function getAllServices() {
-            return servicesService.getServices().then(function (data) {
-                for (var key in data.services) {
-                    if (!data.services.hasOwnProperty(key))  continue;
-                    
-                    data.services[key].forEach(function (service) {
-                        if (service.code !== null) {
-                            service.category = key;
-                            vm.allServices.push(service);    
-                        }
-                    });
-                }
-
-                vm.formData.interestedService = vm.allServices[0].code;
-                vm.dropdownType = 'all';
-            });
-        }
-
-        /**
-         * Get Services in service category and prepare for select box
-         * @param  {string} category 
-         * @return {array}          
-         */
-        function getServiceCategory(category) {
-            servicesService.getServiceCategory(category).then(function (data) {
-                vm.categoryServices = data;
-                vm.formData.interestedService = data[0].code;
-                vm.formData.category = vm.service.category;
-                if (data.length === 1) return;
-                vm.dropdownType = 'category'
-            });
-        }
-
-
-
-
-        
-
-        
-        /**
-         * Update the Price based on Selection of Service
-         * @return {object} 
-         */
-        function updatePrice() {
-            var code = jq("#interestedService").find(':selected').val();
-            var category = jq("#interestedService").find(':selected').attr('data-item-category');
-
-            vm.formData.category = category;
-
-            var data = {
-                category : category,
-                code: code
-            };
-
-            $rootScope.$emit('updatePrice', data);
-        }
-
-        $rootScope.$on('updateService', function (event, data) {
-            if (data !== "null") {
-               vm.service = data;
-               activate(); 
-            }
-        })
-
-        /*
-        |--------------------------------------------------------------------------
-        | Submit Methods
-        |--------------------------------------------------------------------------
-        |
-        */
-
-
-
-        /**
-         * Submit the Mail Form
-         * @param PortfolioNAme  name of last viewed portfolio.  Set null for most forms. 
-         * @return {[type]} [description]
-         */
-        function submitForm() {
-            
-            vm.loading = 'loading'
-
-            vm.formData.subject = setupEmailSubject();
-            vm.formData.lastArticleRead = localStorageService.get('lastArticleRead');
-            
-            if (vm.formData.category && vm.formData.interestedService)  {
-                getServiceForEmail(vm.formData.category, vm.formData.interestedService).then(function () {
-                    localStorageService.set('submittedService', vm.formData.service);
-                    mailForm();
-                });
-            } else {
-                mailForm();
-            }
-
-        }
-
-        /**
-         * If the user has looked or is interested in the product go grab that product info
-         * @param  {string} category 
-         * @param  {string} service  
-         * @return {object}          
-         */
-        function getServiceForEmail(category, service) {
-           return servicesService.getService(category, service).then(function (data) {
-                vm.formData.service = data[0];   
-                vm.formData.service.category = category;
-            });
-        }
-
-
-        /**
-         * Mail the Form
-         * @return {promise} 
-         */
-        function mailForm() {
-            return mailService.sendToMailer(vm.formData).then(function (data) {
-                mailSent(data);
-            }).catch(function (data) {
-                vm.loading = false;
-            });
-
-            function mailSent(data) {
-                if (data.status === 200) {
-                    clearForm();
-                    vm.success = true;
-
-                    if (vm.getStarted) {
-                        window.location = '/get-started/thanks';
-                    }
-                } else {
-                    vm.loading = false
-                }
-            }
-        }
-
-        /**
-         * Change the subject out based on the formType
-         * @return {string} subject
-         */
-        function setupEmailSubject() {
-            switch (vm.formData.formType) {
-                case "get-started-page":
-                    vm.getStarted = true;
-                    return 'The Get Started Page was submitted';
-                    break;
-                case "faqForm":
-                    return 'A Question has been submitted';
-                    break;
-                case "contactForm":
-                    return 'A customer has submitted a Contact Request';
-                    break;
-                default: 
-                    return 'A form was submitted on the site';
-                    break;
-            }
-        }
-    
-
-
-        /**
-         * Clear the Form for next submission
-         * @return {DOM} 
-         */
-        function clearForm() {
-            vm.loading = false
-
-
-              vm.formData =  {
-                customerName: null,
-                email: null, 
-                phone: null,
-                bestContactTime: null,
-                subject: null,
-                contactMessage: null,
-                formType: null,
-                question: null,
-                interestedService: null,
-                lastArticleRead: null,
-                submittedService: null,
-            }
-
-            $scope.contactForm.$setPristine();
-        }
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Testing Methods
-        |--------------------------------------------------------------------------
-        |
-        */
-
-        function fillForm() {
-           vm.formData = { 
-                customerName: 'Bob Dole',
-                email: 'zack@2721west.com', 
-                phone: '972.535.4040',
-                bestContactTime: {
-                    'afternoon' : true,
-                    'morning' : true
-                    // 'evening' : true
-                },
-                subject: "Big Gulp Huh?",
-                contactMessage: 'alright\' ... we\'ll see you later',
-                formType: null,
-                question: 'What do you think nutritionally about big gulps?',
-            }
-        }
-
-
-    }
-})();
-/*
-|--------------------------------------------------------------------------
-| FAQ controller.  
-|--------------------------------------------------------------------------
-|
-| Grabs FAQs from API and presents them on the page. 
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.faq')
-        .controller('FaqController', FaqController);
-
-    FaqController.$inject = ['$rootScope', 'faqService'];
-
-    /* @ngInject */
-    function FaqController($rootScope, faqService) {
-        var vm = this;
-        vm.title = 'FaqController';
-        vm.Faqs =[];
-        vm.loading = false;
-        vm.formData = {
-            query: null
-        }
-
-        activate();
-
-        ////////////////
-
-        /**
-         * Activate the Controller and wait for Promise
-         * @return {object} 
-         */
-        function activate() {
-        	vm.loading = true;
-            return getFaqData().then(function () {
-               vm.loading = false;
-        	});
-        }
-
-
-        /**
-         * Get FAQ Data 
-         * @return {object} 
-         */
-        function getFaqData () {
-        	return faqService.getStaredFaqs().then(function (data) {
-        		vm.Faqs = data.faqs;
-                vm.loading = false;
-                return vm.Faqs;
-        	});
-        }
-
-
-
-        /**
-         * Seach all the Faqs
-         * @return {object}
-         */
-        function searchFaqs() {
-            return faqService.searchFaqs(vm.formData).then(function (data) {
-                vm.Faqs = data.faqs;
-                vm.loading = false;
-                return vm.Faqs;
-            });
-        }
-
-
-
-        /**
-         * Wait for FAQ search event and then load new search
-         * @param  {event}  event       
-         * @param  {string} query
-         * @return {null}
-         */
-        $rootScope.$on("faqSearch", function handleSearchEvent( event, query ) {
-            vm.loading = true;
-            
-            if (query === '') {
-                getFaqData();
-                return;
-            }
-
-            vm.formData.query = query;
-            searchFaqs();
-        });
-
-
-
-
-
-    }
 })();
 (function() {
     'use strict';
@@ -1655,6 +1222,102 @@ var jq = $.noConflict();
   	expires: exp
 	});
 */
+/*
+|--------------------------------------------------------------------------
+| FAQ controller.  
+|--------------------------------------------------------------------------
+|
+| Grabs FAQs from API and presents them on the page. 
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.faq')
+        .controller('FaqController', FaqController);
+
+    FaqController.$inject = ['$rootScope', 'faqService'];
+
+    /* @ngInject */
+    function FaqController($rootScope, faqService) {
+        var vm = this;
+        vm.title = 'FaqController';
+        vm.Faqs =[];
+        vm.loading = false;
+        vm.formData = {
+            query: null
+        }
+
+        activate();
+
+        ////////////////
+
+        /**
+         * Activate the Controller and wait for Promise
+         * @return {object} 
+         */
+        function activate() {
+        	vm.loading = true;
+            return getFaqData().then(function () {
+               vm.loading = false;
+        	});
+        }
+
+
+        /**
+         * Get FAQ Data 
+         * @return {object} 
+         */
+        function getFaqData () {
+        	return faqService.getStaredFaqs().then(function (data) {
+        		vm.Faqs = data.faqs;
+                vm.loading = false;
+                return vm.Faqs;
+        	});
+        }
+
+
+
+        /**
+         * Seach all the Faqs
+         * @return {object}
+         */
+        function searchFaqs() {
+            return faqService.searchFaqs(vm.formData).then(function (data) {
+                vm.Faqs = data.faqs;
+                vm.loading = false;
+                return vm.Faqs;
+            });
+        }
+
+
+
+        /**
+         * Wait for FAQ search event and then load new search
+         * @param  {event}  event       
+         * @param  {string} query
+         * @return {null}
+         */
+        $rootScope.$on("faqSearch", function handleSearchEvent( event, query ) {
+            vm.loading = true;
+            
+            if (query === '') {
+                getFaqData();
+                return;
+            }
+
+            vm.formData.query = query;
+            searchFaqs();
+        });
+
+
+
+
+
+    }
+})();
 (function() {
     'use strict';
 
@@ -1699,6 +1362,343 @@ var jq = $.noConflict();
 
         })
 
+
+
+    }
+})();
+    /*
+|--------------------------------------------------------------------------
+| Contact Form Controller
+|--------------------------------------------------------------------------
+|
+| This controller should be used for all contacts forms on the AssetBuilder 6.0 site
+| By adding more variables to the formData object it should allow anything
+| to be sent to the mailService
+| 
+|
+*/
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.forms')
+        .controller('ContactFormController', ContactFormController);
+
+    ContactFormController.$inject = ['$scope', '$rootScope', 'mailService', 'flash', 'common', 'localStorageService', 'servicesService'];
+
+    /* @ngInject */
+    function ContactFormController($scope, $rootScope, mailService, flash, common, localStorageService, servicesService) {
+        var vm = this;
+        vm.title = 'ContactFormController';
+        
+        /** @type {Vars} Scope Vars */
+        vm.loading = false;
+        vm.success = false;
+        vm.service = localStorageService.get('interestedService');
+        vm.categoryServices = null;
+        vm.allServices = [];
+        vm.dropdownType = null;
+
+        /** @type {Methods} Scope Methods */
+        vm.submitForm = submitForm;
+        vm.updatePrice = updatePrice;
+        vm.getStarted = false;
+
+        /** @type {String} Success Message */
+        vm.successMessage = "Thanks for Contacting Us. Your email is important to us and we will get back to you in 1 to 2 business days.";
+
+
+
+        /**
+         * Data for All contact Forms.  Just add to here if not in form already. 
+         * @type {Object}
+         */
+        vm.formData = {
+        	customerName: null,
+        	email: null, 
+        	phone: null,
+        	bestContactTime: null,
+        	subject: null,
+        	contactMessage: null,
+            formType: null,
+            question: null,
+            interestedService: null,
+            lastArticleRead: null,
+            service: null
+        }
+
+        /**
+         * If Testing Fill out form
+         * @param  {boolean} common.isTesting 
+         */
+        if (common.isTesting) {
+            fillForm();
+        }
+
+        activate();
+
+        ////////////////
+
+        /*
+        |--------------------------------------------------------------------------
+        | Startup Methods
+        |--------------------------------------------------------------------------
+        |
+        */
+
+        /**
+         * Active Controller if needed
+         * @return {[type]} [description]
+         */
+        function activate() {
+            // console.log('form', vm.service);
+
+            if(vm.service === null) {
+                vm.service = {
+                    category: null,
+                    code: null
+                }
+            }
+
+            // console.log('from form', vm.service);
+
+            vm.service = servicesService.clearServiceFromURL(vm.service);
+            
+
+            
+
+            //Need a Dropdown of All Services
+            if (vm.service.category === null) {
+                getAllServices().then(function () {
+                    vm.formData.category = vm.allServices[0].category;
+                });
+                
+
+            //Not a specific services so need drop down on services per cateogry
+            } else if (vm.service.category !== null && vm.service.code === null) {
+                getServiceCategory(vm.service.category);
+            
+            //Came for a single service
+            } else {
+                vm.formData.interestedService = vm.service.code;
+                vm.formData.category = vm.service.category;
+            }
+        }
+
+        
+        /**
+         * Get all the Services and prepare for select box
+         * @return {array} 
+         */
+        function getAllServices() {
+            return servicesService.getServices().then(function (data) {
+                for (var key in data.services) {
+                    if (!data.services.hasOwnProperty(key))  continue;
+                    
+                    data.services[key].forEach(function (service) {
+                        if (service.code !== null) {
+                            service.category = key;
+                            vm.allServices.push(service);    
+                        }
+                    });
+                }
+
+                vm.formData.interestedService = vm.allServices[0].code;
+                vm.dropdownType = 'all';
+            });
+        }
+
+        /**
+         * Get Services in service category and prepare for select box
+         * @param  {string} category 
+         * @return {array}          
+         */
+        function getServiceCategory(category) {
+            servicesService.getServiceCategory(category).then(function (data) {
+                vm.categoryServices = data;
+                vm.formData.interestedService = data[0].code;
+                vm.formData.category = vm.service.category;
+                if (data.length === 1) return;
+                vm.dropdownType = 'category'
+            });
+        }
+
+
+
+
+        
+
+        
+        /**
+         * Update the Price based on Selection of Service
+         * @return {object} 
+         */
+        function updatePrice() {
+            var code = jq("#interestedService").find(':selected').val();
+            var category = jq("#interestedService").find(':selected').attr('data-item-category');
+
+            vm.formData.category = category;
+
+            var data = {
+                category : category,
+                code: code
+            };
+
+            $rootScope.$emit('updatePrice', data);
+        }
+
+        $rootScope.$on('updateService', function (event, data) {
+            if (data !== "null") {
+               vm.service = data;
+               activate(); 
+            }
+        })
+
+        /*
+        |--------------------------------------------------------------------------
+        | Submit Methods
+        |--------------------------------------------------------------------------
+        |
+        */
+
+
+
+        /**
+         * Submit the Mail Form
+         * @param PortfolioNAme  name of last viewed portfolio.  Set null for most forms. 
+         * @return {[type]} [description]
+         */
+        function submitForm() {
+            
+            vm.loading = 'loading'
+
+            vm.formData.subject = setupEmailSubject();
+            vm.formData.lastArticleRead = localStorageService.get('lastArticleRead');
+            
+            if (vm.formData.category && vm.formData.interestedService)  {
+                getServiceForEmail(vm.formData.category, vm.formData.interestedService).then(function () {
+                    localStorageService.set('submittedService', vm.formData.service);
+                    mailForm();
+                });
+            } else {
+                mailForm();
+            }
+
+        }
+
+        /**
+         * If the user has looked or is interested in the product go grab that product info
+         * @param  {string} category 
+         * @param  {string} service  
+         * @return {object}          
+         */
+        function getServiceForEmail(category, service) {
+           return servicesService.getService(category, service).then(function (data) {
+                vm.formData.service = data[0];   
+                vm.formData.service.category = category;
+            });
+        }
+
+
+        /**
+         * Mail the Form
+         * @return {promise} 
+         */
+        function mailForm() {
+            return mailService.sendToMailer(vm.formData).then(function (data) {
+                mailSent(data);
+            }).catch(function (data) {
+                vm.loading = false;
+            });
+
+            function mailSent(data) {
+                if (data.status === 200) {
+                    clearForm();
+                    vm.success = true;
+
+                    if (vm.getStarted) {
+                        window.location = '/get-started/thanks';
+                    }
+                } else {
+                    vm.loading = false
+                }
+            }
+        }
+
+        /**
+         * Change the subject out based on the formType
+         * @return {string} subject
+         */
+        function setupEmailSubject() {
+            switch (vm.formData.formType) {
+                case "get-started-page":
+                    vm.getStarted = true;
+                    return 'The Get Started Page was submitted';
+                    break;
+                case "faqForm":
+                    return 'A Question has been submitted';
+                    break;
+                case "contactForm":
+                    return 'A customer has submitted a Contact Request';
+                    break;
+                default: 
+                    return 'A form was submitted on the site';
+                    break;
+            }
+        }
+    
+
+
+        /**
+         * Clear the Form for next submission
+         * @return {DOM} 
+         */
+        function clearForm() {
+            vm.loading = false
+
+
+              vm.formData =  {
+                customerName: null,
+                email: null, 
+                phone: null,
+                bestContactTime: null,
+                subject: null,
+                contactMessage: null,
+                formType: null,
+                question: null,
+                interestedService: null,
+                lastArticleRead: null,
+                submittedService: null,
+            }
+
+            $scope.contactForm.$setPristine();
+        }
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Testing Methods
+        |--------------------------------------------------------------------------
+        |
+        */
+
+        function fillForm() {
+           vm.formData = { 
+                customerName: 'Bob Dole',
+                email: 'zack@2721west.com', 
+                phone: '972.535.4040',
+                bestContactTime: {
+                    'afternoon' : true,
+                    'morning' : true
+                    // 'evening' : true
+                },
+                subject: "Big Gulp Huh?",
+                contactMessage: 'alright\' ... we\'ll see you later',
+                formType: null,
+                question: 'What do you think nutritionally about big gulps?',
+            }
+        }
 
 
     }
@@ -2242,78 +2242,6 @@ var jq = $.noConflict();
         return query.length ? query.substr(0, query.length - 1) : query;
 	}
 
-})();
-/*
-|--------------------------------------------------------------------------
-| Directive for Phone Input
-|--------------------------------------------------------------------------
-|
-| Validates and creates slide downs for Phone Input
-|
-*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('mcdaniel.forms')
-        .directive('phoneInput', phoneInput);
-
-    /* @ngInject */
-    function phoneInput () {
-        // Usage:
-        // <input phone-input type="tel">
-        var directive = {
-            link: link,
-            restrict: 'A',
-            require: 'ngModel',
-            scope: {
-            	targetId: "@"
-            }
-        };
-        
-        return directive;
-
-        function link(scope, element, attrs, ngModel) {
-        	var tar = jq('#' + scope.targetId);
-            
-
-        	/**
-             * On focus check for validation and then add best time to call. 
-             */
-            jq(element).on('focusout', function () {
-        		if (jq(this).val() != '') {
-        			tar.slideDown(500);
-        		} else {
-        			tar.slideUp(500);
-        		}
-        	});
-
-
-
-            /**
-             * Validate the Phone
-             * @param  {string} value 
-             * @return {boolean}       
-             * @note - not validating phone number.  going to trust the user will need it. 
-             */
-            // function phoneValidator(value) {
-            //     var reg = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
-            //     valid = reg.test(value)
-            //     if (!ngModel.$isEmpty(value) && valid) {
-            //         ngModel.$setValidity('phone', true);
-            //         return value;
-            //     } else {
-            //         ngModel.$setValidity('phone')
-            //     }
-            // }
-
-            
-
-        }
-    }
-
-    
 })();
 (function() {
     'use strict';
@@ -3102,6 +3030,78 @@ var jq = $.noConflict();
      */
     function popup(url, width, height) {
         window.open(url,'1429735674908','width='+width+',height='+height+',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+    }
+
+    
+})();
+/*
+|--------------------------------------------------------------------------
+| Directive for Phone Input
+|--------------------------------------------------------------------------
+|
+| Validates and creates slide downs for Phone Input
+|
+*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('mcdaniel.forms')
+        .directive('phoneInput', phoneInput);
+
+    /* @ngInject */
+    function phoneInput () {
+        // Usage:
+        // <input phone-input type="tel">
+        var directive = {
+            link: link,
+            restrict: 'A',
+            require: 'ngModel',
+            scope: {
+            	targetId: "@"
+            }
+        };
+        
+        return directive;
+
+        function link(scope, element, attrs, ngModel) {
+        	var tar = jq('#' + scope.targetId);
+            
+
+        	/**
+             * On focus check for validation and then add best time to call. 
+             */
+            jq(element).on('focusout', function () {
+        		if (jq(this).val() != '') {
+        			tar.slideDown(500);
+        		} else {
+        			tar.slideUp(500);
+        		}
+        	});
+
+
+
+            /**
+             * Validate the Phone
+             * @param  {string} value 
+             * @return {boolean}       
+             * @note - not validating phone number.  going to trust the user will need it. 
+             */
+            // function phoneValidator(value) {
+            //     var reg = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
+            //     valid = reg.test(value)
+            //     if (!ngModel.$isEmpty(value) && valid) {
+            //         ngModel.$setValidity('phone', true);
+            //         return value;
+            //     } else {
+            //         ngModel.$setValidity('phone')
+            //     }
+            // }
+
+            
+
+        }
     }
 
     

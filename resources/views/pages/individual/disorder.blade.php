@@ -32,7 +32,7 @@ $header = [
 			<section>
 				<h2>Journey Towards Healthy Eating</h2>
 				<p>If you are overwhelmed with the amount of energy you spend thinking about food, exercise or your body, we can help you reconnect and renew your relationship with yourself and with food. You deserve to be free from the trap of unhealthy eating patterns. Whether you restrict foods, binge or obsess over exercise, our intuitive eating therapies can help you learn to listen to your body to understand its needs and nourishment. </p>
-				<p>We prefer to work as part of a multi-disciplinary team and strongly recommend that you connect and connect us with your physician and/or therapist in order to provide you with the most efficient path to wellness. </p>
+				<p>We prefer to work as part of a multi-disciplinary team and strongly recommend that you connect us with your physician and/or therapist in order to provide you with the most efficient path to wellness. </p>
 				<p>If you feel like you have an unhealthy relationship with food or have been diagnosed with an eating disorder, contact us to get started on your journey towards food peace. </p>
 				<p>Set up your free 15-minute phone consultation to make sure McDaniel Nutrition is the right team for you.</p>
 			
@@ -53,7 +53,7 @@ $header = [
 					<div class="g-two-columns row">
 						<section class="sports-description__right">
 							<h2>Start-Up Package</h2>
-							<p>The journey toward recovery, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen to be the most effective and provides the most personally tailored consultations.</p>
+							<p>The journey towards recovery, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen to be the most effective and provide the most personally tailored consultations.</p>
 							<h5>70-Minute Initial Consultation + 30-Minute Follow-Up <br> $250.00</h5>
 						</section>
 
@@ -88,7 +88,7 @@ $header = [
 					<div class="g-two-columns row">
 						<section class="sports-description__right">
 							<h2>Premium Package</h2>
-							<p>The journey toward recovery, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen to be the most effective and provides the most personally tailored consultations.</p>
+							<p>The journey toward recovery, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen to be the most effective and provide the most personally tailored consultations.</p>
 							<h5>70-Minute Initial Consultation + 4, 30-Minute Follow-Up Sessions - <br>$475.00</h5>
 						</section>
 						<section class="sports-description__left">
@@ -124,7 +124,7 @@ $header = [
 					<div class="g-two-columns row">
 						<section class="sports-description__right">
 							<h2>Disordered Eating Virtual Monitoring</h2>
-							<p>The journey toward recovery, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen to be the most effective and provides the most personally tailored consultations.</p>
+							<p>The journey toward recovery, body composition changes, and lasting good eating habits is easier with support. Our packages are structured around the level of engagement we’ve seen to be the most effective and provide the most personally tailored consultations.</p>
 							<h5>70-minute Initial Consultation + 30 minute in person follow up + 4 weekly check-ins by email  - <br>$325.00</h5>
 						</section>
 						<section class="sports-description__left">
