@@ -16,7 +16,7 @@ class Product extends Model
      * Set Mass Assignable
      * @var array
      */
-    protected $fillable = ['title', 'description', 'searchable', 'price',  'product_image', 'paypal_url', 'direct_link',  'published', "url"];
+    protected $fillable = ['title', 'description', 'searchable', 'price',  'product_image', 'paypal_url', 'direct_link',  'published', "url", 'product_url'];
 
 
     /**

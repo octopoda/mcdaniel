@@ -20,9 +20,18 @@
 		<div class="row">
 			<section class="store__product--image">
 				<img src="{{ $product->product_image }}" alt="{{ $product->title }}">
-				<div class="button">
-					<a href="{{ $product->paypal_url }}">Add To Cart</a>
-				</div>
+				@if($product->paypay_url)
+					<div class="button">
+						<a href="{{ $product->paypal_url }}">Add To Cart</a>
+					</div>
+				@endif
+
+				@if($product->product_url)
+					<div class="button">
+						<a href="{{ $product->product_url }}">Buy Now</a>
+					</div>
+				@endif
+
 			</section>
 
 			<section class="store__product--content">
